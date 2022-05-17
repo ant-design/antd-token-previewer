@@ -15,7 +15,7 @@
     "paths": {
       "@/*": ["src/*"],
       "@@/*": ["src/.umi/*"],
-      "rc-footer": ["src/index.tsx"]
+      "antd-token-previewer": ["src/index.tsx"]
     }
   }
 }

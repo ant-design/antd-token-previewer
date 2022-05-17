@@ -39,8 +39,10 @@
     "coverage": "father test --coverage"
   },
   "dependencies": {
+    "@ant-design/cssinjs": "^0.0.0-alpha.34",
     "@babel/runtime": "^7.11.1",
-    "classnames": "^2.2.1"
+    "antd": "^4.20.5",
+    "classnames": "^2.3.1"
   },
   "devDependencies": {
     "@types/classnames": "^2.2.9",
