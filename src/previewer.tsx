@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, ConfigProvider } from 'antd';
+import { Layout, ConfigProvider } from '@madccc/antd';
 import { useStyleRegister } from '@ant-design/cssinjs';
 import classNames from 'classnames';
 

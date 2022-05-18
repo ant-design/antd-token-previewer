@@ -4,7 +4,6 @@
 
 import React from 'react';
 import Previewer from 'antd-token-previewer';
-import 'antd/dist/antd.css';
 
 const Demo = () => {
   return <Previewer />;
