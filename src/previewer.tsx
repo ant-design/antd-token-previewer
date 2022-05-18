@@ -1,44 +1,42 @@
 import React from 'react';
-import { Layout, ConfigProvider } from '@madccc/antd';
-import { useStyleRegister } from '@ant-design/cssinjs';
+import { Layout } from '@madccc/antd';
 import classNames from 'classnames';
+import makeStyle from '@/utils/makeStyle';
+import TokenProvider from '@/TokenProvider';
+import TokenList from '@/TokenList';
+import ComponentPanel from '@/ComponentPanel';
 
 const { Header, Sider, Content } = Layout;
-const useToken = ConfigProvider.useToken;
 
-const useStyle = (): [
-  (node: React.ReactNode) => React.ReactElement,
-  string,
-] => {
-  const [theme, token, hashId] = useToken();
-
-  return [
-    useStyleRegister({ theme, hashId, token, path: ['layout'] }, () => {
-      return {
-        '.previewer-header': {
-          backgroundColor: 'white !important',
-          display: 'flex',
-          alignItems: 'center',
-        },
-      };
-    }) as (node: React.ReactNode) => React.ReactElement,
-    hashId,
-  ];
-};
+const useStyle = makeStyle('layout', (token) => ({
+  '.previewer-header': {
+    backgroundColor: 'white !important',
+    display: 'flex',
+    alignItems: 'center',
+    borderBottom: `${token.lineWidth}px ${token.lineType} ${token.colorSplit}`,
+  },
+}));
 
 const Previewer: React.FC = () => {
   const [wrapSSR, hashId] = useStyle();
 
   return wrapSSR(
-    <Layout>
-      <Header className={classNames('previewer-header', hashId)}>
-        <span style={{ fontSize: 16, fontWeight: 'bold' }}>主题预览器</span>
-      </Header>
+    <TokenProvider>
       <Layout>
-        <Sider>Sider</Sider>
-        <Content>Content</Content>
+        <Header className={classNames('previewer-header', hashId)}>
+          <span style={{ fontSize: 16, fontWeight: 'bold' }}>主题预览器</span>
+        </Header>
+        <Layout>
+          <Sider style={{ backgroundColor: 'white', padding: 16 }} width={400}>
+            <TokenList />
+          </Sider>
+          <Content style={{ padding: 16 }}>
+            <ComponentPanel />
+          </Content>
+        </Layout>
       </Layout>
-    </Layout>,
+      ,
+    </TokenProvider>,
   );
 };
 

@@ -1,0 +1,12 @@
+import React, { FC } from 'react';
+import { Button, Card } from '@madccc/antd';
+
+const ButtonDemo: FC = () => {
+  return (
+    <Card title="按钮 Button">
+      <Button type="primary">Primary</Button>
+    </Card>
+  );
+};
+
+export default ButtonDemo;
