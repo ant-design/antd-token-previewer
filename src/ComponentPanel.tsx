@@ -1,4 +1,5 @@
-import React, { FC, useContext } from 'react';
+import type { FC } from 'react';
+import React, { useContext } from 'react';
 import { TokenContext } from '@/TokenProvider';
 import ButtonDemo from '@/demos/button';
 

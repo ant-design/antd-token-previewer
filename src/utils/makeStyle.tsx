@@ -1,7 +1,8 @@
 import { ConfigProvider } from '@madccc/antd';
-import React from 'react';
-import { useStyleRegister, CSSInterpolation } from '@ant-design/cssinjs';
-import { GlobalToken } from '@madccc/antd/lib/_util/theme/interface';
+import type React from 'react';
+import type { CSSInterpolation } from '@ant-design/cssinjs';
+import { useStyleRegister } from '@ant-design/cssinjs';
+import type { GlobalToken } from '@madccc/antd/lib/_util/theme/interface';
 
 const useToken = ConfigProvider.useToken;
 

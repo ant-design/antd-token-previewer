@@ -3,10 +3,11 @@ import { useEffect, useState } from 'react';
 
 const useStatistic = () => {
   const [tokens, setTokens] = useState(statistic);
+  const length = Object.keys(statistic).length;
 
   useEffect(() => {
     setTokens({ ...statistic });
-  }, [Object.keys(statistic).length]);
+  }, [length]);
 
   return tokens;
 };

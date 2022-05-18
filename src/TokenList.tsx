@@ -1,4 +1,5 @@
-import React, { FC, useContext, useState } from 'react';
+import type { FC } from 'react';
+import React, { useContext, useState } from 'react';
 import { TokenContext } from '@/TokenProvider';
 import { Input, InputNumber } from '@madccc/antd';
 

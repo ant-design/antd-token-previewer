@@ -1,5 +1,6 @@
-import React, { FC, PropsWithChildren, useCallback, useState } from 'react';
-import { GlobalToken } from '@madccc/antd/es/_util/theme/interface';
+import type { FC } from 'react';
+import React, { useState } from 'react';
+import type { GlobalToken } from '@madccc/antd/es/_util/theme/interface';
 import { ConfigProvider } from '@madccc/antd';
 import useToken from '@/hooks/useToken';
 
@@ -21,7 +22,7 @@ export const TokenContext = React.createContext<TokenContextProps>({
   toggleSelectedToken: () => {},
 });
 
-const TokenProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
+const TokenProvider: FC = ({ children }) => {
   const token = useToken();
   const [tokens, setTokens] = useState(token);
   const [selectedTokens, setSelectedTokens] = useState<(keyof GlobalToken)[]>(
@@ -35,11 +36,11 @@ const TokenProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
     }));
   };
 
-  const toggleSelectedToken: ToggleSelectedToken = (token) => {
+  const toggleSelectedToken: ToggleSelectedToken = (target) => {
     setSelectedTokens((prev) => {
-      return prev.includes(token)
-        ? prev.filter((item) => item !== token)
-        : [...prev, token];
+      return prev.includes(target)
+        ? prev.filter((item) => item !== target)
+        : ([...prev, token] as (keyof GlobalToken)[]);
     });
   };
 
