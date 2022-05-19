@@ -29,7 +29,7 @@
     "start": "dumi dev",
     "docs:build": "dumi build",
     "docs:deploy": "gh-pages -d .doc",
-    "compile": "father build && lessc assets/index.less assets/index.css",
+    "compile": "father build",
     "gh-pages": "npm run docs:build && father doc deploy",
     "prepublishOnly": "npm run compile && np --yolo --no-publish && npm run gh-pages",
     "lint": "eslint src/ --ext .ts,.tsx,.jsx,.js,.md",
@@ -42,6 +42,7 @@
     "@ant-design/cssinjs": "^0.0.0-alpha.34",
     "@babel/runtime": "^7.11.1",
     "@madccc/antd": "^5.0.0-alpha.0",
+    "@testing-library/react": "12",
     "classnames": "^2.3.1"
   },
   "devDependencies": {
@@ -52,9 +53,6 @@
     "coveralls": "^3.0.6",
     "cross-env": "^7.0.2",
     "dumi": "^1.1.0",
-    "enzyme": "^3.0.0",
-    "enzyme-adapter-react-16": "^1.0.1",
-    "enzyme-to-json": "^3.4.0",
     "eslint": "^7.0.0",
     "father": "^2.13.4",
     "father-build": "^1.18.6",

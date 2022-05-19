@@ -13,8 +13,6 @@
     "skipLibCheck": true,
     "declaration": true,
     "paths": {
-      "@/*": ["src/*"],
-      "@@/*": ["src/.umi/*"],
       "antd-token-previewer": ["src/index.tsx"]
     }
   }

@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import React, { useState } from 'react';
 import type { GlobalToken } from '@madccc/antd/es/_util/theme/interface';
 import { ConfigProvider } from '@madccc/antd';
-import useToken from '@/hooks/useToken';
+import useToken from './hooks/useToken';
 
 type SetToken = <K extends keyof GlobalToken>(
   key: K,

@@ -1,10 +1,10 @@
 import React from 'react';
 import { Layout } from '@madccc/antd';
 import classNames from 'classnames';
-import makeStyle from '@/utils/makeStyle';
-import TokenProvider from '@/TokenProvider';
-import TokenList from '@/TokenList';
-import ComponentPanel from '@/ComponentPanel';
+import makeStyle from './utils/makeStyle';
+import TokenProvider from './TokenProvider';
+import TokenList from './TokenList';
+import ComponentPanel from './ComponentPanel';
 
 const { Header, Sider, Content } = Layout;
 
