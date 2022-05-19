@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import makeStyle from './utils/makeStyle';
 import TokenProvider from './TokenProvider';
 import TokenList from './TokenList';
-import ComponentPanel from './ComponentPanel';
+import ComponentPanel from './component-panel';
 
 const { Header, Sider, Content } = Layout;
 
@@ -30,7 +30,7 @@ const Previewer: React.FC = () => {
           <Sider style={{ backgroundColor: 'white', padding: 16 }} width={400}>
             <TokenList />
           </Sider>
-          <Content style={{ padding: 16 }}>
+          <Content style={{ padding: '28px 20px 28px 24px' }}>
             <ComponentPanel />
           </Content>
         </Layout>

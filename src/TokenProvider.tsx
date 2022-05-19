@@ -40,7 +40,7 @@ const TokenProvider: FC = ({ children }) => {
     setSelectedTokens((prev) => {
       return prev.includes(target)
         ? prev.filter((item) => item !== target)
-        : ([...prev, token] as (keyof GlobalToken)[]);
+        : [...prev, target];
     });
   };
 
