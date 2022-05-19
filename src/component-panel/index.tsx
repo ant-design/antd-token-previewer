@@ -1,6 +1,5 @@
 import type { FC } from 'react';
-import React, { useContext } from 'react';
-import { TokenContext } from '../TokenProvider';
+import React from 'react';
 import ButtonDemo from '../demos/button';
 import ComponentTree from './ComponentTree';
 import makeStyle from '../utils/makeStyle';
@@ -17,7 +16,6 @@ const useStyle = makeStyle('ComponentPanel', () => ({
 }));
 
 const Index: FC = () => {
-  const { selectedTokens } = useContext(TokenContext);
   const [wrapSSR, hashId] = useStyle();
 
   return wrapSSR(

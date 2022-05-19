@@ -8,7 +8,6 @@ const useStatistic = () => {
   const [relatedComponents, setRelatedComponents] = useState<string[]>([]);
 
   useEffect(() => {
-    console.log(statistic, selectedTokens);
     setRelatedComponents(
       Object.entries(statistic)
         .filter(([, tokens]) =>
