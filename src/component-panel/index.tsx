@@ -4,6 +4,7 @@ import ComponentTree from './ComponentTree';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
 import { MenuFoldOutlined } from '@ant-design/icons';
+import ButtonDemo from '../demos/button';
 
 const useStyle = makeStyle('ComponentPanel', (token) => ({
   '.component-panel': {
@@ -71,6 +72,9 @@ const Index: FC = () => {
           <div className="component-panel-toggle-side-icon">
             <MenuFoldOutlined onClick={() => setShowSide((prev) => !prev)} />
           </div>
+        </div>
+        <div style={{ padding: 16 }}>
+          <ButtonDemo />
         </div>
       </div>
     </div>,
