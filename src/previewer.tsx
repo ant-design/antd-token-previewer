@@ -30,12 +30,17 @@ const Previewer: React.FC = () => {
           <Sider style={{ backgroundColor: 'white', padding: 16 }} width={400}>
             <TokenList />
           </Sider>
-          <Content style={{ padding: '28px 20px 28px 24px' }}>
+          <Content
+            style={{
+              padding: '28px 20px 28px 24px',
+              height: 'calc(100vh - 64px)',
+              overflow: 'hidden',
+            }}
+          >
             <ComponentPanel />
           </Content>
         </Layout>
       </Layout>
-      ,
     </TokenProvider>,
   );
 };

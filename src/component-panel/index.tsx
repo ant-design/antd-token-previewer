@@ -12,6 +12,8 @@ const useStyle = makeStyle('ComponentPanel', () => ({
     backgroundColor: '#fff',
     display: 'flex',
     borderRadius: 6,
+    height: '100%',
+    overflow: 'hidden',
   },
 }));
 
