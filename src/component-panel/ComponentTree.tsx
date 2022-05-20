@@ -9,11 +9,17 @@ const useStyle = makeStyle('ComponentTree', (token) => ({
   '.component-tree-wrapper': {
     minWidth: 160,
     borderRight: `${token.lineWidth}px ${token.lineType} ${token.colorSplit}`,
+    height: '100%',
+    overflow: 'hidden',
+    display: 'flex',
+    flexDirection: 'column',
+    paddingBottom: token.paddingXS,
 
     '.component-tree-head': {
       padding: token.paddingXS,
       display: 'flex',
       alignItems: 'center',
+      flex: 'none',
 
       '.component-tree-filter-type': {
         color: token.colorTextSecondary,
@@ -151,7 +157,9 @@ const ComponentTree: FC = () => {
           ]}
         />
       </div>
-      <Tree defaultExpandAll treeData={treeData} className="component-tree" />
+      <div style={{ overflow: 'auto', flex: 1 }}>
+        <Tree defaultExpandAll treeData={treeData} className="component-tree" />
+      </div>
     </div>,
   );
 };

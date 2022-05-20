@@ -40,6 +40,7 @@
   },
   "dependencies": {
     "@ant-design/cssinjs": "^0.0.0-alpha.34",
+    "@ant-design/icons": "^4.7.0",
     "@babel/runtime": "^7.11.1",
     "@madccc/antd": "^5.0.0-alpha.0",
     "@testing-library/react": "12",
