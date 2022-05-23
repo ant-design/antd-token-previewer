@@ -1,19 +1,25 @@
-import React, { useMemo } from 'react';
-import type { FC } from 'react';
 import { Badge, Segmented, Tree } from '@madccc/antd';
-import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
+import type { FC } from 'react';
+import React, { useMemo } from 'react';
 import useStatistic from '../hooks/useStatistic';
+import makeStyle from '../utils/makeStyle';
 
 const useStyle = makeStyle('ComponentTree', (token) => ({
   '.component-tree-wrapper': {
     minWidth: 160,
     borderRight: `${token.lineWidth}px ${token.lineType} ${token.colorSplit}`,
+    height: '100%',
+    overflow: 'hidden',
+    display: 'flex',
+    flexDirection: 'column',
+    paddingBottom: token.paddingXS,
 
     '.component-tree-head': {
       padding: token.paddingXS,
       display: 'flex',
       alignItems: 'center',
+      flex: 'none',
 
       '.component-tree-filter-type': {
         color: token.colorTextSecondary,
@@ -151,7 +157,9 @@ const ComponentTree: FC = () => {
           ]}
         />
       </div>
-      <Tree defaultExpandAll treeData={treeData} className="component-tree" />
+      <div style={{ overflow: 'auto', flex: 1 }}>
+        <Tree defaultExpandAll treeData={treeData} className="component-tree" />
+      </div>
     </div>,
   );
 };
