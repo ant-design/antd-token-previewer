@@ -40,13 +40,17 @@
   },
   "dependencies": {
     "@ant-design/cssinjs": "^0.0.0-alpha.34",
+    "@ant-design/pro-card": "^1.20.4",
+    "@ant-design/pro-layout": "^6.38.2",
     "@babel/runtime": "^7.11.1",
     "@madccc/antd": "^5.0.0-alpha.0",
     "@testing-library/react": "12",
-    "classnames": "^2.3.1"
+    "classnames": "^2.3.1",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@types/classnames": "^2.2.9",
+    "@types/lodash": "^4.14.182",
     "@types/react": "^17.0.13",
     "@types/react-dom": "^16.9.0",
     "@umijs/fabric": "^2.0.8",
@@ -77,9 +81,6 @@
     }
   },
   "cnpm": {
-    "mode": "npm"
-  },
-  "tnpm": {
     "mode": "npm"
   }
 }
