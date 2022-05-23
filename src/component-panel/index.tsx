@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import ComponentDemos from '../demos';
 import ComponentCard, { getComponentDemoId } from './ComponentCard';
+import { ConfigProvider, Segmented, Switch } from '@madccc/antd';
 
 const components = Object.keys(ComponentDemos);
 
@@ -33,11 +34,20 @@ const useStyle = makeStyle('ComponentPanel', (token) => ({
         display: 'flex',
         alignItems: 'center',
         borderBottom: `${token.lineWidth}px ${token.lineType} ${token.colorBgContainer}`,
+
+        '> *': {
+          marginLeft: token.margin,
+        },
+
+        '.ant-segmented-item': {
+          minWidth: 52,
+        },
       },
 
       '.component-panel-toggle-side-icon': {
         flex: 'none',
         cursor: 'pointer',
+        marginRight: token.marginXS,
 
         '.anticon': {
           color: token.colorAction,
@@ -78,6 +88,10 @@ const Index: FC = () => {
   const [wrapSSR, hashId] = useStyle();
   const [showSide, setShowSide] = useState<boolean>(true);
   const demosRef = useRef<HTMLDivElement>(null);
+  const [componentSize, setComponentSize] = useState<
+    'large' | 'small' | 'middle'
+  >('middle');
+  const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
 
   return wrapSSR(
     <div className={classNames('component-panel', hashId)}>
@@ -106,13 +120,36 @@ const Index: FC = () => {
           >
             {showSide ? <MenuFoldOutlined /> : <MenuUnfoldOutlined />}
           </div>
+          <div>
+            <span style={{ marginRight: 8 }}>组件尺寸：</span>
+            <Segmented
+              value={componentSize}
+              onChange={(value) => setComponentSize(value as any)}
+              options={[
+                { label: '大', value: 'large' },
+                { label: '中', value: 'middle' },
+                { label: '小', value: 'small' },
+              ]}
+            />
+          </div>
+          <div>
+            <span style={{ marginRight: 8, verticalAlign: 'middle' }}>
+              禁用：
+            </span>
+            <Switch
+              checked={componentDisabled}
+              onChange={(checked) => setComponentDisabled(checked)}
+            />
+          </div>
         </div>
         <div className="component-demos" ref={demosRef}>
           {components.map((item) => {
             const Demo = (ComponentDemos as any)[item];
             return (
               <ComponentCard key={item} component={item.replace('Demo', '')}>
-                <Demo />
+                <ConfigProvider componentSize={componentSize}>
+                  <Demo />
+                </ConfigProvider>
               </ComponentCard>
             );
           })}
