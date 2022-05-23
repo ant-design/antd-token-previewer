@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import type { FC } from 'react';
 import { Badge, Segmented, Tree } from '@madccc/antd';
 import makeStyle from '../utils/makeStyle';
@@ -121,31 +121,55 @@ export type ComponentTreeProps = {
 const ComponentTree: FC<ComponentTreeProps> = ({ onSelect }) => {
   const [wrapSSR, hashId] = useStyle();
   const { relatedComponents } = useStatistic();
+  const [filterMode, setFilterMode] = useState<'filter' | 'highlight'>(
+    'filter',
+  );
 
   const treeData = useMemo(
     () =>
-      Object.entries(antdComponents).map(([type, components]) => ({
-        title: type,
-        key: `type-${type}`,
-        children: components.map((item) => ({
-          title: (
-            <span
-              className={classNames('component-tree-item', {
-                'component-tree-item-active': relatedComponents.includes(item),
-              })}
-            >
-              {item}
-            </span>
-          ),
-          switcherIcon: () => (
-            <Badge
-              color={relatedComponents.includes(item) ? 'blue' : 'transparent'}
-            />
-          ),
-          key: item,
+      Object.entries(antdComponents)
+        .filter(
+          ([, components]) =>
+            filterMode === 'highlight' ||
+            !relatedComponents.length ||
+            components.some((item) => relatedComponents.includes(item)),
+        )
+        .map(([type, components]) => ({
+          title: type,
+          key: `type-${type}`,
+          children: components
+            .filter(
+              (item) =>
+                filterMode === 'highlight' ||
+                !relatedComponents.length ||
+                relatedComponents.includes(item),
+            )
+            .map((item) => ({
+              title: (
+                <span
+                  className={classNames('component-tree-item', {
+                    'component-tree-item-active':
+                      filterMode === 'highlight' &&
+                      relatedComponents.includes(item),
+                  })}
+                >
+                  {item}
+                </span>
+              ),
+              switcherIcon: () => (
+                <Badge
+                  color={
+                    filterMode === 'highlight' &&
+                    relatedComponents.includes(item)
+                      ? 'blue'
+                      : 'transparent'
+                  }
+                />
+              ),
+              key: item,
+            })),
         })),
-      })),
-    [relatedComponents],
+    [relatedComponents, filterMode],
   );
 
   return wrapSSR(
@@ -155,6 +179,8 @@ const ComponentTree: FC<ComponentTreeProps> = ({ onSelect }) => {
         <Segmented
           className="component-tree-filter-segmented"
           size="small"
+          value={filterMode}
+          onChange={(value) => setFilterMode(value as any)}
           options={[
             { label: '过滤', value: 'filter' },
             { label: '高亮', value: 'highlight' },

@@ -5,10 +5,19 @@ import { ControlOutlined } from '@ant-design/icons';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
 
-const useStyle = makeStyle('ComponentCard', () => ({
+const useStyle = makeStyle('ComponentCard', (token) => ({
   '.component-card': {
     borderRadius: 6,
     boxShadow: `0 1px 2px 0 rgba(25,15,15,0.07)`,
+
+    '.component-token-control-icon': {
+      color: token.colorAction,
+      transition: `color ${token.motionDurationMid}`,
+
+      '&:hover': {
+        color: token.colorActionHover,
+      },
+    },
   },
 }));
 
@@ -34,6 +43,7 @@ const ComponentCard: FC<ComponentCardProps> = ({ children, component }) => {
         title={component}
         extra={
           <ControlOutlined
+            className="component-token-control-icon"
             onClick={() => setTokenDrawerOpen((prev) => !prev)}
           />
         }
