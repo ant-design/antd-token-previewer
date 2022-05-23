@@ -1,10 +1,13 @@
 import type { FC } from 'react';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import ComponentTree from './ComponentTree';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
-import { MenuFoldOutlined } from '@ant-design/icons';
-import ButtonDemo from '../demos/button';
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import ComponentDemos from '../demos';
+import ComponentCard, { getComponentDemoId } from './ComponentCard';
+
+const components = Object.keys(ComponentDemos);
 
 const useStyle = makeStyle('ComponentPanel', (token) => ({
   '.component-panel': {
@@ -21,14 +24,21 @@ const useStyle = makeStyle('ComponentPanel', (token) => ({
       flexDirection: 'column',
       backgroundColor: token.colorBgContainer,
       flex: 1,
+      width: 0,
 
       '.component-panel-head': {
         padding: `${token.padding}px ${token.paddingSM}px`,
         flex: 'none',
         backgroundColor: token.colorBgComponent,
+        display: 'flex',
+        alignItems: 'center',
+        borderBottom: `${token.lineWidth}px ${token.lineType} ${token.colorBgContainer}`,
       },
 
       '.component-panel-toggle-side-icon': {
+        flex: 'none',
+        cursor: 'pointer',
+
         '.anticon': {
           color: token.colorAction,
           transition: `color ${token.motionDurationMid}`,
@@ -51,12 +61,23 @@ const useStyle = makeStyle('ComponentPanel', (token) => ({
       width: 0,
       transform: 'translateX(-160px)',
     },
+
+    '.component-demos': {
+      padding: token.padding,
+      overflow: 'auto',
+      width: '100%',
+
+      '> *:not(:first-child)': {
+        marginTop: token.margin,
+      },
+    },
   },
 }));
 
 const Index: FC = () => {
   const [wrapSSR, hashId] = useStyle();
   const [showSide, setShowSide] = useState<boolean>(true);
+  const demosRef = useRef<HTMLDivElement>(null);
 
   return wrapSSR(
     <div className={classNames('component-panel', hashId)}>
@@ -65,16 +86,36 @@ const Index: FC = () => {
           'component-panel-side-hidden': !showSide,
         })}
       >
-        <ComponentTree />
+        <ComponentTree
+          onSelect={(component) =>
+            demosRef.current
+              ?.querySelector(`#${getComponentDemoId(component)}`)
+              ?.scrollIntoView({
+                block: 'start',
+                inline: 'nearest',
+                behavior: 'smooth',
+              })
+          }
+        />
       </div>
       <div className="component-panel-main">
         <div className="component-panel-head">
-          <div className="component-panel-toggle-side-icon">
-            <MenuFoldOutlined onClick={() => setShowSide((prev) => !prev)} />
+          <div
+            className="component-panel-toggle-side-icon"
+            onClick={() => setShowSide((prev) => !prev)}
+          >
+            {showSide ? <MenuFoldOutlined /> : <MenuUnfoldOutlined />}
           </div>
         </div>
-        <div style={{ padding: 16 }}>
-          <ButtonDemo />
+        <div className="component-demos" ref={demosRef}>
+          {components.map((item) => {
+            const Demo = (ComponentDemos as any)[item];
+            return (
+              <ComponentCard key={item} component={item.replace('Demo', '')}>
+                <Demo />
+              </ComponentCard>
+            );
+          })}
         </div>
       </div>
     </div>,

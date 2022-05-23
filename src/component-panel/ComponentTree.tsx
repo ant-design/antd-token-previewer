@@ -114,7 +114,11 @@ const antdComponents = {
   Other: ['Anchor', 'BackTop', 'ConfigProvider'],
 };
 
-const ComponentTree: FC = () => {
+export type ComponentTreeProps = {
+  onSelect?: (component: string) => void;
+};
+
+const ComponentTree: FC<ComponentTreeProps> = ({ onSelect }) => {
   const [wrapSSR, hashId] = useStyle();
   const { relatedComponents } = useStatistic();
 
@@ -130,13 +134,13 @@ const ComponentTree: FC = () => {
                 'component-tree-item-active': relatedComponents.includes(item),
               })}
             >
-              <Badge
-                color={
-                  relatedComponents.includes(item) ? 'blue' : 'transparent'
-                }
-              />
               {item}
             </span>
+          ),
+          switcherIcon: () => (
+            <Badge
+              color={relatedComponents.includes(item) ? 'blue' : 'transparent'}
+            />
           ),
           key: item,
         })),
@@ -158,7 +162,13 @@ const ComponentTree: FC = () => {
         />
       </div>
       <div style={{ overflow: 'auto', flex: 1 }}>
-        <Tree defaultExpandAll treeData={treeData} className="component-tree" />
+        <Tree
+          showIcon
+          defaultExpandAll
+          treeData={treeData}
+          className="component-tree"
+          onSelect={(node) => onSelect?.(node[0] as string)}
+        />
       </div>
     </div>,
   );
