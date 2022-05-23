@@ -180,7 +180,7 @@ const ComponentTree: FC<ComponentTreeProps> = ({ onSelect }) => {
           className="component-tree-filter-segmented"
           size="small"
           value={filterMode}
-          onChange={(value) => setFilterMode(value)}
+          onChange={(value) => setFilterMode(value as any)}
           options={[
             { label: '过滤', value: 'filter' },
             { label: '高亮', value: 'highlight' },
