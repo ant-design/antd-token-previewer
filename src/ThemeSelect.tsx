@@ -6,8 +6,6 @@ import React, { useMemo } from 'react';
 import { Button, Dropdown, Menu } from '@madccc/antd';
 import { PlusOutlined } from '@ant-design/icons';
 
-const ENABLED_THEMES_LIMIT = 2;
-
 export type Theme = {
   name: string;
   key: string;

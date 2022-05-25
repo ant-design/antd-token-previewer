@@ -1,6 +1,6 @@
 import type { FC, PropsWithChildren } from 'react';
 import type { TableProps } from '@madccc/antd';
-import { Card, ConfigProvider, Drawer, Table } from '@madccc/antd';
+import { Card, Drawer, Table } from '@madccc/antd';
 import React, { useMemo, useState } from 'react';
 import { ControlOutlined } from '@ant-design/icons';
 import makeStyle from '../utils/makeStyle';
