@@ -72,14 +72,19 @@ const useStyle = makeStyle('ComponentCard', (token) => ({
   },
 }));
 
-export const getComponentDemoId = (component: string) =>
-  `antd-token-previewer-${component}`;
+export const getComponentDemoId = (component: string, theme: string) =>
+  `antd-token-previewer-${theme}-${component}`;
 
 export type ComponentCardProps = PropsWithChildren<{
   component: string;
+  theme: string;
 }>;
 
-const ComponentCard: FC<ComponentCardProps> = ({ children, component }) => {
+const ComponentCard: FC<ComponentCardProps> = ({
+  children,
+  component,
+  theme,
+}) => {
   const [wrapSSR, hashId] = useStyle();
   const [tokenDrawerOpen, setTokenDrawerOpen] = useState<boolean>(false);
   const { getComponentToken } = useStatistic();
@@ -126,7 +131,7 @@ const ComponentCard: FC<ComponentCardProps> = ({ children, component }) => {
   return wrapSSR(
     <div>
       <div
-        id={getComponentDemoId(component)}
+        id={getComponentDemoId(component, theme)}
         style={{ height: 0, transform: 'translateY(-16px)' }}
       />
       <Card
