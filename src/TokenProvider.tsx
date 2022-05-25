@@ -23,8 +23,7 @@ export const TokenContext = React.createContext<TokenContextProps>({
 });
 
 const TokenProvider: FC = ({ children }) => {
-  const token = useToken();
-  const [tokens, setTokens] = useState(token);
+  const [tokens, setTokens] = useToken();
   const [selectedTokens, setSelectedTokens] = useState<(keyof GlobalToken)[]>(
     [],
   );

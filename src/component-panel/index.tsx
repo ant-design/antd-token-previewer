@@ -147,7 +147,10 @@ const Index: FC = () => {
             const Demo = (ComponentDemos as any)[item];
             return (
               <ComponentCard key={item} component={item.replace('Demo', '')}>
-                <ConfigProvider componentSize={componentSize}>
+                <ConfigProvider
+                  componentSize={componentSize}
+                  componentDisabled={componentDisabled}
+                >
                   <Demo />
                 </ConfigProvider>
               </ComponentCard>
