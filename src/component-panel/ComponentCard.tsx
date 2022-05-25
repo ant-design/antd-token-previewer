@@ -49,6 +49,26 @@ const useStyle = makeStyle('ComponentCard', (token) => ({
       transition: `background-color ${token.motionDurationMid}`,
       content: '""',
     },
+
+    '.component-token-value-color': {
+      display: 'flex',
+      alignItems: 'center',
+
+      '.component-token-value-color-preview': {
+        height: 20,
+        width: 20,
+        borderRadius: '50%',
+        marginRight: token.marginXS,
+        boxShadow: `0 1px 2px 0 rgba(25,15,15,0.07)`,
+      },
+
+      '.component-token-value-color-tag': {
+        backgroundColor: token.colorBgComponentSecondary,
+        borderRadius: 4,
+        padding: '4px 8px',
+        minWidth: 140,
+      },
+    },
   },
 }));
 
@@ -74,6 +94,23 @@ const ComponentCard: FC<ComponentCardProps> = ({ children, component }) => {
     {
       dataIndex: 'value',
       title: 'Value',
+      render: (value) => {
+        if (
+          typeof value === 'string' &&
+          (value.includes('#') || value.includes('rgb'))
+        ) {
+          return (
+            <div className="component-token-value-color">
+              <div
+                className="component-token-value-color-preview"
+                style={{ backgroundColor: value }}
+              />
+              <div className="component-token-value-color-tag">{value}</div>
+            </div>
+          );
+        }
+        return value;
+      },
     },
   ];
 
