@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Layout } from '@madccc/antd';
 import classNames from 'classnames';
 import makeStyle from './utils/makeStyle';
@@ -26,6 +26,25 @@ const Previewer: React.FC = () => {
   const [shownThemes, setShownThemes] = useState<string[]>(['default', 'dark']);
   const [enabledThemes, setEnabledThemes] = useState<string[]>(['default']);
 
+  const themes = useMemo(
+    () => [
+      { name: '默认主题', key: 'default', theme: { token } },
+      {
+        name: '暗色主题',
+        key: 'dark',
+        theme: { token: { ...token, colorBg: '#000' } },
+        icon: <BellOutlined />,
+      },
+      {
+        name: '紧凑主题',
+        key: 'compact',
+        theme: { token: { ...token, padding: 12 } },
+        icon: <SmileOutlined />,
+      },
+    ],
+    [token],
+  );
+
   return wrapSSR(
     <TokenProvider>
       <Layout>
@@ -37,23 +56,9 @@ const Previewer: React.FC = () => {
             <ThemeSelect
               enabledThemes={enabledThemes}
               shownThemes={shownThemes}
-              themes={[
-                { name: '默认主题', key: 'default', theme: { token } },
-                {
-                  name: '暗色主题',
-                  key: 'dark',
-                  theme: { token: { ...token, colorBg: '#000' } },
-                  icon: <BellOutlined />,
-                },
-                {
-                  name: '紧凑主题',
-                  key: 'compact',
-                  theme: { token: { ...token, padding: 12 } },
-                  icon: <SmileOutlined />,
-                },
-              ]}
-              onEnabledThemeChange={(themes) => setEnabledThemes(themes)}
-              onShownThemeChange={(themes) => setShownThemes(themes)}
+              themes={themes}
+              onEnabledThemeChange={(value) => setEnabledThemes(value)}
+              onShownThemeChange={(value) => setShownThemes(value)}
             />
           </div>
         </Header>
@@ -68,7 +73,11 @@ const Previewer: React.FC = () => {
               overflow: 'hidden',
             }}
           >
-            <ComponentPanel />
+            <ComponentPanel
+              themes={enabledThemes.map(
+                (theme) => themes.find((item) => item.key === theme)!,
+              )}
+            />
           </Content>
         </Layout>
       </Layout>

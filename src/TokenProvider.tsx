@@ -44,7 +44,7 @@ const TokenProvider: FC = ({ children }) => {
   };
 
   return (
-    <ConfigProvider theme={{ token: tokens }}>
+    <ConfigProvider theme={{ token: tokens, hashed: true }}>
       <TokenContext.Provider
         value={{
           selectedTokens,
