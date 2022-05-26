@@ -1,10 +1,10 @@
+import React, { useMemo, useState } from 'react';
 import { Layout } from '@madccc/antd';
 import classNames from 'classnames';
-import React from 'react';
 import ComponentPanel from './component-panel';
-import TokenList from './TokenList';
-import TokenProvider from './TokenProvider';
-import makeStyle from './utils/makeStyle';
+import ThemeSelect from './ThemeSelect';
+import useToken from './hooks/useToken';
+import { BellOutlined, SmileOutlined } from '@ant-design/icons';
 
 const { Header, Sider, Content } = Layout;
 
@@ -19,12 +19,47 @@ const useStyle = makeStyle('layout', (token) => ({
 
 const Previewer: React.FC = () => {
   const [wrapSSR, hashId] = useStyle();
+  const [token] = useToken();
+  const [shownThemes, setShownThemes] = useState<string[]>(['default', 'dark']);
+  const [enabledThemes, setEnabledThemes] = useState<string[]>(['default']);
+
+  const themes = useMemo(
+    () => [
+      { name: '默认主题', key: 'default', theme: { token }, fixed: true },
+      {
+        name: '暗色主题',
+        key: 'dark',
+        theme: { token: { ...token, colorBg: '#000' } },
+        icon: <BellOutlined />,
+        closable: true,
+      },
+      {
+        name: '紧凑主题',
+        key: 'compact',
+        theme: { token: { ...token, padding: 12 } },
+        icon: <SmileOutlined />,
+        closable: true,
+      },
+    ],
+    [token],
+  );
 
   return wrapSSR(
     <TokenProvider>
       <Layout>
         <Header className={classNames('previewer-header', hashId)}>
-          <span style={{ fontSize: 16, fontWeight: 'bold' }}>主题预览器</span>
+          <span style={{ fontSize: 16, fontWeight: 'bold', marginRight: 16 }}>
+            主题预览器
+          </span>
+          <div>
+            <ThemeSelect
+              enabledThemes={enabledThemes}
+              shownThemes={shownThemes}
+              themes={themes}
+              onEnabledThemeChange={(value) => setEnabledThemes(value)}
+              onShownThemeChange={(value) => setShownThemes(value)}
+            />
+          </div>
         </Header>
         <Layout>
           <Sider style={{ backgroundColor: 'white', padding: 16 }} width={400}>
@@ -37,7 +72,11 @@ const Previewer: React.FC = () => {
               overflow: 'hidden',
             }}
           >
-            <ComponentPanel />
+            <ComponentPanel
+              themes={enabledThemes.map(
+                (theme) => themes.find((item) => item.key === theme)!,
+              )}
+            />
           </Content>
         </Layout>
       </Layout>
