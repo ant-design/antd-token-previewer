@@ -46,79 +46,12 @@ const useStyle = makeStyle('ComponentTree', (token) => ({
   },
 }));
 
-const antdComponents = {
-  General: ['Button', 'Icon', 'Typography'],
-  Layout: ['Divider', 'Grid', 'Layout', 'Space'],
-  Navigation: [
-    'Affix',
-    'Breadcrumb',
-    'Dropdown',
-    'Menu',
-    'PageHeader',
-    'Pagination',
-    'Steps',
-  ],
-  'Date Entry': [
-    'AutoComplete',
-    'Cascader',
-    'Checkbox',
-    'DatePicker',
-    'Form',
-    'Input',
-    'InputNumber',
-    'Mentions',
-    'Radio',
-    'Rate',
-    'Select',
-    'Slider',
-    'Switch',
-    'TimePicker',
-    'Transfer',
-    'TreeSelect',
-    'Upload',
-  ],
-  'Data Display': [
-    'Avatar',
-    'Badge',
-    'Calendar',
-    'Card',
-    'Carousel',
-    'Collapse',
-    'Comment',
-    'Descriptions',
-    'Empty',
-    'Image',
-    'List',
-    'Popover',
-    'Segmented',
-    'Statistic',
-    'Table',
-    'Tabs',
-    'Tag',
-    'Timeline',
-    'Tooltip',
-    'Tree',
-  ],
-  Feedback: [
-    'Alert',
-    'Drawer',
-    'Message',
-    'Modal',
-    'Notification',
-    'Popconfirm',
-    'Progress',
-    'Result',
-    'Skeleton',
-    'Spin',
-  ],
-  Other: ['Anchor', 'BackTop', 'ConfigProvider'],
-};
-
 export type ComponentTreeProps = {
   onSelect?: (component: string) => void;
+  components: Record<string, string[]>;
 };
 
-const ComponentTree: FC<ComponentTreeProps> = ({ onSelect }) => {
+const ComponentTree: FC<ComponentTreeProps> = ({ onSelect, components }) => {
   const [wrapSSR, hashId] = useStyle();
   const { relatedComponents } = useStatistic();
   const [filterMode, setFilterMode] = useState<'filter' | 'highlight'>(
@@ -127,17 +60,17 @@ const ComponentTree: FC<ComponentTreeProps> = ({ onSelect }) => {
 
   const treeData = useMemo(
     () =>
-      Object.entries(antdComponents)
+      Object.entries(components)
         .filter(
-          ([, components]) =>
+          ([, group]) =>
             filterMode === 'highlight' ||
             !relatedComponents.length ||
-            components.some((item) => relatedComponents.includes(item)),
+            group.some((item) => relatedComponents.includes(item)),
         )
-        .map(([type, components]) => ({
+        .map(([type, group]) => ({
           title: type,
           key: `type-${type}`,
-          children: components
+          children: group
             .filter(
               (item) =>
                 filterMode === 'highlight' ||

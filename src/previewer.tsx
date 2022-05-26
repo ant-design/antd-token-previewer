@@ -28,18 +28,20 @@ const Previewer: React.FC = () => {
 
   const themes = useMemo(
     () => [
-      { name: '默认主题', key: 'default', theme: { token } },
+      { name: '默认主题', key: 'default', theme: { token }, fixed: true },
       {
         name: '暗色主题',
         key: 'dark',
         theme: { token: { ...token, colorBg: '#000' } },
         icon: <BellOutlined />,
+        closable: true,
       },
       {
         name: '紧凑主题',
         key: 'compact',
         theme: { token: { ...token, padding: 12 } },
         icon: <SmileOutlined />,
+        closable: true,
       },
     ],
     [token],
