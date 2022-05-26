@@ -1,23 +1,27 @@
-import { PageContainer } from '@ant-design/pro-layout';
-import '@ant-design/pro-layout/dist/layout.css';
-import { Button } from '@madccc/antd';
+import useToken from '../hooks/useToken';
 import React from 'react';
-import AliasTokenPreview from './alias-token-preview';
+import AliasTokenPreview, { TokenPreviewProps } from './alias-token-preview';
 
-export default () => (
-  <div
-    style={{
-      background: '#F5F7FA',
-    }}
-  >
-    <PageContainer
-      header={{
-        title: '主题预览器',
-        ghost: true,
-        extra: [<Button key="1">组件</Button>, <Button key="2">场景</Button>],
+export default () => {
+  const [normalToken, onNormalTokenChange] = useToken();
+  const [darkToken, onDarkTokenChange] = useToken();
+
+  const tokens = [
+    {
+      token: normalToken,
+      onTokenChange: onNormalTokenChange,
+      title: '默认主题',
+    },
+    { token: darkToken, onTokenChange: onDarkTokenChange, title: '暗色主题' },
+  ] as TokenPreviewProps['tokens'];
+
+  return (
+    <div
+      style={{
+        background: '#F5F7FA',
       }}
     >
-      <AliasTokenPreview key={'AliasTokenPanel'} />
-    </PageContainer>
-  </div>
-);
+      <AliasTokenPreview tokens={tokens} />
+    </div>
+  );
+};

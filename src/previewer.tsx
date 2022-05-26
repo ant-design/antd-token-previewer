@@ -5,6 +5,9 @@ import ComponentPanel from './component-panel';
 import ThemeSelect from './ThemeSelect';
 import useToken from './hooks/useToken';
 import { BellOutlined, SmileOutlined } from '@ant-design/icons';
+import makeStyle from './utils/makeStyle';
+import TokenProvider from './TokenProvider';
+import TokenList from './TokenList';
 
 const { Header, Sider, Content } = Layout;
 

@@ -5,6 +5,7 @@ import {
   GatewayOutlined,
   PlayCircleOutlined,
   TabletOutlined,
+  CaretRightOutlined,
 } from '@ant-design/icons';
 import { Collapse } from '@madccc/antd';
 import '@madccc/antd/dist/@MadCcc/antd.css';
@@ -29,7 +30,7 @@ const IconMap: Record<string, ReactNode> = {
   screen: <TabletOutlined />,
   motion: <PlayCircleOutlined />,
 };
-const TextMap: Record<string, string> = {
+export const TextMap: Record<string, string> = {
   color: 'color 色彩',
   space: 'space 间距',
   font: 'font 字',
@@ -54,7 +55,12 @@ export default ({ typeName, tokenArr }: TokenCardProps) => {
 
   return wrapSSR(
     <div className={classNames('token-card', hashId)}>
-      <Collapse ghost expandIconPosition="right">
+      <Collapse
+        ghost
+        expandIcon={({ isActive }) => (
+          <CaretRightOutlined rotate={isActive ? 90 : 0} />
+        )}
+      >
         <Panel
           header={
             <div>
