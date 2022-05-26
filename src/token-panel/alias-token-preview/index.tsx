@@ -29,8 +29,8 @@ export interface TokenPreviewProps {
     token: GlobalToken;
     onTokenChange: (v: any) => {};
   }[];
-  selectedTokens: { title: string; tokenName: string }[];
-  onSelectedTokens: (v: { title: string; tokenName: string }[]) => void;
+  selectedTokens: { tokenName: string }[];
+  onSelectedTokens: (v: { tokenName: string }[]) => void;
 }
 
 export const PreviewContext = React.createContext<TokenPreviewProps>(null);
@@ -47,7 +47,6 @@ export default (props: TokenPreviewProps) => {
     }
     return Object.entries(groupedToken).reduce(
       (acc, [tokenType, tokenList]) => {
-        console.log('-'.repeat(20), tokenType);
         // name match
         if (tokenType.includes(search) || TextMap[tokenType].includes(search)) {
           acc[tokenType] = tokenList;
@@ -66,7 +65,7 @@ export default (props: TokenPreviewProps) => {
         return acc;
       },
       {},
-    );
+    ) as typeof groupedToken;
   }, [groupedToken, search]);
 
   return wrapSSR(

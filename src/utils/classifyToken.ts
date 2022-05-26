@@ -1,7 +1,8 @@
+import { GlobalToken } from '@madccc/antd/lib/_util/theme/interface';
 import { groupBy } from 'lodash';
 
-export const classifyToken = (token: Record<string, any>) => {
-  const tokenArr: { tokenName: string; value: string }[] = [];
+export const classifyToken = (token: GlobalToken) => {
+  const tokenArr: { tokenName: keyof GlobalToken; value: string }[] = [];
   Object.keys(token).forEach((key) => {
     tokenArr.push({ tokenName: key, value: token[key] });
   });

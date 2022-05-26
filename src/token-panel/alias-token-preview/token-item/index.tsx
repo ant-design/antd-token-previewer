@@ -64,23 +64,21 @@ const AdditionInfo = ({
   return null;
 };
 
-const ShowUsageButton = () => {
-  const [color, setColor] = React.useState<undefined | string>(undefined);
-  const showTokenUsage = () => {
-    setColor((currentColor) => {
-      if (currentColor === '#1890ff') {
-        return undefined;
-      }
-      return '#1890ff';
-    });
-    console.log('usage');
-    // some actions
-  };
-
+const ShowUsageButton = ({
+  selected,
+  toggleSelected,
+}: {
+  selected: boolean;
+  toggleSelected: (v: boolean) => void;
+}) => {
   return (
     <EyeOutlined
-      style={{ color: color, cursor: 'pointer', fontSize: 18 }}
-      onClick={showTokenUsage}
+      style={{
+        color: selected ? '#1890ff' : undefined,
+        cursor: 'pointer',
+        fontSize: 18,
+      }}
+      onClick={() => toggleSelected(!selected)}
     />
   );
 };
@@ -88,7 +86,6 @@ const ShowUsageButton = () => {
 export default ({ tokenName }: TokenItemProps) => {
   const { selectedTokens, tokens, onSelectedTokens } =
     React.useContext(PreviewContext);
-  const [currentInfo, setCurrentInfo] = React.useState(null);
   const [infoVisible, setInfoVisible] = React.useState(false);
 
   function updateTokenValue(title: string, tokenName: string, value: string) {
@@ -149,7 +146,26 @@ export default ({ tokenName }: TokenItemProps) => {
             </Space>
           </div>
         }
-        extra={<ShowUsageButton />}
+        extra={
+          <ShowUsageButton
+            selected={
+              !!selectedTokens.find((token) => token.tokenName === tokenName)
+            }
+            toggleSelected={() => {
+              onSelectedTokens((prev: typeof selectedTokens) => {
+                const exist = prev.find(
+                  (token) => token.tokenName === tokenName,
+                );
+
+                if (exist) {
+                  return prev.filter((token) => token.tokenName !== tokenName);
+                }
+
+                return [...prev, { tokenName }];
+              });
+            }}
+          />
+        }
       >
         <Space direction="vertical">
           {tokens.map((token) => {
