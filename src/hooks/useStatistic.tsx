@@ -1,6 +1,9 @@
-import { statistic } from '@madccc/antd/es/_util/theme';
 import { useContext, useEffect, useState } from 'react';
 import { TokenContext } from '../TokenProvider';
+import { ConfigProvider } from '@madccc/antd';
+
+const statistic =
+  ConfigProvider.__V5_STATISTIC_DO_NOT_USE_OR_YOU_WILL_BE_FIRED__;
 
 const useStatistic = () => {
   const length = Object.keys(statistic).length;
@@ -11,7 +14,7 @@ const useStatistic = () => {
     setRelatedComponents(
       Object.entries(statistic)
         .filter(([, tokens]) =>
-          selectedTokens.some((item) => tokens.includes(item)),
+          selectedTokens.some((item) => tokens.global.includes(item)),
         )
         .map(([component]) => component),
     );
@@ -20,6 +23,7 @@ const useStatistic = () => {
 
   return {
     relatedComponents,
+    getComponentToken: (component: string) => statistic[component]?.component,
   };
 };
 

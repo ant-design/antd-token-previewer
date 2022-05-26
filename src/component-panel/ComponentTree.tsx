@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import type { FC } from 'react';
 import { Badge, Segmented, Tree } from '@madccc/antd';
 import makeStyle from '../utils/makeStyle';
@@ -46,102 +46,63 @@ const useStyle = makeStyle('ComponentTree', (token) => ({
   },
 }));
 
-const antdComponents = {
-  General: ['Button', 'Icon', 'Typography'],
-  Layout: ['Divider', 'Grid', 'Layout', 'Space'],
-  Navigation: [
-    'Affix',
-    'Breadcrumb',
-    'Dropdown',
-    'Menu',
-    'PageHeader',
-    'Pagination',
-    'Steps',
-  ],
-  'Date Entry': [
-    'AutoComplete',
-    'Cascader',
-    'Checkbox',
-    'DatePicker',
-    'Form',
-    'Input',
-    'InputNumber',
-    'Mentions',
-    'Radio',
-    'Rate',
-    'Select',
-    'Slider',
-    'Switch',
-    'TimePicker',
-    'Transfer',
-    'TreeSelect',
-    'Upload',
-  ],
-  'Data Display': [
-    'Avatar',
-    'Badge',
-    'Calendar',
-    'Card',
-    'Carousel',
-    'Collapse',
-    'Comment',
-    'Descriptions',
-    'Empty',
-    'Image',
-    'List',
-    'Popover',
-    'Segmented',
-    'Statistic',
-    'Table',
-    'Tabs',
-    'Tag',
-    'Timeline',
-    'Tooltip',
-    'Tree',
-  ],
-  Feedback: [
-    'Alert',
-    'Drawer',
-    'Message',
-    'Modal',
-    'Notification',
-    'Popconfirm',
-    'Progress',
-    'Result',
-    'Skeleton',
-    'Spin',
-  ],
-  Other: ['Anchor', 'BackTop', 'ConfigProvider'],
+export type ComponentTreeProps = {
+  onSelect?: (component: string) => void;
+  components: Record<string, string[]>;
 };
 
-const ComponentTree: FC = () => {
+const ComponentTree: FC<ComponentTreeProps> = ({ onSelect, components }) => {
   const [wrapSSR, hashId] = useStyle();
   const { relatedComponents } = useStatistic();
+  const [filterMode, setFilterMode] = useState<'filter' | 'highlight'>(
+    'filter',
+  );
 
   const treeData = useMemo(
     () =>
-      Object.entries(antdComponents).map(([type, components]) => ({
-        title: type,
-        key: `type-${type}`,
-        children: components.map((item) => ({
-          title: (
-            <span
-              className={classNames('component-tree-item', {
-                'component-tree-item-active': relatedComponents.includes(item),
-              })}
-            >
-              <Badge
-                color={
-                  relatedComponents.includes(item) ? 'blue' : 'transparent'
-                }
-              />
-              {item}
-            </span>
-          ),
-          key: item,
+      Object.entries(components)
+        .filter(
+          ([, group]) =>
+            filterMode === 'highlight' ||
+            !relatedComponents.length ||
+            group.some((item) => relatedComponents.includes(item)),
+        )
+        .map(([type, group]) => ({
+          title: type,
+          key: `type-${type}`,
+          children: group
+            .filter(
+              (item) =>
+                filterMode === 'highlight' ||
+                !relatedComponents.length ||
+                relatedComponents.includes(item),
+            )
+            .map((item) => ({
+              title: (
+                <span
+                  className={classNames('component-tree-item', {
+                    'component-tree-item-active':
+                      filterMode === 'highlight' &&
+                      relatedComponents.includes(item),
+                  })}
+                >
+                  {item}
+                </span>
+              ),
+              switcherIcon: () => (
+                <Badge
+                  color={
+                    filterMode === 'highlight' &&
+                    relatedComponents.includes(item)
+                      ? 'blue'
+                      : 'transparent'
+                  }
+                />
+              ),
+              key: item,
+            })),
         })),
-      })),
-    [relatedComponents],
+    [relatedComponents, filterMode],
   );
 
   return wrapSSR(
@@ -151,6 +112,8 @@ const ComponentTree: FC = () => {
         <Segmented
           className="component-tree-filter-segmented"
           size="small"
+          value={filterMode}
+          onChange={(value) => setFilterMode(value as any)}
           options={[
             { label: '过滤', value: 'filter' },
             { label: '高亮', value: 'highlight' },
@@ -158,7 +121,13 @@ const ComponentTree: FC = () => {
         />
       </div>
       <div style={{ overflow: 'auto', flex: 1 }}>
-        <Tree defaultExpandAll treeData={treeData} className="component-tree" />
+        <Tree
+          showIcon
+          defaultExpandAll
+          treeData={treeData}
+          className="component-tree"
+          onSelect={(node) => onSelect?.(node[0] as string)}
+        />
       </div>
     </div>,
   );
