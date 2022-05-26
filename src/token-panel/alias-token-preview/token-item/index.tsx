@@ -1,7 +1,9 @@
+import { CaretRightOutlined } from '@ant-design/icons';
 import { EyeOutlined } from '@ant-design/icons';
-import { Collapse, Input } from '@madccc/antd';
+import { Collapse, Dropdown, Input } from '@madccc/antd';
 import '@madccc/antd/dist/@MadCcc/antd.css';
 import React from 'react';
+import { SketchPicker } from 'react-color';
 
 const { Panel } = Collapse;
 
@@ -43,13 +45,14 @@ const AdditionInfo = ({
     return (
       <div
         style={{
-          padding: 0,
           maxWidth: 40,
           height: 20,
           overflow: 'hidden',
-          backgroundColor: 'rgba(0,0,0,0.05)',
-          borderRadius: '3px',
+          backgroundColor: 'rgba(0,0,0,0.04)',
+          borderRadius: '8px',
           display: visible ? 'block' : 'none',
+          padding: '0 6px',
+          lineHeight: '20px',
         }}
       >
         {info}
@@ -85,11 +88,23 @@ export default ({ tokenName, value }: TokenItemProps) => {
   const [currentInfo, setCurrentInfo] = React.useState(value);
   const [infoVisible, setInfoVisible] = React.useState(false);
 
+  const colorPanel = (
+    <SketchPicker
+      color={currentInfo}
+      onChange={(v) => {
+        setCurrentInfo(v.hex);
+      }}
+    />
+  );
+
   return (
     <Collapse
       collapsible="header"
       ghost
       onChange={() => setInfoVisible(!infoVisible)}
+      expandIcon={({ isActive }) => (
+        <CaretRightOutlined rotate={isActive ? 90 : 0} />
+      )}
     >
       <Panel
         key={tokenName}
@@ -113,21 +128,23 @@ export default ({ tokenName, value }: TokenItemProps) => {
       >
         <div>
           {isColor(tokenName) ? (
-            <Input
-              style={{ width: 250 }}
-              addonAfter={'默认主题'}
-              addonBefore={
-                <AdditionInfo
-                  tokenName={tokenName}
-                  info={currentInfo}
-                  visible={true}
-                />
-              }
-              defaultValue={currentInfo}
-              onChange={(e) => {
-                setCurrentInfo(e.target.value);
-              }}
-            />
+            <Dropdown overlay={colorPanel}>
+              <Input
+                style={{ width: 250 }}
+                addonAfter={'默认主题'}
+                addonBefore={
+                  <AdditionInfo
+                    tokenName={tokenName}
+                    info={currentInfo}
+                    visible={true}
+                  />
+                }
+                defaultValue={currentInfo}
+                onChange={(e) => {
+                  setCurrentInfo(e.target.value);
+                }}
+              />
+            </Dropdown>
           ) : (
             <Input
               style={{ width: 250 }}

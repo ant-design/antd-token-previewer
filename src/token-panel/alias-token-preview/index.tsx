@@ -77,12 +77,12 @@ export default ({ tokens }: TokenPreviewProps) => {
           setSearch(e.target.value);
         }}
         bordered={false}
-        prefix={<SearchOutlined />}
+        prefix={<SearchOutlined style={{ marginRight: 8 }} />}
         className={classNames(
           'preview-panel-search preview-panel-space',
           hashId,
         )}
-        placeholder={'  搜索 Token / 色值 / 文本 / 圆角等'}
+        placeholder={'搜索 Token / 色值 / 文本 / 圆角等'}
       />
       {Object.keys(displayTokens).map((key) => {
         return (
