@@ -9,8 +9,6 @@ import ComponentCard, { getComponentDemoId } from './ComponentCard';
 import { ConfigProvider, Segmented, Switch } from '@madccc/antd';
 import type { Theme } from '../ThemeSelect';
 
-const components = Object.keys(ComponentDemos);
-
 const useStyle = makeStyle('ComponentPanel', (token) => ({
   '.component-panel': {
     boxShadow:
@@ -75,10 +73,11 @@ const useStyle = makeStyle('ComponentPanel', (token) => ({
 
     '.component-demos-wrapper': {
       display: 'flex',
+      flex: 1,
+      height: 0,
     },
 
     '.component-demos': {
-      flex: 1,
       padding: token.padding,
       height: '100%',
       overflow: 'auto',
@@ -90,6 +89,105 @@ const useStyle = makeStyle('ComponentPanel', (token) => ({
   },
 }));
 
+const antdComponents = {
+  General: ['Button', 'Icon', 'Typography'],
+  Layout: ['Divider', 'Grid', 'Layout', 'Space'],
+  Navigation: [
+    'Affix',
+    'Breadcrumb',
+    'Dropdown',
+    'Menu',
+    'PageHeader',
+    'Pagination',
+    'Steps',
+  ],
+  'Date Entry': [
+    'AutoComplete',
+    'Cascader',
+    'Checkbox',
+    'DatePicker',
+    'Form',
+    'Input',
+    'InputNumber',
+    'Mentions',
+    'Radio',
+    'Rate',
+    'Select',
+    'Slider',
+    'Switch',
+    'TimePicker',
+    'Transfer',
+    'TreeSelect',
+    'Upload',
+  ],
+  'Data Display': [
+    'Avatar',
+    'Badge',
+    'Calendar',
+    'Card',
+    'Carousel',
+    'Collapse',
+    'Comment',
+    'Descriptions',
+    'Empty',
+    'Image',
+    'List',
+    'Popover',
+    'Segmented',
+    'Statistic',
+    'Table',
+    'Tabs',
+    'Tag',
+    'Timeline',
+    'Tooltip',
+    'Tree',
+  ],
+  Feedback: [
+    'Alert',
+    'Drawer',
+    'Message',
+    'Modal',
+    'Notification',
+    'Popconfirm',
+    'Progress',
+    'Result',
+    'Skeleton',
+    'Spin',
+  ],
+  Other: ['Anchor', 'BackTop', 'ConfigProvider'],
+};
+
+type ComponentDemoGroupProps = {
+  theme: string;
+  components: Record<string, string[]>;
+  size?: 'small' | 'middle' | 'large';
+  disabled?: boolean;
+};
+
+const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
+  theme,
+  components,
+  size,
+  disabled,
+}) => {
+  return (
+    <>
+      {Object.entries(components)
+        .reduce<string[]>((result, [, group]) => result.concat(group), [])
+        .map((item) => {
+          const Demo = (ComponentDemos as any)[`${item}Demo`];
+          return Demo ? (
+            <ComponentCard theme={theme} key={item} component={item}>
+              <ConfigProvider componentSize={size} componentDisabled={disabled}>
+                <Demo />
+              </ConfigProvider>
+            </ComponentCard>
+          ) : null;
+        })}
+    </>
+  );
+};
+
 export type ComponentPanelProps = {
   themes: Theme[];
 };
@@ -98,12 +196,11 @@ const Index: FC<ComponentPanelProps> = ({ themes }) => {
   const [wrapSSR, hashId] = useStyle();
   const [showSide, setShowSide] = useState<boolean>(true);
   const demosRef = useRef<HTMLDivElement>(null);
+  const demosRef2 = useRef<HTMLDivElement>(null);
   const [componentSize, setComponentSize] = useState<
     'large' | 'small' | 'middle'
   >('middle');
   const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
-
-  console.log(themes[0].theme.token?.colorBg, themes[1]?.theme.token?.colorBg);
 
   return wrapSSR(
     <div className={classNames('component-panel', hashId)}>
@@ -113,7 +210,8 @@ const Index: FC<ComponentPanelProps> = ({ themes }) => {
         })}
       >
         <ComponentTree
-          onSelect={(component) =>
+          components={antdComponents}
+          onSelect={(component) => {
             demosRef.current
               ?.querySelector(
                 `#${getComponentDemoId(component, themes[0].key)}`,
@@ -122,8 +220,8 @@ const Index: FC<ComponentPanelProps> = ({ themes }) => {
                 block: 'start',
                 inline: 'nearest',
                 behavior: 'smooth',
-              })
-          }
+              });
+          }}
         />
       </div>
       <div className="component-panel-main">
@@ -159,45 +257,23 @@ const Index: FC<ComponentPanelProps> = ({ themes }) => {
         <div className="component-demos-wrapper">
           <ConfigProvider theme={themes[0].theme}>
             <div className="component-demos" ref={demosRef}>
-              {components.map((item) => {
-                const Demo = (ComponentDemos as any)[item];
-                return (
-                  <ComponentCard
-                    theme={themes[0].key}
-                    key={item}
-                    component={item.replace('Demo', '')}
-                  >
-                    <ConfigProvider
-                      componentSize={componentSize}
-                      componentDisabled={componentDisabled}
-                    >
-                      <Demo />
-                    </ConfigProvider>
-                  </ComponentCard>
-                );
-              })}
+              <ComponentDemoGroup
+                theme={themes[0].key}
+                components={antdComponents}
+                size={componentSize}
+                disabled={componentDisabled}
+              />
             </div>
           </ConfigProvider>
           {themes[1] && (
             <ConfigProvider theme={themes[1].theme}>
-              <div className="component-demos">
-                {components.map((item) => {
-                  const Demo = (ComponentDemos as any)[item];
-                  return (
-                    <ComponentCard
-                      theme={themes[1].key}
-                      key={item}
-                      component={item.replace('Demo', '')}
-                    >
-                      <ConfigProvider
-                        componentSize={componentSize}
-                        componentDisabled={componentDisabled}
-                      >
-                        <Demo />
-                      </ConfigProvider>
-                    </ComponentCard>
-                  );
-                })}
+              <div className="component-demos" ref={demosRef2}>
+                <ComponentDemoGroup
+                  theme={themes[1].key}
+                  components={antdComponents}
+                  size={componentSize}
+                  disabled={componentDisabled}
+                />
               </div>
             </ConfigProvider>
           )}
