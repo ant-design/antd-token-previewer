@@ -1,11 +1,14 @@
 import useToken from '../hooks/useToken';
 import React, { useState } from 'react';
 import AliasTokenPreview, { TokenPreviewProps } from './alias-token-preview';
+import { Space, Typography } from '@madccc/antd';
 
 export default () => {
   const [normalToken, onNormalTokenChange] = useToken();
   const [darkToken, onDarkTokenChange] = useToken();
-  const [selectedTokens, onSelectedTokens] = useState([]);
+  const [selectedTokens, onSelectedTokens] = useState<{ tokenName: string }[]>(
+    [],
+  );
 
   const tokens = [
     {
@@ -22,7 +25,12 @@ export default () => {
         background: '#F5F7FA',
       }}
     >
-      <AliasTokenPreview {...{ tokens, selectedTokens, onSelectedTokens }} />
+      <Space align="start">
+        <AliasTokenPreview {...{ tokens, selectedTokens, onSelectedTokens }} />
+        <Typography.Title>
+          🎯: {selectedTokens.map((token) => token.tokenName).join(',')}
+        </Typography.Title>
+      </Space>
     </div>
   );
 };
