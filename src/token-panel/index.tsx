@@ -1,10 +1,11 @@
 import useToken from '../hooks/useToken';
-import React from 'react';
+import React, { useState } from 'react';
 import AliasTokenPreview, { TokenPreviewProps } from './alias-token-preview';
 
 export default () => {
   const [normalToken, onNormalTokenChange] = useToken();
   const [darkToken, onDarkTokenChange] = useToken();
+  const [selectedTokens, onSelectedTokens] = useState([]);
 
   const tokens = [
     {
@@ -21,7 +22,7 @@ export default () => {
         background: '#F5F7FA',
       }}
     >
-      <AliasTokenPreview tokens={tokens} />
+      <AliasTokenPreview {...{ tokens, selectedTokens, onSelectedTokens }} />
     </div>
   );
 };

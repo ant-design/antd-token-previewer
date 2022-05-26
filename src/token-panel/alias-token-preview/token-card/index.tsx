@@ -70,11 +70,7 @@ export default ({ typeName, tokenArr }: TokenCardProps) => {
           key="1"
         >
           {tokenArr.map((item) => (
-            <TokenItem
-              tokenName={item.tokenName}
-              value={item.value}
-              key={item.tokenName + item.value}
-            />
+            <TokenItem tokenName={item.tokenName} key={item.tokenName} />
           ))}
         </Panel>
       </Collapse>

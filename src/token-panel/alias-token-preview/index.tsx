@@ -27,18 +27,20 @@ export interface TokenPreviewProps {
   tokens: {
     title: string;
     token: GlobalToken;
-    onTokenChange: () => void;
+    onTokenChange: (v: any) => {};
   }[];
+  selectedTokens: { title: string; tokenName: string }[];
+  onSelectedTokens: (v: { title: string; tokenName: string }[]) => void;
 }
 
-export default ({ tokens }: TokenPreviewProps) => {
+export const PreviewContext = React.createContext<TokenPreviewProps>(null);
+
+export default (props: TokenPreviewProps) => {
+  const { tokens } = props;
   const [wrapSSR, hashId] = useStyle();
   const [{ token }] = tokens;
   const [search, setSearch] = useState<string>('');
-  const groupedToken = classifyToken(token);
-  // check group
-  console.log(groupedToken);
-
+  const groupedToken = useMemo(() => classifyToken(token), [token]);
   const displayTokens = useMemo(() => {
     if (!search) {
       return groupedToken;
@@ -68,27 +70,29 @@ export default ({ tokens }: TokenPreviewProps) => {
   }, [groupedToken, search]);
 
   return wrapSSR(
-    <div className={classNames('preview-panel', hashId)}>
-      <h3 className={classNames('preview-panel-space', hashId)}>
-        Alias Token 预览
-      </h3>
-      <Input
-        onChange={(e) => {
-          setSearch(e.target.value);
-        }}
-        bordered={false}
-        prefix={<SearchOutlined style={{ marginRight: 8 }} />}
-        className={classNames(
-          'preview-panel-search preview-panel-space',
-          hashId,
-        )}
-        placeholder={'搜索 Token / 色值 / 文本 / 圆角等'}
-      />
-      {Object.keys(displayTokens).map((key) => {
-        return (
-          <TokenCard key={key} typeName={key} tokenArr={groupedToken[key]} />
-        );
-      })}
-    </div>,
+    <PreviewContext.Provider value={props}>
+      <div className={classNames('preview-panel', hashId)}>
+        <h3 className={classNames('preview-panel-space', hashId)}>
+          Alias Token 预览
+        </h3>
+        <Input
+          onChange={(e) => {
+            setSearch(e.target.value);
+          }}
+          bordered={false}
+          prefix={<SearchOutlined style={{ marginRight: 8 }} />}
+          className={classNames(
+            'preview-panel-search preview-panel-space',
+            hashId,
+          )}
+          placeholder={'搜索 Token / 色值 / 文本 / 圆角等'}
+        />
+        {Object.keys(displayTokens).map((key) => {
+          return (
+            <TokenCard key={key} typeName={key} tokenArr={groupedToken[key]} />
+          );
+        })}
+      </div>
+    </PreviewContext.Provider>,
   );
 };

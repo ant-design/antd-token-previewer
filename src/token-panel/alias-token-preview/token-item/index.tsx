@@ -1,9 +1,11 @@
 import { CaretRightOutlined } from '@ant-design/icons';
 import { EyeOutlined } from '@ant-design/icons';
-import { Collapse, Dropdown, Input } from '@madccc/antd';
+import { Collapse, Dropdown, Input, Space } from '@madccc/antd';
 import '@madccc/antd/dist/@MadCcc/antd.css';
+import { GlobalToken } from '@madccc/antd/lib/_util/theme/interface';
 import React from 'react';
 import { SketchPicker } from 'react-color';
+import { PreviewContext } from '..';
 
 const { Panel } = Collapse;
 
@@ -12,8 +14,7 @@ const isColor = (tokenName: string) => {
 };
 
 interface TokenItemProps {
-  tokenName: string;
-  value: string;
+  tokenName: keyof GlobalToken;
 }
 
 const AdditionInfo = ({
@@ -84,18 +85,36 @@ const ShowUsageButton = () => {
   );
 };
 
-export default ({ tokenName, value }: TokenItemProps) => {
-  const [currentInfo, setCurrentInfo] = React.useState(value);
+export default ({ tokenName }: TokenItemProps) => {
+  const { selectedTokens, tokens, onSelectedTokens } =
+    React.useContext(PreviewContext);
+  const [currentInfo, setCurrentInfo] = React.useState(null);
   const [infoVisible, setInfoVisible] = React.useState(false);
 
-  const colorPanel = (
-    <SketchPicker
-      color={currentInfo}
-      onChange={(v) => {
-        setCurrentInfo(v.hex);
-      }}
-    />
-  );
+  function updateTokenValue(title: string, tokenName: string, value: string) {
+    const targetToken = tokens.find((token) => token.title === title);
+    targetToken?.onTokenChange((prev: any) => ({
+      ...prev,
+      [tokenName]: value,
+    }));
+  }
+
+  const ColorPanel = ({
+    color,
+    onChange,
+  }: {
+    color: string;
+    onChange: (color: string) => void;
+  }) => {
+    return (
+      <SketchPicker
+        color={color}
+        onChange={(v) => {
+          onChange(v.hex);
+        }}
+      />
+    );
+  };
 
   return (
     <Collapse
@@ -117,43 +136,70 @@ export default ({ tokenName, value }: TokenItemProps) => {
             }}
           >
             <span style={{ marginInlineEnd: '5px' }}>{tokenName}</span>
-            <AdditionInfo
-              tokenName={tokenName}
-              info={currentInfo}
-              visible={!infoVisible}
-            />
+            <Space>
+              {tokens.map(({ token }) => {
+                return (
+                  <AdditionInfo
+                    tokenName={tokenName}
+                    info={token[tokenName] as string}
+                    visible={!infoVisible}
+                  />
+                );
+              })}
+            </Space>
           </div>
         }
         extra={<ShowUsageButton />}
       >
-        <div>
-          {isColor(tokenName) ? (
-            <Dropdown overlay={colorPanel}>
-              <Input
-                style={{ width: 250 }}
-                addonAfter={'默认主题'}
-                addonBefore={
-                  <AdditionInfo
-                    tokenName={tokenName}
-                    info={currentInfo}
-                    visible={true}
+        <Space direction="vertical">
+          {tokens.map((token) => {
+            return (
+              <div>
+                {isColor(tokenName) ? (
+                  <Dropdown
+                    overlay={
+                      <ColorPanel
+                        color={token.token?.[tokenName] as string}
+                        onChange={(v: string) => {
+                          updateTokenValue(token.title, tokenName, v);
+                        }}
+                      />
+                    }
+                  >
+                    <Input
+                      style={{ width: 250 }}
+                      addonAfter={token.title}
+                      value={token.token?.[tokenName] as string}
+                      addonBefore={
+                        <AdditionInfo
+                          tokenName={tokenName}
+                          info={token.token?.[tokenName] as string}
+                          visible={true}
+                        />
+                      }
+                      onChange={(e) => {
+                        updateTokenValue(
+                          token.title,
+                          tokenName,
+                          e.target.value,
+                        );
+                      }}
+                    />
+                  </Dropdown>
+                ) : (
+                  <Input
+                    style={{ width: 250 }}
+                    addonAfter={token.title}
+                    value={token.token?.[tokenName] as string}
+                    onChange={(e) => {
+                      updateTokenValue(token.title, tokenName, e.target.value);
+                    }}
                   />
-                }
-                defaultValue={currentInfo}
-                onChange={(e) => {
-                  setCurrentInfo(e.target.value);
-                }}
-              />
-            </Dropdown>
-          ) : (
-            <Input
-              style={{ width: 250 }}
-              addonAfter={'默认主题'}
-              defaultValue={currentInfo}
-              onChange={(e) => setCurrentInfo(e.target.value)}
-            />
-          )}
-        </div>
+                )}
+              </div>
+            );
+          })}
+        </Space>
       </Panel>
     </Collapse>
   );
