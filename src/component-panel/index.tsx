@@ -257,7 +257,15 @@ const Index: FC<ComponentPanelProps> = ({ themes, selectedTokens }) => {
           </div>
         </div>
         <div className="component-demos-wrapper">
-          <ConfigProvider theme={themes[0].theme}>
+          <ConfigProvider
+            theme={{
+              ...themes[0].theme,
+              override: {
+                ...themes[0].theme.override,
+                derivative: themes[0].theme.token,
+              },
+            }}
+          >
             <div className="component-demos" ref={demosRef}>
               <ComponentDemoGroup
                 theme={themes[0].key}
@@ -268,7 +276,15 @@ const Index: FC<ComponentPanelProps> = ({ themes, selectedTokens }) => {
             </div>
           </ConfigProvider>
           {themes[1] && (
-            <ConfigProvider theme={themes[1].theme}>
+            <ConfigProvider
+              theme={{
+                ...themes[1].theme,
+                override: {
+                  ...themes[1].theme.override,
+                  derivative: themes[1].theme.token,
+                },
+              }}
+            >
               <div className="component-demos" ref={demosRef2}>
                 <ComponentDemoGroup
                   theme={themes[1].key}
