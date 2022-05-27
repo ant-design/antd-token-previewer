@@ -6,9 +6,7 @@ import { Space, Typography } from '@madccc/antd';
 export default () => {
   const [normalToken, onNormalTokenChange] = useToken();
   const [darkToken, onDarkTokenChange] = useToken();
-  const [selectedTokens, onSelectedTokens] = useState<{ tokenName: string }[]>(
-    [],
-  );
+  const [selectedTokens, onSelectedTokens] = useState<string[]>([]);
 
   const tokens = [
     {

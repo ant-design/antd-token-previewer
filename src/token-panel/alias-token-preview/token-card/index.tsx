@@ -9,6 +9,7 @@ import {
 } from '@ant-design/icons';
 import { Collapse } from '@madccc/antd';
 import '@madccc/antd/dist/@MadCcc/antd.css';
+import { GlobalToken } from '@madccc/antd/lib/_util/theme/interface';
 import classNames from 'classnames';
 import type { ReactNode } from 'react';
 import React from 'react';
@@ -70,7 +71,10 @@ export default ({ typeName, tokenArr }: TokenCardProps) => {
           key="1"
         >
           {tokenArr.map((item) => (
-            <TokenItem tokenName={item.tokenName} key={item.tokenName} />
+            <TokenItem
+              tokenName={item.tokenName as keyof GlobalToken}
+              key={item.tokenName}
+            />
           ))}
         </Panel>
       </Collapse>

@@ -30,7 +30,7 @@ export interface TokenPreviewProps {
     onTokenChange: (v: any) => {};
   }[];
   selectedTokens: string[];
-  onSelectedTokens: (prev: (v: string[]) => string[]) => void;
+  onSelectedTokens: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 export const PreviewContext = React.createContext<TokenPreviewProps>({
