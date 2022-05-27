@@ -1,5 +1,5 @@
 /**
- * iframe: true // 设置为数值可控制 iframe 高度
+ * iframe: 800
  */
 
 import React from 'react';
