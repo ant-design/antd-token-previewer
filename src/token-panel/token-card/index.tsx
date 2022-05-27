@@ -13,7 +13,8 @@ import { GlobalToken } from '@madccc/antd/lib/_util/theme/interface';
 import classNames from 'classnames';
 import type { ReactNode } from 'react';
 import React from 'react';
-import makeStyle from '../../../utils/makeStyle';
+import makeStyle from '../../utils/makeStyle';
+
 import TokenItem from '../token-item';
 
 const { Panel } = Collapse;

@@ -7,7 +7,7 @@ import useToken from './hooks/useToken';
 import { BellOutlined, SmileOutlined } from '@ant-design/icons';
 import makeStyle from './utils/makeStyle';
 import TokenProvider from './TokenProvider';
-import TokenList from './TokenList';
+import TokenPanel, { TokenPreviewProps } from './token-panel';
 
 const { Header, Sider, Content } = Layout;
 
@@ -25,6 +25,10 @@ const Previewer: React.FC = () => {
   const [token] = useToken();
   const [shownThemes, setShownThemes] = useState<string[]>(['default', 'dark']);
   const [enabledThemes, setEnabledThemes] = useState<string[]>(['default']);
+
+  const [normalToken, onNormalTokenChange] = useToken();
+  const [darkToken, onDarkTokenChange] = useToken();
+  const [selectedTokens, onSelectedTokens] = useState<string[]>([]);
 
   const themes = useMemo(
     () => [
@@ -47,6 +51,15 @@ const Previewer: React.FC = () => {
     [token],
   );
 
+  const tokens = [
+    {
+      token: normalToken,
+      onTokenChange: onNormalTokenChange,
+      title: '默认主题',
+    },
+    { token: darkToken, onTokenChange: onDarkTokenChange, title: '暗色主题' },
+  ] as TokenPreviewProps['tokens'];
+
   return wrapSSR(
     <TokenProvider>
       <Layout>
@@ -66,7 +79,7 @@ const Previewer: React.FC = () => {
         </Header>
         <Layout>
           <Sider style={{ backgroundColor: 'white', padding: 16 }} width={400}>
-            <TokenList />
+            <TokenPanel {...{ tokens, selectedTokens, onSelectedTokens }} />
           </Sider>
           <Content
             style={{
