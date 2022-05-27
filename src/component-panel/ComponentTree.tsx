@@ -1,9 +1,9 @@
 import React, { useMemo, useState } from 'react';
 import type { FC } from 'react';
 import { Badge, Segmented, Tree } from '@madccc/antd';
-import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
 import useStatistic from '../hooks/useStatistic';
+import makeStyle from '../utils/makeStyle';
 
 const useStyle = makeStyle('ComponentTree', (token) => ({
   '.component-tree-wrapper': {

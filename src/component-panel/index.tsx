@@ -1,8 +1,8 @@
+import classNames from 'classnames';
 import type { FC } from 'react';
 import React, { useRef, useState } from 'react';
 import ComponentTree from './ComponentTree';
 import makeStyle from '../utils/makeStyle';
-import classNames from 'classnames';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import ComponentDemos from '../demos';
 import ComponentCard, { getComponentDemoId } from './ComponentCard';
