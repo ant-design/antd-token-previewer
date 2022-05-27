@@ -10,4 +10,13 @@ export default defineConfig({
   base: '/antd-token-previewer',
   publicPath: '/antd-token-previewer/',
   hash: true,
+  chainWebpack(memo, { env, webpack }) {
+    if (env === 'production') {
+      memo
+        .plugin('CSSINJS_STATISTIC')
+        .use(
+          new webpack.DefinePlugin({ CSSINJS_STATISTIC: JSON.stringify(true) }),
+        );
+    }
+  },
 });
