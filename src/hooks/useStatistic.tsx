@@ -1,13 +1,11 @@
-import { useContext, useEffect, useState } from 'react';
-import { TokenContext } from '../TokenProvider';
+import { useEffect, useState } from 'react';
 import { ConfigProvider } from '@madccc/antd';
 
 const statistic =
   ConfigProvider.__V5_STATISTIC_DO_NOT_USE_OR_YOU_WILL_BE_FIRED__;
 
-const useStatistic = () => {
+const useStatistic = (selectedTokens: string[] = []) => {
   const length = Object.keys(statistic).length;
-  const { selectedTokens } = useContext(TokenContext);
   const [relatedComponents, setRelatedComponents] = useState<string[]>([]);
 
   useEffect(() => {

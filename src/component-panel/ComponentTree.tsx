@@ -49,11 +49,16 @@ const useStyle = makeStyle('ComponentTree', (token) => ({
 export type ComponentTreeProps = {
   onSelect?: (component: string) => void;
   components: Record<string, string[]>;
+  selectedTokens?: string[];
 };
 
-const ComponentTree: FC<ComponentTreeProps> = ({ onSelect, components }) => {
+const ComponentTree: FC<ComponentTreeProps> = ({
+  onSelect,
+  components,
+  selectedTokens,
+}) => {
   const [wrapSSR, hashId] = useStyle();
-  const { relatedComponents } = useStatistic();
+  const { relatedComponents } = useStatistic(selectedTokens);
   const [filterMode, setFilterMode] = useState<'filter' | 'highlight'>(
     'filter',
   );

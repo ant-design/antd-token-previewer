@@ -2,10 +2,10 @@ import { CaretRightOutlined } from '@ant-design/icons';
 import { EyeOutlined } from '@ant-design/icons';
 import { Collapse, Dropdown, Input, Space } from '@madccc/antd';
 import '@madccc/antd/dist/@MadCcc/antd.css';
-import { GlobalToken } from '@madccc/antd/lib/_util/theme/interface';
 import React from 'react';
 import { SketchPicker } from 'react-color';
 import { PreviewContext } from '..';
+import type { TokenName } from '../../utils/classifyToken';
 
 const { Panel } = Collapse;
 
@@ -14,7 +14,7 @@ const isColor = (tokenName: string) => {
 };
 
 interface TokenItemProps {
-  tokenName: keyof GlobalToken;
+  tokenName: TokenName;
 }
 
 const AdditionInfo = ({
@@ -84,21 +84,9 @@ const ShowUsageButton = ({
 };
 
 export default ({ tokenName }: TokenItemProps) => {
-  const { selectedTokens, tokens, onSelectedTokens } =
+  const { selectedTokens, themes, onSelectToken } =
     React.useContext(PreviewContext);
   const [infoVisible, setInfoVisible] = React.useState(false);
-
-  function updateTokenValue(
-    title: string,
-    targetTokenName: string,
-    value: string,
-  ) {
-    const targetToken = tokens.find((token) => token.title === title);
-    targetToken?.onTokenChange((prev: any) => ({
-      ...prev,
-      [targetTokenName]: value,
-    }));
-  }
 
   const ColorPanel = ({
     color,
@@ -138,11 +126,12 @@ export default ({ tokenName }: TokenItemProps) => {
           >
             <span style={{ marginInlineEnd: '5px' }}>{tokenName}</span>
             <Space>
-              {tokens.map(({ token }) => {
+              {themes.map(({ token, title }) => {
                 return (
                   <AdditionInfo
+                    key={title}
                     tokenName={tokenName}
-                    info={token[tokenName] as string}
+                    info={token?.[tokenName] as unknown as string}
                     visible={!infoVisible}
                   />
                 );
@@ -152,63 +141,60 @@ export default ({ tokenName }: TokenItemProps) => {
         }
         extra={
           <ShowUsageButton
-            selected={!!selectedTokens.includes(tokenName)}
+            selected={selectedTokens.includes(tokenName)}
             toggleSelected={() => {
-              onSelectedTokens((prev: string[]) => {
-                const exist = prev.includes(tokenName);
-
-                if (exist) {
-                  return prev.filter((token) => token === tokenName);
-                }
-
-                return [...prev, tokenName];
-              });
+              onSelectToken(tokenName);
             }}
           />
         }
       >
         <Space direction="vertical">
-          {tokens.map((token) => {
+          {themes.map((theme) => {
             return (
-              <div>
+              <div key={theme.title}>
                 {isColor(tokenName) ? (
                   <Dropdown
                     overlay={
                       <ColorPanel
-                        color={token.token?.[tokenName] as string}
+                        color={theme.token?.[tokenName] as unknown as string}
                         onChange={(v: string) => {
-                          updateTokenValue(token.title, tokenName, v);
+                          theme.onTokenChange({
+                            ...theme.token,
+                            [tokenName]: v,
+                          });
                         }}
                       />
                     }
                   >
                     <Input
                       style={{ width: 250 }}
-                      addonAfter={token.title}
-                      value={token.token?.[tokenName] as string}
+                      addonAfter={theme.title}
+                      value={theme.token?.[tokenName] as unknown as string}
                       addonBefore={
                         <AdditionInfo
                           tokenName={tokenName}
-                          info={token.token?.[tokenName] as string}
+                          info={theme.token?.[tokenName] as unknown as string}
                           visible={true}
                         />
                       }
                       onChange={(e) => {
-                        updateTokenValue(
-                          token.title,
-                          tokenName,
-                          e.target.value,
-                        );
+                        theme.onTokenChange({
+                          ...theme.token,
+                          [tokenName]: e.target.value,
+                        });
                       }}
                     />
                   </Dropdown>
                 ) : (
                   <Input
                     style={{ width: 250 }}
-                    addonAfter={token.title}
-                    value={token.token?.[tokenName] as string}
+                    addonAfter={theme.title}
+                    value={theme.token?.[tokenName] as unknown as string}
                     onChange={(e) => {
-                      updateTokenValue(token.title, tokenName, e.target.value);
+                      theme.onTokenChange({
+                        ...theme.token,
+                        [tokenName]: e.target.value,
+                      });
                     }}
                   />
                 )}

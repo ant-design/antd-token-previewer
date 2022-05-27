@@ -1,20 +1,29 @@
 import React, { useState } from 'react';
 import { Space, Typography } from '@madccc/antd';
-import { TokenPanel, TokenPreviewProps, useToken } from 'antd-token-previewer';
+import type { TokenPreviewProps } from 'antd-token-previewer';
+import { TokenPanel, useToken } from 'antd-token-previewer';
 
 export default () => {
-  const [normalToken, onNormalTokenChange] = useToken();
-  const [darkToken, onDarkTokenChange] = useToken();
-  const [selectedTokens, onSelectedTokens] = useState<string[]>([]);
+  const [normalToken] = useToken();
+  const [darkToken] = useToken();
+  const [selectedTokens, setSelectedTokens] = useState<string[]>([]);
 
   const tokens = [
     {
       token: normalToken,
-      onTokenChange: onNormalTokenChange,
+      onTokenChange: (token) => {
+        console.log(token);
+      },
       title: '默认主题',
     },
-    { token: darkToken, onTokenChange: onDarkTokenChange, title: '暗色主题' },
-  ] as TokenPreviewProps['tokens'];
+    {
+      token: darkToken,
+      onTokenChange: (token) => {
+        console.log(token);
+      },
+      title: '暗色主题',
+    },
+  ] as TokenPreviewProps['themes'];
 
   return (
     <div
@@ -23,7 +32,17 @@ export default () => {
       }}
     >
       <Space align="start">
-        <TokenPanel {...{ tokens, selectedTokens, onSelectedTokens }} />
+        <TokenPanel
+          themes={tokens}
+          selectedTokens={selectedTokens}
+          onSelectToken={(token) =>
+            setSelectedTokens((prev) =>
+              prev.includes(token)
+                ? prev.filter((item) => item !== token)
+                : [...prev, token],
+            )
+          }
+        />
         <Typography.Title>🎯: {selectedTokens.join(',')}</Typography.Title>
       </Space>
     </div>
