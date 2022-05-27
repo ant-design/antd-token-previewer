@@ -10,6 +10,7 @@ import TokenCard, { TextMap } from './token-card';
 const useStyle = makeStyle('AliasTokenPreview', (token) => ({
   '.preview-panel': {
     height: '100%',
+    minWidth: '400px',
     backgroundColor: 'white',
     padding: '20px',
     paddingTop: '40px',
