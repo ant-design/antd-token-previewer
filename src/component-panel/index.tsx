@@ -190,9 +190,10 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
 
 export type ComponentPanelProps = {
   themes: Theme[];
+  selectedTokens?: string[];
 };
 
-const Index: FC<ComponentPanelProps> = ({ themes }) => {
+const Index: FC<ComponentPanelProps> = ({ themes, selectedTokens }) => {
   const [wrapSSR, hashId] = useStyle();
   const [showSide, setShowSide] = useState<boolean>(true);
   const demosRef = useRef<HTMLDivElement>(null);
@@ -210,6 +211,7 @@ const Index: FC<ComponentPanelProps> = ({ themes }) => {
         })}
       >
         <ComponentTree
+          selectedTokens={selectedTokens}
           components={antdComponents}
           onSelect={(component) => {
             demosRef.current

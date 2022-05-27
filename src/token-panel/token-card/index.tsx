@@ -9,19 +9,22 @@ import {
 } from '@ant-design/icons';
 import { Collapse } from '@madccc/antd';
 import '@madccc/antd/dist/@MadCcc/antd.css';
-import { GlobalToken } from '@madccc/antd/lib/_util/theme/interface';
 import classNames from 'classnames';
 import type { ReactNode } from 'react';
 import React from 'react';
 import makeStyle from '../../utils/makeStyle';
 
 import TokenItem from '../token-item';
+import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
 
 const { Panel } = Collapse;
 
 interface TokenCardProps {
   typeName: string;
-  tokenArr: { tokenName: string; value: string }[];
+  tokenArr: {
+    tokenName: keyof Exclude<ThemeConfig['token'], undefined>;
+    value: string | number;
+  }[];
 }
 
 const IconMap: Record<string, ReactNode> = {
@@ -72,10 +75,7 @@ export default ({ typeName, tokenArr }: TokenCardProps) => {
           key="1"
         >
           {tokenArr.map((item) => (
-            <TokenItem
-              tokenName={item.tokenName as keyof GlobalToken}
-              key={item.tokenName}
-            />
+            <TokenItem tokenName={item.tokenName} key={item.tokenName} />
           ))}
         </Panel>
       </Collapse>

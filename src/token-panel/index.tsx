@@ -1,19 +1,17 @@
 import { SearchOutlined } from '@ant-design/icons';
 import { Input } from '@madccc/antd';
-import { GlobalToken } from '@madccc/antd/lib/_util/theme/interface';
 import classNames from 'classnames';
 import React, { useMemo, useState } from 'react';
 import { classifyToken } from '../utils/classifyToken';
 import makeStyle from '../utils/makeStyle';
 import TokenCard, { TextMap } from './token-card';
+import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
 
 const useStyle = makeStyle('AliasTokenPreview', (token) => ({
   '.preview-panel': {
     height: '100%',
-    minWidth: '400px',
+    padding: token.paddingXS,
     backgroundColor: 'white',
-    padding: '20px',
-    paddingTop: '40px',
     '.preview-panel-space': {
       marginBottom: '25px',
     },
@@ -24,25 +22,25 @@ const useStyle = makeStyle('AliasTokenPreview', (token) => ({
 }));
 
 export interface TokenPreviewProps {
-  tokens: {
+  themes: {
     title: string;
-    token: GlobalToken;
-    onTokenChange: (v: any) => {};
+    token: ThemeConfig['token'];
+    onTokenChange: (v: any) => void;
   }[];
   selectedTokens: string[];
-  onSelectedTokens: React.Dispatch<React.SetStateAction<string[]>>;
+  onSelectToken: (token: string) => void;
 }
 
 export const PreviewContext = React.createContext<TokenPreviewProps>({
-  tokens: [],
+  themes: [],
   selectedTokens: [],
-  onSelectedTokens: () => {},
+  onSelectToken: () => {},
 });
 
 export default (props: TokenPreviewProps) => {
-  const { tokens } = props;
+  const { themes } = props;
   const [wrapSSR, hashId] = useStyle();
-  const [{ token }] = tokens;
+  const [{ token }] = themes;
   const [search, setSearch] = useState<string>('');
   const groupedToken = useMemo(() => classifyToken(token), [token]);
   const displayTokens = useMemo(() => {
@@ -90,11 +88,9 @@ export default (props: TokenPreviewProps) => {
           )}
           placeholder={'搜索 Token / 色值 / 文本 / 圆角等'}
         />
-        {Object.keys(displayTokens).map((key) => {
-          return (
-            <TokenCard key={key} typeName={key} tokenArr={groupedToken[key]} />
-          );
-        })}
+        {Object.keys(displayTokens).map((key) => (
+          <TokenCard key={key} typeName={key} tokenArr={groupedToken[key]} />
+        ))}
       </div>
     </PreviewContext.Provider>,
   );
