@@ -88,11 +88,15 @@ export default ({ tokenName }: TokenItemProps) => {
     React.useContext(PreviewContext);
   const [infoVisible, setInfoVisible] = React.useState(false);
 
-  function updateTokenValue(title: string, tokenName: string, value: string) {
+  function updateTokenValue(
+    title: string,
+    targetTokenName: string,
+    value: string,
+  ) {
     const targetToken = tokens.find((token) => token.title === title);
     targetToken?.onTokenChange((prev: any) => ({
       ...prev,
-      [tokenName]: value,
+      [targetTokenName]: value,
     }));
   }
 
