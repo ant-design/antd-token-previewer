@@ -27,9 +27,7 @@ export default () => {
     >
       <Space align="start">
         <AliasTokenPreview {...{ tokens, selectedTokens, onSelectedTokens }} />
-        <Typography.Title>
-          🎯: {selectedTokens.map((token) => token.tokenName).join(',')}
-        </Typography.Title>
+        <Typography.Title>🎯: {selectedTokens.join(',')}</Typography.Title>
       </Space>
     </div>
   );

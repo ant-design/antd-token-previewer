@@ -148,20 +148,16 @@ export default ({ tokenName }: TokenItemProps) => {
         }
         extra={
           <ShowUsageButton
-            selected={
-              !!selectedTokens.find((token) => token.tokenName === tokenName)
-            }
+            selected={!!selectedTokens.includes(tokenName)}
             toggleSelected={() => {
-              onSelectedTokens((prev: typeof selectedTokens) => {
-                const exist = prev.find(
-                  (token) => token.tokenName === tokenName,
-                );
+              onSelectedTokens((prev: string[]) => {
+                const exist = prev.includes(tokenName);
 
                 if (exist) {
-                  return prev.filter((token) => token.tokenName !== tokenName);
+                  return prev.filter((token) => token === tokenName);
                 }
 
-                return [...prev, { tokenName }];
+                return [...prev, tokenName];
               });
             }}
           />

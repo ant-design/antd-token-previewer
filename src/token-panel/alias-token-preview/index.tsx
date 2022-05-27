@@ -29,11 +29,15 @@ export interface TokenPreviewProps {
     token: GlobalToken;
     onTokenChange: (v: any) => {};
   }[];
-  selectedTokens: { tokenName: string }[];
-  onSelectedTokens: (v: { tokenName: string }[]) => void;
+  selectedTokens: string[];
+  onSelectedTokens: (prev: (v: string[]) => string[]) => void;
 }
 
-export const PreviewContext = React.createContext<TokenPreviewProps>(null);
+export const PreviewContext = React.createContext<TokenPreviewProps>({
+  tokens: [],
+  selectedTokens: [],
+  onSelectedTokens: () => {},
+});
 
 export default (props: TokenPreviewProps) => {
   const { tokens } = props;
@@ -64,8 +68,8 @@ export default (props: TokenPreviewProps) => {
         }
         return acc;
       },
-      {},
-    ) as typeof groupedToken;
+      {} as typeof groupedToken,
+    );
   }, [groupedToken, search]);
 
   return wrapSSR(
