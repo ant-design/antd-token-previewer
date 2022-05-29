@@ -1,4 +1,4 @@
-import { CaretRightOutlined, EyeOutlined } from '@ant-design/icons';
+import { CaretRightOutlined } from '@ant-design/icons';
 import { Collapse, Dropdown, Input, Space } from '@madccc/antd';
 import '@madccc/antd/dist/@MadCcc/antd.css';
 import { Pick } from '../../../icons';
