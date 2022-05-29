@@ -1,6 +1,17 @@
-import type { GlobalToken } from '@madccc/antd/lib/_util/theme/interface';
 import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
 import type { TokenValue } from '../interface';
+import type { GlobalToken } from '@madccc/antd/lib/_util/theme/interface';
+
+export const TOKEN_SORTS = [
+  'color',
+  'font',
+  'radius',
+  'space',
+  'screen',
+  'line',
+  'motion',
+  'others',
+];
 
 function getTypeOfToken(tokenName: keyof GlobalToken): string {
   if (tokenName.startsWith('color')) {
@@ -18,10 +29,13 @@ function getTypeOfToken(tokenName: keyof GlobalToken): string {
   if (tokenName.startsWith('motion')) {
     return 'motion';
   }
+  if (tokenName.startsWith('radius')) {
+    return 'radius';
+  }
   if (tokenName.startsWith('margin') || tokenName.startsWith('padding')) {
     return 'space';
   }
-  return 'else';
+  return 'others';
 }
 
 export type TokenName = keyof Exclude<ThemeConfig['token'], undefined>;

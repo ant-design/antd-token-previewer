@@ -1,7 +1,7 @@
 import { CaretRightOutlined } from '@ant-design/icons';
-import { EyeOutlined } from '@ant-design/icons';
 import { Collapse, Dropdown, Input, Space } from '@madccc/antd';
 import '@madccc/antd/dist/@MadCcc/antd.css';
+import { Pick } from '../../../icons';
 import React from 'react';
 import { SketchPicker } from 'react-color';
 import { PreviewContext } from '..';
@@ -72,7 +72,7 @@ const ShowUsageButton = ({
   toggleSelected: (v: boolean) => void;
 }) => {
   return (
-    <EyeOutlined
+    <Pick
       style={{
         color: selected ? '#1890ff' : undefined,
         cursor: 'pointer',
@@ -122,6 +122,7 @@ export default ({ tokenName }: TokenItemProps) => {
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
+              gap: 8,
             }}
           >
             <span style={{ marginInlineEnd: '5px' }}>{tokenName}</span>
@@ -148,7 +149,14 @@ export default ({ tokenName }: TokenItemProps) => {
           />
         }
       >
-        <Space direction="vertical">
+        <Space
+          direction="vertical"
+          style={{
+            background: '#fafafa',
+            borderRadius: 4,
+            padding: '8px 0',
+          }}
+        >
           {themes.map((theme) => {
             return (
               <div key={theme.title}>
@@ -167,7 +175,8 @@ export default ({ tokenName }: TokenItemProps) => {
                     }
                   >
                     <Input
-                      style={{ width: 250 }}
+                      style={{ width: '100%' }}
+                      bordered={false}
                       addonAfter={theme.title}
                       value={theme.token?.[tokenName] as unknown as string}
                       addonBefore={
@@ -187,8 +196,9 @@ export default ({ tokenName }: TokenItemProps) => {
                   </Dropdown>
                 ) : (
                   <Input
-                    style={{ width: 250 }}
+                    style={{ width: '100%' }}
                     addonAfter={theme.title}
+                    bordered={false}
                     value={theme.token?.[tokenName] as unknown as string}
                     onChange={(e) => {
                       theme.onTokenChange({

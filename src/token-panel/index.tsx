@@ -1,16 +1,17 @@
 import { SearchOutlined } from '@ant-design/icons';
 import { Input } from '@madccc/antd';
+import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
 import classNames from 'classnames';
 import React, { useMemo, useState } from 'react';
-import { classifyToken } from '../utils/classifyToken';
+import { classifyToken, TOKEN_SORTS } from '../utils/classifyToken';
 import makeStyle from '../utils/makeStyle';
 import TokenCard, { TextMap } from './token-card';
-import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
 import type { Theme } from '../interface';
 
 const useStyle = makeStyle('AliasTokenPreview', (token) => ({
   '.preview-panel': {
     height: '100%',
+    width: 310,
     padding: token.paddingXS,
     backgroundColor: 'white',
     '.preview-panel-space': {
@@ -18,6 +19,7 @@ const useStyle = makeStyle('AliasTokenPreview', (token) => ({
     },
     '.preview-panel-search': {
       backgroundColor: `${token.colorSplit}`,
+      borderRadius: token.radiusLG,
     },
   },
 }));
@@ -93,7 +95,7 @@ export default (props: TokenPreviewProps) => {
           )}
           placeholder={'搜索 Token / 色值 / 文本 / 圆角等'}
         />
-        {Object.keys(displayTokens).map((key) => (
+        {TOKEN_SORTS.filter((type) => displayTokens[type]).map((key) => (
           <TokenCard key={key} typeName={key} tokenArr={groupedToken[key]} />
         ))}
       </div>
