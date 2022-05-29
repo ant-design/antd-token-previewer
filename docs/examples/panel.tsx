@@ -10,18 +10,20 @@ export default () => {
 
   const tokens = [
     {
-      token: normalToken,
-      onTokenChange: (token) => {
+      config: { override: { derivative: normalToken } },
+      onThemeChange: (token) => {
         console.log(token);
       },
-      title: '默认主题',
+      key: 'default',
+      name: '默认主题',
     },
     {
-      token: darkToken,
-      onTokenChange: (token) => {
+      config: { override: { derivative: darkToken } },
+      onThemeChange: (token) => {
         console.log(token);
       },
-      title: '暗色主题',
+      key: 'dark',
+      name: '暗色主题',
     },
   ] as TokenPreviewProps['themes'];
 
