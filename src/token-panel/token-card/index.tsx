@@ -6,8 +6,9 @@ import {
   PlayCircleOutlined,
   TabletOutlined,
   CaretRightOutlined,
+  FontColorsOutlined,
 } from '@ant-design/icons';
-import { Collapse } from '@madccc/antd';
+import { Collapse, Space } from '@madccc/antd';
 import '@madccc/antd/dist/@MadCcc/antd.css';
 import classNames from 'classnames';
 import type { ReactNode } from 'react';
@@ -30,18 +31,18 @@ interface TokenCardProps {
 const IconMap: Record<string, ReactNode> = {
   color: <BgColorsOutlined />,
   space: <GatewayOutlined />,
-  font: <FontSizeOutlined />,
+  font: <FontColorsOutlined />,
   line: <AlignLeftOutlined />,
   screen: <TabletOutlined />,
   motion: <PlayCircleOutlined />,
 };
 export const TextMap: Record<string, string> = {
-  color: 'color 色彩',
-  space: 'space 间距',
-  font: 'font 字',
-  line: 'line 行',
-  screen: 'screen 屏幕',
-  motion: 'motion 动画',
+  color: 'Color 色彩',
+  space: 'Space 间距',
+  font: 'Font 文本',
+  line: 'Line 线',
+  screen: 'Screen 屏幕',
+  motion: 'Motion 动画',
   else: '未分类',
 };
 
@@ -96,9 +97,10 @@ export default ({ typeName, tokenArr }: TokenCardProps) => {
       >
         <Panel
           header={
-            <div>
-              {IconMap[typeName]} {TextMap[typeName]}
-            </div>
+            <Space size="small">
+              <span>{IconMap[typeName]}</span>
+              <span>{TextMap[typeName]}</span>
+            </Space>
           }
           key="1"
         >
