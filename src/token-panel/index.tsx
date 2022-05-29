@@ -11,7 +11,6 @@ import type { Theme } from '../interface';
 const useStyle = makeStyle('AliasTokenPreview', (token) => ({
   '.preview-panel': {
     height: '100%',
-    width: 310,
     padding: token.paddingXS,
     backgroundColor: 'white',
     '.preview-panel-space': {
@@ -24,7 +23,7 @@ const useStyle = makeStyle('AliasTokenPreview', (token) => ({
   },
 }));
 
-interface MutableTheme extends Theme {
+export interface MutableTheme extends Theme {
   onThemeChange?: (newTheme: ThemeConfig) => void;
 }
 

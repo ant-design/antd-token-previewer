@@ -4,8 +4,10 @@ import '@madccc/antd/dist/@MadCcc/antd.css';
 import { Pick } from '../../../icons';
 import React from 'react';
 import { SketchPicker } from 'react-color';
+import type { MutableTheme } from '..';
 import { PreviewContext } from '..';
 import type { TokenName } from '../../utils/classifyToken';
+import type { TokenValue } from '../../interface';
 
 const { Panel } = Collapse;
 
@@ -22,7 +24,7 @@ const AdditionInfo = ({
   visible,
   tokenName,
 }: {
-  info: string;
+  info: string | number;
   visible: boolean;
   tokenName: string;
 }) => {
@@ -35,7 +37,7 @@ const AdditionInfo = ({
           borderRadius: '50%',
           padding: 0,
           boxShadow: `1px 1px lightgrey`,
-          backgroundColor: info,
+          backgroundColor: String(info),
           display: visible ? 'block' : 'none',
         }}
       />
@@ -76,7 +78,8 @@ const ShowUsageButton = ({
       style={{
         color: selected ? '#1890ff' : undefined,
         cursor: 'pointer',
-        fontSize: 18,
+        fontSize: 16,
+        transition: 'color 0.3s',
       }}
       onClick={() => toggleSelected(!selected)}
     />
@@ -105,6 +108,19 @@ export default ({ tokenName }: TokenItemProps) => {
     );
   };
 
+  const handleTokenChange = (theme: MutableTheme, value: TokenValue) => {
+    theme.onThemeChange?.({
+      ...theme.config,
+      override: {
+        ...theme.config.override,
+        derivative: {
+          ...theme.config.override?.derivative,
+          [tokenName]: value,
+        },
+      },
+    });
+  };
+
   return (
     <Collapse
       collapsible="header"
@@ -127,12 +143,12 @@ export default ({ tokenName }: TokenItemProps) => {
           >
             <span style={{ marginInlineEnd: '5px' }}>{tokenName}</span>
             <Space>
-              {themes.map(({ token, title }) => {
+              {themes.map(({ config, key }) => {
                 return (
                   <AdditionInfo
-                    key={title}
+                    key={key}
                     tokenName={tokenName}
-                    info={token?.[tokenName] as unknown as string}
+                    info={config.override?.derivative?.[tokenName] ?? ''}
                     visible={!infoVisible}
                   />
                 );
@@ -159,17 +175,16 @@ export default ({ tokenName }: TokenItemProps) => {
         >
           {themes.map((theme) => {
             return (
-              <div key={theme.title}>
+              <div key={theme.key}>
                 {isColor(tokenName) ? (
                   <Dropdown
                     overlay={
                       <ColorPanel
-                        color={theme.token?.[tokenName] as unknown as string}
+                        color={String(
+                          theme.config.override?.derivative?.[tokenName],
+                        )}
                         onChange={(v: string) => {
-                          theme.onTokenChange({
-                            ...theme.token,
-                            [tokenName]: v,
-                          });
+                          handleTokenChange(theme, v);
                         }}
                       />
                     }
@@ -177,34 +192,34 @@ export default ({ tokenName }: TokenItemProps) => {
                     <Input
                       style={{ width: '100%' }}
                       bordered={false}
-                      addonAfter={theme.title}
-                      value={theme.token?.[tokenName] as unknown as string}
+                      addonAfter={theme.name}
+                      value={String(
+                        theme.config?.override?.derivative?.[tokenName],
+                      )}
                       addonBefore={
                         <AdditionInfo
                           tokenName={tokenName}
-                          info={theme.token?.[tokenName] as unknown as string}
-                          visible={true}
+                          info={String(
+                            theme.config?.override?.derivative?.[tokenName],
+                          )}
+                          visible
                         />
                       }
                       onChange={(e) => {
-                        theme.onTokenChange({
-                          ...theme.token,
-                          [tokenName]: e.target.value,
-                        });
+                        handleTokenChange(theme, e.target.value);
                       }}
                     />
                   </Dropdown>
                 ) : (
                   <Input
                     style={{ width: '100%' }}
-                    addonAfter={theme.title}
+                    addonAfter={theme.name}
                     bordered={false}
-                    value={theme.token?.[tokenName] as unknown as string}
+                    value={String(
+                      theme.config?.override?.derivative?.[tokenName],
+                    )}
                     onChange={(e) => {
-                      theme.onTokenChange({
-                        ...theme.token,
-                        [tokenName]: e.target.value,
-                      });
+                      handleTokenChange(theme, e.target.value);
                     }}
                   />
                 )}
