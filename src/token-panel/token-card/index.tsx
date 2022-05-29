@@ -13,10 +13,11 @@ import classNames from 'classnames';
 import type { ReactNode } from 'react';
 import React from 'react';
 import makeStyle from '../../utils/makeStyle';
+import TokenItem from '../token-item';
+import type { TokenValue } from '../../interface';
 
 import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
 import { Motion, ShapeLine } from '../../../icons';
-import TokenItem from '../token-item';
 
 const { Panel } = Collapse;
 
@@ -24,7 +25,7 @@ interface TokenCardProps {
   typeName: string;
   tokenArr: {
     tokenName: keyof Exclude<ThemeConfig['token'], undefined>;
-    value: string | number;
+    value: TokenValue;
   }[];
 }
 

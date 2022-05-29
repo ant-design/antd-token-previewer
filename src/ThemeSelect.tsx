@@ -1,26 +1,23 @@
 import type { FC, ReactNode } from 'react';
-import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
+import React, { useMemo } from 'react';
 import makeStyle from './utils/makeStyle';
 import classNames from 'classnames';
-import React, { useMemo } from 'react';
 import { Button, Dropdown, Menu } from '@madccc/antd';
-import { PlusOutlined, CloseOutlined } from '@ant-design/icons';
+import { CloseOutlined, PlusOutlined } from '@ant-design/icons';
+import type { Theme } from './interface';
 
-export type Theme = {
-  name: string;
-  key: string;
-  theme: ThemeConfig;
+interface ThemeItem extends Theme {
   icon?: ReactNode;
   closable?: boolean;
   fixed?: boolean;
-};
+}
 
 export type ThemeSelectProps = {
   onEnabledThemeChange: (themes: string[]) => void;
   onShownThemeChange: (themes: string[]) => void;
   enabledThemes: string[];
   shownThemes: string[];
-  themes: Theme[];
+  themes: ThemeItem[];
 };
 
 const useStyle = makeStyle('ThemeSelect', (token) => ({

@@ -3,11 +3,12 @@ import React, { useState } from 'react';
 import { ConfigProvider, Layout } from '@madccc/antd';
 import classNames from 'classnames';
 import ComponentPanel from './component-panel';
-import type { Theme } from './ThemeSelect';
+import type { ThemeSelectProps } from './ThemeSelect';
 import ThemeSelect from './ThemeSelect';
 import useToken from './hooks/useToken';
 import { BellOutlined, SmileOutlined } from '@ant-design/icons';
 import makeStyle from './utils/makeStyle';
+import type { MutableTheme } from './token-panel';
 import TokenPanel from './token-panel';
 
 const { Header, Sider, Content } = Layout;
@@ -29,19 +30,24 @@ const InternalPreviewer: React.FC = () => {
   const [enabledThemes, setEnabledThemes] = useState<string[]>(['default']);
   const [selectedTokens, setSelectedTokens] = useState<string[]>([]);
 
-  const [themes, setThemes] = useState<Theme[]>([
-    { name: '默认主题', key: 'default', theme: { token }, fixed: true },
+  const [themes, setThemes] = useState<ThemeSelectProps['themes']>([
+    {
+      name: '默认主题',
+      key: 'default',
+      config: { override: { derivative: token } },
+      fixed: true,
+    },
     {
       name: '暗色主题',
       key: 'dark',
-      theme: { token },
+      config: { override: { derivative: token } },
       icon: <BellOutlined />,
       closable: true,
     },
     {
       name: '紧凑主题',
       key: 'compact',
-      theme: { token },
+      config: { override: { derivative: token } },
       icon: <SmileOutlined />,
       closable: true,
     },
@@ -78,18 +84,19 @@ const InternalPreviewer: React.FC = () => {
           width={340}
         >
           <TokenPanel
-            themes={enabledThemes.map((item) => {
+            themes={enabledThemes.map<MutableTheme>((item) => {
               const themeEntity = themes.find((theme) => theme.key === item)!;
               return {
-                title: themeEntity.name,
-                token: themeEntity.theme.token,
-                onTokenChange: (tokens) => {
+                name: themeEntity.name,
+                key: themeEntity.key,
+                config: themeEntity.config,
+                onThemeChange: (newTheme) => {
                   setThemes((prev) =>
                     prev.map((theme) =>
                       theme.key === themeEntity.key
                         ? {
-                            ...themeEntity,
-                            theme: { ...themeEntity.theme, token: tokens },
+                            ...theme,
+                            config: newTheme,
                           }
                         : theme,
                     ),
@@ -98,7 +105,7 @@ const InternalPreviewer: React.FC = () => {
               };
             })}
             selectedTokens={selectedTokens}
-            onSelectToken={(tokenName) =>
+            onTokenSelect={(tokenName) =>
               setSelectedTokens((prev) =>
                 prev.includes(tokenName)
                   ? prev.filter((item) => item !== tokenName)

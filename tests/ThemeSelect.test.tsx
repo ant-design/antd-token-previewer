@@ -1,20 +1,20 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import type { Theme } from '../src/ThemeSelect';
 import ThemeSelect from '../src/ThemeSelect';
 import React, { useState } from 'react';
+import type { Theme } from '../src/interface';
 
 const themes: Theme[] = [
-  { name: 'Default Theme', key: 'default', theme: {}, fixed: true },
+  { name: 'Default Theme', key: 'default', config: {}, fixed: true },
   {
     name: 'Dark Theme',
     key: 'dark',
-    theme: {},
+    config: {},
     closable: true,
   },
   {
     name: 'Compact Theme',
     key: 'compact',
-    theme: {},
+    config: {},
     closable: true,
   },
 ];

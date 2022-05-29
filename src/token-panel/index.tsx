@@ -6,11 +6,11 @@ import React, { useMemo, useState } from 'react';
 import { classifyToken, TOKEN_SORTS } from '../utils/classifyToken';
 import makeStyle from '../utils/makeStyle';
 import TokenCard, { TextMap } from './token-card';
+import type { Theme } from '../interface';
 
 const useStyle = makeStyle('AliasTokenPreview', (token) => ({
   '.preview-panel': {
     height: '100%',
-    width: 310,
     padding: token.paddingXS,
     backgroundColor: 'white',
     '.preview-panel-space': {
@@ -23,28 +23,32 @@ const useStyle = makeStyle('AliasTokenPreview', (token) => ({
   },
 }));
 
+export interface MutableTheme extends Theme {
+  onThemeChange?: (newTheme: ThemeConfig) => void;
+}
+
 export interface TokenPreviewProps {
-  themes: {
-    title: string;
-    token: ThemeConfig['token'];
-    onTokenChange: (v: any) => void;
-  }[];
+  themes: MutableTheme[];
   selectedTokens: string[];
-  onSelectToken: (token: string) => void;
+  onTokenSelect: (token: string) => void;
 }
 
 export const PreviewContext = React.createContext<TokenPreviewProps>({
   themes: [],
   selectedTokens: [],
-  onSelectToken: () => {},
+  onTokenSelect: () => {},
 });
 
 export default (props: TokenPreviewProps) => {
   const { themes } = props;
   const [wrapSSR, hashId] = useStyle();
-  const [{ token }] = themes;
+  const [{ config }] = themes;
   const [search, setSearch] = useState<string>('');
-  const groupedToken = useMemo(() => classifyToken(token), [token]);
+  // TODO: Split AliasToken and SeedToken
+  const groupedToken = useMemo(
+    () => classifyToken(config.override?.derivative ?? {}),
+    [config],
+  );
   const displayTokens = useMemo(() => {
     if (!search) {
       return groupedToken;
