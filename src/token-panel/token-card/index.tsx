@@ -53,6 +53,33 @@ const useStyle = makeStyle('TokenCard', (token) => ({
     border: `1px solid ${token.colorBorder}`,
     marginBottom: token.margin,
   },
+
+  // FIXME antd collapse expandIconPosition not work
+  '.token-card .ant-collapse-icon-position-right .ant-collapse-header:not(.ant-collapse-icon-position-left .ant-collapse-header) > div:first-child':
+    {
+      position: 'absolute',
+      right: 8,
+    },
+  '.token-card .ant-input-group-wrapper': {
+    padding: '0 8px',
+  },
+
+  '.token-card .ant-input-group-wrapper .ant-input': {
+    background: 'white',
+    borderRadius: 4,
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+  },
+
+  '.token-card .ant-input-group-addon': {
+    border: 0,
+    color: `rgba(0,0,0, 0.25)`,
+  },
+  '.token-card .ant-input-group >.ant-input:not(:first-child):not(:last-child)':
+    {
+      background: 'white',
+      borderRadius: 4,
+    },
 }));
 
 export default ({ typeName, tokenArr }: TokenCardProps) => {
@@ -65,6 +92,7 @@ export default ({ typeName, tokenArr }: TokenCardProps) => {
         expandIcon={({ isActive }) => (
           <CaretRightOutlined rotate={isActive ? 90 : 0} />
         )}
+        expandIconPosition="right"
       >
         <Panel
           header={

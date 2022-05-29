@@ -148,7 +148,14 @@ export default ({ tokenName }: TokenItemProps) => {
           />
         }
       >
-        <Space direction="vertical">
+        <Space
+          direction="vertical"
+          style={{
+            background: '#fafafa',
+            borderRadius: 4,
+            padding: '8px 0',
+          }}
+        >
           {themes.map((theme) => {
             return (
               <div key={theme.title}>
@@ -167,7 +174,8 @@ export default ({ tokenName }: TokenItemProps) => {
                     }
                   >
                     <Input
-                      style={{ width: 250 }}
+                      style={{ width: '100%' }}
+                      bordered={false}
                       addonAfter={theme.title}
                       value={theme.token?.[tokenName] as unknown as string}
                       addonBefore={
@@ -187,8 +195,9 @@ export default ({ tokenName }: TokenItemProps) => {
                   </Dropdown>
                 ) : (
                   <Input
-                    style={{ width: 250 }}
+                    style={{ width: '100%' }}
                     addonAfter={theme.title}
+                    bordered={false}
                     value={theme.token?.[tokenName] as unknown as string}
                     onChange={(e) => {
                       theme.onTokenChange({

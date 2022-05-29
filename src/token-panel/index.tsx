@@ -10,6 +10,7 @@ import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
 const useStyle = makeStyle('AliasTokenPreview', (token) => ({
   '.preview-panel': {
     height: '100%',
+    width: 330,
     padding: token.paddingXS,
     backgroundColor: 'white',
     '.preview-panel-space': {
