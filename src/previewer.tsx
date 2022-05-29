@@ -1,12 +1,12 @@
 import type { FC } from 'react';
 import React, { useState } from 'react';
-import { ConfigProvider, Layout } from '@madccc/antd';
+import { ConfigProvider, Layout, message } from '@madccc/antd';
 import classNames from 'classnames';
 import ComponentPanel from './component-panel';
 import type { ThemeSelectProps } from './ThemeSelect';
 import ThemeSelect from './ThemeSelect';
 import useToken from './hooks/useToken';
-import { BellOutlined, SmileOutlined } from '@ant-design/icons';
+import { BellOutlined } from '@ant-design/icons';
 import makeStyle from './utils/makeStyle';
 import type { MutableTheme } from './token-panel';
 import TokenPanel from './token-panel';
@@ -26,7 +26,7 @@ const useStyle = makeStyle('layout', (token) => ({
 const InternalPreviewer: React.FC = () => {
   const [wrapSSR, hashId] = useStyle();
   const [token] = useToken();
-  const [shownThemes, setShownThemes] = useState<string[]>(['default', 'dark']);
+  const [shownThemes, setShownThemes] = useState<string[]>(['default']);
   const [enabledThemes, setEnabledThemes] = useState<string[]>(['default']);
   const [selectedTokens, setSelectedTokens] = useState<string[]>([]);
 
@@ -48,7 +48,7 @@ const InternalPreviewer: React.FC = () => {
       name: '紧凑主题',
       key: 'compact',
       config: { override: { derivative: token } },
-      icon: <SmileOutlined />,
+      icon: <BellOutlined />,
       closable: true,
     },
   ]);
@@ -64,7 +64,15 @@ const InternalPreviewer: React.FC = () => {
             enabledThemes={enabledThemes}
             shownThemes={shownThemes}
             themes={themes}
-            onEnabledThemeChange={(value) => setEnabledThemes(value)}
+            onEnabledThemeChange={(value) => {
+              if (enabledThemes.length === 2) {
+                message.warning({
+                  content: '最多同时展示两个主题',
+                });
+                return;
+              }
+              setEnabledThemes(value);
+            }}
             onShownThemeChange={(value) => setShownThemes(value)}
           />
         </div>
