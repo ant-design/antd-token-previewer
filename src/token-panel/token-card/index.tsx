@@ -1,12 +1,11 @@
 import {
   AlignLeftOutlined,
   BgColorsOutlined,
-  FontSizeOutlined,
-  GatewayOutlined,
-  PlayCircleOutlined,
-  TabletOutlined,
   CaretRightOutlined,
+  FileUnknownOutlined,
   FontColorsOutlined,
+  RadiusSettingOutlined,
+  TabletOutlined,
 } from '@ant-design/icons';
 import { Collapse, Space } from '@madccc/antd';
 import '@madccc/antd/dist/@MadCcc/antd.css';
@@ -15,8 +14,9 @@ import type { ReactNode } from 'react';
 import React from 'react';
 import makeStyle from '../../utils/makeStyle';
 
-import TokenItem from '../token-item';
 import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
+import { Motion, ShapeLine } from '../../../icons';
+import TokenItem from '../token-item';
 
 const { Panel } = Collapse;
 
@@ -30,11 +30,13 @@ interface TokenCardProps {
 
 const IconMap: Record<string, ReactNode> = {
   color: <BgColorsOutlined />,
-  space: <GatewayOutlined />,
+  space: <ShapeLine />,
   font: <FontColorsOutlined />,
   line: <AlignLeftOutlined />,
   screen: <TabletOutlined />,
-  motion: <PlayCircleOutlined />,
+  motion: <Motion />,
+  radius: <RadiusSettingOutlined />,
+  others: <FileUnknownOutlined />,
 };
 export const TextMap: Record<string, string> = {
   color: 'Color 色彩',
@@ -43,7 +45,8 @@ export const TextMap: Record<string, string> = {
   line: 'Line 线',
   screen: 'Screen 屏幕',
   motion: 'Motion 动画',
-  else: '未分类',
+  radius: 'Radius 圆角',
+  others: 'Others 未分类',
 };
 
 const useStyle = makeStyle('TokenCard', (token) => ({
@@ -61,25 +64,26 @@ const useStyle = makeStyle('TokenCard', (token) => ({
       position: 'absolute',
       right: 8,
     },
+
   '.token-card .ant-input-group-wrapper': {
     padding: '0 8px',
   },
 
   '.token-card .ant-input-group-wrapper .ant-input': {
     background: 'white',
-    borderRadius: 4,
+    borderRadius: token.radiusLG,
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
   },
 
   '.token-card .ant-input-group-addon': {
     border: 0,
-    color: `rgba(0,0,0, 0.25)`,
+    color: `rgba(0, 0, 0, 0.25)`,
   },
   '.token-card .ant-input-group >.ant-input:not(:first-child):not(:last-child)':
     {
       background: 'white',
-      borderRadius: 4,
+      borderRadius: token.radiusLG,
     },
 }));
 

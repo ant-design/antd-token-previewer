@@ -64,7 +64,7 @@ const useStyle = makeStyle('ComponentCard', (token) => ({
 
       '.component-token-value-color-tag': {
         backgroundColor: token.colorBgComponentSecondary,
-        borderRadius: 4,
+        borderRadius: token.radiusLG,
         padding: '4px 8px',
         minWidth: 140,
       },

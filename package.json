@@ -42,9 +42,9 @@
     "@ant-design/cssinjs": "^0.0.0-alpha.34",
     "@ant-design/icons": "^4.7.0",
     "@babel/runtime": "^7.11.1",
+    "@madccc/antd": "^5.0.0-alpha.2",
     "classnames": "^2.3.1",
-    "react-color": "^2.19.3",
-    "@madccc/antd": "^5.0.0-alpha.2"
+    "react-color": "^2.19.3"
   },
   "devDependencies": {
     "jest": "^28.1.0",

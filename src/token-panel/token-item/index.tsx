@@ -1,7 +1,7 @@
-import { CaretRightOutlined } from '@ant-design/icons';
-import { EyeOutlined } from '@ant-design/icons';
+import { CaretRightOutlined, EyeOutlined } from '@ant-design/icons';
 import { Collapse, Dropdown, Input, Space } from '@madccc/antd';
 import '@madccc/antd/dist/@MadCcc/antd.css';
+import { Pick } from '../../../icons';
 import React from 'react';
 import { SketchPicker } from 'react-color';
 import { PreviewContext } from '..';
@@ -72,7 +72,7 @@ const ShowUsageButton = ({
   toggleSelected: (v: boolean) => void;
 }) => {
   return (
-    <EyeOutlined
+    <Pick
       style={{
         color: selected ? '#1890ff' : undefined,
         cursor: 'pointer',
@@ -122,6 +122,7 @@ export default ({ tokenName }: TokenItemProps) => {
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
+              gap: 8,
             }}
           >
             <span style={{ marginInlineEnd: '5px' }}>{tokenName}</span>
