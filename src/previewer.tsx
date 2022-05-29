@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { ConfigProvider, Layout } from '@madccc/antd';
 import classNames from 'classnames';
 import ComponentPanel from './component-panel';
-import type { Theme } from './ThemeSelect';
+import type { ThemeSelectProps } from './ThemeSelect';
 import ThemeSelect from './ThemeSelect';
 import useToken from './hooks/useToken';
 import { BellOutlined, SmileOutlined } from '@ant-design/icons';
@@ -29,19 +29,19 @@ const InternalPreviewer: React.FC = () => {
   const [enabledThemes, setEnabledThemes] = useState<string[]>(['default']);
   const [selectedTokens, setSelectedTokens] = useState<string[]>([]);
 
-  const [themes, setThemes] = useState<Theme[]>([
-    { name: '默认主题', key: 'default', theme: { token }, fixed: true },
+  const [themes, setThemes] = useState<ThemeSelectProps['themes']>([
+    { name: '默认主题', key: 'default', config: { token }, fixed: true },
     {
       name: '暗色主题',
       key: 'dark',
-      theme: { token },
+      config: { token },
       icon: <BellOutlined />,
       closable: true,
     },
     {
       name: '紧凑主题',
       key: 'compact',
-      theme: { token },
+      config: { token },
       icon: <SmileOutlined />,
       closable: true,
     },
@@ -82,14 +82,14 @@ const InternalPreviewer: React.FC = () => {
               const themeEntity = themes.find((theme) => theme.key === item)!;
               return {
                 title: themeEntity.name,
-                token: themeEntity.theme.token,
+                token: themeEntity.config.token,
                 onTokenChange: (tokens) => {
                   setThemes((prev) =>
                     prev.map((theme) =>
                       theme.key === themeEntity.key
                         ? {
                             ...themeEntity,
-                            theme: { ...themeEntity.theme, token: tokens },
+                            config: { ...themeEntity.config, token: tokens },
                           }
                         : theme,
                     ),
@@ -98,7 +98,7 @@ const InternalPreviewer: React.FC = () => {
               };
             })}
             selectedTokens={selectedTokens}
-            onSelectToken={(tokenName) =>
+            onTokenSelect={(tokenName) =>
               setSelectedTokens((prev) =>
                 prev.includes(tokenName)
                   ? prev.filter((item) => item !== tokenName)

@@ -35,7 +35,7 @@ export default () => {
         <TokenPanel
           themes={tokens}
           selectedTokens={selectedTokens}
-          onSelectToken={(token) =>
+          onTokenSelect={(token) =>
             setSelectedTokens((prev) =>
               prev.includes(token)
                 ? prev.filter((item) => item !== token)

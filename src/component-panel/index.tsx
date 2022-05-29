@@ -7,7 +7,7 @@ import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import ComponentDemos from '../demos';
 import ComponentCard, { getComponentDemoId } from './ComponentCard';
 import { ConfigProvider, Segmented, Switch } from '@madccc/antd';
-import type { Theme } from '../ThemeSelect';
+import type { Theme } from '../interface';
 
 const useStyle = makeStyle('ComponentPanel', (token) => ({
   '.component-panel': {
@@ -259,10 +259,10 @@ const Index: FC<ComponentPanelProps> = ({ themes, selectedTokens }) => {
         <div className="component-demos-wrapper">
           <ConfigProvider
             theme={{
-              ...themes[0].theme,
+              ...themes[0].config,
               override: {
-                ...themes[0].theme.override,
-                derivative: themes[0].theme.token,
+                ...themes[0].config.override,
+                derivative: themes[0].config.token,
               },
             }}
           >
@@ -278,10 +278,10 @@ const Index: FC<ComponentPanelProps> = ({ themes, selectedTokens }) => {
           {themes[1] && (
             <ConfigProvider
               theme={{
-                ...themes[1].theme,
+                ...themes[1].config,
                 override: {
-                  ...themes[1].theme.override,
-                  derivative: themes[1].theme.token,
+                  ...themes[1].config.override,
+                  derivative: themes[1].config.token,
                 },
               }}
             >

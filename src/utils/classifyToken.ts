@@ -1,5 +1,6 @@
 import type { GlobalToken } from '@madccc/antd/lib/_util/theme/interface';
 import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
+import type { TokenValue } from '../interface';
 
 function getTypeOfToken(tokenName: keyof GlobalToken): string {
   if (tokenName.startsWith('color')) {
@@ -26,11 +27,11 @@ function getTypeOfToken(tokenName: keyof GlobalToken): string {
 export type TokenName = keyof Exclude<ThemeConfig['token'], undefined>;
 
 export const classifyToken = (
-  token: ThemeConfig['token'],
-): Record<string, { tokenName: TokenName; value: string | number }[]> => {
+  token: Record<string, TokenValue>,
+): Record<string, { tokenName: TokenName; value: TokenValue }[]> => {
   const groupedToken: Record<
     string,
-    { tokenName: TokenName; value: string | number }[]
+    { tokenName: TokenName; value: TokenValue }[]
   > = {};
   Object.entries(token || {}).forEach(([key, value]) => {
     const type = getTypeOfToken(key as keyof GlobalToken);

@@ -84,7 +84,7 @@ const ShowUsageButton = ({
 };
 
 export default ({ tokenName }: TokenItemProps) => {
-  const { selectedTokens, themes, onSelectToken } =
+  const { selectedTokens, themes, onTokenSelect } =
     React.useContext(PreviewContext);
   const [infoVisible, setInfoVisible] = React.useState(false);
 
@@ -143,7 +143,7 @@ export default ({ tokenName }: TokenItemProps) => {
           <ShowUsageButton
             selected={selectedTokens.includes(tokenName)}
             toggleSelected={() => {
-              onSelectToken(tokenName);
+              onTokenSelect(tokenName);
             }}
           />
         }
