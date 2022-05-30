@@ -6,7 +6,7 @@ import ComponentPanel from './component-panel';
 import type { ThemeSelectProps } from './ThemeSelect';
 import ThemeSelect from './ThemeSelect';
 import useToken from './hooks/useToken';
-import { DarkTheme, CompactTheme, Control } from './icons';
+import { DarkTheme, CompactTheme } from './icons';
 import makeStyle from './utils/makeStyle';
 import type { MutableTheme } from './token-panel';
 import TokenPanel from './token-panel';
