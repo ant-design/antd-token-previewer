@@ -4,7 +4,7 @@ import React, { useRef, useState } from 'react';
 import ComponentTree from './ComponentTree';
 import makeStyle from '../utils/makeStyle';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
-import ComponentDemos from '../demos';
+import ComponentDemos from '../component-demos';
 import ComponentCard, { getComponentDemoId } from './ComponentCard';
 import { ConfigProvider, Segmented, Switch } from '@madccc/antd';
 import type { Theme } from '../interface';
