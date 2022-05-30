@@ -1,6 +1,5 @@
 import { CaretRightOutlined } from '@ant-design/icons';
 import { Collapse, Dropdown, Input, Space } from '@madccc/antd';
-import '@madccc/antd/dist/@MadCcc/antd.css';
 import { Pick } from '../../icons';
 import React from 'react';
 import { SketchPicker } from 'react-color';

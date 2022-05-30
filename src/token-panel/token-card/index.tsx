@@ -8,7 +8,6 @@ import {
   TabletOutlined,
 } from '@ant-design/icons';
 import { Collapse, Space } from '@madccc/antd';
-import '@madccc/antd/dist/@MadCcc/antd.css';
 import classNames from 'classnames';
 import type { ReactNode } from 'react';
 import React from 'react';
