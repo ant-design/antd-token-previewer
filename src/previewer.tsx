@@ -6,7 +6,7 @@ import ComponentPanel from './component-panel';
 import type { ThemeSelectProps } from './ThemeSelect';
 import ThemeSelect from './ThemeSelect';
 import useToken from './hooks/useToken';
-import { BellOutlined } from '@ant-design/icons';
+import { DarkTheme, CompactTheme, Control } from './icons';
 import makeStyle from './utils/makeStyle';
 import type { MutableTheme } from './token-panel';
 import TokenPanel from './token-panel';
@@ -41,14 +41,14 @@ const InternalPreviewer: React.FC = () => {
       name: '暗色主题',
       key: 'dark',
       config: { override: { derivative: token } },
-      icon: <BellOutlined />,
+      icon: <DarkTheme style={{ fontSize: 16 }} />,
       closable: true,
     },
     {
       name: '紧凑主题',
       key: 'compact',
       config: { override: { derivative: token } },
-      icon: <BellOutlined />,
+      icon: <CompactTheme style={{ fontSize: 16 }} />,
       closable: true,
     },
   ]);
