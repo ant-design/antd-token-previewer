@@ -17,7 +17,7 @@ import TokenItem from '../token-item';
 import type { TokenValue } from '../../interface';
 
 import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
-import { Motion, ShapeLine } from '../../../icons';
+import { Motion, ShapeLine } from '../../icons';
 
 const { Panel } = Collapse;
 
