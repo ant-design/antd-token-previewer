@@ -1,8 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ConfigProvider } from '@madccc/antd';
-
-const statistic =
-  ConfigProvider.__V5_STATISTIC_DO_NOT_USE_OR_YOU_WILL_BE_FIRED__;
+import { _statistic_build_ as statistic } from '@madccc/antd/lib/_util/theme/util/statistic';
 
 const useStatistic = (selectedTokens: string[] = []) => {
   const length = Object.keys(statistic).length;
