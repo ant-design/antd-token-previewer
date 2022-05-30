@@ -11,9 +11,8 @@ export default () => (
     onSelect={onSelect}
     defaultValue="@afc163"
   >
-    {' '}
-    <Option value="afc163">afc163</Option>{' '}
-    <Option value="zombieJ">zombieJ</Option>{' '}
-    <Option value="yesmeck">yesmeck</Option>{' '}
+    <Option value="afc163">afc163</Option>
+    <Option value="zombieJ">zombieJ</Option>
+    <Option value="yesmeck">yesmeck</Option>
   </Mentions>
 );

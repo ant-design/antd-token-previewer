@@ -24,22 +24,18 @@ const Demo = () => {
   };
   const actions = [
     <Tooltip key="comment-basic-like" title="Like">
-      {' '}
       <span onClick={like}>
-        {' '}
-        {createElement(action === 'liked' ? LikeFilled : LikeOutlined)}{' '}
-        <span className="comment-action">{likes}</span>{' '}
-      </span>{' '}
+        {createElement(action === 'liked' ? LikeFilled : LikeOutlined)}
+        <span className="comment-action">{likes}</span>
+      </span>
     </Tooltip>,
     <Tooltip key="comment-basic-dislike" title="Dislike">
-      {' '}
       <span onClick={dislike}>
-        {' '}
         {React.createElement(
           action === 'disliked' ? DislikeFilled : DislikeOutlined,
-        )}{' '}
-        <span className="comment-action">{dislikes}</span>{' '}
-      </span>{' '}
+        )}
+        <span className="comment-action">{dislikes}</span>
+      </span>
     </Tooltip>,
     <span key="comment-basic-reply-to">Reply to</span>,
   ];
@@ -52,16 +48,14 @@ const Demo = () => {
       }
       content={
         <p>
-          {' '}
           We supply a series of design principles, practical patterns and high
           quality design resources (Sketch and Axure), to help people create
-          their product prototypes beautifully and efficiently.{' '}
+          their product prototypes beautifully and efficiently.
         </p>
       }
       datetime={
         <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
-          {' '}
-          <span>{moment().fromNow()}</span>{' '}
+          <span>{moment().fromNow()}</span>
         </Tooltip>
       }
     />

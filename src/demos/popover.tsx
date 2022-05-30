@@ -3,13 +3,11 @@ import { Popover, Button } from '@madccc/antd';
 
 const content = (
   <div>
-    {' '}
-    <p>Content</p> <p>Content</p>{' '}
+    <p>Content</p> <p>Content</p>
   </div>
 );
 export default () => (
   <Popover content={content} title="Title">
-    {' '}
-    <Button type="primary">Hover me</Button>{' '}
+    <Button type="primary">Hover me</Button>
   </Popover>
 );

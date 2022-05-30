@@ -15,7 +15,6 @@ export default () => (
     okText="Yes"
     cancelText="No"
   >
-    {' '}
-    <a href="#">Delete</a>{' '}
+    <a href="#">Delete</a>
   </Popconfirm>
 );

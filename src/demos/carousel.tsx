@@ -11,22 +11,17 @@ const contentStyle = {
 };
 export default () => (
   <Carousel>
-    {' '}
     <div>
-      {' '}
-      <h3 style={contentStyle as CSSProperties}>1</h3>{' '}
-    </div>{' '}
+      <h3 style={contentStyle as CSSProperties}>1</h3>
+    </div>
     <div>
-      {' '}
-      <h3 style={contentStyle as CSSProperties}>2</h3>{' '}
-    </div>{' '}
+      <h3 style={contentStyle as CSSProperties}>2</h3>
+    </div>
     <div>
-      {' '}
-      <h3 style={contentStyle as CSSProperties}>3</h3>{' '}
-    </div>{' '}
+      <h3 style={contentStyle as CSSProperties}>3</h3>
+    </div>
     <div>
-      {' '}
-      <h3 style={contentStyle as CSSProperties}>4</h3>{' '}
-    </div>{' '}
+      <h3 style={contentStyle as CSSProperties}>4</h3>
+    </div>
   </Carousel>
 );
