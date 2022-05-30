@@ -1,13 +1,15 @@
 import { CaretRightOutlined } from '@ant-design/icons';
 import { Collapse, Dropdown, Input, Space } from '@madccc/antd';
 import '@madccc/antd/dist/@MadCcc/antd.css';
-import { Pick } from '../../../icons';
+import { Pick } from '../../icons';
 import React from 'react';
 import { SketchPicker } from 'react-color';
 import type { MutableTheme } from '..';
 import { PreviewContext } from '..';
 import type { TokenName } from '../../utils/classifyToken';
 import type { TokenValue } from '../../interface';
+import makeStyle from '../../utils/makeStyle';
+import classNames from 'classnames';
 
 const { Panel } = Collapse;
 
@@ -80,16 +82,28 @@ const ShowUsageButton = ({
         cursor: 'pointer',
         fontSize: 16,
         transition: 'color 0.3s',
+        marginLeft: 12,
+        verticalAlign: 'middle',
       }}
       onClick={() => toggleSelected(!selected)}
     />
   );
 };
 
+const useStyle = makeStyle('TokenItem', () => ({
+  '.previewer-token-item.ant-collapse-item': {
+    '.ant-collapse-header-text': {
+      flex: 1,
+      width: 0,
+    },
+  },
+}));
+
 export default ({ tokenName }: TokenItemProps) => {
   const { selectedTokens, themes, onTokenSelect } =
     React.useContext(PreviewContext);
   const [infoVisible, setInfoVisible] = React.useState(false);
+  const [wrapSSR, hashId] = useStyle();
 
   const ColorPanel = ({
     color,
@@ -121,7 +135,7 @@ export default ({ tokenName }: TokenItemProps) => {
     });
   };
 
-  return (
+  return wrapSSR(
     <Collapse
       collapsible="header"
       ghost
@@ -132,6 +146,7 @@ export default ({ tokenName }: TokenItemProps) => {
     >
       <Panel
         key={tokenName}
+        className={classNames('previewer-token-item', hashId)}
         header={
           <div
             style={{
@@ -141,7 +156,18 @@ export default ({ tokenName }: TokenItemProps) => {
               gap: 8,
             }}
           >
-            <span style={{ marginInlineEnd: '5px' }}>{tokenName}</span>
+            <span
+              title={tokenName}
+              style={{
+                marginInlineEnd: '5px',
+                flex: 1,
+                width: 0,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }}
+            >
+              {tokenName}
+            </span>
             <Space>
               {themes.map(({ config, key }) => {
                 return (
@@ -228,6 +254,6 @@ export default ({ tokenName }: TokenItemProps) => {
           })}
         </Space>
       </Panel>
-    </Collapse>
+    </Collapse>,
   );
 };

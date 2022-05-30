@@ -2,7 +2,7 @@ import type { FC, PropsWithChildren } from 'react';
 import type { TableProps } from '@madccc/antd';
 import { Card, Drawer, Table } from '@madccc/antd';
 import React, { useMemo, useState } from 'react';
-import { ControlOutlined } from '@ant-design/icons';
+import { Control } from '../icons';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
 import useStatistic from '../hooks/useStatistic';
@@ -15,6 +15,8 @@ const useStyle = makeStyle('ComponentCard', (token) => ({
     '.component-token-control-icon': {
       color: token.colorAction,
       transition: `color ${token.motionDurationMid}`,
+      fontSize: token.fontSizeLG,
+      cursor: 'pointer',
 
       '&:hover': {
         color: token.colorActionHover,
@@ -138,7 +140,7 @@ const ComponentCard: FC<ComponentCardProps> = ({
         className={classNames('component-card', hashId)}
         title={component}
         extra={
-          <ControlOutlined
+          <Control
             className="component-token-control-icon"
             onClick={() => setTokenDrawerOpen((prev) => !prev)}
           />
