@@ -65,7 +65,7 @@ const InternalPreviewer: React.FC = () => {
             shownThemes={shownThemes}
             themes={themes}
             onEnabledThemeChange={(value) => {
-              if (enabledThemes.length === 2) {
+              if (value.length > 2) {
                 message.warning({
                   content: '最多同时展示两个主题',
                 });
