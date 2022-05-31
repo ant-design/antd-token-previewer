@@ -1,20 +1,20 @@
 import React from 'react';
-import { Avatar } from '@madccc/antd';
+import { Avatar, Space } from '@madccc/antd';
 import { UserOutlined } from '@ant-design/icons';
 
 export default () => (
-  <>
-    <div>
+  <Space direction="vertical">
+    <Space>
       <Avatar size={64} icon={<UserOutlined />} />
       <Avatar size="large" icon={<UserOutlined />} />
       <Avatar icon={<UserOutlined />} />
       <Avatar size="small" icon={<UserOutlined />} />
-    </div>
-    <div>
+    </Space>
+    <Space>
       <Avatar shape="square" size={64} icon={<UserOutlined />} />
       <Avatar shape="square" size="large" icon={<UserOutlined />} />
       <Avatar shape="square" icon={<UserOutlined />} />
       <Avatar shape="square" size="small" icon={<UserOutlined />} />
-    </div>
-  </>
+    </Space>
+  </Space>
 );

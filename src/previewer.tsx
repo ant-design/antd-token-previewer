@@ -19,7 +19,7 @@ const useStyle = makeStyle('layout', (token) => ({
     display: 'flex',
     alignItems: 'center',
     borderBottom: `${token.lineWidth}px ${token.lineType} ${token.colorSplit}`,
-    paddingLeft: token.paddingLG,
+    paddingInline: `${token.paddingLG}px !important`,
   },
 }));
 

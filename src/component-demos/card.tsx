@@ -1,8 +1,8 @@
 import React from 'react';
-import { Card } from '@madccc/antd';
+import { Card, Space } from '@madccc/antd';
 
 export default () => (
-  <>
+  <Space>
     <Card
       title="Default size card"
       extra={<a href="#">More</a>}
@@ -18,5 +18,5 @@ export default () => (
     >
       <p>Card content</p> <p>Card content</p> <p>Card content</p>
     </Card>
-  </>
+  </Space>
 );
