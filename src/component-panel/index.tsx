@@ -203,6 +203,8 @@ const Index: FC<ComponentPanelProps> = ({ themes, selectedTokens }) => {
   >('middle');
   const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
 
+  console.log(themes[0]);
+
   return wrapSSR(
     <div className={classNames('component-panel', hashId)}>
       <div

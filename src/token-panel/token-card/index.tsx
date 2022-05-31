@@ -56,6 +56,23 @@ const useStyle = makeStyle('TokenCard', (token) => ({
     borderRadius: token.radiusLG,
     border: `1px solid ${token.colorBorder}`,
     marginBottom: token.margin,
+
+    '.ant-input-group-addon, .ant-input-number-group-addon': {
+      border: '0 !important',
+      color: `rgba(0, 0, 0, 0.25) !important`,
+    },
+
+    '.ant-input-group-wrapper, .ant-input-number-group-wrapper': {
+      padding: '0 8px',
+    },
+
+    '.ant-input-group-wrapper .ant-input, .ant-input-number-group-wrapper .ant-input-number':
+      {
+        background: 'white',
+        borderRadius: token.radiusLG,
+        whiteSpace: 'nowrap',
+        textOverflow: 'ellipsis',
+      },
   },
 
   // FIXME antd collapse expandIconPosition not work
@@ -64,22 +81,6 @@ const useStyle = makeStyle('TokenCard', (token) => ({
       position: 'absolute',
       right: 8,
     },
-
-  '.token-card .ant-input-group-wrapper': {
-    padding: '0 8px',
-  },
-
-  '.token-card .ant-input-group-wrapper .ant-input': {
-    background: 'white',
-    borderRadius: token.radiusLG,
-    whiteSpace: 'nowrap',
-    textOverflow: 'ellipsis',
-  },
-
-  '.token-card .ant-input-group-addon': {
-    border: 0,
-    color: `rgba(0, 0, 0, 0.25)`,
-  },
   '.token-card .ant-input-group >.ant-input:not(:first-child):not(:last-child)':
     {
       background: 'white',

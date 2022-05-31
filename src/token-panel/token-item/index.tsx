@@ -1,5 +1,5 @@
 import { CaretRightOutlined } from '@ant-design/icons';
-import { Collapse, Dropdown, Input, Space } from '@madccc/antd';
+import { Collapse, Dropdown, Input, InputNumber, Space } from '@madccc/antd';
 import { Pick } from '../../icons';
 import React from 'react';
 import { SketchPicker } from 'react-color';
@@ -134,6 +134,69 @@ export default ({ tokenName }: TokenItemProps) => {
     });
   };
 
+  const getTokenInput = (theme: MutableTheme) => {
+    if (isColor(tokenName)) {
+      return (
+        <Dropdown
+          overlay={
+            <ColorPanel
+              color={String(theme.config.override?.derivative?.[tokenName])}
+              onChange={(v: string) => {
+                handleTokenChange(theme, v);
+              }}
+            />
+          }
+        >
+          <Input
+            style={{ width: '100%' }}
+            bordered={false}
+            addonAfter={theme.name}
+            value={String(theme.config?.override?.derivative?.[tokenName])}
+            addonBefore={
+              <AdditionInfo
+                tokenName={tokenName}
+                info={String(theme.config?.override?.derivative?.[tokenName])}
+                visible
+              />
+            }
+            onChange={(e) => {
+              handleTokenChange(theme, e.target.value);
+            }}
+          />
+        </Dropdown>
+      );
+    }
+    if (typeof theme.config.override?.derivative?.[tokenName] === 'number') {
+      return (
+        <InputNumber
+          style={{ width: '100%' }}
+          addonAfter={theme.name}
+          bordered={false}
+          value={theme.config?.override?.derivative?.[tokenName]}
+          onChange={(value) => {
+            handleTokenChange(theme, Number(value));
+          }}
+        />
+      );
+    }
+    return (
+      <Input
+        style={{ width: '100%' }}
+        addonAfter={theme.name}
+        bordered={false}
+        value={String(theme.config?.override?.derivative?.[tokenName])}
+        onChange={(e) => {
+          handleTokenChange(
+            theme,
+            typeof theme.config.override?.derivative?.[tokenName] === 'number'
+              ? Number(e.target.value)
+              : e.target.value,
+          );
+        }}
+      />
+    );
+  };
+
   return wrapSSR(
     <Collapse
       collapsible="header"
@@ -199,57 +262,7 @@ export default ({ tokenName }: TokenItemProps) => {
           }}
         >
           {themes.map((theme) => {
-            return (
-              <div key={theme.key}>
-                {isColor(tokenName) ? (
-                  <Dropdown
-                    overlay={
-                      <ColorPanel
-                        color={String(
-                          theme.config.override?.derivative?.[tokenName],
-                        )}
-                        onChange={(v: string) => {
-                          handleTokenChange(theme, v);
-                        }}
-                      />
-                    }
-                  >
-                    <Input
-                      style={{ width: '100%' }}
-                      bordered={false}
-                      addonAfter={theme.name}
-                      value={String(
-                        theme.config?.override?.derivative?.[tokenName],
-                      )}
-                      addonBefore={
-                        <AdditionInfo
-                          tokenName={tokenName}
-                          info={String(
-                            theme.config?.override?.derivative?.[tokenName],
-                          )}
-                          visible
-                        />
-                      }
-                      onChange={(e) => {
-                        handleTokenChange(theme, e.target.value);
-                      }}
-                    />
-                  </Dropdown>
-                ) : (
-                  <Input
-                    style={{ width: '100%' }}
-                    addonAfter={theme.name}
-                    bordered={false}
-                    value={String(
-                      theme.config?.override?.derivative?.[tokenName],
-                    )}
-                    onChange={(e) => {
-                      handleTokenChange(theme, e.target.value);
-                    }}
-                  />
-                )}
-              </div>
-            );
+            return <div key={theme.key}>{getTokenInput(theme)}</div>;
           })}
         </Space>
       </Panel>
