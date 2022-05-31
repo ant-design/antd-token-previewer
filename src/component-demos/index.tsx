@@ -121,6 +121,7 @@ const Components = {
   DrawerDemo,
   MessageDemo,
   ResultDemo,
+  ProgressDemo,
 };
 
 export default Components;

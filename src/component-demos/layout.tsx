@@ -7,7 +7,7 @@ const useStyle = makeStyle('LayoutDemo', () => ({
   '.components-layout-demo-basic': {
     textAlign: 'center',
     '> *': {
-      marginBottom: 16,
+      marginBottom: 32,
     },
   },
   [`.components-layout-demo-basic .ant-layout-header,
