@@ -1,10 +1,10 @@
 import React from 'react';
-import { Select } from '@madccc/antd';
+import { Select, Space } from '@madccc/antd';
 
 const { Option } = Select;
 function handleChange() {}
 export default () => (
-  <>
+  <Space>
     <Select defaultValue="lucy" style={{ width: 120 }} onChange={handleChange}>
       <Option value="jack">Jack</Option> <Option value="lucy">Lucy</Option>
       <Option value="disabled" disabled>
@@ -21,5 +21,5 @@ export default () => (
     <Select defaultValue="lucy" style={{ width: 120 }} allowClear>
       <Option value="lucy">Lucy</Option>
     </Select>
-  </>
+  </Space>
 );

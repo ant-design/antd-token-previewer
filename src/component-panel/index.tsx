@@ -97,7 +97,6 @@ const antdComponents = {
     'Breadcrumb',
     'Dropdown',
     'Menu',
-    'PageHeader',
     'Pagination',
     'Steps',
   ],
@@ -127,7 +126,6 @@ const antdComponents = {
     'Card',
     'Carousel',
     'Collapse',
-    'Comment',
     'Descriptions',
     'Empty',
     'Image',
@@ -154,7 +152,7 @@ const antdComponents = {
     'Skeleton',
     'Spin',
   ],
-  Other: ['Anchor', 'BackTop', 'ConfigProvider'],
+  Other: ['Anchor', 'BackTop'],
 };
 
 type ComponentDemoGroupProps = {

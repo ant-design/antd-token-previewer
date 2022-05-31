@@ -13,7 +13,6 @@ import CarouselDemo from './carousel';
 import CascaderDemo from './cascader';
 import CheckboxDemo from './checkbox';
 import CollapseDemo from './collapse';
-import CommentDemo from './comment';
 import DatePickerDemo from './date-picker';
 import DescriptionsDemo from './descriptions';
 import DropdownDemo from './dropdown';
@@ -29,7 +28,6 @@ import ListDemo from './list';
 import MentionsDemo from './mentions';
 import ModalDemo from './modal';
 import NotificationDemo from './notification';
-import PageHeaderDemo from './page-header';
 import PaginationDemo from './pagination';
 import PopconfirmDemo from './popconfirm';
 import PopoverDemo from './popover';
@@ -52,6 +50,15 @@ import TreeSelectDemo from './tree-select';
 import TreeDemo from './tree';
 import TypographyDemo from './typography';
 import UploadDemo from './upload';
+import DividerDemo from './divider';
+import SpaceDemo from './space';
+import MenuDemo from './menu';
+import StepsDemo from './steps';
+import SegmentedDemo from './segmented';
+import DrawerDemo from './drawer';
+import MessageDemo from './message';
+import ProgressDemo from './progress';
+import ResultDemo from './result';
 
 const Components = {
   AffixDemo,
@@ -69,7 +76,6 @@ const Components = {
   CascaderDemo,
   CheckboxDemo,
   CollapseDemo,
-  CommentDemo,
   DatePickerDemo,
   DescriptionsDemo,
   DropdownDemo,
@@ -85,7 +91,6 @@ const Components = {
   MentionsDemo,
   ModalDemo,
   NotificationDemo,
-  PageHeaderDemo,
   PaginationDemo,
   PopconfirmDemo,
   PopoverDemo,
@@ -108,6 +113,15 @@ const Components = {
   TreeDemo,
   TypographyDemo,
   UploadDemo,
+  DividerDemo,
+  SpaceDemo,
+  MenuDemo,
+  StepsDemo,
+  SegmentedDemo,
+  DrawerDemo,
+  MessageDemo,
+  ResultDemo,
+  ProgressDemo,
 };
 
 export default Components;
