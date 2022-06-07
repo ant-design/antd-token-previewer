@@ -8,9 +8,22 @@ import classNames from 'classnames';
 import useStatistic from '../hooks/useStatistic';
 
 const useStyle = makeStyle('ComponentCard', (token) => ({
-  '.component-card': {
+  '.ant-card.component-card': {
     borderRadius: 6,
     boxShadow: `0 1px 2px 0 rgba(25,15,15,0.07)`,
+
+    '.ant-card-head': {
+      paddingInline: 18,
+
+      '.ant-card-head-title': {
+        paddingBlock: token.paddingSM,
+        fontSize: token.fontSize,
+      },
+    },
+
+    '.ant-card-body': {
+      padding: 18,
+    },
 
     '.component-token-control-icon': {
       color: token.colorAction,

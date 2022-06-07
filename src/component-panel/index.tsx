@@ -34,7 +34,7 @@ const useStyle = makeStyle('ComponentPanel', (token) => ({
         alignItems: 'center',
         borderBottom: `${token.lineWidth}px ${token.lineType} ${token.colorBgContainer}`,
 
-        '> *': {
+        '> *:not(:first-child)': {
           marginLeft: token.margin,
         },
 
@@ -200,8 +200,6 @@ const Index: FC<ComponentPanelProps> = ({ themes, selectedTokens }) => {
     'large' | 'small' | 'middle'
   >('middle');
   const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
-
-  console.log(themes[0]);
 
   return wrapSSR(
     <div className={classNames('component-panel', hashId)}>

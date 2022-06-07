@@ -39,6 +39,7 @@ const useStyle = makeStyle('ThemeSelect', (token) => ({
       alignItems: 'center',
       justifyContent: 'center',
       marginLeft: token.marginSM,
+      boxShadow: 'none',
     },
 
     '.previewer-theme-select-tag': {

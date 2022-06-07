@@ -10,6 +10,7 @@ export const TOKEN_SORTS = [
   'screen',
   'line',
   'motion',
+  'control',
   'others',
 ];
 
@@ -31,6 +32,9 @@ function getTypeOfToken(tokenName: keyof GlobalToken): string {
   }
   if (tokenName.startsWith('radius')) {
     return 'radius';
+  }
+  if (tokenName.startsWith('control')) {
+    return 'control';
   }
   if (tokenName.startsWith('margin') || tokenName.startsWith('padding')) {
     return 'space';

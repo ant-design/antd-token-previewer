@@ -6,6 +6,7 @@ import {
   FontColorsOutlined,
   RadiusSettingOutlined,
   TabletOutlined,
+  ControlOutlined,
 } from '@ant-design/icons';
 import { Collapse, Space } from '@madccc/antd';
 import classNames from 'classnames';
@@ -36,6 +37,7 @@ const IconMap: Record<string, ReactNode> = {
   screen: <TabletOutlined />,
   motion: <Motion />,
   radius: <RadiusSettingOutlined />,
+  control: <ControlOutlined />,
   others: <FileUnknownOutlined />,
 };
 export const TextMap: Record<string, string> = {
@@ -46,6 +48,7 @@ export const TextMap: Record<string, string> = {
   screen: 'Screen 屏幕',
   motion: 'Motion 动画',
   radius: 'Radius 圆角',
+  control: 'Control 控件',
   others: 'Others 未分类',
 };
 
@@ -60,10 +63,26 @@ const useStyle = makeStyle('TokenCard', (token) => ({
     '.ant-input-group-addon, .ant-input-number-group-addon': {
       border: '0 !important',
       color: `rgba(0, 0, 0, 0.25) !important`,
+      fontSize: token.fontSizeSM,
+
+      '&:first-child': {
+        paddingInlineStart: 0,
+      },
+
+      '&:last-child': {
+        paddingInlineEnd: 0,
+      },
     },
 
     '.ant-input-group-wrapper, .ant-input-number-group-wrapper': {
-      padding: '0 8px',
+      padding: 0,
+      height: token.controlHeightSM,
+
+      input: {
+        fontSize: token.fontSizeSM,
+        lineHeight: token.lineHeightSM,
+        padding: `2px ${token.paddingXS}px`,
+      },
     },
 
     '.ant-input-group-wrapper .ant-input, .ant-input-number-group-wrapper .ant-input-number':
@@ -73,6 +92,15 @@ const useStyle = makeStyle('TokenCard', (token) => ({
         whiteSpace: 'nowrap',
         textOverflow: 'ellipsis',
       },
+
+    '.ant-collapse': {
+      '> .ant-collapse-item > .ant-collapse-header': {
+        padding: token.paddingSM,
+      },
+      '.ant-collapse-content-box': {
+        padding: `0 ${token.paddingXS}px !important`,
+      },
+    },
   },
 
   // FIXME antd collapse expandIconPosition not work
@@ -96,7 +124,10 @@ export default ({ typeName, tokenArr }: TokenCardProps) => {
       <Collapse
         ghost
         expandIcon={({ isActive }) => (
-          <CaretRightOutlined rotate={isActive ? 90 : 0} />
+          <CaretRightOutlined
+            rotate={isActive ? 450 : 360}
+            style={{ fontSize: 12 }}
+          />
         )}
         expandIconPosition="right"
       >
