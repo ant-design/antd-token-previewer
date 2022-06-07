@@ -26,7 +26,8 @@ const useStatistic = (
 
   return {
     relatedComponents,
-    getComponentToken: (component: string) => statistic[component]?.component,
+    getComponentToken: (component: string) =>
+      mergedStatistic[component]?.component,
   };
 };
 

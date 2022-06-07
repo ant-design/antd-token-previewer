@@ -6,6 +6,7 @@ import { Control } from '../icons';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
 import useStatistic from '../hooks/useStatistic';
+import ColorPreview from '../ColorPreview';
 
 const useStyle = makeStyle('ComponentCard', (token) => ({
   '.ant-card.component-card': {
@@ -37,7 +38,7 @@ const useStyle = makeStyle('ComponentCard', (token) => ({
     },
   },
 
-  '.component-token-table': {
+  '.ant-table-wrapper.component-token-table': {
     '.ant-table-cell': {
       borderBottom: 'none',
     },
@@ -48,9 +49,9 @@ const useStyle = makeStyle('ComponentCard', (token) => ({
       color: token.colorTextSecondary,
       fontWeight: 'normal',
 
-      // '&:not(:last-child)::before': {
-      //   backgroundColor: 'transparent !important',
-      // }
+      '&:not(:last-child)::before': {
+        backgroundColor: 'transparent !important',
+      },
     },
 
     'td.ant-table-cell:first-child::before': {
@@ -70,11 +71,7 @@ const useStyle = makeStyle('ComponentCard', (token) => ({
       alignItems: 'center',
 
       '.component-token-value-color-preview': {
-        height: 20,
-        width: 20,
-        borderRadius: '50%',
         marginRight: token.marginXS,
-        boxShadow: `0 1px 2px 0 rgba(25,15,15,0.07)`,
       },
 
       '.component-token-value-color-tag': {
@@ -121,9 +118,9 @@ const ComponentCard: FC<ComponentCardProps> = ({
         ) {
           return (
             <div className="component-token-value-color">
-              <div
+              <ColorPreview
+                color={value}
                 className="component-token-value-color-preview"
-                style={{ backgroundColor: value }}
               />
               <div className="component-token-value-color-tag">{value}</div>
             </div>
