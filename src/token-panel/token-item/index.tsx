@@ -9,6 +9,7 @@ import type { TokenName } from '../../utils/classifyToken';
 import type { TokenValue } from '../../interface';
 import makeStyle from '../../utils/makeStyle';
 import classNames from 'classnames';
+import ColorPreview from '../../ColorPreview';
 
 const { Panel } = Collapse;
 
@@ -30,19 +31,7 @@ const AdditionInfo = ({
   tokenName: string;
 }) => {
   if (isColor(tokenName)) {
-    return (
-      <div
-        style={{
-          width: 20,
-          height: 20,
-          borderRadius: '50%',
-          padding: 0,
-          boxShadow: `1px 1px lightgrey`,
-          backgroundColor: String(info),
-          display: visible ? 'block' : 'none',
-        }}
-      />
-    );
+    return <ColorPreview color={String(info)} />;
   }
 
   if (info.toString().length < 6) {
@@ -89,11 +78,20 @@ const ShowUsageButton = ({
   );
 };
 
-const useStyle = makeStyle('TokenItem', () => ({
+const useStyle = makeStyle('TokenItem', (token) => ({
   '.previewer-token-item.ant-collapse-item': {
+    transition: `background-color ${token.motionDurationSlow}`,
+
+    '&:hover': {
+      backgroundColor: token.colorBgComponentSecondary,
+    },
+
     '.ant-collapse-header-text': {
       flex: 1,
       width: 0,
+    },
+    '.ant-collapse-expand-icon': {
+      paddingInlineEnd: `${token.paddingXXS}px !important`,
     },
   },
 }));
@@ -137,39 +135,37 @@ export default ({ tokenName }: TokenItemProps) => {
   const getTokenInput = (theme: MutableTheme) => {
     if (isColor(tokenName)) {
       return (
-        <Dropdown
-          overlay={
-            <ColorPanel
-              color={String(theme.config.override?.derivative?.[tokenName])}
-              onChange={(v: string) => {
-                handleTokenChange(theme, v);
-              }}
-            />
-          }
-        >
-          <Input
-            style={{ width: '100%' }}
-            bordered={false}
-            addonAfter={theme.name}
-            value={String(theme.config?.override?.derivative?.[tokenName])}
-            addonBefore={
-              <AdditionInfo
-                tokenName={tokenName}
-                info={String(theme.config?.override?.derivative?.[tokenName])}
-                visible
+        <Input
+          bordered={false}
+          addonAfter={theme.name}
+          value={String(theme.config?.override?.derivative?.[tokenName])}
+          addonBefore={
+            <Dropdown
+              trigger={['click']}
+              overlay={
+                <ColorPanel
+                  color={String(theme.config.override?.derivative?.[tokenName])}
+                  onChange={(v: string) => {
+                    handleTokenChange(theme, v);
+                  }}
+                />
+              }
+            >
+              <ColorPreview
+                color={String(theme.config?.override?.derivative?.[tokenName])}
+                style={{ cursor: 'pointer' }}
               />
-            }
-            onChange={(e) => {
-              handleTokenChange(theme, e.target.value);
-            }}
-          />
-        </Dropdown>
+            </Dropdown>
+          }
+          onChange={(e) => {
+            handleTokenChange(theme, e.target.value);
+          }}
+        />
       );
     }
     if (typeof theme.config.override?.derivative?.[tokenName] === 'number') {
       return (
         <InputNumber
-          style={{ width: '100%' }}
           addonAfter={theme.name}
           bordered={false}
           value={theme.config?.override?.derivative?.[tokenName]}
@@ -181,7 +177,6 @@ export default ({ tokenName }: TokenItemProps) => {
     }
     return (
       <Input
-        style={{ width: '100%' }}
         addonAfter={theme.name}
         bordered={false}
         value={String(theme.config?.override?.derivative?.[tokenName])}
@@ -203,7 +198,10 @@ export default ({ tokenName }: TokenItemProps) => {
       ghost
       onChange={() => setInfoVisible(!infoVisible)}
       expandIcon={({ isActive }) => (
-        <CaretRightOutlined rotate={isActive ? 90 : 0} />
+        <CaretRightOutlined
+          rotate={isActive ? 90 : 0}
+          style={{ fontSize: 12 }}
+        />
       )}
     >
       <Panel
@@ -213,7 +211,6 @@ export default ({ tokenName }: TokenItemProps) => {
           <div
             style={{
               display: 'flex',
-              justifyContent: 'center',
               alignItems: 'center',
               gap: 8,
             }}
@@ -222,8 +219,6 @@ export default ({ tokenName }: TokenItemProps) => {
               title={tokenName}
               style={{
                 marginInlineEnd: '5px',
-                flex: 1,
-                width: 0,
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
               }}
@@ -258,7 +253,7 @@ export default ({ tokenName }: TokenItemProps) => {
           style={{
             background: '#fafafa',
             borderRadius: 4,
-            padding: '8px 0',
+            padding: 8,
           }}
         >
           {themes.map((theme) => {

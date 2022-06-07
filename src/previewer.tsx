@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import React, { useState } from 'react';
-import { ConfigProvider, Layout, message } from '@madccc/antd';
+import { Button, ConfigProvider, Layout, message } from '@madccc/antd';
 import classNames from 'classnames';
 import ComponentPanel from './component-panel';
 import type { ThemeSelectProps } from './ThemeSelect';
@@ -10,16 +10,38 @@ import { DarkTheme, CompactTheme } from './icons';
 import makeStyle from './utils/makeStyle';
 import type { MutableTheme } from './token-panel';
 import TokenPanel from './token-panel';
+import { RightOutlined } from '@ant-design/icons';
 
 const { Header, Sider, Content } = Layout;
+const SIDER_WIDTH = 340;
 
 const useStyle = makeStyle('layout', (token) => ({
-  '.previewer-header.ant-layout-header': {
-    backgroundColor: 'white !important',
-    display: 'flex',
-    alignItems: 'center',
-    borderBottom: `${token.lineWidth}px ${token.lineType} ${token.colorSplit}`,
-    paddingInline: `${token.paddingLG}px !important`,
+  '.previewer-layout.ant-layout': {
+    '.ant-layout-header': {
+      backgroundColor: 'white !important',
+      display: 'flex',
+      alignItems: 'center',
+      borderBottom: `${token.lineWidth}px ${token.lineType} ${token.colorSplit}`,
+      paddingInline: `${token.paddingLG}px !important`,
+    },
+
+    '.ant-layout-sider': {
+      padding: 0,
+      borderInlineEnd: `${token.lineWidth}px ${token.lineType} ${token.colorSplit}`,
+      transition: `all ${token.motionDurationSlow}`,
+
+      '.ant-btn.previewer-sider-collapse-btn': {
+        position: 'fixed',
+        transform: 'translateX(-50%)',
+        border: 'none',
+        boxShadow:
+          '0 2px 8px -2px rgba(0,0,0,0.05), 0 1px 4px -1px rgba(25,15,15,0.07), 0 0 1px 0 rgba(0,0,0,0.08)',
+
+        '&-collapsed: hover': {
+          transform: 'translateX(0)',
+        },
+      },
+    },
   },
 }));
 
@@ -29,6 +51,7 @@ const InternalPreviewer: React.FC = () => {
   const [shownThemes, setShownThemes] = useState<string[]>(['default']);
   const [enabledThemes, setEnabledThemes] = useState<string[]>(['default']);
   const [selectedTokens, setSelectedTokens] = useState<string[]>([]);
+  const [siderVisible, setSiderVisible] = useState<boolean>(true);
 
   const [themes, setThemes] = useState<ThemeSelectProps['themes']>([
     {
@@ -54,8 +77,8 @@ const InternalPreviewer: React.FC = () => {
   ]);
 
   return wrapSSR(
-    <Layout>
-      <Header className={classNames('previewer-header', hashId)}>
+    <Layout className={classNames('previewer-layout', hashId)}>
+      <Header className="previewer-header">
         <span style={{ fontSize: 16, fontWeight: 'bold', marginRight: 16 }}>
           主题预览器
         </span>
@@ -85,12 +108,32 @@ const InternalPreviewer: React.FC = () => {
         <Sider
           style={{
             backgroundColor: 'white',
-            padding: 16,
             height: '100%',
             overflow: 'auto',
+            flex: `0 0 ${SIDER_WIDTH}px`,
           }}
-          width={340}
+          width={siderVisible ? SIDER_WIDTH : 0}
         >
+          <Button
+            onClick={() => setSiderVisible((prev) => !prev)}
+            className={classNames(
+              'previewer-sider-collapse-btn',
+              !siderVisible && 'previewer-sider-collapse-btn-collapsed',
+            )}
+            size="small"
+            icon={
+              <RightOutlined
+                rotate={siderVisible ? 180 : 0}
+                style={{
+                  fontSize: 12,
+                  color: 'rgba(0, 0, 0, 25%)',
+                  transition: 'transform 0.3s',
+                }}
+              />
+            }
+            shape="circle"
+            style={{ left: siderVisible ? SIDER_WIDTH : 0 }}
+          />
           <TokenPanel
             themes={enabledThemes.map<MutableTheme>((item) => {
               const themeEntity = themes.find((theme) => theme.key === item)!;
