@@ -26,7 +26,7 @@ describe('ComponentPanel', () => {
     const relatedComponents = Object.entries(statistic)
       .filter(([, { global: tokens }]) => tokens.includes('colorPrimary'))
       .map(([name]) => name);
-    const treeLength = Object.entries(antdComponents).reduce(
+    const [treeLength, componentLength] = Object.entries(antdComponents).reduce(
       (result, [, components]) => {
         let typeLen = 0;
         components.forEach((item) => {
@@ -34,12 +34,13 @@ describe('ComponentPanel', () => {
             typeLen += 1;
           }
         });
+        const componentLen = typeLen;
         if (typeLen > 0) {
           typeLen += 1;
         }
-        return result + typeLen;
+        return [result[0] + typeLen, result[1] + componentLen];
       },
-      0,
+      [0, 0],
     );
     expect(
       container
@@ -48,7 +49,7 @@ describe('ComponentPanel', () => {
         ?.querySelectorAll('.ant-tree-treenode').length,
     ).toBe(treeLength);
     expect(container.querySelector('.component-demos')?.children.length).toBe(
-      relatedComponents.length,
+      componentLength,
     );
   });
 });
