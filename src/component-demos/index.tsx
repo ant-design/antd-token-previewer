@@ -1,4 +1,3 @@
-import AffixDemo from './affix';
 import AlertDemo from './alert';
 import AnchorDemo from './anchor';
 import AutoCompleteDemo from './auto-complete';
@@ -23,7 +22,6 @@ import IconDemo from './icon';
 import ImageDemo from './image';
 import InputNumberDemo from './input-number';
 import InputDemo from './input';
-import LayoutDemo from './layout';
 import ListDemo from './list';
 import MentionsDemo from './mentions';
 import ModalDemo from './modal';
@@ -61,7 +59,6 @@ import ProgressDemo from './progress';
 import ResultDemo from './result';
 
 const Components = {
-  AffixDemo,
   AlertDemo,
   AnchorDemo,
   AutoCompleteDemo,
@@ -86,7 +83,6 @@ const Components = {
   ImageDemo,
   InputNumberDemo,
   InputDemo,
-  LayoutDemo,
   ListDemo,
   MentionsDemo,
   ModalDemo,

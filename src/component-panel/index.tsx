@@ -91,15 +91,8 @@ const useStyle = makeStyle('ComponentPanel', (token) => ({
 
 const antdComponents = {
   General: ['Button', 'Icon', 'Typography'],
-  Layout: ['Divider', 'Grid', 'Layout', 'Space'],
-  Navigation: [
-    'Affix',
-    'Breadcrumb',
-    'Dropdown',
-    'Menu',
-    'Pagination',
-    'Steps',
-  ],
+  Layout: ['Divider', 'Grid', 'Space'],
+  Navigation: ['Breadcrumb', 'Dropdown', 'Menu', 'Pagination', 'Steps'],
   'Date Entry': [
     'AutoComplete',
     'Cascader',
