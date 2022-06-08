@@ -4,6 +4,7 @@ import { Badge, Segmented, Tree } from '@madccc/antd';
 import classNames from 'classnames';
 import useStatistic from '../hooks/useStatistic';
 import makeStyle from '../utils/makeStyle';
+import useMergedState from 'rc-util/lib/hooks/useMergedState';
 
 const useStyle = makeStyle('ComponentTree', (token) => ({
   '.component-tree-wrapper': {
@@ -50,17 +51,21 @@ export type ComponentTreeProps = {
   onSelect?: (component: string) => void;
   components: Record<string, string[]>;
   selectedTokens?: string[];
+  filterMode?: 'filter' | 'highlight';
+  onFilterModeChange?: (mode: 'filter' | 'highlight') => void;
 };
 
 const ComponentTree: FC<ComponentTreeProps> = ({
   onSelect,
   components,
   selectedTokens,
+  filterMode: customFilterMode = 'filter',
+  onFilterModeChange,
 }) => {
   const [wrapSSR, hashId] = useStyle();
   const { relatedComponents } = useStatistic(selectedTokens);
-  const [filterMode, setFilterMode] = useState<'filter' | 'highlight'>(
-    'filter',
+  const [filterMode, setFilterMode] = useMergedState<'filter' | 'highlight'>(
+    customFilterMode,
   );
 
   const treeData = useMemo(
@@ -118,7 +123,10 @@ const ComponentTree: FC<ComponentTreeProps> = ({
           className="component-tree-filter-segmented"
           size="small"
           value={filterMode}
-          onChange={(value) => setFilterMode(value as any)}
+          onChange={(value) => {
+            onFilterModeChange?.(value as any);
+            setFilterMode(value as any);
+          }}
           options={[
             { label: '过滤', value: 'filter' },
             { label: '高亮', value: 'highlight' },
