@@ -10,6 +10,7 @@ import type { TokenValue } from '../../interface';
 import makeStyle from '../../utils/makeStyle';
 import classNames from 'classnames';
 import ColorPreview from '../../ColorPreview';
+import useStatistic from '../../hooks/useStatistic';
 
 const { Panel } = Collapse;
 
@@ -88,7 +89,7 @@ const useStyle = makeStyle('TokenItem', (token) => ({
     transition: `background-color ${token.motionDurationSlow}`,
 
     '&:not(.ant-collapse-item-active):hover': {
-      backgroundColor: token.colorBgComponentSecondary,
+      backgroundColor: token.controlItemBgHover,
     },
 
     '.ant-collapse-header-text': {
@@ -98,6 +99,15 @@ const useStyle = makeStyle('TokenItem', (token) => ({
     '.ant-collapse-expand-icon': {
       paddingInlineEnd: `${token.paddingXXS}px !important`,
     },
+    '.previewer-token-count': {
+      height: token.controlHeightXS,
+      fontSize: token.fontSizeSM,
+      lineHeight: `${token.controlHeightXS}px`,
+      borderRadius: 100,
+      paddingInline: token.paddingXXS * 1.5,
+      color: token.colorTextSecondary,
+      backgroundColor: token.colorBgComponentSecondary,
+    },
   },
 }));
 
@@ -106,6 +116,7 @@ export default ({ tokenName }: TokenItemProps) => {
     React.useContext(PreviewContext);
   const [infoVisible, setInfoVisible] = React.useState(false);
   const [wrapSSR, hashId] = useStyle();
+  const { getRelatedComponents } = useStatistic();
 
   const ColorPanel = ({
     color,
@@ -229,6 +240,9 @@ export default ({ tokenName }: TokenItemProps) => {
               }}
             >
               {tokenName}
+            </span>
+            <span className="previewer-token-count">
+              {getRelatedComponents(tokenName).length}
             </span>
             <Space>
               {themes.map(({ config, key }) => {
