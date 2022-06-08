@@ -2,6 +2,7 @@ const base = require('@umijs/fabric/dist/eslint');
 
 module.exports = {
   ...base,
+  ignorePatterns: ['src/icons/*'],
   rules: {
     ...base.rules,
     'no-template-curly-in-string': 0,

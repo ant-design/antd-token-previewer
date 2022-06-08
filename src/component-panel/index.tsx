@@ -8,6 +8,7 @@ import ComponentDemos from '../component-demos';
 import ComponentCard, { getComponentDemoId } from './ComponentCard';
 import { ConfigProvider, Segmented, Switch } from '@madccc/antd';
 import type { Theme } from '../interface';
+import useStatistic from '../hooks/useStatistic';
 
 const useStyle = makeStyle('ComponentPanel', (token) => ({
   '.component-panel': {
@@ -89,7 +90,7 @@ const useStyle = makeStyle('ComponentPanel', (token) => ({
   },
 }));
 
-const antdComponents = {
+export const antdComponents = {
   General: ['Button', 'Icon', 'Typography'],
   Layout: ['Divider', 'Grid', 'Space'],
   Navigation: ['Breadcrumb', 'Dropdown', 'Menu', 'Pagination', 'Steps'],
@@ -151,6 +152,7 @@ const antdComponents = {
 type ComponentDemoGroupProps = {
   theme: string;
   components: Record<string, string[]>;
+  activeComponents?: string[];
   size?: 'small' | 'middle' | 'large';
   disabled?: boolean;
 };
@@ -160,11 +162,18 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
   components,
   size,
   disabled,
+  activeComponents,
 }) => {
   return (
     <>
       {Object.entries(components)
         .reduce<string[]>((result, [, group]) => result.concat(group), [])
+        .filter(
+          (item) =>
+            !activeComponents ||
+            activeComponents.length === 0 ||
+            activeComponents.includes(item),
+        )
         .map((item) => {
           const Demo = (ComponentDemos as any)[`${item}Demo`];
           return Demo ? (
@@ -193,6 +202,11 @@ const Index: FC<ComponentPanelProps> = ({ themes, selectedTokens }) => {
     'large' | 'small' | 'middle'
   >('middle');
   const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
+  const [filterMode, setFilterMode] = useState<'filter' | 'highlight'>(
+    'filter',
+  );
+
+  const { relatedComponents } = useStatistic(selectedTokens);
 
   return wrapSSR(
     <div className={classNames('component-panel', hashId)}>
@@ -202,6 +216,8 @@ const Index: FC<ComponentPanelProps> = ({ themes, selectedTokens }) => {
         })}
       >
         <ComponentTree
+          filterMode={filterMode}
+          onFilterModeChange={(value) => setFilterMode(value)}
           selectedTokens={selectedTokens}
           components={antdComponents}
           onSelect={(component) => {
@@ -255,6 +271,7 @@ const Index: FC<ComponentPanelProps> = ({ themes, selectedTokens }) => {
                 components={antdComponents}
                 size={componentSize}
                 disabled={componentDisabled}
+                activeComponents={relatedComponents}
               />
             </div>
           </ConfigProvider>
@@ -266,6 +283,7 @@ const Index: FC<ComponentPanelProps> = ({ themes, selectedTokens }) => {
                   components={antdComponents}
                   size={componentSize}
                   disabled={componentDisabled}
+                  activeComponents={relatedComponents}
                 />
               </div>
             </ConfigProvider>
