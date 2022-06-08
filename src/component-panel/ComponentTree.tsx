@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import type { FC } from 'react';
 import { Badge, Segmented, Tree } from '@madccc/antd';
 import classNames from 'classnames';
@@ -112,7 +112,7 @@ const ComponentTree: FC<ComponentTreeProps> = ({
               key: item,
             })),
         })),
-    [relatedComponents, filterMode],
+    [components, relatedComponents, filterMode],
   );
 
   return wrapSSR(
