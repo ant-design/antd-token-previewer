@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import type { FC } from 'react';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ComponentTree from './ComponentTree';
 import makeStyle from '../utils/makeStyle';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
@@ -207,6 +207,15 @@ const Index: FC<ComponentPanelProps> = ({ themes, selectedTokens }) => {
   );
 
   const { relatedComponents } = useStatistic(selectedTokens);
+
+  // const tokenNumberRef = useRef<number>(selectedTokens?.length || 0);
+
+  useEffect(() => {
+    // if ((selectedTokens?.length || 0) > tokenNumberRef.current) {
+    setShowSide(true);
+    // }
+    // tokenNumberRef.current = selectedTokens?.length || 0;
+  }, [selectedTokens]);
 
   return wrapSSR(
     <div className={classNames('component-panel', hashId)}>
