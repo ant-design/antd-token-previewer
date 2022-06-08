@@ -82,7 +82,7 @@ const useStyle = makeStyle('TokenItem', (token) => ({
   '.previewer-token-item.ant-collapse-item': {
     transition: `background-color ${token.motionDurationSlow}`,
 
-    '&:hover': {
+    '&:not(.ant-collapse-item-active):hover': {
       backgroundColor: token.colorBgComponentSecondary,
     },
 
@@ -200,7 +200,7 @@ export default ({ tokenName }: TokenItemProps) => {
       expandIcon={({ isActive }) => (
         <CaretRightOutlined
           rotate={isActive ? 90 : 0}
-          style={{ fontSize: 12 }}
+          style={{ fontSize: 12, cursor: 'pointer' }}
         />
       )}
     >
@@ -254,6 +254,7 @@ export default ({ tokenName }: TokenItemProps) => {
             background: '#fafafa',
             borderRadius: 4,
             padding: 8,
+            width: '100%',
           }}
         >
           {themes.map((theme) => {

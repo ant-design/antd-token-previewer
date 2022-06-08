@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import type { FC } from 'react';
 import { Badge, Segmented, Tree } from '@madccc/antd';
 import classNames from 'classnames';
@@ -67,6 +67,7 @@ const ComponentTree: FC<ComponentTreeProps> = ({
   const [filterMode, setFilterMode] = useMergedState<'filter' | 'highlight'>(
     customFilterMode,
   );
+  const treeRef = useRef<HTMLDivElement>(null);
 
   const treeData = useMemo(
     () =>
@@ -115,6 +116,20 @@ const ComponentTree: FC<ComponentTreeProps> = ({
     [components, relatedComponents, filterMode],
   );
 
+  useEffect(() => {
+    if (filterMode === 'highlight') {
+      setTimeout(() => {
+        treeRef.current
+          ?.getElementsByClassName('component-tree-item-active')[0]
+          ?.scrollIntoView({
+            block: 'start',
+            inline: 'nearest',
+            behavior: 'smooth',
+          });
+      }, 100);
+    }
+  }, [selectedTokens, filterMode]);
+
   return wrapSSR(
     <div className={classNames('component-tree-wrapper', hashId)}>
       <div className="component-tree-head">
@@ -133,7 +148,7 @@ const ComponentTree: FC<ComponentTreeProps> = ({
           ]}
         />
       </div>
-      <div style={{ overflow: 'auto', flex: 1 }}>
+      <div ref={treeRef} style={{ overflow: 'auto', flex: 1 }}>
         <Tree
           showIcon
           defaultExpandAll

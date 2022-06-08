@@ -27,9 +27,10 @@ interface TokenCardProps {
     tokenName: keyof Exclude<ThemeConfig['token'], undefined>;
     value: TokenValue;
   }[];
+  keyword?: string;
 }
 
-const IconMap: Record<string, ReactNode> = {
+export const IconMap: Record<string, ReactNode> = {
   color: <BgColorsOutlined />,
   space: <ShapeLine />,
   font: <FontColorsOutlined />,
@@ -116,7 +117,7 @@ const useStyle = makeStyle('TokenCard', (token) => ({
     },
 }));
 
-export default ({ typeName, tokenArr }: TokenCardProps) => {
+export default ({ typeName, tokenArr, keyword }: TokenCardProps) => {
   const [wrapSSR, hashId] = useStyle();
 
   return wrapSSR(
@@ -140,9 +141,15 @@ export default ({ typeName, tokenArr }: TokenCardProps) => {
           }
           key="1"
         >
-          {tokenArr.map((item) => (
-            <TokenItem tokenName={item.tokenName} key={item.tokenName} />
-          ))}
+          {tokenArr
+            .filter(
+              (item) =>
+                !keyword ||
+                item.tokenName.toLowerCase().includes(keyword.toLowerCase()),
+            )
+            .map((item) => (
+              <TokenItem tokenName={item.tokenName} key={item.tokenName} />
+            ))}
         </Panel>
       </Collapse>
     </div>,
