@@ -30,8 +30,7 @@ const useStatistic = (
       Object.entries(mergedStatistic)
         .filter(([, tokens]) => tokens.global.includes(token))
         .map(([component]) => component),
-    getComponentToken: (component: string) =>
-      mergedStatistic[component]?.component,
+    getComponentToken: (component: string) => mergedStatistic[component],
   };
 };
 

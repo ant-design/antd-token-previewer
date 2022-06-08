@@ -150,7 +150,7 @@ export const antdComponents = {
 };
 
 type ComponentDemoGroupProps = {
-  theme: string;
+  theme: Theme;
   components: Record<string, string[]>;
   activeComponents?: string[];
   size?: 'small' | 'middle' | 'large';
@@ -276,7 +276,7 @@ const Index: FC<ComponentPanelProps> = ({ themes, selectedTokens }) => {
           <ConfigProvider theme={themes[0].config}>
             <div className="component-demos" ref={demosRef}>
               <ComponentDemoGroup
-                theme={themes[0].key}
+                theme={themes[0]}
                 components={antdComponents}
                 size={componentSize}
                 disabled={componentDisabled}
@@ -288,7 +288,7 @@ const Index: FC<ComponentPanelProps> = ({ themes, selectedTokens }) => {
             <ConfigProvider theme={themes[1].config}>
               <div className="component-demos" ref={demosRef2}>
                 <ComponentDemoGroup
-                  theme={themes[1].key}
+                  theme={themes[1]}
                   components={antdComponents}
                   size={componentSize}
                   disabled={componentDisabled}
