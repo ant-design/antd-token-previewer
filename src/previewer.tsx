@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button, ConfigProvider, Layout, message } from '@madccc/antd';
 import classNames from 'classnames';
 import ComponentPanel from './component-panel';
@@ -29,18 +29,31 @@ const useStyle = makeStyle('layout', (token) => ({
       padding: 0,
       borderInlineEnd: `${token.lineWidth}px ${token.lineType} ${token.colorSplit}`,
       transition: `all ${token.motionDurationSlow}`,
+      overflow: 'visible !important',
 
       '.ant-btn.previewer-sider-collapse-btn': {
-        position: 'fixed',
-        transform: 'translateX(-50%)',
+        position: 'absolute',
+        transform: 'translateX(50%)',
         border: 'none',
         boxShadow:
           '0 2px 8px -2px rgba(0,0,0,0.05), 0 1px 4px -1px rgba(25,15,15,0.07), 0 0 1px 0 rgba(0,0,0,0.08)',
         marginTop: token.margin,
+        right: 0,
 
         '&-collapsed: hover': {
-          transform: 'translateX(0)',
+          transform: 'translateX(100%)',
         },
+      },
+
+      '.previewer-sider-handler': {
+        position: 'absolute',
+        right: 0,
+        height: '100%',
+        width: 8,
+        transform: 'translateX(50%)',
+        cursor: 'ew-resize',
+        opacity: 0,
+        backgroundColor: 'transparent',
       },
     },
   },
@@ -53,6 +66,9 @@ const InternalPreviewer: React.FC = () => {
   const [enabledThemes, setEnabledThemes] = useState<string[]>(['default']);
   const [selectedTokens, setSelectedTokens] = useState<string[]>([]);
   const [siderVisible, setSiderVisible] = useState<boolean>(true);
+  const [siderWidth, setSiderWidth] = useState<number>(SIDER_WIDTH);
+
+  const dragRef = useRef(false);
 
   const [themes, setThemes] = useState<ThemeSelectProps['themes']>([
     {
@@ -76,6 +92,27 @@ const InternalPreviewer: React.FC = () => {
       closable: true,
     },
   ]);
+
+  useEffect(() => {
+    const handleMouseUp = () => {
+      dragRef.current = false;
+      document.body.style.cursor = '';
+    };
+    const handleMouseMove = (e: MouseEvent) => {
+      if (dragRef.current) {
+        e.preventDefault();
+        setSiderWidth(e.clientX > SIDER_WIDTH ? e.clientX : SIDER_WIDTH);
+      }
+    };
+
+    window.addEventListener('mouseup', handleMouseUp);
+    window.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
 
   return wrapSSR(
     <Layout className={classNames('previewer-layout', hashId)}>
@@ -111,10 +148,17 @@ const InternalPreviewer: React.FC = () => {
             backgroundColor: 'white',
             height: '100%',
             overflow: 'auto',
-            flex: `0 0 ${SIDER_WIDTH}px`,
+            flex: `0 0 ${siderWidth}px`,
           }}
-          width={siderVisible ? SIDER_WIDTH : 0}
+          width={siderVisible ? siderWidth : 0}
         >
+          <div
+            className="previewer-sider-handler"
+            onMouseDown={() => {
+              dragRef.current = true;
+              document.body.style.cursor = 'ew-resize';
+            }}
+          />
           <Button
             onClick={() => setSiderVisible((prev) => !prev)}
             className={classNames(
@@ -133,7 +177,6 @@ const InternalPreviewer: React.FC = () => {
               />
             }
             shape="circle"
-            style={{ left: siderVisible ? SIDER_WIDTH : 0 }}
           />
           <TokenPanel
             themes={enabledThemes.map<MutableTheme>((item) => {
