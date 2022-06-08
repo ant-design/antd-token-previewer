@@ -3,6 +3,7 @@ import { Dropdown, Input, Menu, Tag } from '@madccc/antd';
 import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
 import classNames from 'classnames';
 import React, { useMemo, useState } from 'react';
+import type { TokenType } from '../utils/classifyToken';
 import { classifyToken, TOKEN_SORTS } from '../utils/classifyToken';
 import makeStyle from '../utils/makeStyle';
 import TokenCard, { IconMap, TextMap } from './token-card';
@@ -11,12 +12,17 @@ import type { Theme } from '../interface';
 const useStyle = makeStyle('AliasTokenPreview', (token) => ({
   '.preview-panel-wrapper': {
     overflow: 'auto',
+    height: '100%',
     '.preview-panel': {
       height: '100%',
       minWidth: 300,
       backgroundColor: 'white',
       display: 'flex',
       flexDirection: 'column',
+      '.preview-panel-subtitle': {
+        fontSize: token.fontSizeSM,
+        color: token.colorTextSecondary,
+      },
       '.preview-panel-space': {
         marginBottom: 20,
         paddingInlineStart: token.paddingXS,
@@ -59,7 +65,7 @@ export default (props: TokenPreviewProps) => {
   const [wrapSSR, hashId] = useStyle();
   const [{ config }] = themes;
   const [search, setSearch] = useState<string>('');
-  const [filterTypes, setFilterTypes] = useState<string[]>([]);
+  const [filterTypes, setFilterTypes] = useState<TokenType[]>([]);
 
   const { selectedTokens, onTokenSelect } = props;
 
@@ -68,32 +74,6 @@ export default (props: TokenPreviewProps) => {
     () => classifyToken(config.override?.derivative ?? {}),
     [config],
   );
-  // const displayTokens = useMemo(() => {
-  //   if (!search) {
-  //     return groupedToken;
-  //   }
-  //   return Object.entries(groupedToken).reduce(
-  //     (acc, [tokenType, tokenList]) => {
-  //       // name match
-  //       if (tokenType.includes(search) || TextMap[tokenType].includes(search)) {
-  //         acc[tokenType] = tokenList;
-  //         return acc;
-  //       }
-  //
-  //       // value match
-  //       const targetTokens = tokenList.filter(
-  //         ({ tokenName, value }) =>
-  //           tokenName.includes(search) || `${value}`?.includes(search),
-  //       );
-  //       if (targetTokens.length > 0) {
-  //         acc[tokenType] = acc[tokenType] || [];
-  //         acc[tokenType].push(...targetTokens);
-  //       }
-  //       return acc;
-  //     },
-  //     {} as typeof groupedToken,
-  //   );
-  // }, [groupedToken, search]);
 
   return wrapSSR(
     <PreviewContext.Provider value={props}>
@@ -150,33 +130,41 @@ export default (props: TokenPreviewProps) => {
                   >
                     <SearchOutlined style={{ marginRight: 8 }} />
                   </Dropdown>
-                  {filterTypes.map((item) => (
-                    <Tag
-                      color="#108ee9"
-                      key={item}
-                      closable
-                      onClose={() =>
-                        setFilterTypes((prev) =>
-                          prev.filter((type) => type !== item),
-                        )
-                      }
-                    >
-                      {item}
-                    </Tag>
-                  ))}
                 </>
               }
               className={classNames('preview-panel-search', hashId)}
               placeholder="搜索 Token / 色值 / 文本 / 圆角等"
             />
+            {filterTypes.length > 0 && (
+              <div style={{ marginTop: 8 }}>
+                <span className="preview-panel-subtitle">显示分组：</span>
+                {filterTypes.map((item) => (
+                  <Tag
+                    color="rgba(0, 0, 0, 0.25)"
+                    key={item}
+                    closable
+                    onClose={() =>
+                      setFilterTypes((prev) =>
+                        prev.filter((type) => type !== item),
+                      )
+                    }
+                    style={{ marginBlock: 2 }}
+                  >
+                    {TextMap[item]}
+                  </Tag>
+                ))}
+              </div>
+            )}
             {selectedTokens.length > 0 && (
-              <div style={{ marginTop: 16 }}>
+              <div style={{ marginTop: 8 }}>
+                <span className="preview-panel-subtitle">已选中 token：</span>
                 {selectedTokens.map((token) => (
                   <Tag
+                    color="rgba(0, 0, 0, 0.25)"
                     key={token}
-                    style={{ color: '#000' }}
                     closable
                     onClose={() => onTokenSelect(token)}
+                    style={{ marginBlock: 2 }}
                   >
                     {token}
                   </Tag>

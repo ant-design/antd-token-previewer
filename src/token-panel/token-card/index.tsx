@@ -7,6 +7,9 @@ import {
   RadiusSettingOutlined,
   TabletOutlined,
   ControlOutlined,
+  BorderHorizontalOutlined,
+  FontSizeOutlined,
+  FormatPainterOutlined,
 } from '@ant-design/icons';
 import { Collapse, Space } from '@madccc/antd';
 import classNames from 'classnames';
@@ -18,11 +21,12 @@ import type { TokenValue } from '../../interface';
 
 import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
 import { Motion, ShapeLine } from '../../icons';
+import type { TokenType } from '../../utils/classifyToken';
 
 const { Panel } = Collapse;
 
 interface TokenCardProps {
-  typeName: string;
+  typeName: TokenType;
   tokenArr: {
     tokenName: keyof Exclude<ThemeConfig['token'], undefined>;
     value: TokenValue;
@@ -30,10 +34,13 @@ interface TokenCardProps {
   keyword?: string;
 }
 
-export const IconMap: Record<string, ReactNode> = {
-  color: <BgColorsOutlined />,
+export const IconMap: Record<TokenType, ReactNode> = {
+  colorText: <FontColorsOutlined />,
+  colorBg: <BgColorsOutlined />,
+  colorSplit: <BorderHorizontalOutlined />,
+  colorCommon: <FormatPainterOutlined />,
   space: <ShapeLine />,
-  font: <FontColorsOutlined />,
+  font: <FontSizeOutlined />,
   line: <AlignLeftOutlined />,
   screen: <TabletOutlined />,
   motion: <Motion />,
@@ -41,8 +48,11 @@ export const IconMap: Record<string, ReactNode> = {
   control: <ControlOutlined />,
   others: <FileUnknownOutlined />,
 };
-export const TextMap: Record<string, string> = {
-  color: 'Color 色彩',
+export const TextMap: Record<TokenType, string> = {
+  colorText: 'Text Color 文本颜色',
+  colorBg: 'Background Color 背景颜色',
+  colorSplit: 'Split Color 分割线颜色',
+  colorCommon: 'Common Color 通用颜色',
   space: 'Space 间距',
   font: 'Font 文本',
   line: 'Line 线',
@@ -83,6 +93,7 @@ const useStyle = makeStyle('TokenCard', (token) => ({
         fontSize: token.fontSizeSM,
         lineHeight: token.lineHeightSM,
         padding: `2px ${token.paddingXS}px`,
+        height: token.controlHeightSM,
       },
     },
 
