@@ -2,8 +2,15 @@ import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
 import type { TokenValue } from '../interface';
 import type { GlobalToken } from '@madccc/antd/lib/_util/theme/interface';
 
-export const TOKEN_SORTS = [
-  'color',
+function defineTokenType<T extends string>(types: T[]) {
+  return types;
+}
+
+export const TOKEN_SORTS = defineTokenType([
+  'colorText',
+  'colorBg',
+  'colorSplit',
+  'colorCommon',
   'font',
   'radius',
   'space',
@@ -12,11 +19,34 @@ export const TOKEN_SORTS = [
   'motion',
   'control',
   'others',
-];
+]);
 
-function getTypeOfToken(tokenName: keyof GlobalToken): string {
+export type TokenType = typeof TOKEN_SORTS[number];
+
+function getTypeOfToken(tokenName: keyof GlobalToken): TokenType {
   if (tokenName.startsWith('color')) {
-    return 'color';
+    if (
+      tokenName.startsWith('colorLink') ||
+      tokenName.startsWith('colorText') ||
+      tokenName.startsWith('colorIcon') ||
+      tokenName.startsWith('colorPlaceholder') ||
+      tokenName.startsWith('colorAction')
+    ) {
+      return 'colorText';
+    }
+    if (
+      tokenName.startsWith('colorBg') ||
+      tokenName.startsWith('colorPopupBg')
+    ) {
+      return 'colorBg';
+    }
+    if (
+      tokenName.startsWith('colorBorder') ||
+      tokenName.startsWith('colorSplit')
+    ) {
+      return 'colorSplit';
+    }
+    return 'colorCommon';
   }
   if (tokenName.startsWith('font')) {
     return 'font';

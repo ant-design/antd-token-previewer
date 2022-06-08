@@ -31,7 +31,12 @@ const AdditionInfo = ({
   tokenName: string;
 }) => {
   if (isColor(tokenName)) {
-    return <ColorPreview color={String(info)} />;
+    return (
+      <ColorPreview
+        color={String(info)}
+        style={{ display: visible ? 'block' : 'none' }}
+      />
+    );
   }
 
   if (info.toString().length < 6) {
