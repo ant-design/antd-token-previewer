@@ -90,7 +90,7 @@ const useStyle = makeStyle('ComponentPanel', (token) => ({
   },
 }));
 
-const antdComponents = {
+export const antdComponents = {
   General: ['Button', 'Icon', 'Typography'],
   Layout: ['Divider', 'Grid', 'Layout', 'Space'],
   Navigation: [
