@@ -14,7 +14,7 @@ describe('ComponentPanel', () => {
       {
         name: '默认主题',
         key: 'default',
-        config: { override: { derivative: token } },
+        config: { override: { alias: token } },
       },
     ];
 

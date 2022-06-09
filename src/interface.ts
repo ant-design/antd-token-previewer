@@ -7,5 +7,5 @@ export type Theme = {
   config: ThemeConfig;
 };
 
-export type AliasToken = Exclude<OverrideToken['derivative'], undefined>;
+export type AliasToken = Exclude<OverrideToken['alias'], undefined>;
 export type TokenValue = string | number | string[] | number[];
