@@ -4,11 +4,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import ComponentTree from './ComponentTree';
 import makeStyle from '../utils/makeStyle';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
-import ComponentDemos from '../component-demos';
-import ComponentCard, { getComponentDemoId } from './ComponentCard';
-import { ConfigProvider, Segmented, Switch } from '@madccc/antd';
+import { getComponentDemoId } from './ComponentCard';
+import { Segmented, Switch } from '@madccc/antd';
 import type { Theme } from '../interface';
 import useStatistic from '../hooks/useStatistic';
+import ComponentDemoGroup from './ComponentDemoGroup';
 
 const useStyle = makeStyle('ComponentPanel', (token) => ({
   '.component-panel': {
@@ -23,7 +23,6 @@ const useStyle = makeStyle('ComponentPanel', (token) => ({
     '.component-panel-main': {
       display: 'flex',
       flexDirection: 'column',
-      backgroundColor: token.colorBgContainer,
       flex: 1,
       width: 0,
 
@@ -79,14 +78,9 @@ const useStyle = makeStyle('ComponentPanel', (token) => ({
     },
 
     '.component-demos': {
-      padding: token.padding,
       height: '100%',
       overflow: 'auto',
       flex: 1,
-
-      '> *:not(:first-child)': {
-        marginTop: token.margin,
-      },
     },
   },
 }));
@@ -150,45 +144,6 @@ export const antdComponents = {
   Other: ['Anchor', 'BackTop'],
 };
 
-type ComponentDemoGroupProps = {
-  theme: Theme;
-  components: Record<string, string[]>;
-  activeComponents?: string[];
-  size?: 'small' | 'middle' | 'large';
-  disabled?: boolean;
-};
-
-const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
-  theme,
-  components,
-  size,
-  disabled,
-  activeComponents,
-}) => {
-  return (
-    <>
-      {Object.entries(components)
-        .reduce<string[]>((result, [, group]) => result.concat(group), [])
-        .filter(
-          (item) =>
-            !activeComponents ||
-            activeComponents.length === 0 ||
-            activeComponents.includes(item),
-        )
-        .map((item) => {
-          const Demo = (ComponentDemos as any)[`${item}Demo`];
-          return Demo ? (
-            <ComponentCard theme={theme} key={item} component={item}>
-              <ConfigProvider componentSize={size} componentDisabled={disabled}>
-                <Demo />
-              </ConfigProvider>
-            </ComponentCard>
-          ) : null;
-        })}
-    </>
-  );
-};
-
 export type ComponentPanelProps = {
   themes: Theme[];
   selectedTokens?: string[];
@@ -198,7 +153,6 @@ const Index: FC<ComponentPanelProps> = ({ themes, selectedTokens }) => {
   const [wrapSSR, hashId] = useStyle();
   const [showSide, setShowSide] = useState<boolean>(true);
   const demosRef = useRef<HTMLDivElement>(null);
-  const demosRef2 = useRef<HTMLDivElement>(null);
   const [componentSize, setComponentSize] = useState<
     'large' | 'small' | 'middle'
   >('middle');
@@ -274,34 +228,17 @@ const Index: FC<ComponentPanelProps> = ({ themes, selectedTokens }) => {
           </div>
         </div>
         <div className="component-demos-wrapper">
-          <ConfigProvider theme={themes[0].config}>
-            <div className="component-demos" ref={demosRef}>
-              <ComponentDemoGroup
-                theme={themes[0]}
-                components={antdComponents}
-                size={componentSize}
-                disabled={componentDisabled}
-                activeComponents={
-                  filterMode === 'highlight' ? undefined : relatedComponents
-                }
-              />
-            </div>
-          </ConfigProvider>
-          {themes[1] && (
-            <ConfigProvider theme={themes[1].config}>
-              <div className="component-demos" ref={demosRef2}>
-                <ComponentDemoGroup
-                  theme={themes[1]}
-                  components={antdComponents}
-                  size={componentSize}
-                  disabled={componentDisabled}
-                  activeComponents={
-                    filterMode === 'highlight' ? undefined : relatedComponents
-                  }
-                />
-              </div>
-            </ConfigProvider>
-          )}
+          <div className="component-demos" ref={demosRef}>
+            <ComponentDemoGroup
+              themes={themes}
+              components={antdComponents}
+              size={componentSize}
+              disabled={componentDisabled}
+              activeComponents={
+                filterMode === 'highlight' ? undefined : relatedComponents
+              }
+            />
+          </div>
         </div>
       </div>
     </div>,

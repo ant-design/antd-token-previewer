@@ -25,6 +25,7 @@ const useStyle = makeStyle('ComponentCard', (token) => ({
 
     '.ant-card-body': {
       padding: 18,
+      overflow: 'auto',
     },
 
     '.component-token-control-icon': {
