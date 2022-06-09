@@ -14,7 +14,11 @@ interface ThemeItem extends Theme {
 
 export type ThemeSelectProps = {
   onEnabledThemeChange: (themes: string[]) => void;
-  onShownThemeChange: (themes: string[]) => void;
+  onShownThemeChange: (
+    themes: string[],
+    selectTheme: string,
+    info: { type: 'select' | 'deselect' },
+  ) => void;
   enabledThemes: string[];
   shownThemes: string[];
   themes: ThemeItem[];
@@ -60,7 +64,7 @@ const useStyle = makeStyle('ThemeSelect', (token) => ({
 
       '&.previewer-theme-select-tag-active': {
         border: `${token.lineWidth}px ${token.lineType} ${token['blue-1']}`,
-        backgroundColor: token['blue-1'],
+        backgroundColor: token.colorPrimaryOutline,
         color: token.colorPrimary,
 
         '&::after': {
@@ -146,7 +150,9 @@ const ThemeSelect: FC<ThemeSelectProps> = (props) => {
           label: theme.name,
           key: theme.key,
           onClick: () => {
-            onShownThemeChange([...shownThemes, theme.key]);
+            onShownThemeChange([...shownThemes, theme.key], theme.key, {
+              type: 'select',
+            });
           },
         })),
     ],
@@ -190,6 +196,8 @@ const ThemeSelect: FC<ThemeSelectProps> = (props) => {
                 );
                 onShownThemeChange(
                   shownThemes.filter((item) => item !== theme.key),
+                  theme.key,
+                  { type: 'deselect' },
                 );
               }}
             >

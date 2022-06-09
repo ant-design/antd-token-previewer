@@ -155,7 +155,7 @@ const ComponentCard: FC<ComponentCardProps> = ({
       name: tokenName,
       value: theme.config.override?.alias?.[tokenName as keyof AliasToken],
     }));
-  }, [aliasTokenNames]);
+  }, [aliasTokenNames, theme.config.override?.alias]);
 
   return wrapSSR(
     <div>

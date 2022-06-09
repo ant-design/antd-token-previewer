@@ -6,11 +6,10 @@ import ComponentPanel from './component-panel';
 import type { ThemeSelectProps } from './ThemeSelect';
 import ThemeSelect from './ThemeSelect';
 import useToken from './hooks/useToken';
-import { DarkTheme, CompactTheme } from './icons';
+import { DarkTheme, CompactTheme, Arrow } from './icons';
 import makeStyle from './utils/makeStyle';
 import type { MutableTheme } from './token-panel';
 import TokenPanel from './token-panel';
-import { RightOutlined } from '@ant-design/icons';
 
 const { Header, Sider, Content } = Layout;
 const SIDER_WIDTH = 340;
@@ -31,7 +30,7 @@ const useStyle = makeStyle('layout', (token) => ({
       transition: `all ${token.motionDurationSlow}`,
       overflow: 'visible !important',
 
-      '.ant-btn.previewer-sider-collapse-btn': {
+      '.ant-btn.ant-btn-circle.previewer-sider-collapse-btn': {
         position: 'absolute',
         transform: 'translateX(50%)',
         border: 'none',
@@ -39,9 +38,26 @@ const useStyle = makeStyle('layout', (token) => ({
           '0 2px 8px -2px rgba(0,0,0,0.05), 0 1px 4px -1px rgba(25,15,15,0.07), 0 0 1px 0 rgba(0,0,0,0.08)',
         marginTop: token.margin,
         right: 0,
+        color: 'rgba(0,0,0,0.25)',
 
-        '&-collapsed: hover': {
-          transform: 'translateX(100%)',
+        '&:hover': {
+          color: 'rgba(0,0,0,0.45)',
+          boxShadow:
+            '0 2px 8px -2px rgba(0,0,0,0.18), 0 1px 4px -1px rgba(25,15,15,0.18), 0 0 1px 0 rgba(0,0,0,0.18)',
+        },
+
+        '.previewer-sider-collapse-btn-icon': {
+          fontSize: 16,
+          marginTop: 4,
+          transition: 'transform 0.3s',
+        },
+
+        '&-collapsed': {
+          borderRadius: '0 100px 100px 0',
+          transform: 'translateX(90%)',
+          '.previewer-sider-collapse-btn-icon': {
+            transform: 'rotate(180deg)',
+          },
         },
       },
 
@@ -134,7 +150,12 @@ const InternalPreviewer: React.FC = () => {
               }
               setEnabledThemes(value);
             }}
-            onShownThemeChange={(value) => setShownThemes(value)}
+            onShownThemeChange={(value, selectTheme, { type }) => {
+              if (type === 'select' && enabledThemes.length < 2) {
+                setEnabledThemes((prev) => [...prev, selectTheme]);
+              }
+              setShownThemes(value);
+            }}
           />
         </div>
       </Header>
@@ -167,13 +188,9 @@ const InternalPreviewer: React.FC = () => {
             )}
             size="small"
             icon={
-              <RightOutlined
-                rotate={siderVisible ? 180 : 0}
-                style={{
-                  fontSize: 12,
-                  color: 'rgba(0, 0, 0, 25%)',
-                  transition: 'transform 0.3s',
-                }}
+              <Arrow
+                rotate={siderVisible ? 0 : 180}
+                className="previewer-sider-collapse-btn-icon"
               />
             }
             shape="circle"

@@ -5,3 +5,5 @@ export { default as ShapeLine } from './ShapeLine.js';
 export { default as DarkTheme } from './Dark.js';
 export { default as CompactTheme } from './Compact.js';
 export { default as Control } from './Control.js';
+export { default as Arrow } from './Arrow.js';
+export { default as SearchDropdown } from './SearchDropdown.js';

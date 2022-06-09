@@ -82,6 +82,7 @@ const useStyle = makeStyle('ComponentPanel', (token) => ({
       padding: token.padding,
       height: '100%',
       overflow: 'auto',
+      flex: 1,
 
       '> *:not(:first-child)': {
         marginTop: token.margin,
@@ -280,7 +281,9 @@ const Index: FC<ComponentPanelProps> = ({ themes, selectedTokens }) => {
                 components={antdComponents}
                 size={componentSize}
                 disabled={componentDisabled}
-                activeComponents={relatedComponents}
+                activeComponents={
+                  filterMode === 'highlight' ? undefined : relatedComponents
+                }
               />
             </div>
           </ConfigProvider>
@@ -292,7 +295,9 @@ const Index: FC<ComponentPanelProps> = ({ themes, selectedTokens }) => {
                   components={antdComponents}
                   size={componentSize}
                   disabled={componentDisabled}
-                  activeComponents={relatedComponents}
+                  activeComponents={
+                    filterMode === 'highlight' ? undefined : relatedComponents
+                  }
                 />
               </div>
             </ConfigProvider>
