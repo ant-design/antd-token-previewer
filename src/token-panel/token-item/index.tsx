@@ -85,28 +85,38 @@ const ShowUsageButton = ({
 };
 
 const useStyle = makeStyle('TokenItem', (token) => ({
-  '.previewer-token-item.ant-collapse-item': {
-    transition: `background-color ${token.motionDurationSlow}`,
+  '.ant-collapse.previewer-token-item-collapse': {
+    '.previewer-token-item.ant-collapse-item': {
+      transition: `background-color ${token.motionDurationSlow}`,
+      borderRadius: `4px !important`,
 
-    '&:not(.ant-collapse-item-active):hover': {
-      backgroundColor: token.controlItemBgHover,
-    },
+      '&:not(.ant-collapse-item-active):hover': {
+        backgroundColor: '#f5f5f5',
+      },
 
-    '.ant-collapse-header-text': {
-      flex: 1,
-      width: 0,
-    },
-    '.ant-collapse-expand-icon': {
-      paddingInlineEnd: `${token.paddingXXS}px !important`,
-    },
-    '.previewer-token-count': {
-      height: token.controlHeightXS,
-      fontSize: token.fontSizeSM,
-      lineHeight: `${token.controlHeightXS}px`,
-      borderRadius: 100,
-      paddingInline: token.paddingXXS * 1.5,
-      color: token.colorTextSecondary,
-      backgroundColor: token.colorBgComponentSecondary,
+      '> .ant-collapse-header': {
+        padding: '12px 8px',
+      },
+
+      '.ant-collapse-header-text': {
+        flex: 1,
+        width: 0,
+      },
+      '.ant-collapse-content-box': {
+        padding: '0 4px',
+      },
+      '.ant-collapse-expand-icon': {
+        paddingInlineEnd: `${token.paddingXXS}px !important`,
+      },
+      '.previewer-token-count': {
+        height: token.controlHeightXS,
+        fontSize: token.fontSizeSM,
+        lineHeight: `${token.controlHeightXS}px`,
+        borderRadius: 100,
+        paddingInline: token.paddingXXS * 1.5,
+        color: token.colorTextSecondary,
+        backgroundColor: token.colorBgComponentSecondary,
+      },
     },
   },
 }));
@@ -213,6 +223,7 @@ export default ({ tokenName }: TokenItemProps) => {
       collapsible="header"
       ghost
       onChange={() => setInfoVisible(!infoVisible)}
+      className={classNames('previewer-token-item-collapse', hashId)}
       expandIcon={({ isActive }) => (
         <CaretRightOutlined
           rotate={isActive ? 90 : 0}
@@ -222,7 +233,7 @@ export default ({ tokenName }: TokenItemProps) => {
     >
       <Panel
         key={tokenName}
-        className={classNames('previewer-token-item', hashId)}
+        className={'previewer-token-item'}
         header={
           <div
             style={{
@@ -232,17 +243,27 @@ export default ({ tokenName }: TokenItemProps) => {
             }}
           >
             <span
-              title={tokenName}
               style={{
-                marginInlineEnd: '5px',
+                flex: 1,
+                width: 0,
+                display: 'flex',
                 overflow: 'hidden',
-                textOverflow: 'ellipsis',
+                alignItems: 'center',
               }}
             >
-              {tokenName}
-            </span>
-            <span className="previewer-token-count">
-              {getRelatedComponents(tokenName).length}
+              <span
+                title={tokenName}
+                style={{
+                  marginInlineEnd: '5px',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                }}
+              >
+                {tokenName}
+              </span>
+              <span className="previewer-token-count">
+                {getRelatedComponents(tokenName).length}
+              </span>
             </span>
             <Space>
               {themes.map(({ config, key }) => {

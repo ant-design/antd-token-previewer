@@ -22,6 +22,7 @@ import type { TokenValue } from '../../interface';
 import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
 import { Motion, ShapeLine } from '../../icons';
 import type { TokenType } from '../../utils/classifyToken';
+import useStatistic from '../../hooks/useStatistic';
 
 const { Panel } = Collapse;
 
@@ -32,6 +33,7 @@ interface TokenCardProps {
     value: TokenValue;
   }[];
   keyword?: string;
+  hideUseless?: boolean;
 }
 
 export const IconMap: Record<TokenType, ReactNode> = {
@@ -68,7 +70,7 @@ const useStyle = makeStyle('TokenCard', (token) => ({
     width: '100%',
     height: 'auto',
     borderRadius: token.radiusLG,
-    border: `1px solid ${token.colorBorder}`,
+    border: `1px solid rgba(0,0,0,0.09)`,
     marginBottom: token.margin,
 
     '.ant-input-group-addon, .ant-input-number-group-addon': {
@@ -105,13 +107,14 @@ const useStyle = makeStyle('TokenCard', (token) => ({
         textOverflow: 'ellipsis',
       },
 
-    '.ant-collapse': {
+    '.ant-collapse.token-card-collapse': {
       '> .ant-collapse-item > .ant-collapse-header': {
         padding: token.paddingSM,
       },
-      '.ant-collapse-content-box': {
-        padding: `0 ${token.paddingXS}px !important`,
-      },
+      '> .ant-collapse-item > .ant-collapse-content > .ant-collapse-content-box':
+        {
+          padding: `0 ${token.paddingXS}px 12px !important`,
+        },
     },
   },
 
@@ -128,8 +131,14 @@ const useStyle = makeStyle('TokenCard', (token) => ({
     },
 }));
 
-export default ({ typeName, tokenArr, keyword }: TokenCardProps) => {
+export default ({
+  typeName,
+  tokenArr,
+  keyword,
+  hideUseless,
+}: TokenCardProps) => {
   const [wrapSSR, hashId] = useStyle();
+  const { getRelatedComponents } = useStatistic();
 
   return wrapSSR(
     <div className={classNames('token-card', hashId)}>
@@ -142,6 +151,7 @@ export default ({ typeName, tokenArr, keyword }: TokenCardProps) => {
           />
         )}
         expandIconPosition="right"
+        className="token-card-collapse"
       >
         <Panel
           header={
@@ -155,8 +165,12 @@ export default ({ typeName, tokenArr, keyword }: TokenCardProps) => {
           {tokenArr
             .filter(
               (item) =>
-                !keyword ||
-                item.tokenName.toLowerCase().includes(keyword.toLowerCase()),
+                (!keyword ||
+                  item.tokenName
+                    .toLowerCase()
+                    .includes(keyword.toLowerCase())) &&
+                (!hideUseless ||
+                  getRelatedComponents(item.tokenName).length > 0),
             )
             .map((item) => (
               <TokenItem tokenName={item.tokenName} key={item.tokenName} />
