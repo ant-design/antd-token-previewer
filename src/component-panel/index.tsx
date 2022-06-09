@@ -141,7 +141,7 @@ export const antdComponents = {
     'Skeleton',
     'Spin',
   ],
-  Other: ['Anchor', 'BackTop'],
+  Other: ['Anchor'],
 };
 
 export type ComponentPanelProps = {
@@ -237,6 +237,7 @@ const Index: FC<ComponentPanelProps> = ({ themes, selectedTokens }) => {
               activeComponents={
                 filterMode === 'highlight' ? undefined : relatedComponents
               }
+              selectedTokens={selectedTokens}
             />
           </div>
         </div>

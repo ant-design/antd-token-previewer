@@ -1,9 +1,9 @@
 import type { Theme } from '../interface';
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 import React from 'react';
 import ComponentDemos from '../component-demos';
 import ComponentCard from './ComponentCard';
-import { ConfigProvider } from '@madccc/antd';
+import { ConfigProvider, Divider } from '@madccc/antd';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
 
@@ -13,6 +13,7 @@ type ComponentDemoGroupProps = {
   activeComponents?: string[];
   size?: 'small' | 'middle' | 'large';
   disabled?: boolean;
+  selectedTokens?: string[];
 };
 
 const useStyle = makeStyle('ComponentDemoGroup', (token) => ({
@@ -49,6 +50,7 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
   size,
   disabled,
   activeComponents,
+  selectedTokens,
 }) => {
   const [wrapSSR, hashId] = useStyle();
 
@@ -63,12 +65,28 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
             activeComponents.includes(item),
         )
         .map((item) => {
-          const Demo = (ComponentDemos as any)[`${item}Demo`];
-          return Demo ? (
+          const componentDemos = ComponentDemos[item];
+          if (!componentDemos) {
+            return null;
+          }
+          const Demos: ReactNode[] = [];
+          if (selectedTokens && selectedTokens.length > 0) {
+            Object.values(componentDemos).forEach(({ tokens, demo }) => {
+              if (
+                (tokens &&
+                  tokens.some((token) => selectedTokens.includes(token))) ||
+                !tokens
+              ) {
+                Demos.push(demo);
+              }
+            });
+          } else {
+            Demos.push(componentDemos.default.demo);
+          }
+          return (
             <div
               className={classNames('previewer-component-demo-group', hashId)}
               key={item}
-              style={{}}
             >
               {themes.map((theme) => (
                 <ConfigProvider key={item} theme={theme.config}>
@@ -78,14 +96,19 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
                         componentSize={size}
                         componentDisabled={disabled}
                       >
-                        <Demo />
+                        {Demos.map((demo, index) => (
+                          <>
+                            {demo}
+                            {index < Demos.length - 1 && <Divider />}
+                          </>
+                        ))}
                       </ConfigProvider>
                     </ComponentCard>
                   </div>
                 </ConfigProvider>
               ))}
             </div>
-          ) : null;
+          );
         })}
     </>,
   );
