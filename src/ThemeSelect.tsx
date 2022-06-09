@@ -64,7 +64,7 @@ const useStyle = makeStyle('ThemeSelect', (token) => ({
 
       '&.previewer-theme-select-tag-active': {
         border: `${token.lineWidth}px ${token.lineType} ${token['blue-1']}`,
-        backgroundColor: token.colorPrimaryOutline,
+        backgroundColor: 'rgba(22,119,255,0.10)',
         color: token.colorPrimary,
 
         '&::after': {
