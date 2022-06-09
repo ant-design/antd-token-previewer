@@ -77,6 +77,7 @@ const useStyle = makeStyle('TokenCard', (token) => ({
       border: '0 !important',
       color: `rgba(0, 0, 0, 0.25) !important`,
       fontSize: token.fontSizeSM,
+      padding: 0,
 
       '&:first-child': {
         paddingInlineStart: 0,

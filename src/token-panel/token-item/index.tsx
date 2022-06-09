@@ -1,7 +1,15 @@
 import { CaretRightOutlined } from '@ant-design/icons';
-import { Collapse, Dropdown, Input, InputNumber, Space } from '@madccc/antd';
+import {
+  Button,
+  Collapse,
+  Dropdown,
+  Input,
+  InputNumber,
+  Space,
+} from '@madccc/antd';
 import { Pick } from '../../icons';
-import React from 'react';
+import type { FC } from 'react';
+import React, { useRef } from 'react';
 import { SketchPicker } from 'react-color';
 import type { MutableTheme } from '..';
 import { PreviewContext } from '..';
@@ -121,102 +129,129 @@ const useStyle = makeStyle('TokenItem', (token) => ({
   },
 }));
 
-export default ({ tokenName }: TokenItemProps) => {
-  const { selectedTokens, themes, onTokenSelect } =
-    React.useContext(PreviewContext);
-  const [infoVisible, setInfoVisible] = React.useState(false);
-  const [wrapSSR, hashId] = useStyle();
-  const { getRelatedComponents } = useStatistic();
+const ColorPanel = ({
+  color,
+  onChange,
+}: {
+  color: string;
+  onChange: (color: string) => void;
+}) => {
+  return (
+    <SketchPicker
+      color={color}
+      onChange={(v) => {
+        onChange(v.hex);
+      }}
+    />
+  );
+};
 
-  const ColorPanel = ({
-    color,
-    onChange,
-  }: {
-    color: string;
-    onChange: (color: string) => void;
-  }) => {
-    return (
-      <SketchPicker
-        color={color}
-        onChange={(v) => {
-          onChange(v.hex);
-        }}
-      />
-    );
-  };
+type TokenInputProps = {
+  theme: MutableTheme;
+  token: TokenName;
+};
 
-  const handleTokenChange = (theme: MutableTheme, value: TokenValue) => {
+const TokenInput: FC<TokenInputProps> = ({ theme, token }) => {
+  const valueRef = useRef<number | string>(
+    theme.config?.override?.alias?.[token] || '',
+  );
+  const canReset = valueRef.current !== theme.config?.override?.alias?.[token];
+
+  const handleTokenChange = (value: TokenValue) => {
     theme.onThemeChange?.({
       ...theme.config,
       override: {
         ...theme.config.override,
         alias: {
           ...theme.config.override?.alias,
-          [tokenName]: value,
+          [token]: value,
         },
       },
     });
   };
 
-  const getTokenInput = (theme: MutableTheme) => {
-    if (isColor(tokenName)) {
-      return (
-        <Input
-          bordered={false}
-          addonAfter={theme.name}
-          value={String(theme.config?.override?.alias?.[tokenName])}
-          addonBefore={
-            <Dropdown
-              trigger={['click']}
-              overlay={
-                <ColorPanel
-                  color={String(theme.config.override?.alias?.[tokenName])}
-                  onChange={(v: string) => {
-                    handleTokenChange(theme, v);
-                  }}
-                />
-              }
-            >
-              <ColorPreview
-                color={String(theme.config?.override?.alias?.[tokenName])}
-                style={{ cursor: 'pointer' }}
-              />
-            </Dropdown>
-          }
-          onChange={(e) => {
-            handleTokenChange(theme, e.target.value);
-          }}
-        />
-      );
-    }
-    if (typeof theme.config.override?.alias?.[tokenName] === 'number') {
-      return (
-        <InputNumber
-          addonAfter={theme.name}
-          bordered={false}
-          value={theme.config?.override?.alias?.[tokenName]}
-          onChange={(value) => {
-            handleTokenChange(theme, Number(value));
-          }}
-        />
-      );
-    }
-    return (
+  const addonAfter = (
+    <span style={{ display: 'flex', alignItems: 'center' }}>
+      <Button
+        style={{ fontSize: 12 }}
+        disabled={!canReset}
+        onClick={() => handleTokenChange(valueRef.current)}
+        type="link"
+        size="small"
+      >
+        重置
+      </Button>
+      {theme.name}
+    </span>
+  );
+
+  let inputNode = null;
+
+  if (isColor(token)) {
+    inputNode = (
       <Input
-        addonAfter={theme.name}
         bordered={false}
-        value={String(theme.config?.override?.alias?.[tokenName])}
+        addonAfter={addonAfter}
+        value={String(theme.config?.override?.alias?.[token])}
+        addonBefore={
+          <Dropdown
+            trigger={['click']}
+            overlay={
+              <ColorPanel
+                color={String(theme.config.override?.alias?.[token])}
+                onChange={(v: string) => {
+                  handleTokenChange(v);
+                }}
+              />
+            }
+          >
+            <ColorPreview
+              color={String(theme.config?.override?.alias?.[token])}
+              style={{ cursor: 'pointer' }}
+            />
+          </Dropdown>
+        }
+        onChange={(e) => {
+          handleTokenChange(e.target.value);
+        }}
+      />
+    );
+  } else if (typeof theme.config.override?.alias?.[token] === 'number') {
+    inputNode = (
+      <InputNumber
+        addonAfter={addonAfter}
+        bordered={false}
+        value={theme.config?.override?.alias?.[token]}
+        onChange={(value) => {
+          handleTokenChange(Number(value));
+        }}
+      />
+    );
+  } else {
+    inputNode = (
+      <Input
+        addonAfter={addonAfter}
+        bordered={false}
+        value={String(theme.config?.override?.alias?.[token])}
         onChange={(e) => {
           handleTokenChange(
-            theme,
-            typeof theme.config.override?.alias?.[tokenName] === 'number'
+            typeof theme.config.override?.alias?.[token] === 'number'
               ? Number(e.target.value)
               : e.target.value,
           );
         }}
       />
     );
-  };
+  }
+  return <div>{inputNode}</div>;
+};
+
+export default ({ tokenName }: TokenItemProps) => {
+  const { selectedTokens, themes, onTokenSelect } =
+    React.useContext(PreviewContext);
+  const [infoVisible, setInfoVisible] = React.useState(false);
+  const [wrapSSR, hashId] = useStyle();
+  const { getRelatedComponents } = useStatistic();
 
   return wrapSSR(
     <Collapse
@@ -298,7 +333,11 @@ export default ({ tokenName }: TokenItemProps) => {
           }}
         >
           {themes.map((theme) => {
-            return <div key={theme.key}>{getTokenInput(theme)}</div>;
+            return (
+              <div key={theme.key}>
+                <TokenInput theme={theme} token={tokenName} />
+              </div>
+            );
           })}
         </Space>
       </Panel>
