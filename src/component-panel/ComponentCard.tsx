@@ -1,12 +1,13 @@
 import type { FC, PropsWithChildren } from 'react';
 import type { TableProps } from '@madccc/antd';
-import { Card, Drawer, Table } from '@madccc/antd';
+import { Card, Divider, Drawer, Table } from '@madccc/antd';
 import React, { useMemo, useState } from 'react';
 import { Control } from '../icons';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
 import useStatistic from '../hooks/useStatistic';
 import ColorPreview from '../ColorPreview';
+import type { AliasToken, Theme } from '../interface';
 
 const useStyle = makeStyle('ComponentCard', (token) => ({
   '.ant-card.component-card': {
@@ -36,6 +37,12 @@ const useStyle = makeStyle('ComponentCard', (token) => ({
         color: token.colorActionHover,
       },
     },
+  },
+
+  '.previewer-component-drawer-subtitle': {
+    fontWeight: token.fontWeightStrong,
+    marginBottom: token.marginSM,
+    marginInlineStart: token.marginXS,
   },
 
   '.ant-table-wrapper.component-token-table': {
@@ -89,7 +96,7 @@ export const getComponentDemoId = (component: string, theme: string) =>
 
 export type ComponentCardProps = PropsWithChildren<{
   component: string;
-  theme: string;
+  theme: Theme;
 }>;
 
 const ComponentCard: FC<ComponentCardProps> = ({
@@ -101,7 +108,8 @@ const ComponentCard: FC<ComponentCardProps> = ({
   const [tokenDrawerOpen, setTokenDrawerOpen] = useState<boolean>(false);
   const { getComponentToken } = useStatistic();
 
-  const componentToken = getComponentToken(component);
+  const { component: componentToken, global: aliasTokenNames } =
+    getComponentToken(component) || { global: [] };
 
   const columns: TableProps<{ name: string; value: any }>['columns'] = [
     {
@@ -118,10 +126,12 @@ const ComponentCard: FC<ComponentCardProps> = ({
         ) {
           return (
             <div className="component-token-value-color">
-              <ColorPreview
-                color={value}
-                className="component-token-value-color-preview"
-              />
+              <div>
+                <ColorPreview
+                  color={value}
+                  className="component-token-value-color-preview"
+                />
+              </div>
               <div className="component-token-value-color-tag">{value}</div>
             </div>
           );
@@ -131,7 +141,7 @@ const ComponentCard: FC<ComponentCardProps> = ({
     },
   ];
 
-  const data = useMemo(
+  const componentTokenData = useMemo(
     () =>
       Object.entries(componentToken ?? {}).map(([key, value]) => ({
         name: key,
@@ -140,10 +150,17 @@ const ComponentCard: FC<ComponentCardProps> = ({
     [componentToken],
   );
 
+  const aliasTokenData = useMemo(() => {
+    return aliasTokenNames.map((tokenName) => ({
+      name: tokenName,
+      value: theme.config.override?.derivative?.[tokenName as keyof AliasToken],
+    }));
+  }, [aliasTokenNames]);
+
   return wrapSSR(
     <div>
       <div
-        id={getComponentDemoId(component, theme)}
+        id={getComponentDemoId(component, theme.key)}
         style={{ height: 0, transform: 'translateY(-16px)' }}
       />
       <Card
@@ -162,10 +179,31 @@ const ComponentCard: FC<ComponentCardProps> = ({
         visible={tokenDrawerOpen}
         title={`${component} 组件 Token`}
         onClose={() => setTokenDrawerOpen(false)}
+        width={600}
       >
+        <div
+          className={classNames('previewer-component-drawer-subtitle', hashId)}
+        >
+          Component Token
+        </div>
         <Table
           className={classNames('component-token-table', hashId)}
-          dataSource={data}
+          dataSource={componentTokenData}
+          columns={columns}
+          rowKey="name"
+          size="small"
+          pagination={false}
+          style={{ marginBottom: 24 }}
+        />
+        <Divider />
+        <div
+          className={classNames('previewer-component-drawer-subtitle', hashId)}
+        >
+          Alias Token
+        </div>
+        <Table
+          className={classNames('component-token-table', hashId)}
+          dataSource={aliasTokenData}
           columns={columns}
           rowKey="name"
           size="small"
