@@ -104,7 +104,7 @@ const useStyle = makeStyle('AliasTokenPreview', (token) => ({
 
     '.ant-tag.previewer-token-filter-tag': {
       color: token.colorPrimary,
-      backgroundColor: token.colorPrimaryOutline,
+      backgroundColor: 'rgba(22,119,255,0.10)',
       border: 'none',
       borderRadius: 4,
 
