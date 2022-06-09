@@ -140,8 +140,8 @@ export default ({ tokenName }: TokenItemProps) => {
       ...theme.config,
       override: {
         ...theme.config.override,
-        derivative: {
-          ...theme.config.override?.derivative,
+        alias: {
+          ...theme.config.override?.alias,
           [tokenName]: value,
         },
       },
@@ -154,13 +154,13 @@ export default ({ tokenName }: TokenItemProps) => {
         <Input
           bordered={false}
           addonAfter={theme.name}
-          value={String(theme.config?.override?.derivative?.[tokenName])}
+          value={String(theme.config?.override?.alias?.[tokenName])}
           addonBefore={
             <Dropdown
               trigger={['click']}
               overlay={
                 <ColorPanel
-                  color={String(theme.config.override?.derivative?.[tokenName])}
+                  color={String(theme.config.override?.alias?.[tokenName])}
                   onChange={(v: string) => {
                     handleTokenChange(theme, v);
                   }}
@@ -168,7 +168,7 @@ export default ({ tokenName }: TokenItemProps) => {
               }
             >
               <ColorPreview
-                color={String(theme.config?.override?.derivative?.[tokenName])}
+                color={String(theme.config?.override?.alias?.[tokenName])}
                 style={{ cursor: 'pointer' }}
               />
             </Dropdown>
@@ -179,12 +179,12 @@ export default ({ tokenName }: TokenItemProps) => {
         />
       );
     }
-    if (typeof theme.config.override?.derivative?.[tokenName] === 'number') {
+    if (typeof theme.config.override?.alias?.[tokenName] === 'number') {
       return (
         <InputNumber
           addonAfter={theme.name}
           bordered={false}
-          value={theme.config?.override?.derivative?.[tokenName]}
+          value={theme.config?.override?.alias?.[tokenName]}
           onChange={(value) => {
             handleTokenChange(theme, Number(value));
           }}
@@ -195,11 +195,11 @@ export default ({ tokenName }: TokenItemProps) => {
       <Input
         addonAfter={theme.name}
         bordered={false}
-        value={String(theme.config?.override?.derivative?.[tokenName])}
+        value={String(theme.config?.override?.alias?.[tokenName])}
         onChange={(e) => {
           handleTokenChange(
             theme,
-            typeof theme.config.override?.derivative?.[tokenName] === 'number'
+            typeof theme.config.override?.alias?.[tokenName] === 'number'
               ? Number(e.target.value)
               : e.target.value,
           );
@@ -250,7 +250,7 @@ export default ({ tokenName }: TokenItemProps) => {
                   <AdditionInfo
                     key={key}
                     tokenName={tokenName}
-                    info={config.override?.derivative?.[tokenName] ?? ''}
+                    info={config.override?.alias?.[tokenName] ?? ''}
                     visible={!infoVisible}
                   />
                 );

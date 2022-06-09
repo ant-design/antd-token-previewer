@@ -71,7 +71,7 @@ export default (props: TokenPreviewProps) => {
 
   // TODO: Split AliasToken and SeedToken
   const groupedToken = useMemo(
-    () => classifyToken(config.override?.derivative ?? {}),
+    () => classifyToken(config.override?.alias ?? {}),
     [config],
   );
 

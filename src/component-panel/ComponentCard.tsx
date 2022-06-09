@@ -153,7 +153,7 @@ const ComponentCard: FC<ComponentCardProps> = ({
   const aliasTokenData = useMemo(() => {
     return aliasTokenNames.map((tokenName) => ({
       name: tokenName,
-      value: theme.config.override?.derivative?.[tokenName as keyof AliasToken],
+      value: theme.config.override?.alias?.[tokenName as keyof AliasToken],
     }));
   }, [aliasTokenNames]);
 

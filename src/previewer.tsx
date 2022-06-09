@@ -74,20 +74,20 @@ const InternalPreviewer: React.FC = () => {
     {
       name: '默认主题',
       key: 'default',
-      config: { override: { derivative: token } },
+      config: { override: { alias: token } },
       fixed: true,
     },
     {
       name: '暗色主题',
       key: 'dark',
-      config: { override: { derivative: token } },
+      config: { override: { alias: token } },
       icon: <DarkTheme style={{ fontSize: 16 }} />,
       closable: true,
     },
     {
       name: '紧凑主题',
       key: 'compact',
-      config: { override: { derivative: token } },
+      config: { override: { alias: token } },
       icon: <CompactTheme style={{ fontSize: 16 }} />,
       closable: true,
     },

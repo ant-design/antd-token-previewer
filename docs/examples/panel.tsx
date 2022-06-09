@@ -10,7 +10,7 @@ export default () => {
 
   const tokens = [
     {
-      config: { override: { derivative: normalToken } },
+      config: { override: { alias: normalToken } },
       onThemeChange: (token) => {
         console.log(token);
       },
@@ -18,7 +18,7 @@ export default () => {
       name: '默认主题',
     },
     {
-      config: { override: { derivative: darkToken } },
+      config: { override: { alias: darkToken } },
       onThemeChange: (token) => {
         console.log(token);
       },
