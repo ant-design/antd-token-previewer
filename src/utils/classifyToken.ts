@@ -78,12 +78,14 @@ export const classifyToken = (
     string,
     { tokenName: TokenName; value: TokenValue }[]
   > = {};
-  Object.entries(token || {}).forEach(([key, value]) => {
-    const type = getTypeOfToken(key as keyof GlobalToken);
-    if (!groupedToken[type]) {
-      groupedToken[type] = [];
-    }
-    groupedToken[type].push({ tokenName: key as TokenName, value });
-  });
+  Object.entries(token || {})
+    .sort((a, b) => a[0].localeCompare(b[0]))
+    .forEach(([key, value]) => {
+      const type = getTypeOfToken(key as keyof GlobalToken);
+      if (!groupedToken[type]) {
+        groupedToken[type] = [];
+      }
+      groupedToken[type].push({ tokenName: key as TokenName, value });
+    });
   return groupedToken;
 };

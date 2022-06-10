@@ -81,13 +81,13 @@ const useStyle = makeStyle('ComponentCard', (token) => ({
       '.component-token-value-color-preview': {
         marginRight: token.marginXS,
       },
+    },
 
-      '.component-token-value-color-tag': {
-        backgroundColor: token.colorBgComponentSecondary,
-        borderRadius: token.radiusLG,
-        padding: '4px 8px',
-        minWidth: 140,
-      },
+    '.component-token-value-color-tag': {
+      backgroundColor: token.colorBgComponentSecondary,
+      borderRadius: token.radiusLG,
+      padding: '4px 8px',
+      minWidth: 140,
     },
   },
 }));
@@ -127,12 +127,10 @@ const ComponentCard: FC<ComponentCardProps> = ({
         ) {
           return (
             <div className="component-token-value-color">
-              <div>
-                <ColorPreview
-                  color={value}
-                  className="component-token-value-color-preview"
-                />
-              </div>
+              <ColorPreview
+                color={value}
+                className="component-token-value-color-preview"
+              />
               <div className="component-token-value-color-tag">{value}</div>
             </div>
           );
