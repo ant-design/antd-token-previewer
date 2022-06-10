@@ -16,11 +16,25 @@ const useStyle = makeStyle('ComponentTree', (token) => ({
     flexDirection: 'column',
     paddingBlock: token.paddingXS,
 
-    '.component-tree': {
+    '.ant-tree.component-tree': {
       fontSize: token.fontSizeSM,
 
-      '.component-tree-item.component-tree-item-active': {
+      '.component-tree-item.component-tree-item-highlight': {
         color: token.colorPrimary,
+      },
+
+      '.ant-tree-node-content-wrapper': {
+        transition: `background-color ${token.motionDurationSlow}`,
+        borderRadius: 4,
+      },
+
+      '.ant-tree-treenode-selected .ant-tree-node-content-wrapper': {
+        backgroundColor: token.colorBgComponent,
+      },
+
+      '.ant-tree-treenode-active .ant-tree-node-content-wrapper': {
+        color: token.colorTextLightSolid,
+        backgroundColor: token.colorPrimary,
       },
 
       '.component-tree-item': {
@@ -35,6 +49,7 @@ export type ComponentTreeProps = {
   components: Record<string, string[]>;
   selectedTokens?: string[];
   filterMode?: FilterMode;
+  activeComponent?: string;
 };
 
 const ComponentTree: FC<ComponentTreeProps> = ({
@@ -42,6 +57,7 @@ const ComponentTree: FC<ComponentTreeProps> = ({
   components,
   selectedTokens,
   filterMode = 'filter',
+  activeComponent,
 }) => {
   const [wrapSSR, hashId] = useStyle();
   const { relatedComponents } = useStatistic(selectedTokens);
@@ -70,7 +86,7 @@ const ComponentTree: FC<ComponentTreeProps> = ({
               title: (
                 <span
                   className={classNames('component-tree-item', {
-                    'component-tree-item-active':
+                    'component-tree-item-highlight':
                       filterMode === 'highlight' &&
                       relatedComponents.includes(item),
                   })}
@@ -112,6 +128,7 @@ const ComponentTree: FC<ComponentTreeProps> = ({
     <div className={classNames('component-tree-wrapper', hashId)}>
       <div ref={treeRef} style={{ overflow: 'auto', flex: 1 }}>
         <Tree
+          activeKey={activeComponent}
           showIcon
           defaultExpandAll
           treeData={treeData}

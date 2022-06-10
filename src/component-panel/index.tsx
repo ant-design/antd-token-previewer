@@ -1,15 +1,17 @@
 import classNames from 'classnames';
 import type { CSSProperties, FC } from 'react';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import ComponentTree from './ComponentTree';
 import makeStyle from '../utils/makeStyle';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { getComponentDemoId } from './ComponentCard';
-import { Segmented, Switch } from '@madccc/antd';
+import { Breadcrumb, Segmented, Switch } from '@madccc/antd';
 import type { Theme } from '../interface';
 import useStatistic from '../hooks/useStatistic';
 import ComponentDemoGroup from './ComponentDemoGroup';
 import type { FilterMode } from '../FilterPanel';
+
+const BREADCRUMB_HEIGHT = 40;
 
 const useStyle = makeStyle('ComponentPanel', (token) => ({
   '.component-panel': {
@@ -76,6 +78,22 @@ const useStyle = makeStyle('ComponentPanel', (token) => ({
       display: 'flex',
       flex: 1,
       height: 0,
+      position: 'relative',
+
+      '.component-demos-breadcrumb-wrapper': {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: BREADCRUMB_HEIGHT,
+        zIndex: 2,
+        backgroundColor: token.colorBgComponent,
+        padding: '8px 16px',
+        transition: 'opacity 0.3s',
+        background: 'rgba(255, 255, 255, .6)',
+        backdropFilter: 'blur(10px)',
+        borderBottom: `${token.lineWidth}px ${token.lineType} ${token.colorBgContainer}`,
+      },
     },
 
     '.component-demos': {
@@ -167,6 +185,8 @@ const Index: FC<ComponentPanelProps> = ({
     'large' | 'small' | 'middle'
   >('middle');
   const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
+  const [activeComponent, setActiveComponent] = useState<string | undefined>();
+  const [showBreadcrumb, setShowBreadcrumb] = useState<boolean>(false);
 
   const { relatedComponents } = useStatistic(selectedTokens);
 
@@ -179,6 +199,56 @@ const Index: FC<ComponentPanelProps> = ({
     // tokenNumberRef.current = selectedTokens?.length || 0;
   }, [selectedTokens]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (demosRef.current) {
+        setShowBreadcrumb(demosRef.current.scrollTop > 10);
+        for (let i = 0; i < demosRef.current.children.length; i++) {
+          if (
+            demosRef.current.children[i].getBoundingClientRect().top +
+              demosRef.current.children[i].clientHeight -
+              demosRef.current.getBoundingClientRect().top >
+            BREADCRUMB_HEIGHT
+          ) {
+            setActiveComponent(
+              demosRef.current.children[i]?.id.split('-').pop(),
+            );
+            break;
+          }
+        }
+      }
+    };
+
+    demosRef.current?.addEventListener('scroll', handleScroll);
+    const demosWrapper = demosRef.current;
+    return () => {
+      demosWrapper?.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const scrollToComponent = (component: string) => {
+    demosRef.current?.scrollTo({
+      top:
+        (demosRef.current?.querySelector(`#${getComponentDemoId(component)}`)
+          ?.offsetTop || 0) - 40,
+      behavior: 'smooth',
+    });
+  };
+
+  const activeComponentCategory = useMemo(() => {
+    if (!activeComponent) {
+      return undefined;
+    }
+    const key = Object.entries(antdComponents).find(([, value]) =>
+      value.includes(activeComponent),
+    )?.[0];
+    if (key) {
+      return (antdComponents as any)[key];
+    } else {
+      return undefined;
+    }
+  }, [activeComponent]);
+
   return wrapSSR(
     <div className={classNames('component-panel', hashId, className)} {...rest}>
       <div
@@ -187,19 +257,12 @@ const Index: FC<ComponentPanelProps> = ({
         })}
       >
         <ComponentTree
+          activeComponent={activeComponent}
           filterMode={filterMode}
           selectedTokens={selectedTokens}
           components={antdComponents}
           onSelect={(component) => {
-            demosRef.current
-              ?.querySelector(
-                `#${getComponentDemoId(component, themes[0].key)}`,
-              )
-              ?.scrollIntoView({
-                block: 'start',
-                inline: 'nearest',
-                behavior: 'smooth',
-              });
+            scrollToComponent(component);
           }}
         />
       </div>
@@ -234,6 +297,30 @@ const Index: FC<ComponentPanelProps> = ({
           </div>
         </div>
         <div className="component-demos-wrapper">
+          {activeComponent && (
+            <div
+              className="component-demos-breadcrumb-wrapper"
+              style={{ opacity: showBreadcrumb ? 1 : 0 }}
+            >
+              <Breadcrumb>
+                <Breadcrumb.Item>
+                  <a
+                    onClick={() =>
+                      activeComponentCategory &&
+                      scrollToComponent(activeComponentCategory?.[0])
+                    }
+                  >
+                    {
+                      Object.entries(antdComponents).find(([, value]) =>
+                        value.includes(activeComponent),
+                      )?.[0]
+                    }
+                  </a>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>{activeComponent}</Breadcrumb.Item>
+              </Breadcrumb>
+            </div>
+          )}
           <div className="component-demos" ref={demosRef}>
             <ComponentDemoGroup
               themes={themes}
