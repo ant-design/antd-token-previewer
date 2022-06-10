@@ -59,7 +59,7 @@ import ResultDemo from './result';
 import ButtonIconDemo from './button/button-icon';
 import type { ReactElement } from 'react';
 import React from 'react';
-import type { TokenName } from '../utils/classifyToken';
+import type { TokenName } from '../interface';
 
 export type PreviewerDemos = Record<
   string,

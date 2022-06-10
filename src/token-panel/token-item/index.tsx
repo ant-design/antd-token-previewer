@@ -8,13 +8,12 @@ import {
   Space,
 } from '@madccc/antd';
 import { Pick } from '../../icons';
-import type { FC } from 'react';
+import type { CSSProperties, FC } from 'react';
 import React, { useRef } from 'react';
 import { SketchPicker } from 'react-color';
 import type { MutableTheme } from '..';
 import { PreviewContext } from '..';
-import type { TokenName } from '../../utils/classifyToken';
-import type { TokenValue } from '../../interface';
+import type { TokenName, TokenValue } from '../../interface';
 import makeStyle from '../../utils/makeStyle';
 import classNames from 'classnames';
 import ColorPreview from '../../ColorPreview';
@@ -34,10 +33,14 @@ const AdditionInfo = ({
   info,
   visible,
   tokenName,
+  style,
+  ...rest
 }: {
   info: string | number;
   visible: boolean;
   tokenName: string;
+  style?: CSSProperties;
+  className?: string;
 }) => {
   if (isColor(tokenName)) {
     return (
@@ -52,6 +55,7 @@ const AdditionInfo = ({
     return (
       <div
         style={{
+          ...style,
           maxWidth: 40,
           height: 20,
           overflow: 'hidden',
@@ -61,6 +65,7 @@ const AdditionInfo = ({
           padding: '0 6px',
           lineHeight: '20px',
         }}
+        {...rest}
       >
         {info}
       </div>
@@ -126,6 +131,26 @@ const useStyle = makeStyle('TokenItem', (token) => ({
         backgroundColor: token.colorBgComponentSecondary,
       },
     },
+
+    '.previewer-token-preview': {
+      display: 'flex',
+      alignItems: 'center',
+
+      '> *:not(:last-child)': {
+        marginRight: 4,
+      },
+
+      '> .previewer-color-preview:not(:last-child)': {
+        marginRight: -10,
+      },
+
+      '&:hover': {
+        '> .previewer-color-preview:not(:last-child)': {
+          marginRight: 4,
+          transition: 'margin-right 0.3s',
+        },
+      },
+    },
   },
 }));
 
@@ -173,7 +198,11 @@ const TokenInput: FC<TokenInputProps> = ({ theme, token }) => {
   const addonAfter = (
     <span style={{ display: 'flex', alignItems: 'center' }}>
       <Button
-        style={{ fontSize: 12 }}
+        style={{
+          fontSize: 12,
+          opacity: canReset ? 1 : 0,
+          cursor: canReset ? 'pointer' : 'default',
+        }}
         disabled={!canReset}
         onClick={() => handleTokenChange(valueRef.current)}
         type="link"
@@ -185,14 +214,17 @@ const TokenInput: FC<TokenInputProps> = ({ theme, token }) => {
     </span>
   );
 
-  let inputNode = null;
-
-  if (isColor(token)) {
+  let inputNode;
+  const tokenValue = theme.config?.override?.alias?.[token];
+  if (
+    typeof tokenValue === 'string' &&
+    (tokenValue.startsWith('#') || tokenValue.startsWith('rgb'))
+  ) {
     inputNode = (
       <Input
         bordered={false}
         addonAfter={addonAfter}
-        value={String(theme.config?.override?.alias?.[token])}
+        value={String(tokenValue)}
         addonBefore={
           <Dropdown
             trigger={['click']}
@@ -206,8 +238,8 @@ const TokenInput: FC<TokenInputProps> = ({ theme, token }) => {
             }
           >
             <ColorPreview
-              color={String(theme.config?.override?.alias?.[token])}
-              style={{ cursor: 'pointer' }}
+              color={String(tokenValue)}
+              style={{ cursor: 'pointer', marginRight: 8 }}
             />
           </Dropdown>
         }
@@ -221,7 +253,7 @@ const TokenInput: FC<TokenInputProps> = ({ theme, token }) => {
       <InputNumber
         addonAfter={addonAfter}
         bordered={false}
-        value={theme.config?.override?.alias?.[token]}
+        value={tokenValue}
         onChange={(value) => {
           handleTokenChange(Number(value));
         }}
@@ -232,7 +264,7 @@ const TokenInput: FC<TokenInputProps> = ({ theme, token }) => {
       <Input
         addonAfter={addonAfter}
         bordered={false}
-        value={String(theme.config?.override?.alias?.[token])}
+        value={String(tokenValue)}
         onChange={(e) => {
           handleTokenChange(
             typeof theme.config.override?.alias?.[token] === 'number'
@@ -300,7 +332,7 @@ export default ({ tokenName }: TokenItemProps) => {
                 {getRelatedComponents(tokenName).length}
               </span>
             </span>
-            <Space>
+            <div className="previewer-token-preview">
               {themes.map(({ config, key }) => {
                 return (
                   <AdditionInfo
@@ -311,7 +343,7 @@ export default ({ tokenName }: TokenItemProps) => {
                   />
                 );
               })}
-            </Space>
+            </div>
           </div>
         }
         extra={

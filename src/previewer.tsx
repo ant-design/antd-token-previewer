@@ -10,6 +10,10 @@ import { DarkTheme, CompactTheme, Arrow } from './icons';
 import makeStyle from './utils/makeStyle';
 import type { MutableTheme } from './token-panel';
 import TokenPanel from './token-panel';
+import type { FilterMode } from './FilterPanel';
+import FilterPanel from './FilterPanel';
+import type { TokenName } from './interface';
+import type { TokenType } from './utils/classifyToken';
 
 const { Header, Sider, Content } = Layout;
 const SIDER_WIDTH = 340;
@@ -80,9 +84,11 @@ const InternalPreviewer: React.FC = () => {
   const [token] = useToken();
   const [shownThemes, setShownThemes] = useState<string[]>(['default']);
   const [enabledThemes, setEnabledThemes] = useState<string[]>(['default']);
-  const [selectedTokens, setSelectedTokens] = useState<string[]>([]);
+  const [selectedTokens, setSelectedTokens] = useState<TokenName[]>([]);
   const [siderVisible, setSiderVisible] = useState<boolean>(true);
   const [siderWidth, setSiderWidth] = useState<number>(SIDER_WIDTH);
+  const [filterMode, setFilterMode] = useState<FilterMode>('filter');
+  const [filterTypes, setFilterTypes] = useState<TokenType[]>([]);
 
   const dragRef = useRef(false);
 
@@ -196,6 +202,8 @@ const InternalPreviewer: React.FC = () => {
             shape="circle"
           />
           <TokenPanel
+            filterTypes={filterTypes}
+            onFilterTypesChange={(types) => setFilterTypes(types)}
             themes={enabledThemes.map<MutableTheme>((item) => {
               const themeEntity = themes.find((theme) => theme.key === item)!;
               return {
@@ -228,16 +236,26 @@ const InternalPreviewer: React.FC = () => {
         </Sider>
         <Content
           style={{
-            padding: '28px 20px 28px 24px',
+            padding: '16px 20px 28px 24px',
             height: '100%',
             overflow: 'hidden',
+            display: 'flex',
+            flexDirection: 'column',
           }}
         >
+          <FilterPanel
+            selectedTokens={selectedTokens}
+            onSelectedTokensChange={(tokens) => setSelectedTokens(tokens)}
+            filterMode={filterMode}
+            onFilterModeChange={(mode) => setFilterMode(mode)}
+          />
           <ComponentPanel
+            filterMode={filterMode}
             selectedTokens={selectedTokens}
             themes={enabledThemes.map(
               (theme) => themes.find((item) => item.key === theme)!,
             )}
+            style={{ flex: 1, height: 0, marginTop: 12 }}
           />
         </Content>
       </Layout>

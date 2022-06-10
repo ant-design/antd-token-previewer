@@ -1,5 +1,5 @@
 import { CheckOutlined } from '@ant-design/icons';
-import { Dropdown, Input, Menu, Switch, Tag } from '@madccc/antd';
+import { Dropdown, Input, Menu, Switch } from '@madccc/antd';
 import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
 import classNames from 'classnames';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
@@ -7,7 +7,7 @@ import type { TokenType } from '../utils/classifyToken';
 import { classifyToken, TOKEN_SORTS } from '../utils/classifyToken';
 import makeStyle from '../utils/makeStyle';
 import TokenCard, { IconMap, TextMap } from './token-card';
-import type { Theme } from '../interface';
+import type { Theme, TokenName } from '../interface';
 import { SearchDropdown } from '../icons';
 
 const useStyle = makeStyle('AliasTokenPreview', (token) => ({
@@ -51,16 +51,6 @@ const useStyle = makeStyle('AliasTokenPreview', (token) => ({
             opacity: 1,
           },
         },
-
-        '&.preview-panel-token-wrapper-ping-bottom': {
-          '&::after': {
-            opacity: 1,
-          },
-        },
-      },
-      '.preview-panel-subtitle': {
-        fontSize: token.fontSizeSM,
-        color: token.colorTextSecondary,
       },
       '.preview-panel-space': {
         marginBottom: 20,
@@ -99,17 +89,10 @@ const useStyle = makeStyle('AliasTokenPreview', (token) => ({
           fontSize: token.fontSizeSM,
           paddingInlineStart: 4,
         },
-      },
-    },
 
-    '.ant-tag.previewer-token-filter-tag': {
-      color: token.colorPrimary,
-      backgroundColor: 'rgba(22,119,255,0.10)',
-      border: 'none',
-      borderRadius: 4,
-
-      '> .anticon': {
-        color: token.colorPrimary,
+        '.previewer-token-type-dropdown-icon-active': {
+          color: token.colorPrimary,
+        },
       },
     },
   },
@@ -121,11 +104,15 @@ export interface MutableTheme extends Theme {
 
 export interface TokenPreviewProps {
   themes: MutableTheme[];
-  selectedTokens: string[];
-  onTokenSelect: (token: string) => void;
+  selectedTokens: TokenName[];
+  onTokenSelect: (token: TokenName) => void;
+  filterTypes: TokenType[];
+  onFilterTypesChange?: (types: TokenType[]) => void;
 }
 
-export const PreviewContext = React.createContext<TokenPreviewProps>({
+export const PreviewContext = React.createContext<
+  Omit<TokenPreviewProps, 'filterTypes' | 'onFilterTypesChange'>
+>({
   themes: [],
   selectedTokens: [],
   onTokenSelect: () => {},
@@ -136,15 +123,12 @@ export default (props: TokenPreviewProps) => {
   const [wrapSSR, hashId] = useStyle();
   const [{ config }] = themes;
   const [search, setSearch] = useState<string>('');
-  const [filterTypes, setFilterTypes] = useState<TokenType[]>([]);
   const [showAll, setShowAll] = useState<boolean>(false);
   const [showTokenListShadowTop, setShowTokenListShadowTop] =
     useState<boolean>(false);
-  const [showTokenListShadowBottom, setShowTokenListShadowBottom] =
-    useState<boolean>(true);
   const cardWrapperRef = useRef<HTMLDivElement>(null);
 
-  const { selectedTokens, onTokenSelect } = props;
+  const { filterTypes, onFilterTypesChange } = props;
 
   // TODO: Split AliasToken and SeedToken
   const groupedToken = useMemo(
@@ -155,11 +139,6 @@ export default (props: TokenPreviewProps) => {
   useEffect(() => {
     const handleTokenListScroll = () => {
       setShowTokenListShadowTop((cardWrapperRef.current?.scrollTop ?? 0) > 0);
-      setShowTokenListShadowBottom(
-        (cardWrapperRef.current?.scrollTop ?? 0) +
-          (cardWrapperRef.current?.clientHeight ?? 0) <
-          (cardWrapperRef.current?.firstElementChild?.clientHeight ?? 0),
-      );
     };
     cardWrapperRef.current?.addEventListener('scroll', handleTokenListScroll);
     const wrapper = cardWrapperRef.current;
@@ -217,10 +196,10 @@ export default (props: TokenPreviewProps) => {
                             label: TextMap[type],
                             key: type,
                             onClick: () => {
-                              setFilterTypes((prev) =>
-                                prev.includes(type)
-                                  ? prev.filter((item) => type !== item)
-                                  : [...prev, type],
+                              onFilterTypesChange?.(
+                                filterTypes.includes(type)
+                                  ? filterTypes.filter((item) => type !== item)
+                                  : [...filterTypes, type],
                               );
                             },
                           })),
@@ -235,20 +214,23 @@ export default (props: TokenPreviewProps) => {
                         cursor: 'pointer',
                         fontSize: 18,
                         paddingTop: 2,
+                        transition: 'color 0.3s',
                       }}
+                      className={classNames({
+                        'previewer-token-type-dropdown-icon-active':
+                          filterTypes.length > 0,
+                      })}
                     />
                   </Dropdown>
                 </>
               }
-              className={classNames('preview-panel-search', hashId)}
+              className="preview-panel-search"
               placeholder="搜索 Token / 色值 / 文本 / 圆角等"
             />
           </div>
           <div
             className={classNames('preview-panel-token-wrapper', {
               'preview-panel-token-wrapper-ping-top': showTokenListShadowTop,
-              'preview-panel-token-wrapper-ping-bottom':
-                showTokenListShadowBottom,
             })}
           >
             <div
@@ -271,46 +253,6 @@ export default (props: TokenPreviewProps) => {
               </div>
             </div>
           </div>
-          {(filterTypes.length > 0 || selectedTokens.length > 0) && (
-            <div style={{ padding: 12 }}>
-              {filterTypes.length > 0 && (
-                <div style={{ marginBlock: 8 }}>
-                  <span className="preview-panel-subtitle">显示分组：</span>
-                  {filterTypes.map((item) => (
-                    <Tag
-                      className="previewer-token-filter-tag"
-                      key={item}
-                      closable
-                      onClose={() =>
-                        setFilterTypes((prev) =>
-                          prev.filter((type) => type !== item),
-                        )
-                      }
-                      style={{ marginBlock: 2 }}
-                    >
-                      {TextMap[item]}
-                    </Tag>
-                  ))}
-                </div>
-              )}
-              {selectedTokens.length > 0 && (
-                <div style={{ marginBlock: 8 }}>
-                  <span className="preview-panel-subtitle">已选中：</span>
-                  {selectedTokens.map((token) => (
-                    <Tag
-                      key={token}
-                      closable
-                      onClose={() => onTokenSelect(token)}
-                      style={{ marginBlock: 2 }}
-                      className="previewer-token-filter-tag"
-                    >
-                      {token}
-                    </Tag>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
         </div>
       </div>
     </PreviewContext.Provider>,
