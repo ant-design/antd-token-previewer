@@ -229,8 +229,11 @@ const Index: FC<ComponentPanelProps> = ({
   const scrollToComponent = (component: string) => {
     demosRef.current?.scrollTo({
       top:
-        (demosRef.current?.querySelector(`#${getComponentDemoId(component)}`)
-          ?.offsetTop || 0) - 40,
+        ((
+          demosRef.current?.querySelector(
+            `#${getComponentDemoId(component)}`,
+          ) as HTMLElement
+        )?.offsetTop || 0) - 40,
       behavior: 'smooth',
     });
   };
