@@ -35,6 +35,10 @@ const useStyle = makeStyle('ComponentTree', (token) => ({
       '.ant-tree-treenode-active .ant-tree-node-content-wrapper': {
         color: token.colorTextLightSolid,
         backgroundColor: token.colorPrimary,
+
+        '.component-tree-item.component-tree-item-highlight': {
+          color: token.colorTextLightSolid,
+        },
       },
 
       '.component-tree-item': {
