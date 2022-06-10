@@ -92,8 +92,8 @@ const useStyle = makeStyle('ComponentCard', (token) => ({
   },
 }));
 
-export const getComponentDemoId = (component: string, theme: string) =>
-  `antd-token-previewer-${theme}-${component}`;
+export const getComponentDemoId = (component: string) =>
+  `antd-token-previewer-${component}`;
 
 export type ComponentCardProps = PropsWithChildren<{
   component: string;
@@ -160,10 +160,6 @@ const ComponentCard: FC<ComponentCardProps> = ({
 
   return wrapSSR(
     <div>
-      <div
-        id={getComponentDemoId(component, theme.key)}
-        style={{ height: 0, transform: 'translateY(-16px)' }}
-      />
       <Card
         className={classNames('component-card', hashId)}
         title={component}

@@ -2,7 +2,7 @@ import type { Theme } from '../interface';
 import type { FC, ReactNode } from 'react';
 import React from 'react';
 import ComponentDemos from '../component-demos';
-import ComponentCard from './ComponentCard';
+import ComponentCard, { getComponentDemoId } from './ComponentCard';
 import { ConfigProvider, Divider } from '@madccc/antd';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
@@ -89,6 +89,7 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
             <div
               className={classNames('previewer-component-demo-group', hashId)}
               key={item}
+              id={getComponentDemoId(item)}
             >
               {themes.map((theme) => (
                 <ConfigProvider key={item} theme={theme.config}>
