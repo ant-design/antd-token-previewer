@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import type { FC } from 'react';
+import type { CSSProperties, FC } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
 import ComponentTree from './ComponentTree';
 import makeStyle from '../utils/makeStyle';
@@ -9,6 +9,7 @@ import { Segmented, Switch } from '@madccc/antd';
 import type { Theme } from '../interface';
 import useStatistic from '../hooks/useStatistic';
 import ComponentDemoGroup from './ComponentDemoGroup';
+import type { FilterMode } from '../FilterPanel';
 
 const useStyle = makeStyle('ComponentPanel', (token) => ({
   '.component-panel': {
@@ -147,9 +148,18 @@ export const antdComponents = {
 export type ComponentPanelProps = {
   themes: Theme[];
   selectedTokens?: string[];
+  filterMode?: FilterMode;
+  className?: string;
+  style?: CSSProperties;
 };
 
-const Index: FC<ComponentPanelProps> = ({ themes, selectedTokens }) => {
+const Index: FC<ComponentPanelProps> = ({
+  themes,
+  selectedTokens,
+  filterMode,
+  className,
+  ...rest
+}) => {
   const [wrapSSR, hashId] = useStyle();
   const [showSide, setShowSide] = useState<boolean>(true);
   const demosRef = useRef<HTMLDivElement>(null);
@@ -157,9 +167,6 @@ const Index: FC<ComponentPanelProps> = ({ themes, selectedTokens }) => {
     'large' | 'small' | 'middle'
   >('middle');
   const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
-  const [filterMode, setFilterMode] = useState<'filter' | 'highlight'>(
-    'filter',
-  );
 
   const { relatedComponents } = useStatistic(selectedTokens);
 
@@ -173,7 +180,7 @@ const Index: FC<ComponentPanelProps> = ({ themes, selectedTokens }) => {
   }, [selectedTokens]);
 
   return wrapSSR(
-    <div className={classNames('component-panel', hashId)}>
+    <div className={classNames('component-panel', hashId, className)} {...rest}>
       <div
         className={classNames('component-panel-side', {
           'component-panel-side-hidden': !showSide,
@@ -181,7 +188,6 @@ const Index: FC<ComponentPanelProps> = ({ themes, selectedTokens }) => {
       >
         <ComponentTree
           filterMode={filterMode}
-          onFilterModeChange={(value) => setFilterMode(value)}
           selectedTokens={selectedTokens}
           components={antdComponents}
           onSelect={(component) => {

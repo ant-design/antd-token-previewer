@@ -1,5 +1,4 @@
-import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
-import type { TokenValue } from '../interface';
+import type { TokenName, TokenValue } from '../interface';
 import type { GlobalToken } from '@madccc/antd/lib/_util/theme/interface';
 
 function defineTokenType<T extends string>(types: T[]) {
@@ -7,10 +6,10 @@ function defineTokenType<T extends string>(types: T[]) {
 }
 
 export const TOKEN_SORTS = defineTokenType([
+  'colorCommon',
   'colorText',
   'colorBg',
   'colorSplit',
-  'colorCommon',
   'font',
   'radius',
   'space',
@@ -71,8 +70,6 @@ function getTypeOfToken(tokenName: keyof GlobalToken): TokenType {
   }
   return 'others';
 }
-
-export type TokenName = keyof Exclude<ThemeConfig['token'], undefined>;
 
 export const classifyToken = (
   token: Record<string, TokenValue>,

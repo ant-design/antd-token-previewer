@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import type { FC } from 'react';
-import { Badge, Segmented, Tree } from '@madccc/antd';
+import { Badge, Tree } from '@madccc/antd';
 import classNames from 'classnames';
 import useStatistic from '../hooks/useStatistic';
 import makeStyle from '../utils/makeStyle';
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import type { FilterMode } from '../FilterPanel';
 
 const useStyle = makeStyle('ComponentTree', (token) => ({
   '.component-tree-wrapper': {
@@ -14,24 +14,7 @@ const useStyle = makeStyle('ComponentTree', (token) => ({
     overflow: 'hidden',
     display: 'flex',
     flexDirection: 'column',
-    paddingBottom: token.paddingXS,
-
-    '.component-tree-head': {
-      padding: token.paddingXS,
-      display: 'flex',
-      alignItems: 'center',
-      flex: 'none',
-
-      '.component-tree-filter-type': {
-        color: token.colorTextSecondary,
-        marginRight: token.marginXS,
-        fontSize: token.fontSizeSM,
-      },
-
-      '.component-tree-filter-segmented': {
-        fontSize: token.fontSizeSM,
-      },
-    },
+    paddingBlock: token.paddingXS,
 
     '.component-tree': {
       fontSize: token.fontSizeSM,
@@ -51,22 +34,17 @@ export type ComponentTreeProps = {
   onSelect?: (component: string) => void;
   components: Record<string, string[]>;
   selectedTokens?: string[];
-  filterMode?: 'filter' | 'highlight';
-  onFilterModeChange?: (mode: 'filter' | 'highlight') => void;
+  filterMode?: FilterMode;
 };
 
 const ComponentTree: FC<ComponentTreeProps> = ({
   onSelect,
   components,
   selectedTokens,
-  filterMode: customFilterMode = 'filter',
-  onFilterModeChange,
+  filterMode = 'filter',
 }) => {
   const [wrapSSR, hashId] = useStyle();
   const { relatedComponents } = useStatistic(selectedTokens);
-  const [filterMode, setFilterMode] = useMergedState<'filter' | 'highlight'>(
-    customFilterMode,
-  );
   const treeRef = useRef<HTMLDivElement>(null);
 
   const treeData = useMemo(
@@ -132,22 +110,6 @@ const ComponentTree: FC<ComponentTreeProps> = ({
 
   return wrapSSR(
     <div className={classNames('component-tree-wrapper', hashId)}>
-      <div className="component-tree-head">
-        <div className="component-tree-filter-type">筛选方式</div>
-        <Segmented
-          className="component-tree-filter-segmented"
-          size="small"
-          value={filterMode}
-          onChange={(value) => {
-            onFilterModeChange?.(value as any);
-            setFilterMode(value as any);
-          }}
-          options={[
-            { label: '过滤', value: 'filter' },
-            { label: '高亮', value: 'highlight' },
-          ]}
-        />
-      </div>
       <div ref={treeRef} style={{ overflow: 'auto', flex: 1 }}>
         <Tree
           showIcon
