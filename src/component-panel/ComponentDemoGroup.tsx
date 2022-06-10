@@ -69,9 +69,13 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
           if (!componentDemos) {
             return null;
           }
-          const Demos: ReactNode[] = [];
-          if (selectedTokens && selectedTokens.length > 0) {
-            Object.values(componentDemos).forEach(({ tokens, demo }) => {
+          const Demos: ReactNode[] = [componentDemos.default];
+          if (
+            selectedTokens &&
+            selectedTokens.length > 0 &&
+            componentDemos.optional
+          ) {
+            componentDemos.optional.forEach(({ tokens, demo }) => {
               if (
                 (tokens &&
                   tokens.some((token) => selectedTokens.includes(token))) ||
@@ -80,8 +84,6 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
                 Demos.push(demo);
               }
             });
-          } else {
-            Demos.push(componentDemos.default.demo);
           }
           return (
             <div
