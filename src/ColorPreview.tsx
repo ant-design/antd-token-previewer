@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import React from 'react';
+import classNames from 'classnames';
 
 export type ColorPreviewProps = {
   color: string;
@@ -10,12 +11,13 @@ export type ColorPreviewProps = {
 const ColorPreview: FC<ColorPreviewProps> = ({
   color,
   style,
+  className,
   ...restProps
 }) => {
   return (
     <div
       {...restProps}
-      className="previewer-color-preview"
+      className={classNames('previewer-color-preview', className)}
       style={{
         width: 20,
         height: 20,
