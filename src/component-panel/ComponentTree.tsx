@@ -39,6 +39,9 @@ const useStyle = makeStyle('ComponentTree', (token) => ({
 
       '.component-tree-item': {
         transition: `color ${token.motionDurationMid}`,
+        lineHeight: `24px`,
+        height: 24,
+        display: 'inline-block',
       },
     },
   },
@@ -52,6 +55,8 @@ export type ComponentTreeProps = {
   activeComponent?: string;
 };
 
+const getTreeItemId = (component: string) => `component-tree-item-${component}`;
+
 const ComponentTree: FC<ComponentTreeProps> = ({
   onSelect,
   components,
@@ -62,6 +67,15 @@ const ComponentTree: FC<ComponentTreeProps> = ({
   const [wrapSSR, hashId] = useStyle();
   const { relatedComponents } = useStatistic(selectedTokens);
   const treeRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    treeRef.current
+      ?.querySelector<HTMLElement>(`#${getTreeItemId(activeComponent || '')}`)
+      ?.scrollIntoView({
+        block: 'nearest',
+        inline: 'nearest',
+      });
+  }, [activeComponent]);
 
   const treeData = useMemo(
     () =>
@@ -85,6 +99,7 @@ const ComponentTree: FC<ComponentTreeProps> = ({
             .map((item) => ({
               title: (
                 <span
+                  id={getTreeItemId(item)}
                   className={classNames('component-tree-item', {
                     'component-tree-item-highlight':
                       filterMode === 'highlight' &&
