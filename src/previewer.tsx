@@ -8,7 +8,7 @@ import ThemeSelect from './ThemeSelect';
 import useToken from './hooks/useToken';
 import { DarkTheme, CompactTheme, Arrow } from './icons';
 import makeStyle from './utils/makeStyle';
-import type { MutableTheme } from './token-panel';
+import type { MutableTheme, TokenPanelRef } from './token-panel';
 import TokenPanel from './token-panel';
 import type { FilterMode } from './FilterPanel';
 import FilterPanel from './FilterPanel';
@@ -90,6 +90,7 @@ const InternalPreviewer: React.FC = () => {
   const [filterMode, setFilterMode] = useState<FilterMode>('filter');
   const [filterTypes, setFilterTypes] = useState<TokenType[]>([]);
 
+  const tokenPanelRef = useRef<TokenPanelRef>(null);
   const dragRef = useRef(false);
 
   const [themes, setThemes] = useState<ThemeSelectProps['themes']>([
@@ -135,6 +136,10 @@ const InternalPreviewer: React.FC = () => {
       window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
+
+  const handleTokenClick = (tokenName: TokenName) => {
+    tokenPanelRef.current?.scrollToToken(tokenName);
+  };
 
   return wrapSSR(
     <Layout className={classNames('previewer-layout', hashId)}>
@@ -202,6 +207,7 @@ const InternalPreviewer: React.FC = () => {
             shape="circle"
           />
           <TokenPanel
+            ref={tokenPanelRef}
             filterTypes={filterTypes}
             onFilterTypesChange={(types) => setFilterTypes(types)}
             themes={enabledThemes.map<MutableTheme>((item) => {
@@ -248,6 +254,7 @@ const InternalPreviewer: React.FC = () => {
             onSelectedTokensChange={(tokens) => setSelectedTokens(tokens)}
             filterMode={filterMode}
             onFilterModeChange={(mode) => setFilterMode(mode)}
+            onTokenClick={(tokenName) => handleTokenClick(tokenName)}
           />
           <ComponentPanel
             filterMode={filterMode}
@@ -255,6 +262,7 @@ const InternalPreviewer: React.FC = () => {
             themes={enabledThemes.map(
               (theme) => themes.find((item) => item.key === theme)!,
             )}
+            onTokenClick={(tokenName) => handleTokenClick(tokenName)}
             style={{ flex: 1, height: 0, marginTop: 12 }}
           />
         </Content>

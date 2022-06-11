@@ -9,7 +9,7 @@ import {
 } from '@madccc/antd';
 import { Pick } from '../../icons';
 import type { CSSProperties, FC } from 'react';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { SketchPicker } from 'react-color';
 import type { MutableTheme } from '..';
 import { PreviewContext } from '..';
@@ -27,6 +27,8 @@ const isColor = (tokenName: string) => {
 
 interface TokenItemProps {
   tokenName: TokenName;
+  active?: boolean;
+  onActiveChange?: (active: boolean) => void;
 }
 
 const AdditionInfo = ({
@@ -129,6 +131,14 @@ const useStyle = makeStyle('TokenItem', (token) => ({
         paddingInline: token.paddingXXS * 1.5,
         color: token.colorTextSecondary,
         backgroundColor: token.colorBgComponentSecondary,
+      },
+
+      '.previewer-token-item-name': {
+        transition: 'color 0.3s',
+      },
+
+      '.previewer-token-item-highlighted.previewer-token-item-name': {
+        color: `${token.colorPrimary} !important`,
       },
     },
 
@@ -278,101 +288,117 @@ const TokenInput: FC<TokenInputProps> = ({ theme, token }) => {
   return <div>{inputNode}</div>;
 };
 
-export default ({ tokenName }: TokenItemProps) => {
+export const getTokenItemId = (token: TokenName) =>
+  `previewer-token-panel-item-${token}`;
+
+export default ({ tokenName, active, onActiveChange }: TokenItemProps) => {
   const { selectedTokens, themes, onTokenSelect } =
     React.useContext(PreviewContext);
   const [infoVisible, setInfoVisible] = React.useState(false);
   const [wrapSSR, hashId] = useStyle();
   const { getRelatedComponents } = useStatistic();
 
+  useEffect(() => {
+    if (active) {
+      setInfoVisible(true);
+    }
+  }, [active]);
+
   return wrapSSR(
-    <Collapse
-      collapsible="header"
-      ghost
-      onChange={() => setInfoVisible(!infoVisible)}
-      className={classNames('previewer-token-item-collapse', hashId)}
-      expandIcon={({ isActive }) => (
-        <CaretRightOutlined
-          rotate={isActive ? 90 : 0}
-          style={{ fontSize: 12, cursor: 'pointer' }}
-        />
-      )}
-    >
-      <Panel
-        key={tokenName}
-        className={'previewer-token-item'}
-        header={
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 8,
-            }}
-          >
-            <span
+    <div onMouseEnter={() => onActiveChange?.(false)}>
+      <Collapse
+        collapsible="header"
+        ghost
+        onChange={(key) => setInfoVisible(key.length > 0)}
+        className={classNames('previewer-token-item-collapse', hashId)}
+        expandIcon={({ isActive }) => (
+          <CaretRightOutlined
+            rotate={isActive ? 90 : 0}
+            style={{ fontSize: 12, cursor: 'pointer' }}
+          />
+        )}
+        activeKey={infoVisible ? tokenName : undefined}
+      >
+        <Panel
+          key={tokenName}
+          className="previewer-token-item"
+          header={
+            <div
               style={{
-                flex: 1,
-                width: 0,
                 display: 'flex',
-                overflow: 'hidden',
                 alignItems: 'center',
+                gap: 8,
               }}
+              id={getTokenItemId(tokenName)}
             >
               <span
-                title={tokenName}
                 style={{
-                  marginInlineEnd: '5px',
+                  flex: 1,
+                  width: 0,
+                  display: 'flex',
                   overflow: 'hidden',
-                  textOverflow: 'ellipsis',
+                  alignItems: 'center',
                 }}
               >
-                {tokenName}
+                <span
+                  title={tokenName}
+                  className={classNames('previewer-token-item-name', {
+                    'previewer-token-item-highlighted': active,
+                  })}
+                  style={{
+                    marginInlineEnd: '5px',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  }}
+                >
+                  {tokenName}
+                </span>
+                <span className="previewer-token-count">
+                  {getRelatedComponents(tokenName).length}
+                </span>
               </span>
-              <span className="previewer-token-count">
-                {getRelatedComponents(tokenName).length}
-              </span>
-            </span>
-            <div className="previewer-token-preview">
-              {themes.map(({ config, key }) => {
-                return (
-                  <AdditionInfo
-                    key={key}
-                    tokenName={tokenName}
-                    info={config.override?.alias?.[tokenName] ?? ''}
-                    visible={!infoVisible}
-                  />
-                );
-              })}
-            </div>
-          </div>
-        }
-        extra={
-          <ShowUsageButton
-            selected={selectedTokens.includes(tokenName)}
-            toggleSelected={() => {
-              onTokenSelect(tokenName);
-            }}
-          />
-        }
-      >
-        <Space
-          direction="vertical"
-          style={{
-            background: '#fafafa',
-            borderRadius: 4,
-            padding: 8,
-            width: '100%',
-          }}
-        >
-          {themes.map((theme) => {
-            return (
-              <div key={theme.key}>
-                <TokenInput theme={theme} token={tokenName} />
+              <div className="previewer-token-preview">
+                {themes.map(({ config, key }) => {
+                  return (
+                    <AdditionInfo
+                      key={key}
+                      tokenName={tokenName}
+                      info={config.override?.alias?.[tokenName] ?? ''}
+                      visible={!infoVisible}
+                    />
+                  );
+                })}
               </div>
-            );
-          })}
-        </Space>
-      </Panel>
-    </Collapse>,
+            </div>
+          }
+          extra={
+            <ShowUsageButton
+              selected={selectedTokens.includes(tokenName)}
+              toggleSelected={() => {
+                onTokenSelect(tokenName);
+              }}
+            />
+          }
+        >
+          <Space
+            direction="vertical"
+            style={{
+              background: '#fafafa',
+              borderRadius: 4,
+              padding: 8,
+              width: '100%',
+            }}
+          >
+            {themes.map((theme) => {
+              return (
+                <div key={theme.key}>
+                  <TokenInput theme={theme} token={tokenName} />
+                </div>
+              );
+            })}
+          </Space>
+        </Panel>
+      </Collapse>
+    </div>,
   );
 };

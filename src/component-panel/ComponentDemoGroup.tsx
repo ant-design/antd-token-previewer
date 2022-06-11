@@ -1,11 +1,12 @@
 import type { Theme } from '../interface';
 import type { FC, ReactNode } from 'react';
-import React from 'react';
+import React, { Fragment } from 'react';
 import ComponentDemos from '../component-demos';
 import ComponentCard, { getComponentDemoId } from './ComponentCard';
 import { ConfigProvider, Divider } from '@madccc/antd';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
+import type { TokenName } from '../interface';
 
 type ComponentDemoGroupProps = {
   themes: Theme[];
@@ -14,6 +15,7 @@ type ComponentDemoGroupProps = {
   size?: 'small' | 'middle' | 'large';
   disabled?: boolean;
   selectedTokens?: string[];
+  onTokenClick?: (token: TokenName) => void;
 };
 
 const useStyle = makeStyle('ComponentDemoGroup', (token) => ({
@@ -51,6 +53,7 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
   disabled,
   activeComponents,
   selectedTokens,
+  onTokenClick,
 }) => {
   const [wrapSSR, hashId] = useStyle();
 
@@ -94,16 +97,20 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
               {themes.map((theme) => (
                 <ConfigProvider key={item} theme={theme.config}>
                   <div className="previewer-component-demo-group-item">
-                    <ComponentCard theme={theme} component={item}>
+                    <ComponentCard
+                      onTokenClick={onTokenClick}
+                      theme={theme}
+                      component={item}
+                    >
                       <ConfigProvider
                         componentSize={size}
                         componentDisabled={disabled}
                       >
                         {Demos.map((demo, index) => (
-                          <>
+                          <Fragment key={index}>
                             {demo}
                             {index < Demos.length - 1 && <Divider />}
-                          </>
+                          </Fragment>
                         ))}
                       </ConfigProvider>
                     </ComponentCard>
