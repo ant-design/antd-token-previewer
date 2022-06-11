@@ -9,7 +9,7 @@ import {
 } from '@madccc/antd';
 import { Pick } from '../../icons';
 import type { CSSProperties, FC } from 'react';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { SketchPicker } from 'react-color';
 import type { MutableTheme } from '..';
 import { PreviewContext } from '..';
