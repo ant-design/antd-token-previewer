@@ -17,7 +17,7 @@ import type { ReactNode } from 'react';
 import React from 'react';
 import makeStyle from '../../utils/makeStyle';
 import TokenItem from '../token-item';
-import type { TokenValue } from '../../interface';
+import type { TokenName, TokenValue } from '../../interface';
 
 import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
 import { Motion, ShapeLine } from '../../icons';
@@ -34,6 +34,10 @@ interface TokenCardProps {
   }[];
   keyword?: string;
   hideUseless?: boolean;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  activeToken?: TokenName;
+  onActiveTokenChange?: (token: TokenName | undefined) => void;
 }
 
 export const IconMap: Record<TokenType, ReactNode> = {
@@ -137,6 +141,10 @@ export default ({
   tokenArr,
   keyword,
   hideUseless,
+  open,
+  onOpenChange,
+  activeToken,
+  onActiveTokenChange,
 }: TokenCardProps) => {
   const [wrapSSR, hashId] = useStyle();
   const { getRelatedComponents } = useStatistic();
@@ -153,6 +161,10 @@ export default ({
         )}
         expandIconPosition="right"
         className="token-card-collapse"
+        activeKey={open ? '1' : undefined}
+        onChange={(keys) => {
+          onOpenChange?.(keys.length > 0);
+        }}
       >
         <Panel
           header={
@@ -173,8 +185,15 @@ export default ({
                 (!hideUseless ||
                   getRelatedComponents(item.tokenName).length > 0),
             )
-            .map((item) => (
-              <TokenItem tokenName={item.tokenName} key={item.tokenName} />
+            .map(({ tokenName }) => (
+              <TokenItem
+                onActiveChange={(active) =>
+                  onActiveTokenChange?.(active ? tokenName : undefined)
+                }
+                active={activeToken === tokenName}
+                tokenName={tokenName}
+                key={tokenName}
+              />
             ))}
         </Panel>
       </Collapse>

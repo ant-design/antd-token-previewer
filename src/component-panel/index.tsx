@@ -10,6 +10,7 @@ import type { Theme } from '../interface';
 import useStatistic from '../hooks/useStatistic';
 import ComponentDemoGroup from './ComponentDemoGroup';
 import type { FilterMode } from '../FilterPanel';
+import type { TokenName } from '../interface';
 
 const BREADCRUMB_HEIGHT = 40;
 
@@ -169,6 +170,7 @@ export type ComponentPanelProps = {
   filterMode?: FilterMode;
   className?: string;
   style?: CSSProperties;
+  onTokenClick?: (token: TokenName) => void;
 };
 
 const Index: FC<ComponentPanelProps> = ({
@@ -176,6 +178,7 @@ const Index: FC<ComponentPanelProps> = ({
   selectedTokens,
   filterMode,
   className,
+  onTokenClick,
   ...rest
 }) => {
   const [wrapSSR, hashId] = useStyle();
@@ -332,6 +335,7 @@ const Index: FC<ComponentPanelProps> = ({
                 filterMode === 'highlight' ? undefined : relatedComponents
               }
               selectedTokens={selectedTokens}
+              onTokenClick={onTokenClick}
             />
           </div>
         </div>

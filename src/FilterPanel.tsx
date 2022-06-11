@@ -59,6 +59,7 @@ export type FilterPanelProps = {
   onFilterModeChange?: (mode: FilterMode) => void;
   selectedTokens: TokenName[];
   onSelectedTokensChange?: (newTokens: TokenName[]) => void;
+  onTokenClick?: (token: TokenName) => void;
   className?: string;
   style?: CSSProperties;
 };
@@ -69,6 +70,7 @@ const FilterPanel: FC<FilterPanelProps> = ({
   onFilterModeChange,
   selectedTokens,
   onSelectedTokensChange,
+  onTokenClick,
   ...rest
 }) => {
   const [wrapSSR, hashId] = useStyle();
@@ -115,8 +117,9 @@ const FilterPanel: FC<FilterPanelProps> = ({
                     selectedTokens?.filter((item) => item !== token),
                   )
                 }
-                style={{ marginBlock: 2 }}
+                style={{ marginBlock: 2, cursor: 'pointer' }}
                 className="previewer-token-filter-tag"
+                onClick={() => onTokenClick?.(token)}
               >
                 {token}
               </Tag>

@@ -12,8 +12,6 @@ const useToken = (): [
   const [, token] = useAntdToken();
   const [tokens, setTokens] = useState<GlobalToken>(token);
 
-  console.log(Object.keys(token));
-
   return [tokens, setTokens];
 };
 

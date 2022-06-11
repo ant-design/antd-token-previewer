@@ -22,7 +22,7 @@ export const TOKEN_SORTS = defineTokenType([
 
 export type TokenType = typeof TOKEN_SORTS[number];
 
-function getTypeOfToken(tokenName: keyof GlobalToken): TokenType {
+export function getTypeOfToken(tokenName: keyof GlobalToken): TokenType {
   if (tokenName.startsWith('color')) {
     if (
       tokenName.startsWith('colorLink') ||

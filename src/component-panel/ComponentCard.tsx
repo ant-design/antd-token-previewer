@@ -7,7 +7,7 @@ import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
 import useStatistic from '../hooks/useStatistic';
 import ColorPreview from '../ColorPreview';
-import type { AliasToken, Theme } from '../interface';
+import type { AliasToken, Theme, TokenName } from '../interface';
 
 const useStyle = makeStyle('ComponentCard', (token) => ({
   '.ant-card.component-card': {
@@ -98,12 +98,14 @@ export const getComponentDemoId = (component: string) =>
 export type ComponentCardProps = PropsWithChildren<{
   component: string;
   theme: Theme;
+  onTokenClick?: (token: TokenName) => void;
 }>;
 
 const ComponentCard: FC<ComponentCardProps> = ({
   children,
   component,
   theme,
+  onTokenClick,
 }) => {
   const [wrapSSR, hashId] = useStyle();
   const [tokenDrawerOpen, setTokenDrawerOpen] = useState<boolean>(false);
@@ -116,6 +118,14 @@ const ComponentCard: FC<ComponentCardProps> = ({
     {
       dataIndex: 'name',
       title: 'Name',
+      render: (value) => (
+        <span
+          style={{ cursor: 'pointer' }}
+          onClick={() => onTokenClick?.(value)}
+        >
+          {value}
+        </span>
+      ),
     },
     {
       dataIndex: 'value',
@@ -150,7 +160,7 @@ const ComponentCard: FC<ComponentCardProps> = ({
   );
 
   const aliasTokenData = useMemo(() => {
-    return aliasTokenNames.map((tokenName) => ({
+    return aliasTokenNames.sort().map((tokenName) => ({
       name: tokenName,
       value: theme.config.override?.alias?.[tokenName as keyof AliasToken],
     }));
