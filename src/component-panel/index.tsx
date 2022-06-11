@@ -193,13 +193,8 @@ const Index: FC<ComponentPanelProps> = ({
 
   const { relatedComponents } = useStatistic(selectedTokens);
 
-  // const tokenNumberRef = useRef<number>(selectedTokens?.length || 0);
-
   useEffect(() => {
-    // if ((selectedTokens?.length || 0) > tokenNumberRef.current) {
     setShowSide(true);
-    // }
-    // tokenNumberRef.current = selectedTokens?.length || 0;
   }, [selectedTokens]);
 
   useEffect(() => {

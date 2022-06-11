@@ -1,23 +1,15 @@
 import { CaretRightOutlined } from '@ant-design/icons';
-import {
-  Button,
-  Collapse,
-  Dropdown,
-  Input,
-  InputNumber,
-  Space,
-} from '@madccc/antd';
+import { Collapse, Space } from '@madccc/antd';
 import { Pick } from '../../icons';
-import type { CSSProperties, FC } from 'react';
-import React, { useEffect, useRef } from 'react';
-import { SketchPicker } from 'react-color';
-import type { MutableTheme } from '..';
+import type { CSSProperties } from 'react';
+import React, { useEffect } from 'react';
 import { PreviewContext } from '..';
-import type { TokenName, TokenValue } from '../../interface';
+import type { MutableTheme, TokenName, TokenValue } from '../../interface';
 import makeStyle from '../../utils/makeStyle';
 import classNames from 'classnames';
 import ColorPreview from '../../ColorPreview';
 import useStatistic from '../../hooks/useStatistic';
+import TokenInput from '../../TokenInput';
 
 const { Panel } = Collapse;
 
@@ -164,130 +156,6 @@ const useStyle = makeStyle('TokenItem', (token) => ({
   },
 }));
 
-const ColorPanel = ({
-  color,
-  onChange,
-}: {
-  color: string;
-  onChange: (color: string) => void;
-}) => {
-  return (
-    <SketchPicker
-      color={color}
-      onChange={(v) => {
-        onChange(v.hex);
-      }}
-    />
-  );
-};
-
-type TokenInputProps = {
-  theme: MutableTheme;
-  token: TokenName;
-};
-
-const TokenInput: FC<TokenInputProps> = ({ theme, token }) => {
-  const valueRef = useRef<number | string>(
-    theme.config?.override?.alias?.[token] || '',
-  );
-  const canReset = valueRef.current !== theme.config?.override?.alias?.[token];
-
-  const handleTokenChange = (value: TokenValue) => {
-    theme.onThemeChange?.({
-      ...theme.config,
-      override: {
-        ...theme.config.override,
-        alias: {
-          ...theme.config.override?.alias,
-          [token]: value,
-        },
-      },
-    });
-  };
-
-  const addonAfter = (
-    <span style={{ display: 'flex', alignItems: 'center' }}>
-      <Button
-        style={{
-          fontSize: 12,
-          opacity: canReset ? 1 : 0,
-          cursor: canReset ? 'pointer' : 'default',
-        }}
-        disabled={!canReset}
-        onClick={() => handleTokenChange(valueRef.current)}
-        type="link"
-        size="small"
-      >
-        重置
-      </Button>
-      {theme.name}
-    </span>
-  );
-
-  let inputNode;
-  const tokenValue = theme.config?.override?.alias?.[token];
-  if (
-    typeof tokenValue === 'string' &&
-    (tokenValue.startsWith('#') || tokenValue.startsWith('rgb'))
-  ) {
-    inputNode = (
-      <Input
-        bordered={false}
-        addonAfter={addonAfter}
-        value={String(tokenValue)}
-        addonBefore={
-          <Dropdown
-            trigger={['click']}
-            overlay={
-              <ColorPanel
-                color={String(theme.config.override?.alias?.[token])}
-                onChange={(v: string) => {
-                  handleTokenChange(v);
-                }}
-              />
-            }
-          >
-            <ColorPreview
-              color={String(tokenValue)}
-              style={{ cursor: 'pointer', marginRight: 8 }}
-            />
-          </Dropdown>
-        }
-        onChange={(e) => {
-          handleTokenChange(e.target.value);
-        }}
-      />
-    );
-  } else if (typeof theme.config.override?.alias?.[token] === 'number') {
-    inputNode = (
-      <InputNumber
-        addonAfter={addonAfter}
-        bordered={false}
-        value={tokenValue}
-        onChange={(value) => {
-          handleTokenChange(Number(value));
-        }}
-      />
-    );
-  } else {
-    inputNode = (
-      <Input
-        addonAfter={addonAfter}
-        bordered={false}
-        value={String(tokenValue)}
-        onChange={(e) => {
-          handleTokenChange(
-            typeof theme.config.override?.alias?.[token] === 'number'
-              ? Number(e.target.value)
-              : e.target.value,
-          );
-        }}
-      />
-    );
-  }
-  return <div>{inputNode}</div>;
-};
-
 export const getTokenItemId = (token: TokenName) =>
   `previewer-token-panel-item-${token}`;
 
@@ -303,6 +171,19 @@ export default ({ tokenName, active, onActiveChange }: TokenItemProps) => {
       setInfoVisible(true);
     }
   }, [active]);
+
+  const handleTokenChange = (theme: MutableTheme, value: TokenValue) => {
+    theme.onThemeChange?.({
+      ...theme.config,
+      override: {
+        ...theme.config.override,
+        alias: {
+          ...theme.config.override?.alias,
+          [tokenName]: value,
+        },
+      },
+    });
+  };
 
   return wrapSSR(
     <div onMouseEnter={() => onActiveChange?.(false)}>
@@ -392,7 +273,11 @@ export default ({ tokenName, active, onActiveChange }: TokenItemProps) => {
             {themes.map((theme) => {
               return (
                 <div key={theme.key}>
-                  <TokenInput theme={theme} token={tokenName} />
+                  <TokenInput
+                    theme={theme}
+                    onChange={(value) => handleTokenChange(theme, value)}
+                    value={theme.config.override?.alias?.[tokenName]}
+                  />
                 </div>
               );
             })}

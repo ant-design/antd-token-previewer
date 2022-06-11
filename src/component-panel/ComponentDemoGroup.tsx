@@ -1,4 +1,4 @@
-import type { Theme } from '../interface';
+import type { MutableTheme, Theme } from '../interface';
 import type { FC, ReactNode } from 'react';
 import React, { Fragment } from 'react';
 import ComponentDemos from '../component-demos';
@@ -7,9 +7,10 @@ import { ConfigProvider, Divider } from '@madccc/antd';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
 import type { TokenName } from '../interface';
+import ComponentTokenDrawer from './ComponentTokenDrawer';
 
 type ComponentDemoGroupProps = {
-  themes: Theme[];
+  themes: MutableTheme[];
   components: Record<string, string[]>;
   activeComponents?: string[];
   size?: 'small' | 'middle' | 'large';
@@ -95,12 +96,12 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
               id={getComponentDemoId(item)}
             >
               {themes.map((theme) => (
-                <ConfigProvider key={item} theme={theme.config}>
+                <ConfigProvider key={theme.key} theme={theme.config}>
                   <div className="previewer-component-demo-group-item">
                     <ComponentCard
-                      onTokenClick={onTokenClick}
-                      theme={theme}
                       component={item}
+                      theme={theme}
+                      onTokenClick={onTokenClick}
                     >
                       <ConfigProvider
                         componentSize={size}
