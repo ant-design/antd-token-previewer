@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import React, { useMemo } from 'react';
 import classNames from 'classnames';
 import type { TableProps } from '@madccc/antd';
-import { Divider, Drawer, Table } from '@madccc/antd';
+import { Divider, Drawer, Table, Tag } from '@madccc/antd';
 import makeStyle from '../utils/makeStyle';
 import TokenInput from '../TokenInput';
 import type { OverrideToken } from '@madccc/antd/es/_util/theme/interface';
@@ -16,6 +16,15 @@ const useStyle = makeStyle('ComponentTokenDrawer', (token) => ({
       fontWeight: token.fontWeightStrong,
       marginBottom: token.marginSM,
       marginInlineStart: token.marginXS,
+    },
+
+    '.previewer-component-token-drawer-theme': {
+      fontWeight: 'normal',
+      marginLeft: 8,
+      borderRadius: 4,
+      backgroundColor: token.colorBgInfo,
+      color: token.colorPrimary,
+      borderColor: token.colorBgInfo,
     },
 
     '.ant-table-wrapper.component-token-table': {
@@ -175,7 +184,14 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
     <Drawer
       mask={false}
       visible={visible}
-      title={`${component} 组件 Token`}
+      title={
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <span>{`${component} 组件 Token`}</span>
+          <Tag className="previewer-component-token-drawer-theme">
+            {theme.name}
+          </Tag>
+        </div>
+      }
       onClose={onClose}
       width={600}
       className={classNames('previewer-component-token-drawer', hashId)}
