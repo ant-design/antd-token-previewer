@@ -140,23 +140,22 @@ const useStyle = makeStyle('TokenItem', (token) => ({
       '.previewer-token-item-highlighted.previewer-token-item-name': {
         color: `${token.colorPrimary} !important`,
       },
-    },
 
-    '.previewer-token-preview': {
-      display: 'flex',
-      alignItems: 'center',
-
-      '> *:not(:last-child)': {
-        marginRight: 4,
-      },
-
-      '> .previewer-color-preview:not(:last-child)': {
-        marginRight: -10,
-      },
-
-      '&:hover': {
-        '> .previewer-color-preview:not(:last-child)': {
+      '&:hover .previewer-token-preview > .previewer-color-preview:not(:last-child)':
+        {
           marginRight: 4,
+        },
+
+      '.previewer-token-preview': {
+        display: 'flex',
+        alignItems: 'center',
+
+        '> *:not(:last-child)': {
+          marginRight: 4,
+        },
+
+        '> .previewer-color-preview:not(:last-child)': {
+          marginRight: -10,
           transition: 'margin-right 0.3s',
         },
       },
