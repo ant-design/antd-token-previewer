@@ -9,13 +9,10 @@ import makeStyle from '../../utils/makeStyle';
 import classNames from 'classnames';
 import ColorPreview from '../../ColorPreview';
 import useStatistic from '../../hooks/useStatistic';
+import isColor from '../../utils/isColor';
 import TokenInput from '../../TokenInput';
 
 const { Panel } = Collapse;
-
-const isColor = (tokenName: string) => {
-  return tokenName.startsWith('color');
-};
 
 interface TokenItemProps {
   tokenName: TokenName;
@@ -36,11 +33,11 @@ const AdditionInfo = ({
   style?: CSSProperties;
   className?: string;
 }) => {
-  if (isColor(tokenName)) {
+  if (typeof info === 'string' && isColor(info)) {
     return (
       <ColorPreview
         color={String(info)}
-        style={{ display: visible ? 'block' : 'none' }}
+        style={{ display: visible ? 'block' : 'none', ...style }}
       />
     );
   }
@@ -49,7 +46,6 @@ const AdditionInfo = ({
     return (
       <div
         style={{
-          ...style,
           maxWidth: 40,
           height: 20,
           overflow: 'hidden',
@@ -58,6 +54,7 @@ const AdditionInfo = ({
           display: visible ? 'block' : 'none',
           padding: '0 6px',
           lineHeight: '20px',
+          ...style,
         }}
         {...rest}
       >
@@ -132,24 +129,34 @@ const useStyle = makeStyle('TokenItem', (token) => ({
       '.previewer-token-item-highlighted.previewer-token-item-name': {
         color: `${token.colorPrimary} !important`,
       },
-    },
 
-    '.previewer-token-preview': {
-      display: 'flex',
-      alignItems: 'center',
-
-      '> *:not(:last-child)': {
-        marginRight: 4,
-      },
-
-      '> .previewer-color-preview:not(:last-child)': {
-        marginRight: -10,
-      },
-
-      '&:hover': {
-        '> .previewer-color-preview:not(:last-child)': {
+      '&:hover .previewer-token-preview > .previewer-color-preview:not(:last-child)':
+        {
+          transform: 'translateX(-100%)',
           marginRight: 4,
-          transition: 'margin-right 0.3s',
+        },
+
+      '.previewer-token-preview': {
+        display: 'flex',
+        alignItems: 'center',
+        position: 'relative',
+
+        '> .previewer-color-preview': {
+          position: 'absolute',
+          right: 0,
+          top: 0,
+          bottom: 0,
+          margin: 'auto',
+        },
+
+        '> .previewer-color-preview:not(:last-child)': {
+          transform: 'translateX(-50%)',
+          marginRight: 0,
+          transition: 'transform 0.3s, margin-right 0.3s',
+        },
+
+        '> *:not(:last-child)': {
+          marginRight: 4,
         },
       },
     },
@@ -239,13 +246,16 @@ export default ({ tokenName, active, onActiveChange }: TokenItemProps) => {
                 </span>
               </span>
               <div className="previewer-token-preview">
-                {themes.map(({ config, key }) => {
+                {themes.map(({ config, key }, index) => {
                   return (
                     <AdditionInfo
                       key={key}
                       tokenName={tokenName}
                       info={config.override?.alias?.[tokenName] ?? ''}
                       visible={!infoVisible}
+                      style={{
+                        zIndex: 10 - index,
+                      }}
                     />
                   );
                 })}

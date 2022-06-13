@@ -6,6 +6,7 @@ import { Button, Dropdown, Input, InputNumber } from '@madccc/antd';
 import ColorPreview from './ColorPreview';
 import makeStyle from './utils/makeStyle';
 import classNames from 'classnames';
+import isColor from './utils/isColor';
 
 const useStyle = makeStyle('TokenInput', (token) => ({
   '.previewer-token-input': {
@@ -117,10 +118,7 @@ const TokenInput: FC<TokenInputProps> = ({ value, theme, onChange, light }) => {
   );
 
   let inputNode;
-  if (
-    typeof valueRef.current === 'string' &&
-    (valueRef.current.startsWith('#') || valueRef.current.startsWith('rgb'))
-  ) {
+  if (typeof valueRef.current === 'string' && isColor(valueRef.current)) {
     inputNode = (
       <Input
         bordered={false}
