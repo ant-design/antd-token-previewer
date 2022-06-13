@@ -130,16 +130,19 @@ const useStyle = makeStyle('TokenItem', (token) => ({
         color: `${token.colorPrimary} !important`,
       },
 
-      '&:hover .previewer-token-preview > .previewer-color-preview:not(:last-child)':
-        {
+      '&:hover .previewer-token-preview': {
+        '> .previewer-color-preview:not(:last-child)': {
           transform: 'translateX(-100%)',
           marginRight: 4,
         },
+      },
 
       '.previewer-token-preview': {
         display: 'flex',
         alignItems: 'center',
         position: 'relative',
+        width: 20,
+        transition: 'width 0.3s',
 
         '> .previewer-color-preview': {
           position: 'absolute',
@@ -245,7 +248,10 @@ export default ({ tokenName, active, onActiveChange }: TokenItemProps) => {
                   {getRelatedComponents(tokenName).length}
                 </span>
               </span>
-              <div className="previewer-token-preview">
+              <div
+                className="previewer-token-preview"
+                style={{ width: themes.length * 20 + (themes.length - 1) * 4 }}
+              >
                 {themes.map(({ config, key }, index) => {
                   return (
                     <AdditionInfo
