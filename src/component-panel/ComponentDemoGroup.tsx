@@ -1,4 +1,4 @@
-import type { MutableTheme, Theme } from '../interface';
+import type { MutableTheme } from '../interface';
 import type { FC, ReactNode } from 'react';
 import React, { Fragment } from 'react';
 import ComponentDemos from '../component-demos';
@@ -7,7 +7,6 @@ import { ConfigProvider, Divider } from '@madccc/antd';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
 import type { TokenName } from '../interface';
-import ComponentTokenDrawer from './ComponentTokenDrawer';
 
 type ComponentDemoGroupProps = {
   themes: MutableTheme[];
