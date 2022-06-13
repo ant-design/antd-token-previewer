@@ -28,6 +28,7 @@ const useStyle = makeStyle('TokenInput', (token) => ({
     '.ant-input-group-wrapper, .ant-input-number-group-wrapper': {
       padding: 0,
       height: token.controlHeightSM,
+      width: '100%',
 
       input: {
         fontSize: token.fontSizeSM,
@@ -50,10 +51,17 @@ const useStyle = makeStyle('TokenInput', (token) => ({
         backgroundColor: token.colorBgComponent,
       },
 
-      '.ant-input-group-wrapper .ant-input, .ant-input-number-group-wrapper .ant-input-number':
-        {
-          background: '#fafafa',
-        },
+      [`.ant-input-group-wrapper .ant-input,
+        .ant-input-number-group-wrapper .ant-input-number-input`]: {
+        background: '#fafafa',
+      },
+    },
+
+    '&&-readonly': {
+      input: {
+        cursor: 'text',
+        color: token.colorText,
+      },
     },
   },
 }));
@@ -80,9 +88,16 @@ type TokenInputProps = {
   value?: string | number;
   onChange?: (value: string | number) => void;
   light?: boolean;
+  readonly?: boolean;
 };
 
-const TokenInput: FC<TokenInputProps> = ({ value, theme, onChange, light }) => {
+const TokenInput: FC<TokenInputProps> = ({
+  value,
+  theme,
+  onChange,
+  light,
+  readonly,
+}) => {
   const valueRef = useRef<number | string>(value || '');
   const [tokenValue, setTokenValue] = useState<string | number>(value || '');
   const canReset = valueRef.current !== tokenValue;
@@ -90,8 +105,10 @@ const TokenInput: FC<TokenInputProps> = ({ value, theme, onChange, light }) => {
   const [wrapSSR, hashId] = useStyle();
 
   const handleTokenChange = (newValue: number | string) => {
-    setTokenValue(newValue);
-    onChange?.(newValue);
+    if (!readonly) {
+      setTokenValue(newValue);
+      onChange?.(newValue);
+    }
   };
 
   useEffect(() => {
@@ -124,6 +141,7 @@ const TokenInput: FC<TokenInputProps> = ({ value, theme, onChange, light }) => {
         bordered={false}
         addonAfter={addonAfter}
         value={String(tokenValue)}
+        disabled={readonly}
         addonBefore={
           <Dropdown
             trigger={['click']}
@@ -157,6 +175,7 @@ const TokenInput: FC<TokenInputProps> = ({ value, theme, onChange, light }) => {
         addonAfter={addonAfter}
         bordered={false}
         value={tokenValue}
+        disabled={readonly}
         onChange={(newValue) => {
           handleTokenChange(Number(newValue));
         }}
@@ -168,6 +187,7 @@ const TokenInput: FC<TokenInputProps> = ({ value, theme, onChange, light }) => {
         addonAfter={addonAfter}
         bordered={false}
         value={String(tokenValue)}
+        disabled={readonly}
         onChange={(e) => {
           handleTokenChange(
             typeof value === 'number' ? Number(e.target.value) : e.target.value,
@@ -180,6 +200,7 @@ const TokenInput: FC<TokenInputProps> = ({ value, theme, onChange, light }) => {
     <div
       className={classNames('previewer-token-input', hashId, {
         'previewer-token-input-light': light,
+        'previewer-token-input-readonly': readonly,
       })}
     >
       {inputNode}

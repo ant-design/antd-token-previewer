@@ -153,7 +153,7 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
         dataIndex: 'value',
         title: 'Value',
         render: ({ value }) => {
-          return <TokenInput light value={value} />;
+          return <TokenInput light value={value} readonly />;
         },
       },
     ];
