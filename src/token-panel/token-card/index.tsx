@@ -77,41 +77,6 @@ const useStyle = makeStyle('TokenCard', (token) => ({
     border: `1px solid rgba(0,0,0,0.09)`,
     marginBottom: token.margin,
 
-    '.ant-input-group-addon, .ant-input-number-group-addon': {
-      border: '0 !important',
-      color: `rgba(0, 0, 0, 0.25) !important`,
-      fontSize: `${token.fontSizeSM}px !important`,
-      padding: 0,
-
-      '&:first-child': {
-        paddingInlineStart: 0,
-      },
-
-      '&:last-child': {
-        paddingInlineEnd: 0,
-      },
-    },
-
-    '.ant-input-group-wrapper, .ant-input-number-group-wrapper': {
-      padding: 0,
-      height: token.controlHeightSM,
-
-      input: {
-        fontSize: token.fontSizeSM,
-        lineHeight: token.lineHeightSM,
-        padding: `2px ${token.paddingXS}px`,
-        height: token.controlHeightSM,
-      },
-    },
-
-    '.ant-input-group-wrapper .ant-input, .ant-input-number-group-wrapper .ant-input-number':
-      {
-        background: 'white',
-        borderRadius: token.radiusLG,
-        whiteSpace: 'nowrap',
-        textOverflow: 'ellipsis',
-      },
-
     '.ant-collapse.token-card-collapse': {
       '> .ant-collapse-item > .ant-collapse-header': {
         padding: token.paddingSM,
