@@ -1,6 +1,5 @@
 import { CheckOutlined } from '@ant-design/icons';
 import { Dropdown, Input, Menu, Switch } from '@madccc/antd';
-import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
 import classNames from 'classnames';
 import React, {
   forwardRef,
@@ -18,7 +17,7 @@ import {
 } from '../utils/classifyToken';
 import makeStyle from '../utils/makeStyle';
 import TokenCard, { IconMap, TextMap } from './token-card';
-import type { Theme, TokenName } from '../interface';
+import type { MutableTheme, TokenName } from '../interface';
 import { SearchDropdown } from '../icons';
 import { getTokenItemId } from './token-item';
 
@@ -109,10 +108,6 @@ const useStyle = makeStyle('AliasTokenPreview', (token) => ({
     },
   },
 }));
-
-export interface MutableTheme extends Theme {
-  onThemeChange?: (newTheme: ThemeConfig) => void;
-}
 
 export interface TokenPreviewProps {
   themes: MutableTheme[];

@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Button, ConfigProvider, Layout, message } from '@madccc/antd';
 import classNames from 'classnames';
 import ComponentPanel from './component-panel';
@@ -8,12 +8,14 @@ import ThemeSelect from './ThemeSelect';
 import useToken from './hooks/useToken';
 import { DarkTheme, CompactTheme, Arrow } from './icons';
 import makeStyle from './utils/makeStyle';
-import type { MutableTheme, TokenPanelRef } from './token-panel';
+import type { TokenPanelRef } from './token-panel';
 import TokenPanel from './token-panel';
 import type { FilterMode } from './FilterPanel';
 import FilterPanel from './FilterPanel';
-import type { TokenName } from './interface';
+import type { MutableTheme, TokenName } from './interface';
 import type { TokenType } from './utils/classifyToken';
+import { useDebounceFn } from 'ahooks';
+import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
 
 const { Header, Sider, Content } = Layout;
 const SIDER_WIDTH = 340;
@@ -137,9 +139,41 @@ const InternalPreviewer: React.FC = () => {
     };
   }, []);
 
+  const debouncedSetTheme = useDebounceFn(
+    (themeConfig: ThemeConfig, themeKey: string) => {
+      setThemes((prev) =>
+        prev.map((theme) =>
+          theme.key === themeKey
+            ? {
+                ...theme,
+                config: themeConfig,
+              }
+            : theme,
+        ),
+      );
+    },
+    { wait: 200 },
+  );
+
   const handleTokenClick = (tokenName: TokenName) => {
     tokenPanelRef.current?.scrollToToken(tokenName);
   };
+
+  const mutableThemes = useMemo(
+    () =>
+      enabledThemes.map<MutableTheme>((item) => {
+        const themeEntity = themes.find((theme) => theme.key === item)!;
+        return {
+          name: themeEntity.name,
+          key: themeEntity.key,
+          config: themeEntity.config,
+          onThemeChange: (newTheme) => {
+            debouncedSetTheme.run(newTheme, themeEntity.key);
+          },
+        };
+      }),
+    [enabledThemes, themes, debouncedSetTheme],
+  );
 
   return wrapSSR(
     <Layout className={classNames('previewer-layout', hashId)}>
@@ -210,26 +244,7 @@ const InternalPreviewer: React.FC = () => {
             ref={tokenPanelRef}
             filterTypes={filterTypes}
             onFilterTypesChange={(types) => setFilterTypes(types)}
-            themes={enabledThemes.map<MutableTheme>((item) => {
-              const themeEntity = themes.find((theme) => theme.key === item)!;
-              return {
-                name: themeEntity.name,
-                key: themeEntity.key,
-                config: themeEntity.config,
-                onThemeChange: (newTheme) => {
-                  setThemes((prev) =>
-                    prev.map((theme) =>
-                      theme.key === themeEntity.key
-                        ? {
-                            ...theme,
-                            config: newTheme,
-                          }
-                        : theme,
-                    ),
-                  );
-                },
-              };
-            })}
+            themes={mutableThemes}
             selectedTokens={selectedTokens}
             onTokenSelect={(tokenName) =>
               setSelectedTokens((prev) =>
@@ -259,9 +274,7 @@ const InternalPreviewer: React.FC = () => {
           <ComponentPanel
             filterMode={filterMode}
             selectedTokens={selectedTokens}
-            themes={enabledThemes.map(
-              (theme) => themes.find((item) => item.key === theme)!,
-            )}
+            themes={mutableThemes}
             onTokenClick={(tokenName) => handleTokenClick(tokenName)}
             style={{ flex: 1, height: 0, marginTop: 12 }}
           />
