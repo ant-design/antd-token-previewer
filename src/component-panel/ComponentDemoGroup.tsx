@@ -96,7 +96,13 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
             >
               {themes.map((theme) => (
                 <ConfigProvider key={theme.key} theme={theme.config}>
-                  <div className="previewer-component-demo-group-item">
+                  <div
+                    className="previewer-component-demo-group-item"
+                    style={{
+                      backgroundColor:
+                        theme.config.override?.alias?.colorBgContainer,
+                    }}
+                  >
                     <ComponentCard
                       component={item}
                       theme={theme}
