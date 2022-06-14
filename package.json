@@ -33,7 +33,8 @@
     "prettier": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "pretty-quick": "pretty-quick",
     "test": "father test",
-    "coverage": "father test --coverage"
+    "coverage": "father test --coverage",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@ant-design/cssinjs": "^0.0.0-alpha.34",
@@ -61,7 +62,7 @@
     "father": "^2.13.4",
     "father-build": "^1.18.6",
     "gh-pages": "^3.1.0",
-    "husky": "^4.2.5",
+    "husky": "^8.0.0",
     "jest": "^28.1.0",
     "less": "^3.10.3",
     "np": "^7.0.0",
@@ -75,11 +76,6 @@
   "peerDependencies": {
     "react": ">=16.0.0",
     "react-dom": ">=16.0.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
-    }
   },
   "cnpm": {
     "mode": "npm"
