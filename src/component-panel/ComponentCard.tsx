@@ -1,12 +1,13 @@
 import type { FC, PropsWithChildren } from 'react';
 import React, { useState } from 'react';
-import { Card } from '@madccc/antd';
+import { Card, ConfigProvider } from '@madccc/antd';
 import { Control } from '../icons';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
 import ComponentTokenDrawer from './ComponentTokenDrawer';
 import type { MutableTheme } from '../interface';
 import type { TokenName } from '../interface';
+import useToken from '../hooks/useToken';
 
 const useStyle = makeStyle('ComponentCard', (token) => ({
   '.ant-card.component-card': {
@@ -57,6 +58,7 @@ const ComponentCard: FC<ComponentCardProps> = ({
 }) => {
   const [wrapSSR, hashId] = useStyle();
   const [tokenDrawerOpen, setTokenDrawerOpen] = useState<boolean>(false);
+  const [token] = useToken();
 
   return wrapSSR(
     <div>
@@ -72,13 +74,15 @@ const ComponentCard: FC<ComponentCardProps> = ({
       >
         {children}
       </Card>
-      <ComponentTokenDrawer
-        visible={tokenDrawerOpen}
-        theme={theme}
-        component={component}
-        onClose={() => setTokenDrawerOpen(false)}
-        onTokenClick={onTokenClick}
-      />
+      <ConfigProvider theme={{ override: { alias: token } }}>
+        <ComponentTokenDrawer
+          visible={tokenDrawerOpen}
+          theme={theme}
+          component={component}
+          onClose={() => setTokenDrawerOpen(false)}
+          onTokenClick={onTokenClick}
+        />
+      </ConfigProvider>
     </div>,
   );
 };
