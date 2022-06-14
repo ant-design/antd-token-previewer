@@ -115,7 +115,7 @@ const TokenInput: FC<TokenInputProps> = ({
     setTokenValue(value || '');
   }, [value]);
 
-  const addonAfter = (
+  const addonAfter = !readonly && (
     <span style={{ display: 'flex', alignItems: 'center' }}>
       <Button
         style={{
