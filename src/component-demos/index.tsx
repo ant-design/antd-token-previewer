@@ -30,7 +30,8 @@ import PopconfirmDemo from './popconfirm';
 import PopoverDemo from './popover';
 import RadioDemo from './radio';
 import RateDemo from './rate';
-import SelectDemo from './select';
+import SelectDemo from './select/select';
+import SelectTag from './select/selectTag';
 import SkeletonDemo from './skeleton';
 import SliderDemo from './slider';
 import SpinDemo from './spin';
@@ -105,7 +106,15 @@ const ComponentDemos: PreviewerDemos = {
   Popover: { default: <PopoverDemo /> },
   Radio: { default: <RadioDemo /> },
   Rate: { default: <RateDemo /> },
-  Select: { default: <SelectDemo /> },
+  Select: {
+    default: <SelectDemo />,
+    optional: [
+      {
+        demo: <SelectTag />,
+        tokens: [],
+      },
+    ],
+  },
   Skeleton: { default: <SkeletonDemo /> },
   Slider: { default: <SliderDemo /> },
   Spin: { default: <SpinDemo /> },

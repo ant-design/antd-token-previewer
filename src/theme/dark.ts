@@ -21,26 +21,31 @@ const primaryPalettes = {
   7: '#388ed3',
 };
 
+const darkBaseColor = '#000';
+const lightBaseColor = '#fff';
+
 const darkPalettes = {
-  30: getSolidColor('#000', 30),
-  26: getSolidColor('#000', 26),
-  19: getSolidColor('#000', 19),
-  15: getSolidColor('#000', 15),
-  12: getSolidColor('#000', 12),
-  8: getSolidColor('#000', 8),
-  0: getSolidColor('#000', 0),
+  30: getSolidColor(darkBaseColor, 30),
+  26: getSolidColor(darkBaseColor, 26),
+  19: getSolidColor(darkBaseColor, 19),
+  15: getSolidColor(darkBaseColor, 15),
+  12: getSolidColor(darkBaseColor, 12),
+  8: getSolidColor(darkBaseColor, 8),
+  0: getSolidColor(darkBaseColor, 0),
 };
 
 const whiteAlphaPalettes = {
-  100: getAlphaColor('#fff', 1),
-  85: getAlphaColor('#fff', 0.85),
-  75: getAlphaColor('#fff', 0.75),
-  45: getAlphaColor('#fff', 0.45),
-  30: getAlphaColor('#fff', 0.3),
-  25: getAlphaColor('#fff', 0.25),
-  12: getAlphaColor('#fff', 0.12),
-  8: getAlphaColor('#fff', 0.08),
-  4: getAlphaColor('#fff', 0.04),
+  100: getAlphaColor(lightBaseColor, 1),
+  85: getAlphaColor(lightBaseColor, 0.85),
+  75: getAlphaColor(lightBaseColor, 0.75),
+  45: getAlphaColor(lightBaseColor, 0.45),
+  30: getAlphaColor(lightBaseColor, 0.3),
+  25: getAlphaColor(lightBaseColor, 0.25),
+  //
+  12: getAlphaColor(lightBaseColor, 0.12),
+  8: getAlphaColor(lightBaseColor, 0.08),
+  4: getAlphaColor(lightBaseColor, 0.04),
+  3: getAlphaColor(lightBaseColor, 0.03),
 };
 
 // 全局 Alias Token
@@ -59,7 +64,7 @@ export const darkAliasToken: Partial<GlobalToken> = {
   colorLinkHover: primaryPalettes['5'],
   colorLinkActive: primaryPalettes['7'],
 
-  // FIXME： `命名不对，这个用在 Button 的阴影上
+  // FIXME： `命名不对，这个用在 Button 的阴影上 干点
   // 且亮色模式用值也不对，应该是不透明度的用法
   colorDefaultOutline: whiteAlphaPalettes['4'],
   // ============== 背景  ============== //
@@ -102,7 +107,8 @@ export const darkAliasToken: Partial<GlobalToken> = {
   colorTextHeading: whiteAlphaPalettes['85'],
   colorTextSecondary: whiteAlphaPalettes['45'],
   //  @disabled-color -> colorTextDisabled
-  // FIXME: 这个 30 估计要改成 25
+  // TODO: 这个 30 估计要改成 25
+  // FIXME： 现在 input 的 clear-icon 用了这个，是不对的。但颜色是对的
   colorTextDisabled: whiteAlphaPalettes['30'],
   colorPlaceholder: whiteAlphaPalettes['25'],
 
@@ -121,5 +127,8 @@ export const darkAliasToken: Partial<GlobalToken> = {
 };
 
 export const darkComponentToken: DeepPartial<OverrideToken> = {
-  Button: {},
+  Button: {
+    colorBgTextHover: whiteAlphaPalettes['3'],
+    colorBgTextActive: whiteAlphaPalettes['4'],
+  },
 };

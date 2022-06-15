@@ -31,7 +31,7 @@ const useStyle = makeStyle('ComponentPanel', (token) => ({
       width: 0,
 
       '.component-panel-head': {
-        padding: `${token.padding}px ${token.paddingSM}px`,
+        padding: `${token.paddingSM}px ${token.paddingSM}px`,
         flex: 'none',
         backgroundColor: token.colorBgComponent,
         display: 'flex',
