@@ -1,21 +1,20 @@
 import React from 'react';
 import { Tag } from '@madccc/antd';
 
-function log() {}
-function preventDefault(e: React.MouseEvent) {
-  e.preventDefault();
-}
-export default () => (
-  <>
-    <Tag>Tag 1</Tag>
-    <Tag>
-      <a href="https://github.com/ant-design/ant-design/issues/1862">Link</a>
-    </Tag>
-    <Tag closable onClose={log}>
-      Tag 2
-    </Tag>
-    <Tag closable onClose={preventDefault}>
-      Prevent Default
-    </Tag>
-  </>
+const App = () => (
+  <div>
+    <Tag color="magenta">magenta</Tag>
+    <Tag color="red">red</Tag>
+    <Tag color="volcano">volcano</Tag>
+    <Tag color="orange">orange</Tag>
+    <Tag color="gold">gold</Tag>
+    <Tag color="lime">lime</Tag>
+    <Tag color="green">green</Tag>
+    <Tag color="cyan">cyan</Tag>
+    <Tag color="blue">blue</Tag>
+    <Tag color="geekblue">geekblue</Tag>
+    <Tag color="purple">purple</Tag>
+  </div>
 );
+
+export default App;

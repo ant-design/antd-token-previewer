@@ -1,4 +1,14 @@
 import React from 'react';
-import { Pagination } from '@madccc/antd';
+import { Pagination, Space } from '@madccc/antd';
 
-export default () => <Pagination defaultCurrent={1} total={50} />;
+const App: React.FC = () => (
+  <Space direction={'vertical'}>
+    <Pagination showQuickJumper defaultCurrent={2} total={500} />
+
+    <Pagination showQuickJumper defaultCurrent={2} total={500} disabled />
+
+    <Pagination simple />
+  </Space>
+);
+
+export default App;
