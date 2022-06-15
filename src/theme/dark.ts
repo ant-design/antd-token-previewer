@@ -106,9 +106,10 @@ export const darkAliasToken: Partial<GlobalToken> = {
   colorTextDisabled: whiteAlphaPalettes['30'],
   colorPlaceholder: whiteAlphaPalettes['25'],
 
-  // @icon-color-hover -> colorAction
-  colorAction: whiteAlphaPalettes['75'],
-  // TODO: colorActionHover 到底是用在哪的 token？
+  colorAction: whiteAlphaPalettes['45'],
+  // @icon-color-hover -> colorActionHover
+  // 用在 draw、modal 的按钮 hover 色
+  colorActionHover: whiteAlphaPalettes['75'],
 
   // ============== Control Token  ============== //
   controlItemBgActive: primaryPalettes['1'],
