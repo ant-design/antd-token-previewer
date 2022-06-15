@@ -17,6 +17,8 @@ import type { TokenType } from './utils/classifyToken';
 import { useDebounceFn } from 'ahooks';
 import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
 
+import { darkAliasToken, darkComponentToken } from './theme/dark';
+
 const { Header, Sider, Content } = Layout;
 const SIDER_WIDTH = 340;
 
@@ -84,8 +86,11 @@ const useStyle = makeStyle('layout', (token) => ({
 const InternalPreviewer: React.FC = () => {
   const [wrapSSR, hashId] = useStyle();
   const [token] = useToken();
-  const [shownThemes, setShownThemes] = useState<string[]>(['default']);
-  const [enabledThemes, setEnabledThemes] = useState<string[]>(['default']);
+  const [shownThemes, setShownThemes] = useState<string[]>(['default', 'dark']);
+  const [enabledThemes, setEnabledThemes] = useState<string[]>([
+    'default',
+    'dark',
+  ]);
   const [selectedTokens, setSelectedTokens] = useState<TokenName[]>([]);
   const [siderVisible, setSiderVisible] = useState<boolean>(true);
   const [siderWidth, setSiderWidth] = useState<number>(SIDER_WIDTH);
@@ -105,7 +110,13 @@ const InternalPreviewer: React.FC = () => {
     {
       name: '暗色主题',
       key: 'dark',
-      config: { override: { alias: token } },
+      config: {
+        override: {
+          // @ts-ignore
+          alias: { ...token, ...darkAliasToken },
+          ...darkComponentToken,
+        },
+      },
       icon: <DarkTheme style={{ fontSize: 16 }} />,
       closable: true,
     },
