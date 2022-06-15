@@ -1,2 +1,2 @@
-export { colorPalettes } from './palettes';
+export { darkColorPalettes } from './palettes';
 export { darkAliasToken, darkComponentToken } from './token';

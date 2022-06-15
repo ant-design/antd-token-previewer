@@ -1,6 +1,6 @@
 import { getAlphaColor, getSolidColor } from './colorAlgorithm';
 
-export const colorPalettes = {
+export const darkColorPalettes = {
   'blue-1': '#111d2c',
   'blue-2': '#112a45',
   'blue-3': '#15395b',
@@ -134,21 +134,21 @@ export const colorPalettes = {
 };
 
 export const successPalettes = {
-  1: colorPalettes['green-1'],
-  3: colorPalettes['green-3'],
-  6: colorPalettes['green-6'],
+  1: darkColorPalettes['green-1'],
+  3: darkColorPalettes['green-3'],
+  6: darkColorPalettes['green-6'],
 };
 
 export const warningPalettes = {
-  1: colorPalettes['gold-1'],
-  3: colorPalettes['gold-3'],
-  6: colorPalettes['gold-6'],
+  1: darkColorPalettes['gold-1'],
+  3: darkColorPalettes['gold-3'],
+  6: darkColorPalettes['gold-6'],
 };
 
 export const errorPalettes = {
-  1: colorPalettes['red-1'],
-  3: colorPalettes['red-3'],
-  6: colorPalettes['red-6'],
+  1: darkColorPalettes['red-1'],
+  3: darkColorPalettes['red-3'],
+  6: darkColorPalettes['red-6'],
 };
 
 // FIXME: 主色在暗色模式下的应用很有问题需要收敛
@@ -159,7 +159,7 @@ export const primaryPalettes = {
   3: '#153450',
   4: '#177ddc', // Slider 的 hover 态用的是 4
   5: '#165996',
-  6: colorPalettes['blue-6'],
+  6: darkColorPalettes['blue-6'],
   7: '#388ed3',
 };
 
