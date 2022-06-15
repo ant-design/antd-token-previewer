@@ -2,75 +2,17 @@ import type { GlobalToken } from '@madccc/antd/es/_util/theme/interface';
 import type { OverrideToken } from '@madccc/antd/es/_util/theme/interface';
 import type { DeepPartial } from 'utility-types';
 
-import tinycolor from 'tinycolor2';
-
-const getAlphaColor = (baseColor: string, alpha: number) => {
-  return tinycolor(baseColor).setAlpha(alpha).toRgbString();
-};
-
-const getSolidColor = (baseColor: string, brightness: number) => {
-  const instance = tinycolor(baseColor);
-  return instance.lighten(brightness).toHexString();
-};
-
-const successPalettes = {
-  1: '#162312',
-  3: '#274916',
-  6: '#49aa19',
-};
-
-const warningPalettes = {
-  1: '#2b2111',
-  3: '#594214',
-  6: '#d89614',
-};
-
-const errorPalettes = {
-  1: '#2a1215',
-  3: '#58181c',
-  6: '#a61d24',
-};
-
-const primaryPalettes = {
-  0: '#0e161f', // TODO： Transfer 的 hover 态用的 0,感觉要改
-  1: '#111b26',
-  2: '#4697e3', // Slider 的 focus 态用的是 2
-  3: '#153450',
-  4: '#177ddc', // Slider 的 hover 态用的是 4
-  5: '#165996',
-  6: '#177ddc',
-  7: '#388ed3',
-};
-
-const darkBaseColor = '#000';
-const lightBaseColor = '#fff';
-
-const darkPalettes = {
-  30: getSolidColor(darkBaseColor, 30),
-  26: getSolidColor(darkBaseColor, 26),
-  19: getSolidColor(darkBaseColor, 19),
-  15: getSolidColor(darkBaseColor, 15),
-  12: getSolidColor(darkBaseColor, 12),
-  8: getSolidColor(darkBaseColor, 8),
-  0: getSolidColor(darkBaseColor, 0),
-};
-
-const whiteAlphaPalettes = {
-  100: getAlphaColor(lightBaseColor, 1),
-  85: getAlphaColor(lightBaseColor, 0.85),
-  75: getAlphaColor(lightBaseColor, 0.75),
-  45: getAlphaColor(lightBaseColor, 0.45),
-  30: getAlphaColor(lightBaseColor, 0.3),
-  25: getAlphaColor(lightBaseColor, 0.25),
-  // 从 12 往下基本上就是偏背景和装饰性元素了
-  12: getAlphaColor(lightBaseColor, 0.12),
-  8: getAlphaColor(lightBaseColor, 0.08),
-  4: getAlphaColor(lightBaseColor, 0.04),
-  3: getAlphaColor(lightBaseColor, 0.03),
-};
+import {
+  whiteAlphaPalettes,
+  primaryPalettes,
+  errorPalettes,
+  successPalettes,
+  warningPalettes,
+  darkPalettes,
+} from './palettes';
 
 // 全局 Alias Token
-export const darkAliasToken: Partial<GlobalToken> = {
+const darkAliasToken: Partial<GlobalToken> = {
   // ============== 基础公用  ============== //
 
   colorPrimary: primaryPalettes['6'],
@@ -160,13 +102,14 @@ export const darkAliasToken: Partial<GlobalToken> = {
   controlItemBgHover: whiteAlphaPalettes['8'],
 
   controlItemBgActive: primaryPalettes['1'],
+  controlItemBgActiveDisabled: whiteAlphaPalettes['25'],
   // TODO: 需要在设计上确认暗色模式的交互逻辑。现在是hover以后就变暗，很怪
   controlItemBgActiveHover: primaryPalettes['0'],
 
   // FIXME:  @text-color-inverse -> colorTextLightSolid
 };
 
-export const darkComponentToken: DeepPartial<OverrideToken> = {
+const darkComponentToken: DeepPartial<OverrideToken> = {
   Button: {
     colorBgTextHover: whiteAlphaPalettes['3'],
     colorBgTextActive: whiteAlphaPalettes['4'],
@@ -192,3 +135,5 @@ export const darkComponentToken: DeepPartial<OverrideToken> = {
   // FIXME: Avatar 用了 colorPlaceholder 就很奇怪
   Avatar: {},
 };
+
+export { darkAliasToken, darkComponentToken };
