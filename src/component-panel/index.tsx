@@ -209,7 +209,6 @@ const Index: FC<ComponentPanelProps> = ({
               demosRef.current.getBoundingClientRect().top >
             BREADCRUMB_HEIGHT
           ) {
-            // throttledSetActiveComponent.run(demosRef.current.children[i]?.id.split('-').pop())
             setActiveComponent(demosRef.current.children[i]?.id.split('-').pop());
             break;
           }
