@@ -116,21 +116,28 @@ const TokenInput: FC<TokenInputProps> = ({
   }, [value]);
 
   const addonAfter = !readonly && (
-    <span style={{ display: 'flex', alignItems: 'center' }}>
-      <Button
-        style={{
-          fontSize: 12,
-          opacity: canReset ? 1 : 0,
-          cursor: canReset ? 'pointer' : 'default',
-        }}
-        disabled={!canReset}
-        onClick={() => handleTokenChange(valueRef.current)}
-        type="link"
-        size="small"
-      >
-        重置
-      </Button>
-      {theme?.name}
+    <span
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 60,
+      }}
+    >
+      {canReset ? (
+        <Button
+          style={{
+            fontSize: 12,
+          }}
+          onClick={() => handleTokenChange(valueRef.current)}
+          type="link"
+          size="small"
+        >
+          重置
+        </Button>
+      ) : (
+        theme?.name
+      )}
     </span>
   );
 
