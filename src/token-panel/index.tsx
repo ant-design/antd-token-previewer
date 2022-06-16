@@ -280,7 +280,12 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
                 <div>
                   {TOKEN_SORTS.filter(
                     (type) =>
-                      filterTypes.includes(type) || filterTypes.length === 0,
+                      (filterTypes.includes(type) ||
+                        filterTypes.length === 0) &&
+                      (!search ||
+                        groupedToken[type].some((item) =>
+                          item.tokenName.includes(search),
+                        )),
                   ).map((key) => (
                     <TokenCard
                       key={key}

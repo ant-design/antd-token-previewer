@@ -248,24 +248,28 @@ export default ({ tokenName, active, onActiveChange }: TokenItemProps) => {
                   {getRelatedComponents(tokenName).length}
                 </span>
               </span>
-              <div
-                className="previewer-token-preview"
-                style={{ width: themes.length * 20 + (themes.length - 1) * 4 }}
-              >
-                {themes.map(({ config, key }, index) => {
-                  return (
-                    <AdditionInfo
-                      key={key}
-                      tokenName={tokenName}
-                      info={config.override?.alias?.[tokenName] ?? ''}
-                      visible={!infoVisible}
-                      style={{
-                        zIndex: 10 - index,
-                      }}
-                    />
-                  );
-                })}
-              </div>
+              {!infoVisible && (
+                <div
+                  className="previewer-token-preview"
+                  style={{
+                    width: themes.length * 20 + (themes.length - 1) * 4,
+                  }}
+                >
+                  {themes.map(({ config, key }, index) => {
+                    return (
+                      <AdditionInfo
+                        key={key}
+                        tokenName={tokenName}
+                        info={config.override?.alias?.[tokenName] ?? ''}
+                        visible={!infoVisible}
+                        style={{
+                          zIndex: 10 - index,
+                        }}
+                      />
+                    );
+                  })}
+                </div>
+              )}
             </div>
           }
           extra={
