@@ -11,7 +11,6 @@ import useStatistic from '../hooks/useStatistic';
 import ComponentDemoGroup from './ComponentDemoGroup';
 import type { FilterMode } from '../FilterPanel';
 import type { TokenName } from '../interface';
-import { useThrottleFn } from 'ahooks';
 
 const BREADCRUMB_HEIGHT = 40;
 
