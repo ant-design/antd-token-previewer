@@ -208,9 +208,7 @@ const Index: FC<ComponentPanelProps> = ({
               demosRef.current.getBoundingClientRect().top >
             BREADCRUMB_HEIGHT
           ) {
-            setActiveComponent(
-              demosRef.current.children[i]?.id.split('-').pop(),
-            );
+            setActiveComponent(demosRef.current.children[i]?.id.split('-').pop());
             break;
           }
         }
@@ -247,6 +245,20 @@ const Index: FC<ComponentPanelProps> = ({
       return undefined;
     }
   }, [activeComponent]);
+
+  const demoGroup = useMemo(() => (
+    <ComponentDemoGroup
+      themes={themes}
+      components={antdComponents}
+      size={componentSize}
+      disabled={componentDisabled}
+      activeComponents={
+        filterMode === 'highlight' ? undefined : relatedComponents
+      }
+      selectedTokens={selectedTokens}
+      onTokenClick={onTokenClick}
+    />
+  ), [themes, componentDisabled, componentSize, filterMode, relatedComponents, selectedTokens, onTokenClick])
 
   return wrapSSR(
     <div className={classNames('component-panel', hashId, className)} {...rest}>
@@ -321,17 +333,7 @@ const Index: FC<ComponentPanelProps> = ({
             </div>
           )}
           <div className="component-demos" ref={demosRef}>
-            <ComponentDemoGroup
-              themes={themes}
-              components={antdComponents}
-              size={componentSize}
-              disabled={componentDisabled}
-              activeComponents={
-                filterMode === 'highlight' ? undefined : relatedComponents
-              }
-              selectedTokens={selectedTokens}
-              onTokenClick={onTokenClick}
-            />
+            {demoGroup}
           </div>
         </div>
       </div>
