@@ -134,6 +134,9 @@ const darkComponentToken: DeepPartial<OverrideToken> = {
   Calendar: {},
   // FIXME: Avatar 用了 colorPlaceholder 就很奇怪
   Avatar: {},
+  // FIXME：TimePicker 的 now 要用 antd 自己的 link
+  // FIXME: Table 暗色模式样式有问题
+  Table: {},
 };
 
 export { darkAliasToken, darkComponentToken };

@@ -169,7 +169,6 @@ const lightBaseColor = '#fff';
 
 // TODO： 需要定义这些色值下面的色板含义
 export const darkPalettes = {
-  30: getSolidColor(darkBaseColor, 30),
   26: getSolidColor(darkBaseColor, 26),
   19: getSolidColor(darkBaseColor, 19),
   15: getSolidColor(darkBaseColor, 15),

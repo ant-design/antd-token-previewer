@@ -11,6 +11,7 @@ export default () => (
       <p>Card content</p> <p>Card content</p> <p>Card content</p>
     </Card>
     <Card
+      loading
       size="small"
       title="Small size card"
       extra={<a href="#">More</a>}
