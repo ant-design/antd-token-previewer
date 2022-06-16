@@ -200,6 +200,7 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
                 </span>
               </h3>
               <Input
+                allowClear
                 onChange={(e) => {
                   setSearch(e.target.value);
                 }}

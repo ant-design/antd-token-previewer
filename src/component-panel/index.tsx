@@ -65,14 +65,14 @@ const useStyle = makeStyle('ComponentPanel', (token) => ({
 
     '.component-panel-side': {
       flex: 'none',
-      width: 160,
+      width: 200,
       overflow: 'hidden',
       transition: `transform ${token.motionDurationMid}, width ${token.motionDurationMid}`,
     },
 
     '.component-panel-side.component-panel-side-hidden': {
       width: 0,
-      transform: 'translateX(-160px)',
+      transform: 'translateX(-200px)',
     },
 
     '.component-demos-wrapper': {
@@ -208,7 +208,9 @@ const Index: FC<ComponentPanelProps> = ({
               demosRef.current.getBoundingClientRect().top >
             BREADCRUMB_HEIGHT
           ) {
-            setActiveComponent(demosRef.current.children[i]?.id.split('-').pop());
+            setActiveComponent(
+              demosRef.current.children[i]?.id.split('-').pop(),
+            );
             break;
           }
         }
@@ -246,19 +248,30 @@ const Index: FC<ComponentPanelProps> = ({
     }
   }, [activeComponent]);
 
-  const demoGroup = useMemo(() => (
-    <ComponentDemoGroup
-      themes={themes}
-      components={antdComponents}
-      size={componentSize}
-      disabled={componentDisabled}
-      activeComponents={
-        filterMode === 'highlight' ? undefined : relatedComponents
-      }
-      selectedTokens={selectedTokens}
-      onTokenClick={onTokenClick}
-    />
-  ), [themes, componentDisabled, componentSize, filterMode, relatedComponents, selectedTokens, onTokenClick])
+  const demoGroup = useMemo(
+    () => (
+      <ComponentDemoGroup
+        themes={themes}
+        components={antdComponents}
+        size={componentSize}
+        disabled={componentDisabled}
+        activeComponents={
+          filterMode === 'highlight' ? undefined : relatedComponents
+        }
+        selectedTokens={selectedTokens}
+        onTokenClick={onTokenClick}
+      />
+    ),
+    [
+      themes,
+      componentDisabled,
+      componentSize,
+      filterMode,
+      relatedComponents,
+      selectedTokens,
+      onTokenClick,
+    ],
+  );
 
   return wrapSSR(
     <div className={classNames('component-panel', hashId, className)} {...rest}>

@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import type { ComponentPanelProps } from '../src/component-panel';
 import ComponentPanel from '../src/component-panel';
@@ -51,5 +51,19 @@ describe('ComponentPanel', () => {
     expect(container.querySelector('.component-demos')?.children.length).toBe(
       componentLength,
     );
+  });
+
+  it('search should work', () => {
+    const { container } = render(<Panel />);
+    fireEvent.change(
+      container.querySelector('.component-tree-search > input')!,
+      { target: { value: 'but' } },
+    );
+    expect(
+      container
+        .querySelector('.component-tree')
+        ?.querySelector('.ant-tree-list')
+        ?.querySelectorAll('.ant-tree-treenode').length,
+    ).toBe(2);
   });
 });
