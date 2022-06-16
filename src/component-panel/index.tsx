@@ -198,10 +198,6 @@ const Index: FC<ComponentPanelProps> = ({
     setShowSide(true);
   }, [selectedTokens]);
 
-  const throttledSetActiveComponent = useThrottleFn((component: string) => {
-    setActiveComponent(component);
-  }, {wait: 200})
-
   useEffect(() => {
     const handleScroll = () => {
       if (demosRef.current) {
