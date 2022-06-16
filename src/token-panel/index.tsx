@@ -284,7 +284,9 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
                         filterTypes.length === 0) &&
                       (!search ||
                         groupedToken[type].some((item) =>
-                          item.tokenName.includes(search),
+                          item.tokenName
+                            .toLowerCase()
+                            .includes(search.toLowerCase()),
                         )),
                   ).map((key) => (
                     <TokenCard

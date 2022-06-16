@@ -141,8 +141,6 @@ const useStyle = makeStyle('TokenItem', (token) => ({
         display: 'flex',
         alignItems: 'center',
         position: 'relative',
-        width: 20,
-        transition: 'width 0.3s',
 
         '> .previewer-color-preview': {
           position: 'absolute',
@@ -252,7 +250,7 @@ export default ({ tokenName, active, onActiveChange }: TokenItemProps) => {
                 <div
                   className="previewer-token-preview"
                   style={{
-                    width: themes.length * 20 + (themes.length - 1) * 4,
+                    minWidth: themes.length * 20 + (themes.length - 1) * 4,
                   }}
                 >
                   {themes.map(({ config, key }, index) => {

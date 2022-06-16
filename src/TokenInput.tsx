@@ -111,10 +111,6 @@ const TokenInput: FC<TokenInputProps> = ({
     }
   };
 
-  useEffect(() => {
-    setTokenValue(value || '');
-  }, [value]);
-
   const addonAfter = !readonly && (
     <span
       style={{
