@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Button, ConfigProvider, Layout, message } from '@madccc/antd';
 import classNames from 'classnames';
 import ComponentPanel from './component-panel';
@@ -170,9 +170,9 @@ const InternalPreviewer: React.FC = () => {
     { wait: 200 },
   );
 
-  const handleTokenClick = (tokenName: TokenName) => {
+  const handleTokenClick = useCallback((tokenName: TokenName) => {
     tokenPanelRef.current?.scrollToToken(tokenName);
-  };
+  }, []);
 
   const mutableThemes = useMemo(
     () =>
@@ -284,13 +284,13 @@ const InternalPreviewer: React.FC = () => {
             onSelectedTokensChange={(tokens) => setSelectedTokens(tokens)}
             filterMode={filterMode}
             onFilterModeChange={(mode) => setFilterMode(mode)}
-            onTokenClick={(tokenName) => handleTokenClick(tokenName)}
+            onTokenClick={handleTokenClick}
           />
           <ComponentPanel
             filterMode={filterMode}
             selectedTokens={selectedTokens}
             themes={mutableThemes}
-            onTokenClick={(tokenName) => handleTokenClick(tokenName)}
+            onTokenClick={handleTokenClick}
             style={{ flex: 1, height: 0, marginTop: 12 }}
           />
         </Content>

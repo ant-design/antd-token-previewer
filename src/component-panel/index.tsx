@@ -11,6 +11,7 @@ import useStatistic from '../hooks/useStatistic';
 import ComponentDemoGroup from './ComponentDemoGroup';
 import type { FilterMode } from '../FilterPanel';
 import type { TokenName } from '../interface';
+import { useThrottleFn } from 'ahooks';
 
 const BREADCRUMB_HEIGHT = 40;
 
@@ -197,6 +198,10 @@ const Index: FC<ComponentPanelProps> = ({
     setShowSide(true);
   }, [selectedTokens]);
 
+  const throttledSetActiveComponent = useThrottleFn((component: string) => {
+    setActiveComponent(component);
+  }, {wait: 200})
+
   useEffect(() => {
     const handleScroll = () => {
       if (demosRef.current) {
@@ -208,9 +213,8 @@ const Index: FC<ComponentPanelProps> = ({
               demosRef.current.getBoundingClientRect().top >
             BREADCRUMB_HEIGHT
           ) {
-            setActiveComponent(
-              demosRef.current.children[i]?.id.split('-').pop(),
-            );
+            // throttledSetActiveComponent.run(demosRef.current.children[i]?.id.split('-').pop())
+            setActiveComponent(demosRef.current.children[i]?.id.split('-').pop());
             break;
           }
         }
@@ -247,6 +251,20 @@ const Index: FC<ComponentPanelProps> = ({
       return undefined;
     }
   }, [activeComponent]);
+
+  const demoGroup = useMemo(() => (
+    <ComponentDemoGroup
+      themes={themes}
+      components={antdComponents}
+      size={componentSize}
+      disabled={componentDisabled}
+      activeComponents={
+        filterMode === 'highlight' ? undefined : relatedComponents
+      }
+      selectedTokens={selectedTokens}
+      onTokenClick={onTokenClick}
+    />
+  ), [themes, componentDisabled, componentSize, filterMode, relatedComponents, selectedTokens, onTokenClick])
 
   return wrapSSR(
     <div className={classNames('component-panel', hashId, className)} {...rest}>
@@ -321,17 +339,7 @@ const Index: FC<ComponentPanelProps> = ({
             </div>
           )}
           <div className="component-demos" ref={demosRef}>
-            <ComponentDemoGroup
-              themes={themes}
-              components={antdComponents}
-              size={componentSize}
-              disabled={componentDisabled}
-              activeComponents={
-                filterMode === 'highlight' ? undefined : relatedComponents
-              }
-              selectedTokens={selectedTokens}
-              onTokenClick={onTokenClick}
-            />
+            {demoGroup}
           </div>
         </div>
       </div>
