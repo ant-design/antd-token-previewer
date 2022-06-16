@@ -17,7 +17,11 @@ import type { TokenType } from './utils/classifyToken';
 import { useDebounceFn } from 'ahooks';
 import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
 
-import { darkAliasToken, darkComponentToken } from './theme/dark';
+import {
+  darkAliasToken,
+  darkComponentToken,
+  darkColorPalettes,
+} from './theme/dark';
 
 const { Header, Sider, Content } = Layout;
 const SIDER_WIDTH = 340;
@@ -113,7 +117,7 @@ const InternalPreviewer: React.FC = () => {
       config: {
         override: {
           // @ts-ignore
-          alias: { ...token, ...darkAliasToken },
+          alias: { ...token, ...darkColorPalettes, ...darkAliasToken },
           ...darkComponentToken,
         },
       },

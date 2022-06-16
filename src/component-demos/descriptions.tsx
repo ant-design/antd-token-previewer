@@ -1,14 +1,15 @@
 import React from 'react';
 import { Descriptions } from '@madccc/antd';
 
-export default () => (
-  <Descriptions title="User Info">
-    <Descriptions.Item label="UserName">Zhou Maomao</Descriptions.Item>
-    <Descriptions.Item label="Telephone">1810000000</Descriptions.Item>
-    <Descriptions.Item label="Live">Hangzhou, Zhejiang</Descriptions.Item>
-    <Descriptions.Item label="Remark">empty</Descriptions.Item>
-    <Descriptions.Item label="Address">
-      No. 18, Wantang Road, Xihu District, Hangzhou, Zhejiang, China
+const App = () => (
+  <Descriptions title="User Info" bordered>
+    <Descriptions.Item label="Product">Cloud Database</Descriptions.Item>
+    <Descriptions.Item label="Billing Mode">Prepaid</Descriptions.Item>
+    <Descriptions.Item label="Automatic Renewal">YES</Descriptions.Item>
+    <Descriptions.Item label="Order time">
+      2018-04-24 18:00:00
     </Descriptions.Item>
   </Descriptions>
 );
+
+export default App;

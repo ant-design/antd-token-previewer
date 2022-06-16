@@ -6,7 +6,7 @@ import BadgeDemo from './badge';
 import BreadcrumbDemo from './breadcrumb';
 import ButtonDemo from './button/button';
 import CalendarDemo from './calendar';
-import CardDemo from './card';
+import CardDemo from './card/card';
 import CarouselDemo from './carousel';
 import CascaderDemo from './cascader';
 import CheckboxDemo from './checkbox';
@@ -30,13 +30,15 @@ import PopconfirmDemo from './popconfirm';
 import PopoverDemo from './popover';
 import RadioDemo from './radio';
 import RateDemo from './rate';
-import SelectDemo from './select';
+import SelectDemo from './select/select';
+import SelectTag from './select/selectTag';
 import SkeletonDemo from './skeleton';
 import SliderDemo from './slider';
 import SpinDemo from './spin';
 import StatisticDemo from './statistic';
 import SwitchDemo from './switch';
-import TableDemo from './table';
+// import TableDemo from './table/table';
+import FilterTableDemo from './table/filterTable';
 import TabsDemo from './tabs';
 import TagDemo from './tag';
 import TimePickerDemo from './time-picker';
@@ -54,7 +56,7 @@ import StepsDemo from './steps';
 import SegmentedDemo from './segmented';
 import DrawerDemo from './drawer';
 import MessageDemo from './message';
-import ProgressDemo from './progress';
+import ProgressDemo from './progress/progress';
 import ResultDemo from './result';
 import ButtonIconDemo from './button/button-icon';
 import type { ReactElement } from 'react';
@@ -81,7 +83,9 @@ const ComponentDemos: PreviewerDemos = {
     optional: [{ tokens: ['colorPrimary'], demo: <ButtonIconDemo /> }],
   },
   Calendar: { default: <CalendarDemo /> },
-  Card: { default: <CardDemo /> },
+  Card: {
+    default: <CardDemo />,
+  },
   Carousel: { default: <CarouselDemo /> },
   Cascader: { default: <CascaderDemo /> },
   Checkbox: { default: <CheckboxDemo /> },
@@ -105,13 +109,30 @@ const ComponentDemos: PreviewerDemos = {
   Popover: { default: <PopoverDemo /> },
   Radio: { default: <RadioDemo /> },
   Rate: { default: <RateDemo /> },
-  Select: { default: <SelectDemo /> },
+  Select: {
+    default: <SelectDemo />,
+    optional: [
+      {
+        demo: <SelectTag />,
+        tokens: [],
+      },
+    ],
+  },
   Skeleton: { default: <SkeletonDemo /> },
   Slider: { default: <SliderDemo /> },
   Spin: { default: <SpinDemo /> },
   Statistic: { default: <StatisticDemo /> },
   Switch: { default: <SwitchDemo /> },
-  Table: { default: <TableDemo /> },
+  Table: {
+    // default: <TableDemo />,
+    default: <FilterTableDemo />,
+    // optional: [
+    //   {
+    //     demo: <FilterTableDemo />,
+    //     tokens: [],
+    //   },
+    // ],
+  },
   Tabs: { default: <TabsDemo /> },
   Tag: { default: <TagDemo /> },
   TimePicker: { default: <TimePickerDemo /> },
@@ -130,7 +151,9 @@ const ComponentDemos: PreviewerDemos = {
   Drawer: { default: <DrawerDemo /> },
   Message: { default: <MessageDemo /> },
   Result: { default: <ResultDemo /> },
-  Progress: { default: <ProgressDemo /> },
+  Progress: {
+    default: <ProgressDemo />,
+  },
 };
 
 export default ComponentDemos;
