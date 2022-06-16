@@ -37,7 +37,7 @@ import SliderDemo from './slider';
 import SpinDemo from './spin';
 import StatisticDemo from './statistic';
 import SwitchDemo from './switch';
-import TableDemo from './table/table';
+// import TableDemo from './table/table';
 import FilterTableDemo from './table/filterTable';
 import TabsDemo from './tabs';
 import TagDemo from './tag';
