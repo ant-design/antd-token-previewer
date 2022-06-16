@@ -1,5 +1,11 @@
 import type { FC } from 'react';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { Button, ConfigProvider, Layout, message } from '@madccc/antd';
 import classNames from 'classnames';
 import ComponentPanel from './component-panel';
@@ -167,7 +173,7 @@ const InternalPreviewer: React.FC = () => {
         ),
       );
     },
-    { wait: 200 },
+    { wait: 500 },
   );
 
   const handleTokenClick = useCallback((tokenName: TokenName) => {
