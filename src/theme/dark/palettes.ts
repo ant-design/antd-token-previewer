@@ -164,8 +164,21 @@ export const primaryPalettes = {
 };
 
 const darkBaseColor = '#000';
-
 const lightBaseColor = '#fff';
+
+// const darkBaseColor = 'hsl(220,20%,0%)';
+
+// const lightBaseColor = 'hsl(220,20%,100%)';
+
+// 一组尝试自定义风格的暗色主题
+// export const darkPalettes = {
+//   26: 'hsl(218,5%,27%)',
+//   19: 'hsl(218,5%,15%)',
+//   15: 'hsl(220,11%,27%)',
+//   12: 'hsl(220,11%,22%)',
+//   8: 'hsl(220,13%,18%)',
+//   0: 'hsl(216,13%,15%)',
+// };
 
 // TODO： 需要定义这些色值下面的色板含义
 export const darkPalettes = {
@@ -179,9 +192,9 @@ export const darkPalettes = {
 
 // TODO： 需要定义这些色值下面的色板含义
 export const whiteAlphaPalettes = {
-  100: getAlphaColor(lightBaseColor, 1),
   85: getAlphaColor(lightBaseColor, 0.85),
-  75: getAlphaColor(lightBaseColor, 0.75),
+  75: getAlphaColor(lightBaseColor, 0.75), // 目前只有 Color Action 用了
+  65: getAlphaColor(lightBaseColor, 0.65), // 目前只有 Segment Label 用了
   45: getAlphaColor(lightBaseColor, 0.45),
   30: getAlphaColor(lightBaseColor, 0.3),
   25: getAlphaColor(lightBaseColor, 0.25),
