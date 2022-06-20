@@ -116,7 +116,6 @@ const TokenInput: FC<TokenInputProps> = ({
       style={{
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center',
         width: 60,
       }}
     >
@@ -132,7 +131,7 @@ const TokenInput: FC<TokenInputProps> = ({
           重置
         </Button>
       ) : (
-        theme?.name
+        <span style={{ padding: '0 8px' }}>{theme?.name}</span>
       )}
     </span>
   );
