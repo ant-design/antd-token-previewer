@@ -109,6 +109,7 @@ const InternalPreviewer: React.FC = () => {
 
   const tokenPanelRef = useRef<TokenPanelRef>(null);
   const dragRef = useRef(false);
+  const siderRef = useRef<HTMLDivElement>(null);
 
   const [themes, setThemes] = useState<ThemeSelectProps['themes']>([
     {
@@ -142,6 +143,9 @@ const InternalPreviewer: React.FC = () => {
     const handleMouseUp = () => {
       dragRef.current = false;
       document.body.style.cursor = '';
+      if (siderRef.current) {
+        siderRef.current.style.transition = 'all 0.3s';
+      }
     };
     const handleMouseMove = (e: MouseEvent) => {
       if (dragRef.current) {
@@ -195,6 +199,19 @@ const InternalPreviewer: React.FC = () => {
     [enabledThemes, themes, debouncedSetTheme],
   );
 
+  const componentPanel = useMemo(
+    () => (
+      <ComponentPanel
+        filterMode={filterMode}
+        selectedTokens={selectedTokens}
+        themes={mutableThemes}
+        onTokenClick={handleTokenClick}
+        style={{ flex: 1, height: 0, marginTop: 12 }}
+      />
+    ),
+    [filterMode, handleTokenClick, mutableThemes, selectedTokens],
+  );
+
   return wrapSSR(
     <Layout className={classNames('previewer-layout', hashId)}>
       <Header className="previewer-header">
@@ -235,14 +252,19 @@ const InternalPreviewer: React.FC = () => {
             height: '100%',
             overflow: 'auto',
             flex: `0 0 ${siderWidth}px`,
+            willChange: 'auto',
           }}
           width={siderVisible ? siderWidth : 0}
+          ref={siderRef}
         >
           <div
             className="previewer-sider-handler"
             onMouseDown={() => {
               dragRef.current = true;
               document.body.style.cursor = 'ew-resize';
+              if (siderRef.current) {
+                siderRef.current.style.transition = 'none';
+              }
             }}
           />
           <Button
@@ -291,13 +313,7 @@ const InternalPreviewer: React.FC = () => {
             onFilterModeChange={(mode) => setFilterMode(mode)}
             onTokenClick={handleTokenClick}
           />
-          <ComponentPanel
-            filterMode={filterMode}
-            selectedTokens={selectedTokens}
-            themes={mutableThemes}
-            onTokenClick={handleTokenClick}
-            style={{ flex: 1, height: 0, marginTop: 12 }}
-          />
+          {componentPanel}
         </Content>
       </Layout>
     </Layout>,

@@ -75,7 +75,7 @@ const useStyle = makeStyle('TokenCard', (token) => ({
     height: 'auto',
     borderRadius: token.radiusLG,
     border: `1px solid rgba(0,0,0,0.09)`,
-    marginBottom: token.margin,
+    marginBottom: token.marginSM,
 
     '.ant-collapse.token-card-collapse': {
       '> .ant-collapse-item > .ant-collapse-header': {
@@ -88,7 +88,6 @@ const useStyle = makeStyle('TokenCard', (token) => ({
     },
   },
 
-  // FIXME antd collapse expandIconPosition not work
   '.token-card .ant-collapse-icon-position-right .ant-collapse-header:not(.ant-collapse-icon-position-left .ant-collapse-header) > div:first-child':
     {
       position: 'absolute',
@@ -121,7 +120,7 @@ export default ({
         expandIcon={({ isActive }) => (
           <CaretRightOutlined
             rotate={isActive ? 450 : 360}
-            style={{ fontSize: 12 }}
+            style={{ fontSize: 12, color: 'rgba(0,0,0,0.45)' }}
           />
         )}
         expandIconPosition="right"
