@@ -1,14 +1,11 @@
 import type { FC, PropsWithChildren } from 'react';
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { Card, ConfigProvider } from '@madccc/antd';
 import { Control } from '../icons';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
 import ComponentTokenDrawer from './ComponentTokenDrawer';
-import type { MutableTheme } from '../interface';
-import type { TokenName } from '../interface';
-import useToken from '../hooks/useToken';
-import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
+import type { MutableTheme, TokenName } from '../interface';
 
 const useStyle = makeStyle('ComponentCard', (token) => ({
   '.ant-card.component-card': {
@@ -61,7 +58,6 @@ const ComponentCard: FC<ComponentCardProps> = ({
 }) => {
   const [wrapSSR, hashId] = useStyle();
   const [tokenDrawerOpen, setTokenDrawerOpen] = useState<boolean>(false);
-  const [token] = useToken();
 
   return wrapSSR(
     <div>
