@@ -5,9 +5,7 @@ import { Control } from '../icons';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
 import ComponentTokenDrawer from './ComponentTokenDrawer';
-import type { MutableTheme } from '../interface';
-import type { TokenName } from '../interface';
-import useToken from '../hooks/useToken';
+import type { MutableTheme, TokenName } from '../interface';
 
 const useStyle = makeStyle('ComponentCard', (token) => ({
   '.ant-card.component-card': {
@@ -47,6 +45,7 @@ export const getComponentDemoId = (component: string) =>
 export type ComponentCardProps = PropsWithChildren<{
   component: string;
   theme: MutableTheme;
+  defaultTheme?: MutableTheme;
   onTokenClick?: (token: TokenName) => void;
 }>;
 
@@ -54,11 +53,11 @@ const ComponentCard: FC<ComponentCardProps> = ({
   children,
   component,
   theme,
+  defaultTheme,
   onTokenClick,
 }) => {
   const [wrapSSR, hashId] = useStyle();
   const [tokenDrawerOpen, setTokenDrawerOpen] = useState<boolean>(false);
-  const [token] = useToken();
 
   return wrapSSR(
     <div>
@@ -74,7 +73,7 @@ const ComponentCard: FC<ComponentCardProps> = ({
       >
         {children}
       </Card>
-      <ConfigProvider theme={{ override: { alias: token } }}>
+      <ConfigProvider theme={defaultTheme?.config}>
         <ComponentTokenDrawer
           visible={tokenDrawerOpen}
           theme={theme}

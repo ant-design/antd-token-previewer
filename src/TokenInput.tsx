@@ -53,7 +53,7 @@ const useStyle = makeStyle('TokenInput', (token) => ({
 
       [`.ant-input-group-wrapper .ant-input,
         .ant-input-number-group-wrapper .ant-input-number-input`]: {
-        background: '#fafafa',
+        background: token.colorBgComponentSecondary,
       },
     },
 

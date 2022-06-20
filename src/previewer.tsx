@@ -123,7 +123,6 @@ const InternalPreviewer: React.FC = () => {
       key: 'dark',
       config: {
         override: {
-          // @ts-ignore
           alias: { ...token, ...darkColorPalettes, ...darkAliasToken },
           ...darkComponentToken,
         },

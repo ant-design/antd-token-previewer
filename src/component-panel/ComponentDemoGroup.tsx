@@ -106,6 +106,7 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
                     <ComponentCard
                       component={item}
                       theme={theme}
+                      defaultTheme={themes[0]}
                       onTokenClick={onTokenClick}
                     >
                       <ConfigProvider

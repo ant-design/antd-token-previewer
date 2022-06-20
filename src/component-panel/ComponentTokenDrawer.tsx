@@ -16,6 +16,7 @@ const useStyle = makeStyle('ComponentTokenDrawer', (token) => ({
       fontWeight: token.fontWeightStrong,
       marginBottom: token.marginSM,
       marginInlineStart: token.marginXS,
+      color: token.colorText,
     },
 
     '.previewer-component-token-drawer-theme': {
