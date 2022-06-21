@@ -24,10 +24,14 @@ import { useDebounceFn } from 'ahooks';
 import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
 
 import {
-  darkAliasToken,
-  darkColorPalettes,
-  darkComponentToken,
+  aliasToken as darkAliasToken,
+  componentToken as darkComponentToken,
+  colorPalettes as darkColorPalettes,
 } from './theme/dark';
+import {
+  aliasToken as lightAliasToken,
+  componentToken as lightComponentToken,
+} from './theme/light';
 
 const { Header, Sider, Content } = Layout;
 const SIDER_WIDTH = 340;
@@ -96,9 +100,9 @@ const useStyle = makeStyle('layout', (token) => ({
 const InternalPreviewer: React.FC<PreviewerProps> = ({ onSave }) => {
   const [wrapSSR, hashId] = useStyle();
   const [token] = useToken();
-  const [shownThemes, setShownThemes] = useState<string[]>(['default', 'dark']);
+  const [shownThemes, setShownThemes] = useState<string[]>(['light', 'dark']);
   const [enabledThemes, setEnabledThemes] = useState<string[]>([
-    'default',
+    'light',
     'dark',
   ]);
   const [selectedTokens, setSelectedTokens] = useState<TokenName[]>([]);
@@ -113,11 +117,22 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({ onSave }) => {
 
   const [themes, setThemes] = useState<ThemeSelectProps['themes']>([
     {
-      name: '默认主题',
-      key: 'default',
-      config: { override: { alias: token } },
+      name: '亮色主题',
+      key: 'light',
+      config: {
+        override: {
+          alias: { ...token, ...lightAliasToken },
+          ...lightComponentToken,
+        },
+      },
       fixed: true,
     },
+    // {
+    //   name: '默认主题',
+    //   key: 'default',
+    //   config: { override: { alias: token } },
+    //   fixed: true,
+    // },
     {
       name: '暗色主题',
       key: 'dark',

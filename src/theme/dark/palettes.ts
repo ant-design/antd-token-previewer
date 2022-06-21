@@ -1,6 +1,7 @@
 import { getAlphaColor, getSolidColor } from './colorAlgorithm';
+import type { BgPalettes, TextAlphaPalettes } from '../IPalettes';
 
-export const darkColorPalettes = {
+export const colorPalettes = {
   'blue-1': '#111d2c',
   'blue-2': '#112a45',
   'blue-3': '#15395b',
@@ -134,21 +135,21 @@ export const darkColorPalettes = {
 };
 
 export const successPalettes = {
-  1: darkColorPalettes['green-1'],
-  3: darkColorPalettes['green-3'],
-  6: darkColorPalettes['green-6'],
+  1: colorPalettes['green-1'],
+  3: colorPalettes['green-3'],
+  6: colorPalettes['green-6'],
 };
 
 export const warningPalettes = {
-  1: darkColorPalettes['gold-1'],
-  3: darkColorPalettes['gold-3'],
-  6: darkColorPalettes['gold-6'],
+  1: colorPalettes['gold-1'],
+  3: colorPalettes['gold-3'],
+  6: colorPalettes['gold-6'],
 };
 
 export const errorPalettes = {
-  1: darkColorPalettes['red-1'],
-  3: darkColorPalettes['red-3'],
-  6: darkColorPalettes['red-6'],
+  1: colorPalettes['red-1'],
+  3: colorPalettes['red-3'],
+  6: colorPalettes['red-6'],
 };
 
 // FIXME: 主色在暗色模式下的应用很有问题需要收敛
@@ -159,12 +160,12 @@ export const primaryPalettes = {
   3: '#153450',
   4: '#177ddc', // Slider 的 hover 态用的是 4
   5: '#165996',
-  6: darkColorPalettes['blue-6'],
+  6: colorPalettes['blue-6'],
   7: '#388ed3',
 };
 
-const darkBaseColor = '#000';
-const lightBaseColor = '#fff';
+const bgBaseColor = '#000';
+const textBaseColor = '#fff';
 
 // const darkBaseColor = 'hsl(220,20%,0%)';
 
@@ -181,26 +182,26 @@ const lightBaseColor = '#fff';
 // };
 
 // TODO： 需要定义这些色值下面的色板含义
-export const darkPalettes = {
-  26: getSolidColor(darkBaseColor, 26),
-  19: getSolidColor(darkBaseColor, 19),
-  15: getSolidColor(darkBaseColor, 15),
-  12: getSolidColor(darkBaseColor, 12),
-  8: getSolidColor(darkBaseColor, 8),
-  0: getSolidColor(darkBaseColor, 0),
+export const bgPalettes: BgPalettes = {
+  26: getSolidColor(bgBaseColor, 26),
+  19: getSolidColor(bgBaseColor, 19),
+  15: getSolidColor(bgBaseColor, 15),
+  12: getSolidColor(bgBaseColor, 12),
+  8: getSolidColor(bgBaseColor, 8),
+  0: getSolidColor(bgBaseColor, 0),
 };
 
 // TODO： 需要定义这些色值下面的色板含义
-export const whiteAlphaPalettes = {
-  85: getAlphaColor(lightBaseColor, 0.85),
-  75: getAlphaColor(lightBaseColor, 0.75), // 目前只有 Color Action 用了
-  65: getAlphaColor(lightBaseColor, 0.65), // 目前只有 Segment Label 用了
-  45: getAlphaColor(lightBaseColor, 0.45),
-  30: getAlphaColor(lightBaseColor, 0.3),
-  25: getAlphaColor(lightBaseColor, 0.25),
+export const textAlphaPalettes: TextAlphaPalettes = {
+  85: getAlphaColor(textBaseColor, 0.85),
+  75: getAlphaColor(textBaseColor, 0.75), // 目前只有 Color Action 用了
+  65: getAlphaColor(textBaseColor, 0.65), // 目前只有 Segment Label 用了
+  45: getAlphaColor(textBaseColor, 0.45),
+  30: getAlphaColor(textBaseColor, 0.3),
+  25: getAlphaColor(textBaseColor, 0.25),
   // 从 12 往下基本上就是偏背景和装饰性元素了
-  12: getAlphaColor(lightBaseColor, 0.12),
-  8: getAlphaColor(lightBaseColor, 0.08),
-  4: getAlphaColor(lightBaseColor, 0.04),
-  3: getAlphaColor(lightBaseColor, 0.03),
+  12: getAlphaColor(textBaseColor, 0.12),
+  8: getAlphaColor(textBaseColor, 0.08),
+  4: getAlphaColor(textBaseColor, 0.04),
+  3: getAlphaColor(textBaseColor, 0.03),
 };
