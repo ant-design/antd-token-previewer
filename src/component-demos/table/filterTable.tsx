@@ -1,7 +1,10 @@
-//@ts-nocheck
+import type { TableProps } from '@madccc/antd';
 import { Table } from '@madccc/antd';
+import React from 'react';
 
-const columns = [
+type TableData = { name: string; age: number; address: string };
+
+const columns: TableProps<TableData>['columns'] = [
   {
     title: 'Name',
     dataIndex: 'name',
@@ -31,7 +34,7 @@ const columns = [
     ],
     // specify the condition of filtering result
     // here is that finding the name started with `value`
-    onFilter: (value, record) => record.name.indexOf(value) === 0,
+    onFilter: (value, record) => record.name.indexOf(String(value)) === 0,
     sorter: (a, b) => a.name.length - b.name.length,
     sortDirections: ['descend'],
   },
@@ -54,7 +57,7 @@ const columns = [
         value: 'New York',
       },
     ],
-    onFilter: (value, record) => record.address.indexOf(value) === 0,
+    onFilter: (value, record) => record.address.indexOf(String(value)) === 0,
   },
 ];
 const data = [
@@ -84,7 +87,12 @@ const data = [
   },
 ];
 
-const onChange = (pagination, filters, sorter, extra) => {
+const onChange: TableProps<TableData>['onChange'] = (
+  pagination,
+  filters,
+  sorter,
+  extra,
+) => {
   console.log('params', pagination, filters, sorter, extra);
 };
 
