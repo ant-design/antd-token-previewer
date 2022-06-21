@@ -6,5 +6,5 @@ export const getAlphaColor = (baseColor: string, alpha: number) => {
 
 export const getSolidColor = (baseColor: string, brightness: number) => {
   const instance = tinycolor(baseColor);
-  return instance.lighten(brightness).toHexString();
+  return instance.darken(brightness).toHexString();
 };

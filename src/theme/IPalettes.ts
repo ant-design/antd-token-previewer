@@ -33,6 +33,8 @@ export interface TextAlphaPalettes {
   45: string;
   30: string;
   25: string;
+  // FIXME: 只有 Popover 用了
+  'light-75'?: string;
 
   // 从 12 往下基本上就是偏背景和装饰性元素了
   12: string;
@@ -49,4 +51,6 @@ export interface BgPalettes {
   0: string;
   // FIXME: 亮色需要额外增加的色彩序列
   'light-12'?: string;
+  'light-2'?: string;
+  'light-10'?: string;
 }
