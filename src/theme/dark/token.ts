@@ -30,9 +30,9 @@ const aliasToken: Partial<GlobalToken> = {
   colorError: errorPalettes['6'],
   colorErrorSecondary: errorPalettes['3'],
 
-  colorBgWarning: successPalettes['1'],
+  colorBgWarning: warningPalettes['1'],
   colorWarning: warningPalettes['6'],
-  colorWarningSecondary: successPalettes['3'],
+  colorWarningSecondary: warningPalettes['3'],
 
   colorInfo: primaryPalettes['6'],
   colorBgInfo: primaryPalettes['1'],
