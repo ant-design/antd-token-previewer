@@ -14,3 +14,16 @@ export type TokenName = keyof Exclude<ThemeConfig['token'], undefined>;
 export interface MutableTheme extends Theme {
   onThemeChange?: (newTheme: ThemeConfig) => void;
 }
+
+export interface TokenEntity {
+  name: string;
+  token: string;
+  value: string | number;
+  type: string;
+  description: string;
+  source: string;
+}
+
+export type PreviewerProps = {
+  onSave?: (tokenList: TokenEntity[], themeConfig: ThemeConfig) => void;
+};
