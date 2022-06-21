@@ -137,8 +137,6 @@ const genComponentToken = ({
     color: textAlphaPalettes['12'],
     colorGradientEnd: textAlphaPalettes['25'],
   },
-  // FIXME：Slider 的暗色样式很有问题
-  Slider: {},
   // TODO：整体考虑优化下禁用的效果
   // 要用 whiteAlphaPalettes['25']
   Pagination: {},
@@ -154,8 +152,7 @@ const genComponentToken = ({
   Table: {
     // TODO: 激活样式该不该用实色？还是不透明的用法？
     headerSortActiveBgColor: bgPalettes['15'],
-    // FIXME 应该还有个 headerSortHover 的token
-    headerHoverBgColor: bgPalettes['19'],
+    headerHoverBgColor: textAlphaPalettes['12'],
   },
   Tooltip: {
     colorBgDefault: bgPalettes['26'],
