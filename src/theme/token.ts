@@ -2,21 +2,21 @@ import type { GlobalToken } from '@madccc/antd/es/_util/theme/interface';
 import type { OverrideToken } from '@madccc/antd/es/_util/theme/interface';
 import type { DeepPartial } from 'utility-types';
 import type {
-  bgPalettes,
-  primaryPalettes,
-  errorPalettes,
-  successPalettes,
-  warningPalettes,
-  textAlphaPalettes,
-} from './dark/palettes';
+  SuccessPalettes,
+  PrimaryPalettes,
+  ErrorPalettes,
+  WarningPalettes,
+  TextAlphaPalettes,
+  BgPalettes,
+} from './IPalettes';
 
 interface PaletteSheets {
-  primaryPalettes: typeof primaryPalettes;
-  successPalettes: typeof successPalettes;
-  errorPalettes: typeof errorPalettes;
-  warningPalettes: typeof warningPalettes;
-  textAlphaPalettes: typeof textAlphaPalettes;
-  bgPalettes: typeof bgPalettes;
+  primaryPalettes: PrimaryPalettes;
+  successPalettes: SuccessPalettes;
+  errorPalettes: ErrorPalettes;
+  warningPalettes: WarningPalettes;
+  textAlphaPalettes: TextAlphaPalettes;
+  bgPalettes: BgPalettes;
 }
 
 // 全局 Alias Token
