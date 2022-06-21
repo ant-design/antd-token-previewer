@@ -1,5 +1,6 @@
 import { green, gold, red, blue } from '@ant-design/colors';
 import { getAlphaColor, getSolidColor } from './colorAlgorithm';
+import type { BgPalettes, TextAlphaPalettes } from '../IPalettes';
 
 export const successPalettes = {
   1: green[0],
@@ -61,7 +62,7 @@ const textBaseColor = '#fff';
 // };
 
 // TODO： 需要定义这些色值下面的色板含义
-export const bgPalettes = {
+export const bgPalettes: BgPalettes = {
   26: getSolidColor(bgBaseColor, 26),
   19: getSolidColor(bgBaseColor, 19),
   15: getSolidColor(bgBaseColor, 15),
@@ -71,7 +72,7 @@ export const bgPalettes = {
 };
 
 // TODO： 需要定义这些色值下面的色板含义
-export const textAlphaPalettes = {
+export const textAlphaPalettes: TextAlphaPalettes = {
   85: getAlphaColor(textBaseColor, 0.85),
   75: getAlphaColor(textBaseColor, 0.75), // 目前只有 Color Action 用了
   65: getAlphaColor(textBaseColor, 0.65), // 目前只有 Segment Label 用了
