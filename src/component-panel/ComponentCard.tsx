@@ -6,6 +6,7 @@ import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
 import ComponentTokenDrawer from './ComponentTokenDrawer';
 import type { MutableTheme, TokenName } from '../interface';
+import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
 
 const useStyle = makeStyle('ComponentCard', (token) => ({
   '.ant-card.component-card': {
@@ -45,7 +46,7 @@ export const getComponentDemoId = (component: string) =>
 export type ComponentCardProps = PropsWithChildren<{
   component: string;
   theme: MutableTheme;
-  defaultTheme?: MutableTheme;
+  defaultTheme?: ThemeConfig;
   onTokenClick?: (token: TokenName) => void;
 }>;
 
@@ -73,7 +74,7 @@ const ComponentCard: FC<ComponentCardProps> = ({
       >
         {children}
       </Card>
-      <ConfigProvider theme={defaultTheme?.config}>
+      <ConfigProvider theme={defaultTheme}>
         <ComponentTokenDrawer
           visible={tokenDrawerOpen}
           theme={theme}

@@ -28,6 +28,10 @@ import {
   darkColorPalettes,
   darkComponentToken,
 } from './theme/dark';
+import {
+  convertTokenArrToConfig,
+  convertTokenConfigToArr,
+} from './utils/convertToken';
 
 const { Header, Sider, Content } = Layout;
 const SIDER_WIDTH = 340;
@@ -111,11 +115,16 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({ onSave }) => {
   const dragRef = useRef(false);
   const siderRef = useRef<HTMLDivElement>(null);
 
+  const defaultTheme = useMemo<ThemeConfig>(
+    () => ({ override: { alias: token } }),
+    [],
+  );
+
   const [themes, setThemes] = useState<ThemeSelectProps['themes']>([
     {
       name: '默认主题',
       key: 'default',
-      config: { override: { alias: token } },
+      config: {},
       fixed: true,
     },
     {
@@ -123,7 +132,7 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({ onSave }) => {
       key: 'dark',
       config: {
         override: {
-          alias: { ...token, ...darkColorPalettes, ...darkAliasToken },
+          alias: { ...darkColorPalettes, ...darkAliasToken },
           ...darkComponentToken,
         },
       },
@@ -133,7 +142,7 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({ onSave }) => {
     {
       name: '紧凑主题',
       key: 'compact',
-      config: { override: { alias: token } },
+      config: {},
       icon: <CompactTheme style={{ fontSize: 16 }} />,
       closable: true,
     },
@@ -202,6 +211,7 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({ onSave }) => {
   const componentPanel = useMemo(
     () => (
       <ComponentPanel
+        defaultTheme={defaultTheme}
         filterMode={filterMode}
         selectedTokens={selectedTokens}
         themes={mutableThemes}
@@ -209,7 +219,7 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({ onSave }) => {
         style={{ flex: 1, height: 0, marginTop: 12 }}
       />
     ),
-    [filterMode, handleTokenClick, mutableThemes, selectedTokens],
+    [defaultTheme, filterMode, handleTokenClick, mutableThemes, selectedTokens],
   );
 
   return wrapSSR(
@@ -243,7 +253,12 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({ onSave }) => {
         <Button
           type="primary"
           style={{ marginLeft: 'auto' }}
-          onClick={() => onSave?.([], themes[0].config)}
+          onClick={() =>
+            onSave?.(
+              convertTokenConfigToArr(themes[0].config),
+              themes[0].config,
+            )
+          }
         >
           保存
         </Button>
@@ -290,6 +305,7 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({ onSave }) => {
             shape="circle"
           />
           <TokenPanel
+            defaultTheme={defaultTheme}
             ref={tokenPanelRef}
             filterTypes={filterTypes}
             onFilterTypesChange={(types) => setFilterTypes(types)}
@@ -327,12 +343,18 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({ onSave }) => {
   );
 };
 
-const Previewer: FC<PreviewerProps> = (props) => {
+const Previewer: FC<PreviewerProps> & {
+  convertTokenArrToConfig: typeof convertTokenArrToConfig;
+  convertTokenConfigToArr: typeof convertTokenConfigToArr;
+} = (props) => {
   return (
     <ConfigProvider theme={{ hashed: true }}>
       <InternalPreviewer {...props} />
     </ConfigProvider>
   );
 };
+
+Previewer.convertTokenArrToConfig = convertTokenArrToConfig;
+Previewer.convertTokenConfigToArr = convertTokenConfigToArr;
 
 export default Previewer;

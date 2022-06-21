@@ -4,10 +4,14 @@
 
 import React from 'react';
 import Previewer from 'antd-token-previewer';
-import '@madccc/antd/dist/@madccc/antd.css';
+import { convertTokenArrToConfig } from '../../src/utils/convertToken';
 
 const Demo = () => {
-  return <Previewer />;
+  return (
+    <Previewer
+      onSave={(arr, obj) => console.log(arr, obj, convertTokenArrToConfig(arr))}
+    />
+  );
 };
 
 export default Demo;

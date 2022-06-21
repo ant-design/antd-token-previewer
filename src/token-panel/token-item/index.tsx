@@ -168,7 +168,7 @@ export const getTokenItemId = (token: TokenName) =>
   `previewer-token-panel-item-${token}`;
 
 export default ({ tokenName, active, onActiveChange }: TokenItemProps) => {
-  const { selectedTokens, themes, onTokenSelect } =
+  const { selectedTokens, themes, onTokenSelect, defaultTheme } =
     React.useContext(PreviewContext);
   const [infoVisible, setInfoVisible] = React.useState(false);
   const [wrapSSR, hashId] = useStyle();
@@ -258,7 +258,11 @@ export default ({ tokenName, active, onActiveChange }: TokenItemProps) => {
                       <AdditionInfo
                         key={key}
                         tokenName={tokenName}
-                        info={config.override?.alias?.[tokenName] ?? ''}
+                        info={
+                          config.override?.alias?.[tokenName] ??
+                          defaultTheme.override?.alias?.[tokenName] ??
+                          ''
+                        }
                         visible={!infoVisible}
                         style={{
                           zIndex: 10 - index,
@@ -294,7 +298,10 @@ export default ({ tokenName, active, onActiveChange }: TokenItemProps) => {
                   <TokenInput
                     theme={theme}
                     onChange={(value) => handleTokenChange(theme, value)}
-                    value={theme.config.override?.alias?.[tokenName]}
+                    value={
+                      theme.config.override?.alias?.[tokenName] ??
+                      defaultTheme.override?.alias?.[tokenName]
+                    }
                   />
                 </div>
               );
