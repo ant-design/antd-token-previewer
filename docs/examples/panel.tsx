@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import { Space, Typography } from '@madccc/antd';
 import type { TokenPreviewProps } from 'antd-token-previewer';
-import { TokenPanel, useToken } from 'antd-token-previewer';
+import { TokenPanel } from 'antd-token-previewer';
 
 export default () => {
-  const [normalToken] = useToken();
-  const [darkToken] = useToken();
   const [selectedTokens, setSelectedTokens] = useState<string[]>([]);
 
   const tokens = [
     {
-      config: { override: { alias: normalToken } },
+      config: {},
       onThemeChange: (token) => {
         console.log(token);
       },
@@ -18,7 +16,7 @@ export default () => {
       name: '默认主题',
     },
     {
-      config: { override: { alias: darkToken } },
+      config: {},
       onThemeChange: (token) => {
         console.log(token);
       },

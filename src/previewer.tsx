@@ -12,21 +12,21 @@ import ComponentPanel from './component-panel';
 import type { ThemeSelectProps } from './ThemeSelect';
 import ThemeSelect from './ThemeSelect';
 import useToken from './hooks/useToken';
-import { DarkTheme, CompactTheme, Arrow } from './icons';
+import { Arrow, CompactTheme, DarkTheme } from './icons';
 import makeStyle from './utils/makeStyle';
 import type { TokenPanelRef } from './token-panel';
 import TokenPanel from './token-panel';
 import type { FilterMode } from './FilterPanel';
 import FilterPanel from './FilterPanel';
-import type { MutableTheme, TokenName } from './interface';
+import type { MutableTheme, PreviewerProps, TokenName } from './interface';
 import type { TokenType } from './utils/classifyToken';
 import { useDebounceFn } from 'ahooks';
 import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
 
 import {
   darkAliasToken,
-  darkComponentToken,
   darkColorPalettes,
+  darkComponentToken,
 } from './theme/dark';
 
 const { Header, Sider, Content } = Layout;
@@ -93,7 +93,7 @@ const useStyle = makeStyle('layout', (token) => ({
   },
 }));
 
-const InternalPreviewer: React.FC = () => {
+const InternalPreviewer: React.FC<PreviewerProps> = ({ onSave }) => {
   const [wrapSSR, hashId] = useStyle();
   const [token] = useToken();
   const [shownThemes, setShownThemes] = useState<string[]>(['default', 'dark']);
@@ -240,6 +240,13 @@ const InternalPreviewer: React.FC = () => {
             }}
           />
         </div>
+        <Button
+          type="primary"
+          style={{ marginLeft: 'auto' }}
+          onClick={() => onSave?.([], themes[0].config)}
+        >
+          保存
+        </Button>
       </Header>
       <Layout
         style={{
@@ -320,7 +327,7 @@ const InternalPreviewer: React.FC = () => {
   );
 };
 
-const Previewer: FC = (props) => {
+const Previewer: FC<PreviewerProps> = (props) => {
   return (
     <ConfigProvider theme={{ hashed: true }}>
       <InternalPreviewer {...props} />
