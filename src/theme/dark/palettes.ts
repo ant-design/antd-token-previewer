@@ -181,7 +181,7 @@ const textBaseColor = '#fff';
 // };
 
 // TODO： 需要定义这些色值下面的色板含义
-export const darkPalettes = {
+export const bgPalettes = {
   26: getSolidColor(bgBaseColor, 26),
   19: getSolidColor(bgBaseColor, 19),
   15: getSolidColor(bgBaseColor, 15),
@@ -191,7 +191,7 @@ export const darkPalettes = {
 };
 
 // TODO： 需要定义这些色值下面的色板含义
-export const whiteAlphaPalettes = {
+export const textAlphaPalettes = {
   85: getAlphaColor(textBaseColor, 0.85),
   75: getAlphaColor(textBaseColor, 0.75), // 目前只有 Color Action 用了
   65: getAlphaColor(textBaseColor, 0.65), // 目前只有 Segment Label 用了
