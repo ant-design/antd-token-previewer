@@ -12,7 +12,7 @@ import {
 } from './palettes';
 
 // 全局 Alias Token
-const darkAliasToken: Partial<GlobalToken> = {
+const aliasToken: Partial<GlobalToken> = {
   // ============== 基础公用  ============== //
 
   colorPrimary: primaryPalettes['6'],
@@ -95,7 +95,7 @@ const darkAliasToken: Partial<GlobalToken> = {
   controlItemBgActiveHover: primaryPalettes['0'],
 };
 
-const darkComponentToken: DeepPartial<OverrideToken> = {
+const componentToken: DeepPartial<OverrideToken> = {
   Button: {
     colorBgTextHover: whiteAlphaPalettes['3'],
     colorBgTextActive: whiteAlphaPalettes['4'],
@@ -141,4 +141,4 @@ const darkComponentToken: DeepPartial<OverrideToken> = {
   },
 };
 
-export { darkAliasToken, darkComponentToken };
+export { aliasToken, componentToken };

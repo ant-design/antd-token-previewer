@@ -28,6 +28,10 @@ import {
   darkColorPalettes,
   darkComponentToken,
 } from './theme/dark';
+import {
+  aliasToken as lightAliasToken,
+  componentToken as lightComponentToken,
+} from './theme/light';
 
 const { Header, Sider, Content } = Layout;
 const SIDER_WIDTH = 340;
