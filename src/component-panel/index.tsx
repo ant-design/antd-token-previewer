@@ -11,6 +11,7 @@ import useStatistic from '../hooks/useStatistic';
 import ComponentDemoGroup from './ComponentDemoGroup';
 import type { FilterMode } from '../FilterPanel';
 import type { TokenName } from '../interface';
+import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
 
 const BREADCRUMB_HEIGHT = 40;
 
@@ -171,6 +172,7 @@ export type ComponentPanelProps = {
   className?: string;
   style?: CSSProperties;
   onTokenClick?: (token: TokenName) => void;
+  defaultTheme: ThemeConfig;
 };
 
 const Index: FC<ComponentPanelProps> = ({
@@ -179,6 +181,7 @@ const Index: FC<ComponentPanelProps> = ({
   filterMode,
   className,
   onTokenClick,
+  defaultTheme,
   ...rest
 }) => {
   const [wrapSSR, hashId] = useStyle();
@@ -252,6 +255,7 @@ const Index: FC<ComponentPanelProps> = ({
     () => (
       <ComponentDemoGroup
         themes={themes}
+        defaultTheme={defaultTheme}
         components={antdComponents}
         size={componentSize}
         disabled={componentDisabled}

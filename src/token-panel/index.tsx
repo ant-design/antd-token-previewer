@@ -20,6 +20,8 @@ import TokenCard, { IconMap, TextMap } from './token-card';
 import type { MutableTheme, TokenName } from '../interface';
 import { SearchDropdown } from '../icons';
 import { getTokenItemId } from './token-item';
+import useToken from '../hooks/useToken';
+import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
 
 const useStyle = makeStyle('AliasTokenPreview', (token) => ({
   '.preview-panel-wrapper': {
@@ -111,6 +113,7 @@ const useStyle = makeStyle('AliasTokenPreview', (token) => ({
 
 export interface TokenPreviewProps {
   themes: MutableTheme[];
+  defaultTheme: ThemeConfig;
   selectedTokens: TokenName[];
   onTokenSelect: (token: TokenName) => void;
   filterTypes: TokenType[];
@@ -121,6 +124,7 @@ export const PreviewContext = React.createContext<
   Omit<TokenPreviewProps, 'filterTypes' | 'onFilterTypesChange'>
 >({
   themes: [],
+  defaultTheme: {},
   selectedTokens: [],
   onTokenSelect: () => {},
 });
@@ -131,9 +135,7 @@ export type TokenPanelRef = {
 
 export default forwardRef<TokenPanelRef, TokenPreviewProps>(
   (props: TokenPreviewProps, ref) => {
-    const { themes } = props;
     const [wrapSSR, hashId] = useStyle();
-    const [{ config }] = themes;
     const [search, setSearch] = useState<string>('');
     const [showAll, setShowAll] = useState<boolean>(false);
     const [showTokenListShadowTop, setShowTokenListShadowTop] =
@@ -141,14 +143,12 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
     const cardWrapperRef = useRef<HTMLDivElement>(null);
     const [activeCards, setActiveCards] = useState<TokenType[]>([]);
     const [activeToken, setActiveToken] = useState<TokenName | undefined>();
+    const [token] = useToken();
 
     const { filterTypes, onFilterTypesChange } = props;
 
     // TODO: Split AliasToken and SeedToken
-    const groupedToken = useMemo(
-      () => classifyToken(config.override?.alias ?? {}),
-      [config],
-    );
+    const groupedToken = useMemo(() => classifyToken(token as any), [token]);
 
     useEffect(() => {
       const handleTokenListScroll = () => {
@@ -162,15 +162,15 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
     }, []);
 
     useImperativeHandle(ref, () => ({
-      scrollToToken: (token) => {
-        const type = getTypeOfToken(token);
+      scrollToToken: (tokenName) => {
+        const type = getTypeOfToken(tokenName);
         if (!activeCards.includes(type)) {
           setActiveCards((prev) => [...prev, type]);
         }
-        setActiveToken(token);
+        setActiveToken(tokenName);
         setTimeout(() => {
           const node = cardWrapperRef.current?.querySelector<HTMLElement>(
-            `#${getTokenItemId(token)}`,
+            `#${getTokenItemId(tokenName)}`,
           );
           if (!node) {
             return;
@@ -305,7 +305,9 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
                         )
                       }
                       activeToken={activeToken}
-                      onActiveTokenChange={(token) => setActiveToken(token)}
+                      onActiveTokenChange={(tokenName) =>
+                        setActiveToken(tokenName)
+                      }
                     />
                   ))}
                 </div>

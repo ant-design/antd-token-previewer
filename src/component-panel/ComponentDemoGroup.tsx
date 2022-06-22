@@ -7,9 +7,11 @@ import { ConfigProvider, Divider } from '@madccc/antd';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
 import type { TokenName } from '../interface';
+import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
 
 type ComponentDemoGroupProps = {
   themes: MutableTheme[];
+  defaultTheme: ThemeConfig;
   components: Record<string, string[]>;
   activeComponents?: string[];
   size?: 'small' | 'middle' | 'large';
@@ -48,6 +50,7 @@ const useStyle = makeStyle('ComponentDemoGroup', (token) => ({
 
 const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
   themes,
+  defaultTheme,
   components,
   size,
   disabled,
@@ -106,7 +109,7 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
                     <ComponentCard
                       component={item}
                       theme={theme}
-                      defaultTheme={themes[0]}
+                      defaultTheme={defaultTheme}
                       onTokenClick={onTokenClick}
                     >
                       <ConfigProvider
