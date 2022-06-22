@@ -123,7 +123,7 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({ onSave, showTheme }) => {
 
   const defaultTheme = useMemo<ThemeConfig>(
     () => ({ override: { alias: token } }),
-    [],
+    [token],
   );
 
   const [themes, setThemes] = useState<ThemeSelectProps['themes']>([

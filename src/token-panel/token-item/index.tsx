@@ -18,6 +18,11 @@ interface TokenItemProps {
   tokenName: TokenName;
   active?: boolean;
   onActiveChange?: (active: boolean) => void;
+  onTokenChange?: (
+    theme: MutableTheme,
+    tokenName: string,
+    value: TokenValue,
+  ) => void;
 }
 
 const AdditionInfo = ({
@@ -186,16 +191,7 @@ export default ({ tokenName, active, onActiveChange }: TokenItemProps) => {
   }, [active]);
 
   const handleTokenChange = (theme: MutableTheme, value: TokenValue) => {
-    theme.onThemeChange?.({
-      ...theme.config,
-      override: {
-        ...theme.config.override,
-        alias: {
-          ...theme.config.override?.alias,
-          [tokenName]: value,
-        },
-      },
-    });
+    onTokenChange?.(theme, tokenName, value);
   };
 
   return wrapSSR(
