@@ -172,7 +172,12 @@ const useStyle = makeStyle('TokenItem', (token) => ({
 export const getTokenItemId = (token: TokenName) =>
   `previewer-token-panel-item-${token}`;
 
-export default ({ tokenName, active, onActiveChange }: TokenItemProps) => {
+export default ({
+  tokenName,
+  active,
+  onActiveChange,
+  onTokenChange,
+}: TokenItemProps) => {
   const {
     selectedTokens,
     themes,
