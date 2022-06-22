@@ -20,12 +20,14 @@ import GridDemo from './grid';
 import IconDemo from './icon';
 import ImageDemo from './image';
 import InputNumberDemo from './input-number';
-import InputDemo from './input';
+import InputDemo from './input/input';
+import InputColorAction from './input/inputColorAction';
 import ListDemo from './list';
 import MentionsDemo from './mentions';
 import ModalDemo from './modal';
 import NotificationDemo from './notification';
-import PaginationDemo from './pagination';
+import PaginationDemo from './pagination/pagination';
+import PaginationDisabled from './pagination/paginationDisabled';
 import PopconfirmDemo from './popconfirm';
 import PopoverDemo from './popover';
 import RadioDemo from './radio';
@@ -99,12 +101,25 @@ const ComponentDemos: PreviewerDemos = {
   Icon: { default: <IconDemo /> },
   Image: { default: <ImageDemo /> },
   InputNumber: { default: <InputNumberDemo /> },
-  Input: { default: <InputDemo /> },
+  Input: {
+    default: <InputDemo />,
+    optional: [
+      {
+        demo: <InputColorAction />,
+        tokens: ['colorActionTmp'],
+      },
+    ],
+  },
   List: { default: <ListDemo /> },
   Mentions: { default: <MentionsDemo /> },
   Modal: { default: <ModalDemo /> },
   Notification: { default: <NotificationDemo /> },
-  Pagination: { default: <PaginationDemo /> },
+  Pagination: {
+    default: <PaginationDemo />,
+    optional: [
+      { demo: <PaginationDisabled />, tokens: ['controlItemBgActiveDisabled'] },
+    ],
+  },
   Popconfirm: { default: <PopconfirmDemo /> },
   Popover: { default: <PopoverDemo /> },
   Radio: { default: <RadioDemo /> },
