@@ -268,8 +268,9 @@ const Index: FC<ComponentPanelProps> = ({
     ),
     [
       themes,
-      componentDisabled,
+      defaultTheme,
       componentSize,
+      componentDisabled,
       filterMode,
       relatedComponents,
       selectedTokens,

@@ -104,9 +104,9 @@ const useStyle = makeStyle('layout', (token) => ({
 const InternalPreviewer: React.FC<PreviewerProps> = ({ onSave }) => {
   const [wrapSSR, hashId] = useStyle();
   const [token] = useToken();
-  const [shownThemes, setShownThemes] = useState<string[]>(['light', 'dark']);
+  const [shownThemes, setShownThemes] = useState<string[]>(['default', 'dark']);
   const [enabledThemes, setEnabledThemes] = useState<string[]>([
-    'light',
+    'default',
     'dark',
   ]);
   const [selectedTokens, setSelectedTokens] = useState<TokenName[]>([]);
@@ -121,27 +121,27 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({ onSave }) => {
 
   const defaultTheme = useMemo<ThemeConfig>(
     () => ({ override: { alias: token } }),
-    [],
+    [token],
   );
 
   const [themes, setThemes] = useState<ThemeSelectProps['themes']>([
+    {
+      name: '默认主题',
+      key: 'default',
+      config: {},
+      fixed: true,
+    },
     {
       name: '亮色主题',
       key: 'light',
       config: {
         override: {
-          alias: { ...token, ...lightAliasToken },
+          alias: { ...lightAliasToken },
           ...lightComponentToken,
         },
       },
-      fixed: true,
+      closable: true,
     },
-    // {
-    //   name: '默认主题',
-    //   key: 'default',
-    //   config: { override: { alias: token } },
-    //   fixed: true,
-    // },
     {
       name: '暗色主题',
       key: 'dark',
