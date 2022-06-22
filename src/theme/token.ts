@@ -129,10 +129,6 @@ const genComponentToken = ({
     labelColor: textAlphaPalettes['65'],
     labelColorHover: textAlphaPalettes['85'],
   },
-  // TODO: Skeleton 亮色模式没有使用色板里的值
-  // TODO: 用实色还是透明色？
-  //  color : #f2f2f2
-  //  colorGradientEnd :	  #e1e1e1
   Skeleton: {
     color: textAlphaPalettes['12'],
     colorGradientEnd: textAlphaPalettes['25'],
