@@ -22,7 +22,7 @@ import { SearchDropdown } from '../icons';
 import { getTokenItemId } from './token-item';
 import useToken from '../hooks/useToken';
 import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
-import useMergedState from 'rc-util/es/hooks/useMergedState';
+import useMergedState from 'rc-util/lib/hooks/useMergedState';
 
 const useStyle = makeStyle('AliasTokenPreview', (token) => ({
   '.preview-panel-wrapper': {
