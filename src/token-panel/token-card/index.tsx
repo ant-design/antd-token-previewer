@@ -10,6 +10,7 @@ import {
   BorderHorizontalOutlined,
   FontSizeOutlined,
   FormatPainterOutlined,
+  BulbOutlined,
 } from '@ant-design/icons';
 import { Collapse, Space } from '@madccc/antd';
 import classNames from 'classnames';
@@ -46,7 +47,7 @@ interface TokenCardProps {
 }
 
 export const IconMap: Record<TokenType, ReactNode> = {
-  seed: <FontColorsOutlined />,
+  seed: <BulbOutlined />,
   colorText: <FontColorsOutlined />,
   colorBg: <BgColorsOutlined />,
   colorSplit: <BorderHorizontalOutlined />,
