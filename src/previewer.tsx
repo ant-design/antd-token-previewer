@@ -121,7 +121,7 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({ onSave }) => {
 
   const defaultTheme = useMemo<ThemeConfig>(
     () => ({ override: { alias: token } }),
-    [],
+    [token],
   );
 
   const [themes, setThemes] = useState<ThemeSelectProps['themes']>([
@@ -131,17 +131,17 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({ onSave }) => {
       config: {},
       fixed: true,
     },
-    // {
-    //   name: '亮色主题',
-    //   key: 'light',
-    //   config: {
-    //     override: {
-    //       alias: { ...lightAliasToken },
-    //       ...lightComponentToken,
-    //     },
-    //   },
-    //   fixed: true,
-    // },
+    {
+      name: '亮色主题',
+      key: 'light',
+      config: {
+        override: {
+          alias: { ...lightAliasToken },
+          ...lightComponentToken,
+        },
+      },
+      closable: true,
+    },
     {
       name: '暗色主题',
       key: 'dark',
