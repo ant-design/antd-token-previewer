@@ -77,23 +77,17 @@ const useStyle = makeStyle('TokenCard', (token) => ({
     border: `1px solid rgba(0,0,0,0.09)`,
     marginBottom: token.marginSM,
 
-    '.ant-collapse.token-card-collapse': {
-      '> .ant-collapse-item > .ant-collapse-header': {
+    [`${token.rootCls}-collapse.token-card-collapse`]: {
+      [`> ${token.rootCls}-collapse-item > ${token.rootCls}-collapse-header`]: {
         padding: token.paddingSM,
       },
-      '> .ant-collapse-item > .ant-collapse-content > .ant-collapse-content-box':
+      [`> ${token.rootCls}-collapse-item > ${token.rootCls}-collapse-content > ${token.rootCls}-collapse-content-box`]:
         {
           padding: `0 ${token.paddingXS}px 12px !important`,
         },
     },
   },
-
-  '.token-card .ant-collapse-icon-position-right .ant-collapse-header:not(.ant-collapse-icon-position-left .ant-collapse-header) > div:first-child':
-    {
-      position: 'absolute',
-      right: 8,
-    },
-  '.token-card .ant-input-group >.ant-input:not(:first-child):not(:last-child)':
+  [`.token-card ${token.rootCls}-input-group >${token.rootCls}-input:not(:first-child):not(:last-child)`]:
     {
       background: 'white',
       borderRadius: token.radiusLG,

@@ -34,7 +34,7 @@ const useStyle = makeStyle('ThemeSelect', (token) => ({
     alignItems: 'center',
     overflow: 'hidden',
 
-    '.ant-btn.previewer-theme-select-add-btn': {
+    [`${token.rootCls}-btn.previewer-theme-select-add-btn`]: {
       minWidth: 0,
       width: 16,
       height: 16,
@@ -113,7 +113,7 @@ const useStyle = makeStyle('ThemeSelect', (token) => ({
 
   '.previewer-theme-select-dropdown': {
     '.previewer-theme-select-dropdown-title': {
-      '.ant-dropdown-menu-item-group-title': {
+      [`${token.rootCls}-dropdown-menu-item-group-title`]: {
         fontSize: token.fontSizeSM,
         paddingBottom: token.padding,
         paddingTop: 10,

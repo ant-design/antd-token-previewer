@@ -1,27 +1,17 @@
-import React, { useState } from 'react';
-import { Space, Typography } from '@madccc/antd';
+import React from 'react';
+import { Space } from '@madccc/antd';
 import type { TokenPreviewProps } from 'antd-token-previewer';
 import { TokenPanel } from 'antd-token-previewer';
+import { useToken } from '@madccc/antd/es/_util/theme';
 
 export default () => {
-  const [selectedTokens, setSelectedTokens] = useState<string[]>([]);
+  const [, token] = useToken();
 
   const tokens = [
     {
       config: {},
-      onThemeChange: (token) => {
-        console.log(token);
-      },
       key: 'default',
       name: '默认主题',
-    },
-    {
-      config: {},
-      onThemeChange: (token) => {
-        console.log(token);
-      },
-      key: 'dark',
-      name: '暗色主题',
     },
   ] as TokenPreviewProps['themes'];
 
@@ -34,16 +24,8 @@ export default () => {
       <Space align="start">
         <TokenPanel
           themes={tokens}
-          selectedTokens={selectedTokens}
-          onTokenSelect={(token) =>
-            setSelectedTokens((prev) =>
-              prev.includes(token)
-                ? prev.filter((item) => item !== token)
-                : [...prev, token],
-            )
-          }
+          defaultTheme={{ override: { alias: { ...token } } }}
         />
-        <Typography.Title>🎯: {selectedTokens.join(',')}</Typography.Title>
       </Space>
     </div>
   );

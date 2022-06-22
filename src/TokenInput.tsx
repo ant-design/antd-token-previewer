@@ -10,35 +10,37 @@ import isColor from './utils/isColor';
 
 const useStyle = makeStyle('TokenInput', (token) => ({
   '.previewer-token-input': {
-    '.ant-input-group-addon, .ant-input-number-group-addon': {
-      border: '0 !important',
-      color: `rgba(0, 0, 0, 0.25) !important`,
-      fontSize: `${token.fontSizeSM}px !important`,
-      padding: '0 !important',
+    [`${token.rootCls}-input-group-addon, ${token.rootCls}-input-number-group-addon`]:
+      {
+        border: '0 !important',
+        color: `rgba(0, 0, 0, 0.25) !important`,
+        fontSize: `${token.fontSizeSM}px !important`,
+        padding: '0 !important',
 
-      '&:first-child': {
-        paddingInlineStart: 0,
+        '&:first-child': {
+          paddingInlineStart: 0,
+        },
+
+        '&:last-child': {
+          paddingInlineEnd: 0,
+        },
       },
 
-      '&:last-child': {
-        paddingInlineEnd: 0,
-      },
-    },
-
-    '.ant-input-group-wrapper, .ant-input-number-group-wrapper': {
-      padding: 0,
-      height: token.controlHeightSM,
-      width: '100%',
-
-      input: {
-        fontSize: token.fontSizeSM,
-        lineHeight: token.lineHeightSM,
-        padding: `2px ${token.paddingXS}px`,
+    [`${token.rootCls}-input-group-wrapper, ${token.rootCls}-input-number-group-wrapper`]:
+      {
+        padding: 0,
         height: token.controlHeightSM,
-      },
-    },
+        width: '100%',
 
-    '.ant-input-group-wrapper .ant-input, .ant-input-number-group-wrapper .ant-input-number':
+        input: {
+          fontSize: token.fontSizeSM,
+          lineHeight: token.lineHeightSM,
+          padding: `2px ${token.paddingXS}px`,
+          height: token.controlHeightSM,
+        },
+      },
+
+    [`${token.rootCls}-input-group-wrapper ${token.rootCls}-input, ${token.rootCls}-input-number-group-wrapper ${token.rootCls}-input-number`]:
       {
         background: 'white',
         borderRadius: `${token.radiusLG}px !important`,
@@ -47,14 +49,16 @@ const useStyle = makeStyle('TokenInput', (token) => ({
       },
 
     '&&-light': {
-      '.ant-input-group-addon, .ant-input-number-group-addon': {
-        backgroundColor: token.colorBgComponent,
-      },
+      [`${token.rootCls}-input-group-addon, ${token.rootCls}-input-number-group-addon`]:
+        {
+          backgroundColor: token.colorBgComponent,
+        },
 
-      [`.ant-input-group-wrapper .ant-input,
-        .ant-input-number-group-wrapper .ant-input-number-input`]: {
-        background: token.colorBgComponentSecondary,
-      },
+      [`${token.rootCls}-input-group-wrapper ${token.rootCls}-input,
+        ${token.rootCls}-input-number-group-wrapper ${token.rootCls}-input-number-input`]:
+        {
+          background: token.colorBgComponentSecondary,
+        },
     },
 
     '&&-readonly': {

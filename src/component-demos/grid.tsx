@@ -3,12 +3,12 @@ import { Row, Col } from '@madccc/antd';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
 
-const useStyle = makeStyle('GridDemo', () => ({
+const useStyle = makeStyle('GridDemo', (token) => ({
   '.previewer-grid-demo': {
-    '.ant-row': {
+    [`${token.rootCls}-row`]: {
       marginBottom: 16,
     },
-    '.ant-row > div:not(.gutter-row)': {
+    '${token.rootCls}-row > div:not(.gutter-row)': {
       padding: '16px 0',
       background: '#0092ff',
       color: '#fff',

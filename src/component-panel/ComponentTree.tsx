@@ -31,30 +31,32 @@ const useStyle = makeStyle('ComponentTree', (token) => ({
       },
     },
 
-    '.ant-tree.component-tree': {
+    [`${token.rootCls}-tree.component-tree`]: {
       fontSize: token.fontSizeSM,
 
       '.component-tree-item.component-tree-item-highlight': {
         color: token.colorPrimary,
       },
 
-      '.ant-tree-node-content-wrapper': {
+      [`${token.rootCls}-tree-node-content-wrapper`]: {
         transition: `background-color ${token.motionDurationSlow}`,
         borderRadius: 4,
       },
 
-      '.ant-tree-treenode-selected .ant-tree-node-content-wrapper': {
-        backgroundColor: token.colorBgComponent,
-      },
-
-      '.ant-tree-treenode-active .ant-tree-node-content-wrapper': {
-        color: token.colorTextLightSolid,
-        backgroundColor: token.colorPrimary,
-
-        '.component-tree-item.component-tree-item-highlight': {
-          color: token.colorTextLightSolid,
+      [`${token.rootCls}-tree-treenode-selected ${token.rootCls}-tree-node-content-wrapper`]:
+        {
+          backgroundColor: token.colorBgComponent,
         },
-      },
+
+      [`${token.rootCls}-tree-treenode-active ${token.rootCls}-tree-node-content-wrapper`]:
+        {
+          color: token.colorTextLightSolid,
+          backgroundColor: token.colorPrimary,
+
+          '.component-tree-item.component-tree-item-highlight': {
+            color: token.colorTextLightSolid,
+          },
+        },
 
       '.component-tree-item': {
         transition: `color ${token.motionDurationMid}`,
