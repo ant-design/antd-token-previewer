@@ -6,6 +6,7 @@ function defineTokenType<T extends string>(types: T[]) {
 }
 
 export const TOKEN_SORTS = defineTokenType([
+  'seed',
   'colorCommon',
   'colorText',
   'colorBg',

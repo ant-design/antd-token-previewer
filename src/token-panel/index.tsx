@@ -17,7 +17,7 @@ import {
 } from '../utils/classifyToken';
 import makeStyle from '../utils/makeStyle';
 import TokenCard, { IconMap, TextMap } from './token-card';
-import type { MutableTheme, TokenName } from '../interface';
+import type { MutableTheme, TokenName, TokenValue } from '../interface';
 import { SearchDropdown } from '../icons';
 import { getTokenItemId } from './token-item';
 import useToken from '../hooks/useToken';
@@ -183,6 +183,37 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
       },
     }));
 
+    const handleAliasTokenChange = (
+      theme: MutableTheme,
+      tokenName: string,
+      value: TokenValue,
+    ) => {
+      theme.onThemeChange?.({
+        ...theme.config,
+        override: {
+          ...theme.config.override,
+          alias: {
+            ...theme.config.override?.alias,
+            [tokenName]: value,
+          },
+        },
+      });
+    };
+
+    const handleSeedTokenChange = (
+      theme: MutableTheme,
+      tokenName: string,
+      value: TokenValue,
+    ) => {
+      theme.onThemeChange?.({
+        ...theme.config,
+        token: {
+          ...theme.config.token,
+          [tokenName]: value,
+        },
+      });
+    };
+
     return wrapSSR(
       <PreviewContext.Provider value={props}>
         <div className={classNames('preview-panel-wrapper', hashId)}>
@@ -279,8 +310,23 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
                 style={{ height: '100%', overflow: 'auto', padding: '0 16px' }}
               >
                 <div>
+                  <TokenCard
+                    typeName="seed"
+                    tokenArr={[{ tokenName: 'colorPrimary', value: '' }]}
+                    keyword={search}
+                    open={activeCards.includes('seed')}
+                    onOpenChange={(open) =>
+                      setActiveCards((prev) =>
+                        open
+                          ? [...prev, 'seed']
+                          : prev.filter((item) => item !== 'seed'),
+                      )
+                    }
+                    onTokenChange={handleSeedTokenChange}
+                  />
                   {TOKEN_SORTS.filter(
                     (type) =>
+                      type !== 'seed' &&
                       (filterTypes.includes(type) ||
                         filterTypes.length === 0) &&
                       (!search ||
@@ -304,6 +350,7 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
                             : prev.filter((item) => item !== key),
                         )
                       }
+                      onTokenChange={handleAliasTokenChange}
                       activeToken={activeToken}
                       onActiveTokenChange={(tokenName) =>
                         setActiveToken(tokenName)

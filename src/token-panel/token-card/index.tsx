@@ -17,7 +17,7 @@ import type { ReactNode } from 'react';
 import React from 'react';
 import makeStyle from '../../utils/makeStyle';
 import TokenItem from '../token-item';
-import type { TokenName, TokenValue } from '../../interface';
+import type { MutableTheme, TokenName, TokenValue } from '../../interface';
 
 import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
 import { Motion, ShapeLine } from '../../icons';
@@ -38,9 +38,15 @@ interface TokenCardProps {
   onOpenChange?: (open: boolean) => void;
   activeToken?: TokenName;
   onActiveTokenChange?: (token: TokenName | undefined) => void;
+  onTokenChange?: (
+    theme: MutableTheme,
+    tokenName: string,
+    value: TokenValue,
+  ) => void;
 }
 
 export const IconMap: Record<TokenType, ReactNode> = {
+  seed: <FontColorsOutlined />,
   colorText: <FontColorsOutlined />,
   colorBg: <BgColorsOutlined />,
   colorSplit: <BorderHorizontalOutlined />,
@@ -55,6 +61,7 @@ export const IconMap: Record<TokenType, ReactNode> = {
   others: <FileUnknownOutlined />,
 };
 export const TextMap: Record<TokenType, string> = {
+  seed: 'Seed Token',
   colorCommon: 'Common Color 通用颜色',
   colorText: 'Text Color 文本颜色',
   colorBg: 'Background Color 背景颜色',
@@ -87,12 +94,6 @@ const useStyle = makeStyle('TokenCard', (token) => ({
         },
     },
   },
-
-  '.token-card .ant-collapse-icon-position-right .ant-collapse-header:not(.ant-collapse-icon-position-left .ant-collapse-header) > div:first-child':
-    {
-      position: 'absolute',
-      right: 8,
-    },
   '.token-card .ant-input-group >.ant-input:not(:first-child):not(:last-child)':
     {
       background: 'white',
@@ -109,6 +110,7 @@ export default ({
   onOpenChange,
   activeToken,
   onActiveTokenChange,
+  onTokenChange,
 }: TokenCardProps) => {
   const [wrapSSR, hashId] = useStyle();
   const { getRelatedComponents } = useStatistic();
@@ -157,6 +159,7 @@ export default ({
                 active={activeToken === tokenName}
                 tokenName={tokenName}
                 key={tokenName}
+                onTokenChange={onTokenChange}
               />
             ))}
         </Panel>

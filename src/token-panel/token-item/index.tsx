@@ -18,6 +18,11 @@ interface TokenItemProps {
   tokenName: TokenName;
   active?: boolean;
   onActiveChange?: (active: boolean) => void;
+  onTokenChange?: (
+    theme: MutableTheme,
+    tokenName: string,
+    value: TokenValue,
+  ) => void;
 }
 
 const AdditionInfo = ({
@@ -167,7 +172,12 @@ const useStyle = makeStyle('TokenItem', (token) => ({
 export const getTokenItemId = (token: TokenName) =>
   `previewer-token-panel-item-${token}`;
 
-export default ({ tokenName, active, onActiveChange }: TokenItemProps) => {
+export default ({
+  tokenName,
+  active,
+  onActiveChange,
+  onTokenChange,
+}: TokenItemProps) => {
   const { selectedTokens, themes, onTokenSelect, defaultTheme } =
     React.useContext(PreviewContext);
   const [infoVisible, setInfoVisible] = React.useState(false);
@@ -181,16 +191,7 @@ export default ({ tokenName, active, onActiveChange }: TokenItemProps) => {
   }, [active]);
 
   const handleTokenChange = (theme: MutableTheme, value: TokenValue) => {
-    theme.onThemeChange?.({
-      ...theme.config,
-      override: {
-        ...theme.config.override,
-        alias: {
-          ...theme.config.override?.alias,
-          [tokenName]: value,
-        },
-      },
-    });
+    onTokenChange?.(theme, tokenName, value);
   };
 
   return wrapSSR(
