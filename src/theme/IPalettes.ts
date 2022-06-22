@@ -50,7 +50,7 @@ export interface BgPalettes {
   26: string;
   // 表达 选中态，或者作为弱一级的实色 border
   19: string;
-  // 用于表达选中态或用于与区分 component 区分
+  // 用于表达选中态或用于与区分 BgComponent 区分
   15: string;
   // 8 是卡片容器底色
   8: string;

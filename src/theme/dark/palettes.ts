@@ -167,12 +167,12 @@ export const primaryPalettes = {
 const bgBaseColor = '#000';
 const textBaseColor = '#fff';
 
-// const darkBaseColor = 'hsl(220,20%,0%)';
+// const bgBaseColor = 'hsl(220,20%,20%)';
 
 // const lightBaseColor = 'hsl(220,20%,100%)';
 
 // 一组尝试自定义风格的暗色主题
-// export const darkPalettes = {
+// export const bgPalettes = {
 //   26: 'hsl(218,5%,27%)',
 //   19: 'hsl(218,5%,15%)',
 //   15: 'hsl(220,11%,27%)',
