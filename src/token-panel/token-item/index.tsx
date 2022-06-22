@@ -168,8 +168,13 @@ export const getTokenItemId = (token: TokenName) =>
   `previewer-token-panel-item-${token}`;
 
 export default ({ tokenName, active, onActiveChange }: TokenItemProps) => {
-  const { selectedTokens, themes, onTokenSelect, defaultTheme } =
-    React.useContext(PreviewContext);
+  const {
+    selectedTokens,
+    themes,
+    onTokenSelect,
+    defaultTheme,
+    enableTokenSelect,
+  } = React.useContext(PreviewContext);
   const [infoVisible, setInfoVisible] = React.useState(false);
   const [wrapSSR, hashId] = useStyle();
   const { getRelatedComponents } = useStatistic();
@@ -275,12 +280,14 @@ export default ({ tokenName, active, onActiveChange }: TokenItemProps) => {
             </div>
           }
           extra={
-            <ShowUsageButton
-              selected={selectedTokens.includes(tokenName)}
-              toggleSelected={() => {
-                onTokenSelect(tokenName);
-              }}
-            />
+            enableTokenSelect ? (
+              <ShowUsageButton
+                selected={selectedTokens.includes(tokenName)}
+                toggleSelected={() => {
+                  onTokenSelect(tokenName);
+                }}
+              />
+            ) : undefined
           }
         >
           <Space

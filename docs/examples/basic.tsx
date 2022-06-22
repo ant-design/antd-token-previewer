@@ -9,6 +9,7 @@ import { convertTokenArrToConfig } from '../../src/utils/convertToken';
 const Demo = () => {
   return (
     <Previewer
+      showTheme
       onSave={(arr, obj) => console.log(arr, obj, convertTokenArrToConfig(arr))}
     />
   );

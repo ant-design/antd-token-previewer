@@ -101,14 +101,15 @@ const useStyle = makeStyle('layout', (token) => ({
   },
 }));
 
-const InternalPreviewer: React.FC<PreviewerProps> = ({ onSave }) => {
+const InternalPreviewer: React.FC<PreviewerProps> = ({ onSave, showTheme }) => {
   const [wrapSSR, hashId] = useStyle();
   const [token] = useToken();
-  const [shownThemes, setShownThemes] = useState<string[]>(['light', 'dark']);
-  const [enabledThemes, setEnabledThemes] = useState<string[]>([
-    'light',
-    'dark',
-  ]);
+  const [shownThemes, setShownThemes] = useState<string[]>(
+    showTheme ? ['default'] : ['light', 'dark'],
+  );
+  const [enabledThemes, setEnabledThemes] = useState<string[]>(
+    showTheme ? ['default'] : ['light', 'dark'],
+  );
   const [selectedTokens, setSelectedTokens] = useState<TokenName[]>([]);
   const [siderVisible, setSiderVisible] = useState<boolean>(true);
   const [siderWidth, setSiderWidth] = useState<number>(SIDER_WIDTH);
@@ -243,28 +244,30 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({ onSave }) => {
         <span style={{ fontSize: 16, fontWeight: 'bold', marginRight: 16 }}>
           主题预览器
         </span>
-        <div>
-          <ThemeSelect
-            enabledThemes={enabledThemes}
-            shownThemes={shownThemes}
-            themes={themes}
-            onEnabledThemeChange={(value) => {
-              if (value.length > 2) {
-                message.warning({
-                  content: '最多同时展示两个主题',
-                });
-                return;
-              }
-              setEnabledThemes(value);
-            }}
-            onShownThemeChange={(value, selectTheme, { type }) => {
-              if (type === 'select' && enabledThemes.length < 2) {
-                setEnabledThemes((prev) => [...prev, selectTheme]);
-              }
-              setShownThemes(value);
-            }}
-          />
-        </div>
+        {showTheme && (
+          <div>
+            <ThemeSelect
+              enabledThemes={enabledThemes}
+              shownThemes={shownThemes}
+              themes={themes}
+              onEnabledThemeChange={(value) => {
+                if (value.length > 2) {
+                  message.warning({
+                    content: '最多同时展示两个主题',
+                  });
+                  return;
+                }
+                setEnabledThemes(value);
+              }}
+              onShownThemeChange={(value, selectTheme, { type }) => {
+                if (type === 'select' && enabledThemes.length < 2) {
+                  setEnabledThemes((prev) => [...prev, selectTheme]);
+                }
+                setShownThemes(value);
+              }}
+            />
+          </div>
+        )}
         <Button
           type="primary"
           style={{ marginLeft: 'auto' }}

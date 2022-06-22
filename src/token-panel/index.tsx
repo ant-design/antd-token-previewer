@@ -118,6 +118,7 @@ export interface TokenPreviewProps {
   onTokenSelect: (token: TokenName) => void;
   filterTypes: TokenType[];
   onFilterTypesChange?: (types: TokenType[]) => void;
+  enableTokenSelect?: boolean;
 }
 
 export const PreviewContext = React.createContext<
