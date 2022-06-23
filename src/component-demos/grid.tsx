@@ -8,7 +8,7 @@ const useStyle = makeStyle('GridDemo', (token) => ({
     [`${token.rootCls}-row`]: {
       marginBottom: 16,
     },
-    '${token.rootCls}-row > div:not(.gutter-row)': {
+    [`${token.rootCls}-row > div:not(.gutter-row)`]: {
       padding: '16px 0',
       background: '#0092ff',
       color: '#fff',
