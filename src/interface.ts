@@ -9,7 +9,7 @@ export type Theme = {
 
 export type AliasToken = Exclude<OverrideToken['alias'], undefined>;
 export type TokenValue = string | number | string[] | number[];
-export type TokenName = keyof Exclude<ThemeConfig['token'], undefined>;
+export type TokenName = keyof AliasToken;
 
 export interface MutableTheme extends Theme {
   onThemeChange?: (newTheme: ThemeConfig) => void;
