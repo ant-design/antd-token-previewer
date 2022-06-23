@@ -18,9 +18,12 @@ import type { ReactNode } from 'react';
 import React from 'react';
 import makeStyle from '../../utils/makeStyle';
 import TokenItem from '../token-item';
-import type { MutableTheme, TokenName, TokenValue } from '../../interface';
-
-import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
+import type {
+  AliasToken,
+  MutableTheme,
+  TokenName,
+  TokenValue,
+} from '../../interface';
 import { Motion, ShapeLine } from '../../icons';
 import type { TokenType } from '../../utils/classifyToken';
 import useStatistic from '../../hooks/useStatistic';
@@ -30,7 +33,7 @@ const { Panel } = Collapse;
 interface TokenCardProps {
   typeName: TokenType;
   tokenArr: {
-    tokenName: keyof Exclude<ThemeConfig['token'], undefined>;
+    tokenName: keyof AliasToken;
     value: TokenValue;
   }[];
   keyword?: string;

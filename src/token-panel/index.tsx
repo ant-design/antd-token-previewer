@@ -126,7 +126,6 @@ export const PreviewContext = React.createContext<
   Omit<TokenPreviewProps, 'filterTypes' | 'onFilterTypesChange'>
 >({
   themes: [],
-  defaultTheme: {},
   selectedTokens: [],
   onTokenSelect: () => {},
 });

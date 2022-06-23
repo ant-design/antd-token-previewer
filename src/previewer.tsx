@@ -198,7 +198,7 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({
     );
     setShownThemes((prev) => (theme ? [theme.key] : prev));
     setEnabledThemes((prev) => (theme ? [theme.key] : prev));
-  }, [theme]);
+  }, [defaultThemes, theme]);
 
   useEffect(() => {
     const handleMouseUp = () => {
