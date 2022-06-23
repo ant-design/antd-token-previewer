@@ -94,27 +94,27 @@ const ShowUsageButton = ({
 };
 
 const useStyle = makeStyle('TokenItem', (token) => ({
-  '.ant-collapse.previewer-token-item-collapse': {
-    '.previewer-token-item.ant-collapse-item': {
+  [`${token.rootCls}-collapse.previewer-token-item-collapse`]: {
+    [`.previewer-token-item${token.rootCls}-collapse-item`]: {
       transition: `background-color ${token.motionDurationSlow}`,
       borderRadius: `4px !important`,
 
-      '&:not(.ant-collapse-item-active):hover': {
+      [`&:not(${token.rootCls}-collapse-item-active):hover`]: {
         backgroundColor: '#f5f5f5',
       },
 
-      '> .ant-collapse-header': {
+      [`> ${token.rootCls}-collapse-header`]: {
         padding: '12px 8px',
       },
 
-      '.ant-collapse-header-text': {
+      [`${token.rootCls}-collapse-header-text`]: {
         flex: 1,
         width: 0,
       },
-      '.ant-collapse-content-box': {
+      [`${token.rootCls}-collapse-content-box`]: {
         padding: '0 4px',
       },
-      '.ant-collapse-expand-icon': {
+      [`${token.rootCls}-collapse-expand-icon`]: {
         paddingInlineEnd: `${token.paddingXXS}px !important`,
       },
       '.previewer-token-count': {
@@ -178,8 +178,13 @@ export default ({
   onActiveChange,
   onTokenChange,
 }: TokenItemProps) => {
-  const { selectedTokens, themes, onTokenSelect, defaultTheme } =
-    React.useContext(PreviewContext);
+  const {
+    selectedTokens,
+    themes,
+    onTokenSelect,
+    defaultTheme,
+    enableTokenSelect,
+  } = React.useContext(PreviewContext);
   const [infoVisible, setInfoVisible] = React.useState(false);
   const [wrapSSR, hashId] = useStyle();
   const { getRelatedComponents } = useStatistic();
@@ -261,7 +266,7 @@ export default ({
                         tokenName={tokenName}
                         info={
                           config.override?.alias?.[tokenName] ??
-                          defaultTheme.override?.alias?.[tokenName] ??
+                          defaultTheme?.override?.alias?.[tokenName] ??
                           ''
                         }
                         visible={!infoVisible}
@@ -276,12 +281,14 @@ export default ({
             </div>
           }
           extra={
-            <ShowUsageButton
-              selected={selectedTokens.includes(tokenName)}
-              toggleSelected={() => {
-                onTokenSelect(tokenName);
-              }}
-            />
+            enableTokenSelect ? (
+              <ShowUsageButton
+                selected={!!selectedTokens?.includes(tokenName)}
+                toggleSelected={() => {
+                  onTokenSelect?.(tokenName);
+                }}
+              />
+            ) : undefined
           }
         >
           <Space
@@ -301,7 +308,7 @@ export default ({
                     onChange={(value) => handleTokenChange(theme, value)}
                     value={
                       theme.config.override?.alias?.[tokenName] ??
-                      defaultTheme.override?.alias?.[tokenName]
+                      defaultTheme?.override?.alias?.[tokenName]
                     }
                   />
                 </div>

@@ -18,7 +18,13 @@ describe('ComponentPanel', () => {
       },
     ];
 
-    return <ComponentPanel themes={mergedThemes} {...restProps} />;
+    return (
+      <ComponentPanel
+        themes={mergedThemes}
+        defaultTheme={{ override: { alias: token } }}
+        {...restProps}
+      />
+    );
   };
 
   it('filterMode filter should work', () => {

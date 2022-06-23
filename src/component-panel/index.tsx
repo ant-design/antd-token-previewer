@@ -43,7 +43,7 @@ const useStyle = makeStyle('ComponentPanel', (token) => ({
           marginLeft: token.margin,
         },
 
-        '.ant-segmented-item': {
+        [`${token.rootCls}-segmented-item`]: {
           minWidth: 52,
         },
       },

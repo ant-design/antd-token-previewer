@@ -9,20 +9,20 @@ import type { MutableTheme, TokenName } from '../interface';
 import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
 
 const useStyle = makeStyle('ComponentCard', (token) => ({
-  '.ant-card.component-card': {
+  [`${token.rootCls}-card.component-card`]: {
     borderRadius: 6,
     boxShadow: `0 1px 2px 0 rgba(25,15,15,0.07)`,
 
-    '.ant-card-head': {
+    [`${token.rootCls}-card-head`]: {
       paddingInline: 18,
 
-      '.ant-card-head-title': {
+      [`${token.rootCls}-card-head-title`]: {
         paddingBlock: token.paddingSM,
         fontSize: token.fontSize,
       },
     },
 
-    '.ant-card-body': {
+    [`${token.rootCls}-card-body`]: {
       padding: 18,
       overflow: 'auto',
     },

@@ -22,6 +22,7 @@ import { SearchDropdown } from '../icons';
 import { getTokenItemId } from './token-item';
 import useToken from '../hooks/useToken';
 import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
+import useMergedState from 'rc-util/lib/hooks/useMergedState';
 
 const useStyle = makeStyle('AliasTokenPreview', (token) => ({
   '.preview-panel-wrapper': {
@@ -87,7 +88,7 @@ const useStyle = makeStyle('AliasTokenPreview', (token) => ({
         backgroundColor: 'rgba(0, 0, 0, 2%)',
         borderRadius: token.radiusLG,
 
-        '.ant-input-group-addon': {
+        [`${token.rootCls}-input-group-addon`]: {
           backgroundColor: 'inherit',
           border: 'none',
           padding: 0,
@@ -114,10 +115,11 @@ const useStyle = makeStyle('AliasTokenPreview', (token) => ({
 export interface TokenPreviewProps {
   themes: MutableTheme[];
   defaultTheme: ThemeConfig;
-  selectedTokens: TokenName[];
-  onTokenSelect: (token: TokenName) => void;
-  filterTypes: TokenType[];
+  selectedTokens?: TokenName[];
+  onTokenSelect?: (token: TokenName) => void;
+  filterTypes?: TokenType[];
   onFilterTypesChange?: (types: TokenType[]) => void;
+  enableTokenSelect?: boolean;
 }
 
 export const PreviewContext = React.createContext<
@@ -135,6 +137,7 @@ export type TokenPanelRef = {
 
 export default forwardRef<TokenPanelRef, TokenPreviewProps>(
   (props: TokenPreviewProps, ref) => {
+    const { filterTypes, onFilterTypesChange } = props;
     const [wrapSSR, hashId] = useStyle();
     const [search, setSearch] = useState<string>('');
     const [showAll, setShowAll] = useState<boolean>(false);
@@ -144,8 +147,9 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
     const [activeCards, setActiveCards] = useState<TokenType[]>([]);
     const [activeToken, setActiveToken] = useState<TokenName | undefined>();
     const [token] = useToken();
-
-    const { filterTypes, onFilterTypesChange } = props;
+    const [mergedFilterTypes, setMergedFilterTypes] = useMergedState<
+      TokenType[]
+    >(filterTypes || []);
 
     // TODO: Split AliasToken and SeedToken
     const groupedToken = useMemo(() => classifyToken(token as any), [token]);
@@ -253,7 +257,7 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
                                 <span>
                                   <CheckOutlined
                                     style={{
-                                      opacity: filterTypes.includes(type)
+                                      opacity: mergedFilterTypes.includes(type)
                                         ? 1
                                         : 0,
                                       marginRight: 8,
@@ -266,13 +270,15 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
                               label: TextMap[type],
                               key: type,
                               onClick: () => {
-                                onFilterTypesChange?.(
-                                  filterTypes.includes(type)
-                                    ? filterTypes.filter(
-                                        (item) => type !== item,
-                                      )
-                                    : [...filterTypes, type],
-                                );
+                                const newTypes = mergedFilterTypes.includes(
+                                  type,
+                                )
+                                  ? mergedFilterTypes.filter(
+                                      (item) => type !== item,
+                                    )
+                                  : [...mergedFilterTypes, type];
+                                setMergedFilterTypes(newTypes);
+                                onFilterTypesChange?.(newTypes);
                               },
                             })),
                           ]}
@@ -290,7 +296,7 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
                         }}
                         className={classNames({
                           'previewer-token-type-dropdown-icon-active':
-                            filterTypes.length > 0,
+                            mergedFilterTypes.length > 0,
                         })}
                       />
                     </Dropdown>
@@ -327,8 +333,8 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
                   {TOKEN_SORTS.filter(
                     (type) =>
                       type !== 'seed' &&
-                      (filterTypes.includes(type) ||
-                        filterTypes.length === 0) &&
+                      (mergedFilterTypes.includes(type) ||
+                        mergedFilterTypes.length === 0) &&
                       (!search ||
                         groupedToken[type].some((item) =>
                           item.tokenName

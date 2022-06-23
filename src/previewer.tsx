@@ -6,7 +6,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Button, ConfigProvider, Layout, message } from '@madccc/antd';
+import { Button, Layout, message } from '@madccc/antd';
 import classNames from 'classnames';
 import ComponentPanel from './component-panel';
 import type { ThemeSelectProps } from './ThemeSelect';
@@ -41,8 +41,8 @@ const { Header, Sider, Content } = Layout;
 const SIDER_WIDTH = 340;
 
 const useStyle = makeStyle('layout', (token) => ({
-  '.previewer-layout.ant-layout': {
-    '.ant-layout-header': {
+  [`.previewer-layout${token.rootCls}-layout`]: {
+    [`${token.rootCls}-layout-header`]: {
       backgroundColor: 'white !important',
       display: 'flex',
       alignItems: 'center',
@@ -50,42 +50,43 @@ const useStyle = makeStyle('layout', (token) => ({
       paddingInline: `${token.paddingLG}px !important`,
     },
 
-    '.ant-layout-sider': {
+    [`${token.rootCls}-layout-sider`]: {
       padding: 0,
       borderInlineEnd: `${token.lineWidth}px ${token.lineType} ${token.colorSplit}`,
       transition: `all ${token.motionDurationSlow}`,
       overflow: 'visible !important',
 
-      '.ant-btn.ant-btn-circle.previewer-sider-collapse-btn': {
-        position: 'absolute',
-        transform: 'translateX(50%)',
-        border: 'none',
-        boxShadow:
-          '0 2px 8px -2px rgba(0,0,0,0.05), 0 1px 4px -1px rgba(25,15,15,0.07), 0 0 1px 0 rgba(0,0,0,0.08)',
-        marginTop: token.margin,
-        right: 0,
-        color: 'rgba(0,0,0,0.25)',
-
-        '&:hover': {
-          color: 'rgba(0,0,0,0.45)',
+      [`${token.rootCls}-btn${token.rootCls}-btn-circle.previewer-sider-collapse-btn`]:
+        {
+          position: 'absolute',
+          transform: 'translateX(50%)',
+          border: 'none',
           boxShadow:
-            '0 2px 8px -2px rgba(0,0,0,0.18), 0 1px 4px -1px rgba(25,15,15,0.18), 0 0 1px 0 rgba(0,0,0,0.18)',
-        },
+            '0 2px 8px -2px rgba(0,0,0,0.05), 0 1px 4px -1px rgba(25,15,15,0.07), 0 0 1px 0 rgba(0,0,0,0.08)',
+          marginTop: token.margin,
+          right: 0,
+          color: 'rgba(0,0,0,0.25)',
 
-        '.previewer-sider-collapse-btn-icon': {
-          fontSize: 16,
-          marginTop: 4,
-          transition: 'transform 0.3s',
-        },
+          '&:hover': {
+            color: 'rgba(0,0,0,0.45)',
+            boxShadow:
+              '0 2px 8px -2px rgba(0,0,0,0.18), 0 1px 4px -1px rgba(25,15,15,0.18), 0 0 1px 0 rgba(0,0,0,0.18)',
+          },
 
-        '&-collapsed': {
-          borderRadius: '0 100px 100px 0',
-          transform: 'translateX(90%)',
           '.previewer-sider-collapse-btn-icon': {
-            transform: 'rotate(180deg)',
+            fontSize: 16,
+            marginTop: 4,
+            transition: 'transform 0.3s',
+          },
+
+          '&-collapsed': {
+            borderRadius: '0 100px 100px 0',
+            transform: 'translateX(90%)',
+            '.previewer-sider-collapse-btn-icon': {
+              transform: 'rotate(180deg)',
+            },
           },
         },
-      },
 
       '.previewer-sider-handler': {
         position: 'absolute',
@@ -101,14 +102,15 @@ const useStyle = makeStyle('layout', (token) => ({
   },
 }));
 
-const InternalPreviewer: React.FC<PreviewerProps> = ({ onSave }) => {
+const InternalPreviewer: React.FC<PreviewerProps> = ({ onSave, showTheme }) => {
   const [wrapSSR, hashId] = useStyle();
   const [token] = useToken();
-  const [shownThemes, setShownThemes] = useState<string[]>(['default', 'dark']);
-  const [enabledThemes, setEnabledThemes] = useState<string[]>([
-    'default',
-    'dark',
-  ]);
+  const [shownThemes, setShownThemes] = useState<string[]>(
+    showTheme ? ['default'] : ['default', 'dark'],
+  );
+  const [enabledThemes, setEnabledThemes] = useState<string[]>(
+    showTheme ? ['default'] : ['default', 'dark'],
+  );
   const [selectedTokens, setSelectedTokens] = useState<TokenName[]>([]);
   const [siderVisible, setSiderVisible] = useState<boolean>(true);
   const [siderWidth, setSiderWidth] = useState<number>(SIDER_WIDTH);
@@ -243,28 +245,30 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({ onSave }) => {
         <span style={{ fontSize: 16, fontWeight: 'bold', marginRight: 16 }}>
           主题预览器
         </span>
-        <div>
-          <ThemeSelect
-            enabledThemes={enabledThemes}
-            shownThemes={shownThemes}
-            themes={themes}
-            onEnabledThemeChange={(value) => {
-              if (value.length > 2) {
-                message.warning({
-                  content: '最多同时展示两个主题',
-                });
-                return;
-              }
-              setEnabledThemes(value);
-            }}
-            onShownThemeChange={(value, selectTheme, { type }) => {
-              if (type === 'select' && enabledThemes.length < 2) {
-                setEnabledThemes((prev) => [...prev, selectTheme]);
-              }
-              setShownThemes(value);
-            }}
-          />
-        </div>
+        {showTheme && (
+          <div>
+            <ThemeSelect
+              enabledThemes={enabledThemes}
+              shownThemes={shownThemes}
+              themes={themes}
+              onEnabledThemeChange={(value) => {
+                if (value.length > 2) {
+                  message.warning({
+                    content: '最多同时展示两个主题',
+                  });
+                  return;
+                }
+                setEnabledThemes(value);
+              }}
+              onShownThemeChange={(value, selectTheme, { type }) => {
+                if (type === 'select' && enabledThemes.length < 2) {
+                  setEnabledThemes((prev) => [...prev, selectTheme]);
+                }
+                setShownThemes(value);
+              }}
+            />
+          </div>
+        )}
         <Button
           type="primary"
           style={{ marginLeft: 'auto' }}
@@ -362,11 +366,7 @@ const Previewer: FC<PreviewerProps> & {
   convertTokenArrToConfig: typeof convertTokenArrToConfig;
   convertTokenConfigToArr: typeof convertTokenConfigToArr;
 } = (props) => {
-  return (
-    <ConfigProvider theme={{ hashed: true }}>
-      <InternalPreviewer {...props} />
-    </ConfigProvider>
-  );
+  return <InternalPreviewer {...props} />;
 };
 
 Previewer.convertTokenArrToConfig = convertTokenArrToConfig;

@@ -39,7 +39,7 @@ const useStyle = makeStyle('FilterPanel', (token) => ({
       color: token.colorTextSecondary,
     },
 
-    '.ant-tag.previewer-token-filter-tag': {
+    [`${token.rootCls}-tag.previewer-token-filter-tag`]: {
       color: token.colorPrimary,
       backgroundColor: 'rgba(22,119,255,0.10)',
       border: 'none',

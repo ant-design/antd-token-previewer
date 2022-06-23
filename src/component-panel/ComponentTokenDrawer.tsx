@@ -28,16 +28,16 @@ const useStyle = makeStyle('ComponentTokenDrawer', (token) => ({
       borderColor: token.colorBgInfo,
     },
 
-    '.ant-table-wrapper.component-token-table': {
-      '.ant-table-cell': {
+    [`${token.rootCls}-table-wrapper.component-token-table`]: {
+      [`${token.rootCls}-table-cell`]: {
         borderBottom: 'none',
       },
 
-      '.ant-table-row:hover > td': {
+      [`${token.rootCls}-table-row:hover > td`]: {
         backgroundColor: `${token.colorBgComponent} !important`,
       },
 
-      'th.ant-table-cell': {
+      [`th${token.rootCls}-table-cell`]: {
         background: token.colorBgComponent,
         fontSize: token.fontSizeSM,
         color: token.colorTextSecondary,
@@ -48,7 +48,7 @@ const useStyle = makeStyle('ComponentTokenDrawer', (token) => ({
         },
       },
 
-      'td.ant-table-cell:first-child::before': {
+      [`td${token.rootCls}-table-cell:first-child::before`]: {
         position: 'absolute',
         top: '50%',
         right: 0,
