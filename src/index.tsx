@@ -3,4 +3,4 @@ import Previewer from './previewer';
 export { default as TokenPanel } from './token-panel';
 export * from './token-panel';
 export default Previewer;
-export { MutableTheme } from './interface';
+export { MutableTheme, Theme } from './interface';

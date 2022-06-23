@@ -27,4 +27,6 @@ export interface TokenEntity {
 export type PreviewerProps = {
   onSave?: (tokenList: TokenEntity[], themeConfig: ThemeConfig) => void;
   showTheme?: boolean;
+  theme?: Theme;
+  onThemeChange?: (config: ThemeConfig) => void;
 };

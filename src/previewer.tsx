@@ -102,15 +102,14 @@ const useStyle = makeStyle('layout', (token) => ({
   },
 }));
 
-const InternalPreviewer: React.FC<PreviewerProps> = ({ onSave, showTheme }) => {
+const InternalPreviewer: React.FC<PreviewerProps> = ({
+  onSave,
+  showTheme,
+  theme,
+  onThemeChange,
+}) => {
   const [wrapSSR, hashId] = useStyle();
   const [token] = useToken();
-  const [shownThemes, setShownThemes] = useState<string[]>(
-    showTheme ? ['default'] : ['default', 'dark'],
-  );
-  const [enabledThemes, setEnabledThemes] = useState<string[]>(
-    showTheme ? ['default'] : ['default', 'dark'],
-  );
   const [selectedTokens, setSelectedTokens] = useState<TokenName[]>([]);
   const [siderVisible, setSiderVisible] = useState<boolean>(true);
   const [siderWidth, setSiderWidth] = useState<number>(SIDER_WIDTH);
@@ -121,49 +120,85 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({ onSave, showTheme }) => {
   const dragRef = useRef(false);
   const siderRef = useRef<HTMLDivElement>(null);
 
-  const defaultTheme = useMemo<ThemeConfig>(
+  const antdTheme = useMemo<ThemeConfig>(
     () => ({ override: { alias: token } }),
     [token],
   );
 
-  const [themes, setThemes] = useState<ThemeSelectProps['themes']>([
-    {
-      name: '默认主题',
-      key: 'default',
-      config: {},
-      fixed: true,
-    },
-    {
-      name: '亮色主题',
-      key: 'light',
-      config: {
-        override: {
-          alias: { ...lightAliasToken },
-          ...lightComponentToken,
-        },
+  const defaultThemes = useMemo(
+    () => [
+      {
+        name: '默认主题',
+        key: 'default',
+        config: {},
+        fixed: true,
       },
-      closable: true,
-    },
-    {
-      name: '暗色主题',
-      key: 'dark',
-      config: {
-        override: {
-          alias: { ...darkColorPalettes, ...darkAliasToken },
-          ...darkComponentToken,
+      {
+        name: '亮色主题',
+        key: 'light',
+        config: {
+          override: {
+            alias: { ...lightAliasToken },
+            ...lightComponentToken,
+          },
         },
+        closable: true,
       },
-      icon: <DarkTheme style={{ fontSize: 16 }} />,
-      closable: true,
-    },
-    {
-      name: '紧凑主题',
-      key: 'compact',
-      config: {},
-      icon: <CompactTheme style={{ fontSize: 16 }} />,
-      closable: true,
-    },
-  ]);
+      {
+        name: '暗色主题',
+        key: 'dark',
+        config: {
+          override: {
+            alias: { ...darkColorPalettes, ...darkAliasToken },
+            ...darkComponentToken,
+          },
+        },
+        icon: <DarkTheme style={{ fontSize: 16 }} />,
+        closable: true,
+      },
+      {
+        name: '紧凑主题',
+        key: 'compact',
+        config: {},
+        icon: <CompactTheme style={{ fontSize: 16 }} />,
+        closable: true,
+      },
+    ],
+    [],
+  );
+
+  const [themes, setThemes] = useState<ThemeSelectProps['themes']>(
+    theme
+      ? [
+          {
+            ...theme,
+            fixed: true,
+          },
+        ]
+      : defaultThemes,
+  );
+
+  const [shownThemes, setShownThemes] = useState<string[]>(
+    showTheme && !theme ? ['default', 'dark'] : [themes[0].key],
+  );
+  const [enabledThemes, setEnabledThemes] = useState<string[]>(
+    showTheme && !theme ? ['default', 'dark'] : [themes[0].key],
+  );
+
+  useEffect(() => {
+    setThemes(
+      theme
+        ? [
+            {
+              ...theme,
+              fixed: true,
+            },
+          ]
+        : defaultThemes,
+    );
+    setShownThemes((prev) => (theme ? [theme.key] : prev));
+    setEnabledThemes((prev) => (theme ? [theme.key] : prev));
+  }, [theme]);
 
   useEffect(() => {
     const handleMouseUp = () => {
@@ -191,16 +226,20 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({ onSave, showTheme }) => {
 
   const debouncedSetTheme = useDebounceFn(
     (themeConfig: ThemeConfig, themeKey: string) => {
-      setThemes((prev) =>
-        prev.map((theme) =>
-          theme.key === themeKey
-            ? {
-                ...theme,
-                config: themeConfig,
-              }
-            : theme,
-        ),
-      );
+      if (themeKey === theme?.key) {
+        onThemeChange?.(themeConfig);
+      } else {
+        setThemes((prev) =>
+          prev.map((themeItem) =>
+            themeItem.key === themeKey
+              ? {
+                  ...themeItem,
+                  config: themeConfig,
+                }
+              : themeItem,
+          ),
+        );
+      }
     },
     { wait: 500 },
   );
@@ -212,7 +251,7 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({ onSave, showTheme }) => {
   const mutableThemes = useMemo(
     () =>
       enabledThemes.map<MutableTheme>((item) => {
-        const themeEntity = themes.find((theme) => theme.key === item)!;
+        const themeEntity = themes.find((themeItem) => themeItem.key === item)!;
         return {
           name: themeEntity.name,
           key: themeEntity.key,
@@ -228,7 +267,7 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({ onSave, showTheme }) => {
   const componentPanel = useMemo(
     () => (
       <ComponentPanel
-        defaultTheme={defaultTheme}
+        defaultTheme={antdTheme}
         filterMode={filterMode}
         selectedTokens={selectedTokens}
         themes={mutableThemes}
@@ -236,7 +275,7 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({ onSave, showTheme }) => {
         style={{ flex: 1, height: 0, marginTop: 12 }}
       />
     ),
-    [defaultTheme, filterMode, handleTokenClick, mutableThemes, selectedTokens],
+    [antdTheme, filterMode, handleTokenClick, mutableThemes, selectedTokens],
   );
 
   return wrapSSR(
@@ -324,12 +363,13 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({ onSave, showTheme }) => {
             shape="circle"
           />
           <TokenPanel
-            defaultTheme={defaultTheme}
+            defaultTheme={antdTheme}
             ref={tokenPanelRef}
             filterTypes={filterTypes}
             onFilterTypesChange={(types) => setFilterTypes(types)}
             themes={mutableThemes}
             selectedTokens={selectedTokens}
+            enableTokenSelect
             onTokenSelect={(tokenName) =>
               setSelectedTokens((prev) =>
                 prev.includes(tokenName)

@@ -1,9 +1,8 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import ThemeSelect from '../src/ThemeSelect';
 import React, { useState } from 'react';
-import type { Theme } from '../src/interface';
 
-const themes: Theme[] = [
+const themes = [
   { name: 'Default Theme', key: 'default', config: {}, fixed: true },
   {
     name: 'Dark Theme',
