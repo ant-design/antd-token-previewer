@@ -81,6 +81,7 @@ const ComponentCard: FC<ComponentCardProps> = ({
           component={component}
           onClose={() => setTokenDrawerOpen(false)}
           onTokenClick={onTokenClick}
+          defaultTheme={defaultTheme}
         />
       </ConfigProvider>
     </div>,

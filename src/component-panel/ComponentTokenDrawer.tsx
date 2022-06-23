@@ -6,9 +6,9 @@ import { Divider, Drawer, Table, Tag } from '@madccc/antd';
 import makeStyle from '../utils/makeStyle';
 import TokenInput from '../TokenInput';
 import type { OverrideToken } from '@madccc/antd/es/_util/theme/interface';
-import type { AliasToken } from '../interface';
 import useStatistic from '../hooks/useStatistic';
 import type { MutableTheme, TokenName } from '../interface';
+import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
 
 const useStyle = makeStyle('ComponentTokenDrawer', (token) => ({
   '.previewer-component-token-drawer': {
@@ -85,6 +85,7 @@ export type ComponentTokenDrawerProps = {
   onClose?: () => void;
   theme: MutableTheme;
   onTokenClick?: (token: TokenName) => void;
+  defaultTheme?: ThemeConfig;
 };
 
 const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
@@ -93,6 +94,7 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
   onClose,
   theme,
   onTokenClick,
+  defaultTheme,
 }) => {
   const [, hashId] = useStyle();
 
@@ -176,10 +178,12 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
       name: tokenName,
       value: {
         tokenName,
-        value: theme.config.override?.alias?.[tokenName as keyof AliasToken],
+        value:
+          theme.config.override?.alias?.[tokenName] ??
+          defaultTheme?.override.alias?.[tokenName],
       },
     }));
-  }, [aliasTokenNames, theme.config.override?.alias]);
+  }, [defaultTheme, aliasTokenNames, theme.config.override?.alias]);
 
   return (
     <Drawer
