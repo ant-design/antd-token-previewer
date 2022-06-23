@@ -114,7 +114,7 @@ const useStyle = makeStyle('AliasTokenPreview', (token) => ({
 
 export interface TokenPreviewProps {
   themes: MutableTheme[];
-  defaultTheme: ThemeConfig;
+  defaultTheme?: ThemeConfig;
   selectedTokens?: TokenName[];
   onTokenSelect?: (token: TokenName) => void;
   filterTypes?: TokenType[];
@@ -137,7 +137,7 @@ export type TokenPanelRef = {
 
 export default forwardRef<TokenPanelRef, TokenPreviewProps>(
   (props: TokenPreviewProps, ref) => {
-    const { filterTypes, onFilterTypesChange } = props;
+    const { filterTypes, onFilterTypesChange, defaultTheme } = props;
     const [wrapSSR, hashId] = useStyle();
     const [search, setSearch] = useState<string>('');
     const [showAll, setShowAll] = useState<boolean>(false);
@@ -150,6 +150,10 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
     const [mergedFilterTypes, setMergedFilterTypes] = useMergedState<
       TokenType[]
     >(filterTypes || []);
+
+    const mergedDefaultTheme = useMemo(() => {
+      return defaultTheme ?? { override: { alias: token } };
+    }, [defaultTheme, token]);
 
     // TODO: Split AliasToken and SeedToken
     const groupedToken = useMemo(() => classifyToken(token as any), [token]);
@@ -219,7 +223,9 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
     };
 
     return wrapSSR(
-      <PreviewContext.Provider value={props}>
+      <PreviewContext.Provider
+        value={{ ...props, defaultTheme: mergedDefaultTheme }}
+      >
         <div className={classNames('preview-panel-wrapper', hashId)}>
           <div className={classNames('preview-panel')}>
             <div style={{ padding: 16 }}>
