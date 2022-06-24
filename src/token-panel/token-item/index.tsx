@@ -11,11 +11,13 @@ import ColorPreview from '../../ColorPreview';
 import useStatistic from '../../hooks/useStatistic';
 import isColor from '../../utils/isColor';
 import TokenInput from '../../TokenInput';
+import getValueByPath from '../../utils/getValueByPath';
 
 const { Panel } = Collapse;
 
 interface TokenItemProps {
   tokenName: TokenName;
+  tokenPath: string[];
   active?: boolean;
   onActiveChange?: (active: boolean) => void;
   onTokenChange?: (
@@ -177,6 +179,7 @@ export default ({
   active,
   onActiveChange,
   onTokenChange,
+  tokenPath,
 }: TokenItemProps) => {
   const {
     selectedTokens,
@@ -265,7 +268,7 @@ export default ({
                         key={key}
                         tokenName={tokenName}
                         info={
-                          config.override?.alias?.[tokenName] ??
+                          getValueByPath(config, [...tokenPath, tokenName]) ??
                           defaultTheme?.override?.alias?.[tokenName] ??
                           ''
                         }
@@ -307,7 +310,7 @@ export default ({
                     theme={theme}
                     onChange={(value) => handleTokenChange(theme, value)}
                     value={
-                      theme.config.override?.alias?.[tokenName] ??
+                      getValueByPath(theme.config, [...tokenPath, tokenName]) ??
                       defaultTheme?.override?.alias?.[tokenName]
                     }
                   />

@@ -4,6 +4,7 @@ import {
   convertTokenArrToConfig,
   convertTokenConfigToArr,
 } from '../src/utils/convertToken';
+import getValueByPath from '../src/utils/getValueByPath';
 
 describe('Utils', () => {
   describe('convertToken', () => {
@@ -54,6 +55,27 @@ describe('Utils', () => {
       it(`convertTokenConfigToArr ${index + 1}`, () => {
         expect(convertTokenConfigToArr(config)).toStrictEqual(arr);
       });
+    });
+  });
+
+  describe('getValueByPath', () => {
+    it('should work', () => {
+      const obj = {
+        a: {
+          b: {
+            c: 'c',
+          },
+        },
+      };
+      expect(getValueByPath(obj, ['a', 'b', 'c'])).toBe('c');
+    });
+
+    it('should return null when path is not exist', () => {
+      expect(getValueByPath({}, ['a', 'b'])).toBeNull();
+    });
+
+    it('null object should return null', () => {
+      expect(getValueByPath(null, ['a', 'b'])).toBeNull();
     });
   });
 });

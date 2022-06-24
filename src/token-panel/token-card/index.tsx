@@ -36,6 +36,7 @@ interface TokenCardProps {
     tokenName: keyof AliasToken;
     value: TokenValue;
   }[];
+  tokenPath: string[];
   keyword?: string;
   hideUseless?: boolean;
   open?: boolean;
@@ -115,6 +116,7 @@ export default ({
   activeToken,
   onActiveTokenChange,
   onTokenChange,
+  tokenPath,
 }: TokenCardProps) => {
   const [wrapSSR, hashId] = useStyle();
   const { getRelatedComponents } = useStatistic();
@@ -157,6 +159,7 @@ export default ({
             )
             .map(({ tokenName }) => (
               <TokenItem
+                tokenPath={tokenPath}
                 onActiveChange={(active) =>
                   onActiveTokenChange?.(active ? tokenName : undefined)
                 }
