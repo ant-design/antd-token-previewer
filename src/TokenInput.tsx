@@ -120,7 +120,7 @@ const TokenInput: FC<TokenInputProps> = ({
       style={{
         display: 'flex',
         alignItems: 'center',
-        width: 60,
+        minWidth: 60,
       }}
     >
       {canReset ? (
