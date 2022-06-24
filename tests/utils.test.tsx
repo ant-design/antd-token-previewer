@@ -73,5 +73,9 @@ describe('Utils', () => {
     it('should return null when path is not exist', () => {
       expect(getValueByPath({}, ['a', 'b'])).toBeNull();
     });
+
+    it('null object should return null', () => {
+      expect(getValueByPath(null, ['a', 'b'])).toBeNull();
+    });
   });
 });
