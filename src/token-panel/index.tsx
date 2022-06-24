@@ -324,6 +324,7 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
                   <TokenCard
                     typeName="seed"
                     tokenArr={[{ tokenName: 'colorPrimary', value: '' }]}
+                    tokenPath={['token']}
                     keyword={search}
                     open={activeCards.includes('seed')}
                     onOpenChange={(open) =>
@@ -350,6 +351,7 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
                     <TokenCard
                       key={key}
                       typeName={key}
+                      tokenPath={['override', 'alias']}
                       tokenArr={groupedToken[key]}
                       keyword={search}
                       hideUseless={!showAll}

@@ -12,7 +12,7 @@ const Demo = () => {
   const [theme, setTheme] = useState<Theme>({
     name: '小猪蹄',
     key: 'xiaozhuti',
-    config: { override: { alias: { colorPrimary: '#9013fe' } } },
+    config: { token: { colorPrimary: '#5A3CFF' } },
   });
 
   return (
