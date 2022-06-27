@@ -1,12 +1,13 @@
 import type { FC, PropsWithChildren } from 'react';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Card, ConfigProvider } from '@madccc/antd';
 import { Control } from '../icons';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
 import ComponentTokenDrawer from './ComponentTokenDrawer';
-import type { MutableTheme, TokenName } from '../interface';
+import type { MutableTheme, TokenName, TokenValue } from '../interface';
 import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
+import isColor from '../utils/isColor';
 
 const useStyle = makeStyle('ComponentCard', (token) => ({
   [`${token.rootCls}-card.component-card`]: {
@@ -59,6 +60,27 @@ const ComponentCard: FC<ComponentCardProps> = ({
 }) => {
   const [wrapSSR, hashId] = useStyle();
   const [tokenDrawerOpen, setTokenDrawerOpen] = useState<boolean>(false);
+  const [aliasToken, setAliasToken] = useState<Record<string, TokenValue>>({});
+  const highlightRef = useRef(false);
+
+  const handleTokenClick = (token: TokenName) => {
+    if (onTokenClick) {
+      onTokenClick(token);
+    }
+    if (
+      !highlightRef.current &&
+      isColor(defaultTheme?.override?.alias[token])
+    ) {
+      setAliasToken({ ...aliasToken, [token]: '#faad14' });
+      highlightRef.current = true;
+      setTimeout(() => {
+        const newAlias = { ...aliasToken };
+        delete newAlias[token];
+        setAliasToken(newAlias);
+        highlightRef.current = false;
+      }, 2000);
+    }
+  };
 
   return wrapSSR(
     <div>
@@ -72,7 +94,9 @@ const ComponentCard: FC<ComponentCardProps> = ({
           />
         }
       >
-        {children}
+        <ConfigProvider theme={{ override: { alias: aliasToken } }}>
+          {children}
+        </ConfigProvider>
       </Card>
       <ConfigProvider theme={defaultTheme}>
         <ComponentTokenDrawer
@@ -80,7 +104,7 @@ const ComponentCard: FC<ComponentCardProps> = ({
           theme={theme}
           component={component}
           onClose={() => setTokenDrawerOpen(false)}
-          onTokenClick={onTokenClick}
+          onTokenClick={handleTokenClick}
           defaultTheme={defaultTheme}
         />
       </ConfigProvider>
