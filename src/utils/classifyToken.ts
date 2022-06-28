@@ -1,5 +1,5 @@
 import type { TokenName, TokenValue } from '../interface';
-import type { GlobalToken } from '@madccc/antd/lib/_util/theme/interface';
+import type { GlobalToken } from '@madccc/antd/lib/theme/interface';
 
 function defineTokenType<T extends string>(types: T[]) {
   return types;

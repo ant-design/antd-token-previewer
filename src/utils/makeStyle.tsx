@@ -1,11 +1,11 @@
-import { ConfigProvider } from '@madccc/antd';
+import { ConfigProvider, useDesignToken } from '@madccc/antd';
 import type React from 'react';
 import type { CSSInterpolation } from '@ant-design/cssinjs';
 import { useStyleRegister } from '@ant-design/cssinjs';
-import type { GlobalToken } from '@madccc/antd/lib/_util/theme/interface';
+import type { GlobalToken } from '@madccc/antd/lib/theme/interface';
 import { useContext } from 'react';
 
-const { useToken, ConfigContext } = ConfigProvider;
+const { ConfigContext } = ConfigProvider;
 
 const makeStyle =
   (
@@ -13,7 +13,7 @@ const makeStyle =
     styleFn: (token: GlobalToken & { rootCls: string }) => CSSInterpolation,
   ): (() => [(node: React.ReactNode) => React.ReactElement, string]) =>
   () => {
-    const [theme, token, hashId] = useToken();
+    const { theme, token, hashId } = useDesignToken();
     const { getPrefixCls } = useContext(ConfigContext);
     const rootCls = getPrefixCls();
 

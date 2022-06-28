@@ -1,5 +1,5 @@
-import type { GlobalToken } from '@madccc/antd/es/_util/theme/interface';
-import type { OverrideToken } from '@madccc/antd/es/_util/theme/interface';
+import type { GlobalToken } from '@madccc/antd/es/theme/interface';
+import type { OverrideToken } from '@madccc/antd/es/theme/interface';
 import type { DeepPartial } from 'utility-types';
 import type {
   SuccessPalettes,

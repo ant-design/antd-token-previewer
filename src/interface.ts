@@ -1,5 +1,5 @@
 import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
-import type { OverrideToken } from '@madccc/antd/es/_util/theme/interface';
+import type { OverrideToken } from '@madccc/antd/es/theme/interface';
 
 export type Theme = {
   name: string;
