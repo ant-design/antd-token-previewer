@@ -194,7 +194,6 @@ export const bgPalettes: BgPalettes = {
 // TODO： 需要定义这些色值下面的色板含义
 export const textAlphaPalettes: TextAlphaPalettes = {
   85: getAlphaColor(textBaseColor, 0.85),
-  75: getAlphaColor(textBaseColor, 0.75), // 目前只有 Color Action 用了
   65: getAlphaColor(textBaseColor, 0.65), // 目前只有 Segment Label 用了
   45: getAlphaColor(textBaseColor, 0.45),
   30: getAlphaColor(textBaseColor, 0.3),

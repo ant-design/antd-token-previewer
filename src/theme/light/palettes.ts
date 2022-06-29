@@ -22,14 +22,14 @@ export const errorPalettes = {
 
 // FIXME: 主色在暗色模式下的应用很有问题需要收敛
 export const primaryPalettes = {
-  0: '#0e161f', // TODO： Transfer 的 hover 态用的 0,感觉要改
+  0: blue[1],
   1: blue[0],
   2: blue[1], // Slider 的 focus 态用的是 2
   3: blue[2],
   4: blue[3], // Slider 的 hover 态用的是 4
   5: blue[4],
   6: blue[5],
-  7: blue[7],
+  7: blue[6],
 };
 
 const bgBaseColor = '#fff';
@@ -37,11 +37,15 @@ const textBaseColor = '#000';
 
 // TODO： 需要定义这些色值下面的色板含义
 export const bgPalettes: BgPalettes = {
-  26: getSolidColor(bgBaseColor, 15),
+  // 斑马纹
   'light-2': getSolidColor(bgBaseColor, 2),
+  // 禁用的特殊用色 理论上需要去掉
   'light-10': getSolidColor(bgBaseColor, 10),
-  'light-12': getSolidColor(bgBaseColor, 12),
+  // 描边色序列
+  26: getSolidColor(bgBaseColor, 15),
   19: getSolidColor(bgBaseColor, 6),
+  // 背景色序列
+  'light-12': getSolidColor(bgBaseColor, 12),
   15: getSolidColor(bgBaseColor, 4),
   12: getSolidColor(bgBaseColor, 0),
   8: getSolidColor(bgBaseColor, 0),
@@ -52,7 +56,6 @@ export const bgPalettes: BgPalettes = {
 export const textAlphaPalettes: TextAlphaPalettes = {
   85: getAlphaColor(textBaseColor, 0.85),
   'light-75': getAlphaColor(textBaseColor, 0.75), // 目前只有 Popover 用了
-  75: getAlphaColor(textBaseColor, 0.85), // 目前只有 Color Action 用了
   65: getAlphaColor(textBaseColor, 0.65), // 目前只有 Segment Label 用了
   45: getAlphaColor(textBaseColor, 0.45),
   30: getAlphaColor(textBaseColor, 0.25),

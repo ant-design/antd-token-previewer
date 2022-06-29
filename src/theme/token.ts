@@ -60,7 +60,6 @@ const genAliasToken = ({
   // 且亮色模式用值也不对，应该是不透明度的用法
   colorDefaultOutline: textAlphaPalettes['4'],
   // ============== 背景  ============== //
-  colorBg: bgPalettes['0'],
 
   colorBgLayout: bgPalettes['0'],
   // 这个 token 是 浮窗等组件的背景色 token
@@ -71,9 +70,8 @@ const genAliasToken = ({
   // TODO：能不能用透明色？用透明色会造成重叠后变亮的问题，是不是得用实色？
   colorBgContainerSecondary: textAlphaPalettes['4'],
   colorBgContainerDisabled: textAlphaPalettes['8'],
-  // TODO： Slider 和 Progress 需要一个名字
+
   colorBgContent: bgPalettes['15'],
-  // TODO: 只有 Slider 用了，感觉命名有问题
   colorBgContentHover: bgPalettes['26'],
 
   // ============== 分割线  ============== //
@@ -87,15 +85,13 @@ const genAliasToken = ({
   colorTextHeading: textAlphaPalettes['85'],
   colorTextSecondary: textAlphaPalettes['45'],
   //  @disabled-color -> colorTextDisabled
-  // TODO: 这个 30 估计要改成 25
-  colorTextDisabled: textAlphaPalettes['30'],
+  colorTextDisabled: textAlphaPalettes['25'],
   colorTextPlaceholder: textAlphaPalettes['25'],
 
-  // TODO： 确认 Action的色彩关系
   colorAction: textAlphaPalettes['45'],
   // @icon-color-hover -> colorActionHover
   // 用在 draw、modal 的按钮 hover 色
-  colorActionHover: textAlphaPalettes['75'],
+  colorActionHover: textAlphaPalettes['85'],
 
   // ============== Control Token  ============== //
   // TODO: 确认下 hover 是用 Alpha 还是实色
