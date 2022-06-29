@@ -55,7 +55,7 @@ const componentToken: OverrideToken = {
     bgColorSelected: bgPalettes['8'],
   },
   Tooltip: {
-    colorBgDefault: textAlphaPalettes['75'],
+    colorBgDefault: textAlphaPalettes['85'],
   },
 };
 
