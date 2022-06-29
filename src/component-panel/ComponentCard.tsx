@@ -69,7 +69,8 @@ const ComponentCard: FC<ComponentCardProps> = ({
     }
     if (
       !highlightRef.current &&
-      isColor(defaultTheme?.override?.alias[token])
+      typeof defaultTheme?.override?.alias?.[token] === 'string' &&
+      isColor(defaultTheme?.override?.alias?.[token] as string)
     ) {
       setAliasToken({ ...aliasToken, [token]: '#faad14' });
       highlightRef.current = true;

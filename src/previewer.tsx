@@ -23,11 +23,7 @@ import type { TokenType } from './utils/classifyToken';
 import { useDebounceFn } from 'ahooks';
 import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
 
-import {
-  aliasToken as darkAliasToken,
-  componentToken as darkComponentToken,
-  colorPalettes as darkColorPalettes,
-} from './theme/dark';
+import { componentToken as darkComponentToken } from './theme/dark';
 import {
   convertTokenArrToConfig,
   convertTokenConfigToArr,
@@ -36,6 +32,8 @@ import {
   aliasToken as lightAliasToken,
   componentToken as lightComponentToken,
 } from './theme/light';
+import darkMap from '@madccc/antd/es/theme/themes/dark';
+import getDesignToken from './utils/getDesignToken';
 
 const { Header, Sider, Content } = Layout;
 const SIDER_WIDTH = 340;
@@ -148,8 +146,8 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({
         name: '暗色主题',
         key: 'dark',
         config: {
+          derivative: darkMap,
           override: {
-            alias: { ...darkColorPalettes, ...darkAliasToken },
             ...darkComponentToken,
           },
         },
@@ -405,11 +403,13 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({
 const Previewer: FC<PreviewerProps> & {
   convertTokenArrToConfig: typeof convertTokenArrToConfig;
   convertTokenConfigToArr: typeof convertTokenConfigToArr;
+  getDesignToken: typeof getDesignToken;
 } = (props) => {
   return <InternalPreviewer {...props} />;
 };
 
 Previewer.convertTokenArrToConfig = convertTokenArrToConfig;
 Previewer.convertTokenConfigToArr = convertTokenConfigToArr;
+Previewer.getDesignToken = getDesignToken;
 
 export default Previewer;

@@ -12,6 +12,7 @@ import useStatistic from '../../hooks/useStatistic';
 import isColor from '../../utils/isColor';
 import TokenInput from '../../TokenInput';
 import getValueByPath from '../../utils/getValueByPath';
+import getDesignToken from '../../utils/getDesignToken';
 
 const { Panel } = Collapse;
 
@@ -126,7 +127,7 @@ const useStyle = makeStyle('TokenItem', (token) => ({
         borderRadius: 100,
         paddingInline: token.paddingXXS * 1.5,
         color: token.colorTextSecondary,
-        backgroundColor: token.colorBgComponentSecondary,
+        backgroundColor: token.colorBgContainerSecondary,
       },
 
       '.previewer-token-item-name': {
@@ -269,6 +270,7 @@ export default ({
                         tokenName={tokenName}
                         info={
                           getValueByPath(config, [...tokenPath, tokenName]) ??
+                          getDesignToken(config)[tokenName] ??
                           defaultTheme?.override?.alias?.[tokenName] ??
                           ''
                         }
@@ -311,6 +313,7 @@ export default ({
                     onChange={(value) => handleTokenChange(theme, value)}
                     value={
                       getValueByPath(theme.config, [...tokenPath, tokenName]) ??
+                      getDesignToken(theme.config)[tokenName] ??
                       defaultTheme?.override?.alias?.[tokenName]
                     }
                   />

@@ -3,22 +3,11 @@ import type { FC, ReactNode } from 'react';
 import React, { Fragment } from 'react';
 import ComponentDemos from '../component-demos';
 import ComponentCard, { getComponentDemoId } from './ComponentCard';
-import { ConfigProvider, Divider } from '@madccc/antd';
+import { ConfigProvider, Divider, useDesignToken } from '@madccc/antd';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
 import type { TokenName } from '../interface';
 import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
-
-type ComponentDemoGroupProps = {
-  themes: MutableTheme[];
-  defaultTheme: ThemeConfig;
-  components: Record<string, string[]>;
-  activeComponents?: string[];
-  size?: 'small' | 'middle' | 'large';
-  disabled?: boolean;
-  selectedTokens?: string[];
-  onTokenClick?: (token: TokenName) => void;
-};
 
 const useStyle = makeStyle('ComponentDemoGroup', (token) => ({
   '.previewer-component-demo-group': {
@@ -43,10 +32,68 @@ const useStyle = makeStyle('ComponentDemoGroup', (token) => ({
       paddingInline: token.padding,
       paddingBlock: token.padding / 2,
       width: 0,
-      backgroundColor: token.colorBgContainer,
+      backgroundColor: token.colorBgLayout,
     },
   },
 }));
+
+type ComponentDemoProps = {
+  theme: MutableTheme;
+  component: string;
+  defaultTheme?: ThemeConfig;
+  onTokenClick?: (token: TokenName) => void;
+  size?: 'small' | 'middle' | 'large';
+  disabled?: boolean;
+  demos?: ReactNode[];
+};
+
+const ComponentDemo: FC<ComponentDemoProps> = ({
+  theme,
+  component,
+  defaultTheme,
+  onTokenClick,
+  size = 'middle',
+  disabled = false,
+  demos = [],
+}) => {
+  const { token } = useDesignToken();
+
+  return (
+    <div
+      className="previewer-component-demo-group-item"
+      style={{
+        backgroundColor: token.colorBgLayout,
+      }}
+    >
+      <ComponentCard
+        component={component}
+        theme={theme}
+        defaultTheme={defaultTheme}
+        onTokenClick={onTokenClick}
+      >
+        <ConfigProvider componentSize={size} componentDisabled={disabled}>
+          {demos.map((demo, index) => (
+            <Fragment key={index}>
+              {demo}
+              {index < demos.length - 1 && <Divider />}
+            </Fragment>
+          ))}
+        </ConfigProvider>
+      </ComponentCard>
+    </div>
+  );
+};
+
+type ComponentDemoGroupProps = {
+  themes: MutableTheme[];
+  defaultTheme: ThemeConfig;
+  components: Record<string, string[]>;
+  activeComponents?: string[];
+  size?: 'small' | 'middle' | 'large';
+  disabled?: boolean;
+  selectedTokens?: string[];
+  onTokenClick?: (token: TokenName) => void;
+};
 
 const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
   themes,
@@ -99,32 +146,15 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
             >
               {themes.map((theme) => (
                 <ConfigProvider key={theme.key} theme={theme.config}>
-                  <div
-                    className="previewer-component-demo-group-item"
-                    style={{
-                      backgroundColor:
-                        theme.config.override?.alias?.colorBgContainer,
-                    }}
-                  >
-                    <ComponentCard
-                      component={item}
-                      theme={theme}
-                      defaultTheme={defaultTheme}
-                      onTokenClick={onTokenClick}
-                    >
-                      <ConfigProvider
-                        componentSize={size}
-                        componentDisabled={disabled}
-                      >
-                        {Demos.map((demo, index) => (
-                          <Fragment key={index}>
-                            {demo}
-                            {index < Demos.length - 1 && <Divider />}
-                          </Fragment>
-                        ))}
-                      </ConfigProvider>
-                    </ComponentCard>
-                  </div>
+                  <ComponentDemo
+                    component={item}
+                    theme={theme}
+                    defaultTheme={defaultTheme}
+                    onTokenClick={onTokenClick}
+                    demos={Demos}
+                    disabled={disabled}
+                    size={size}
+                  />
                 </ConfigProvider>
               ))}
             </div>

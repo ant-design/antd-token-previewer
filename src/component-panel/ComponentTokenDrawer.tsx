@@ -9,6 +9,7 @@ import type { OverrideToken } from '@madccc/antd/es/theme/interface';
 import useStatistic from '../hooks/useStatistic';
 import type { MutableTheme, TokenName } from '../interface';
 import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
+import getDesignToken from '../utils/getDesignToken';
 
 const useStyle = makeStyle('ComponentTokenDrawer', (token) => ({
   '.previewer-component-token-drawer': {
@@ -23,9 +24,9 @@ const useStyle = makeStyle('ComponentTokenDrawer', (token) => ({
       fontWeight: 'normal',
       marginLeft: 8,
       borderRadius: 4,
-      backgroundColor: token.colorBgInfo,
+      backgroundColor: token.colorInfoBg,
       color: token.colorPrimary,
-      borderColor: token.colorBgInfo,
+      borderColor: token.colorInfoBg,
     },
 
     [`${token.rootCls}-table-wrapper.component-token-table`]: {
@@ -34,11 +35,11 @@ const useStyle = makeStyle('ComponentTokenDrawer', (token) => ({
       },
 
       [`${token.rootCls}-table-row:hover > td`]: {
-        backgroundColor: `${token.colorBgComponent} !important`,
+        backgroundColor: `${token.colorBgContainer} !important`,
       },
 
       [`th${token.rootCls}-table-cell`]: {
-        background: token.colorBgComponent,
+        background: token.colorBgContainer,
         fontSize: token.fontSizeSM,
         color: token.colorTextSecondary,
         fontWeight: 'normal',
@@ -70,7 +71,7 @@ const useStyle = makeStyle('ComponentTokenDrawer', (token) => ({
       },
 
       '.component-token-value-color-tag': {
-        backgroundColor: token.colorBgComponentSecondary,
+        backgroundColor: token.colorBgContainerSecondary,
         borderRadius: token.radiusLG,
         padding: '4px 8px',
         minWidth: 140,
@@ -179,11 +180,12 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
       value: {
         tokenName,
         value:
-          theme.config.override?.alias?.[tokenName] ??
-          defaultTheme?.override.alias?.[tokenName],
+          (theme.config.override?.alias as any)?.[tokenName] ??
+          (getDesignToken(theme.config) as any)[tokenName] ??
+          (defaultTheme?.override?.alias as any)?.[tokenName],
       },
     }));
-  }, [defaultTheme, aliasTokenNames, theme.config.override?.alias]);
+  }, [aliasTokenNames, theme.config, defaultTheme?.override?.alias]);
 
   return (
     <Drawer

@@ -16,6 +16,7 @@ const useStyle = makeStyle('TokenInput', (token) => ({
         color: `rgba(0, 0, 0, 0.25) !important`,
         fontSize: `${token.fontSizeSM}px !important`,
         padding: '0 !important',
+        background: 'transparent',
 
         '&:first-child': {
           paddingInlineStart: 0,
@@ -51,13 +52,13 @@ const useStyle = makeStyle('TokenInput', (token) => ({
     '&&-light': {
       [`${token.rootCls}-input-group-addon, ${token.rootCls}-input-number-group-addon`]:
         {
-          backgroundColor: token.colorBgComponent,
+          backgroundColor: token.colorBgContainer,
         },
 
       [`${token.rootCls}-input-group-wrapper ${token.rootCls}-input,
         ${token.rootCls}-input-number-group-wrapper ${token.rootCls}-input-number-input`]:
         {
-          background: token.colorBgComponentSecondary,
+          background: token.colorBgContainerSecondary,
         },
     },
 

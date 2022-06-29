@@ -45,7 +45,7 @@ const useStyle = makeStyle('ComponentTree', (token) => ({
 
       [`${token.rootCls}-tree-treenode-selected ${token.rootCls}-tree-node-content-wrapper`]:
         {
-          backgroundColor: token.colorBgComponent,
+          backgroundColor: token.colorBgContainer,
         },
 
       [`${token.rootCls}-tree-treenode-active ${token.rootCls}-tree-node-content-wrapper`]:

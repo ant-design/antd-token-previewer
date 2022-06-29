@@ -1,6 +1,5 @@
 import type { GlobalToken } from '@madccc/antd/es/theme/interface';
 import type { OverrideToken } from '@madccc/antd/es/theme/interface';
-import type { DeepPartial } from 'utility-types';
 import type {
   SuccessPalettes,
   PrimaryPalettes,
@@ -108,10 +107,7 @@ const genAliasToken = ({
 const genComponentToken = ({
   textAlphaPalettes,
   bgPalettes,
-}: Pick<
-  PaletteSheets,
-  'textAlphaPalettes' | 'bgPalettes'
->): DeepPartial<OverrideToken> => ({
+}: Pick<PaletteSheets, 'textAlphaPalettes' | 'bgPalettes'>): OverrideToken => ({
   Button: {
     colorBgTextHover: textAlphaPalettes['3'],
     colorBgTextActive: textAlphaPalettes['4'],

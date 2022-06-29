@@ -53,7 +53,7 @@ const useStyle = makeStyle('ThemeSelect', (token) => ({
       justifyContent: 'center',
       boxSizing: 'border-box',
       borderRadius: 4,
-      backgroundColor: token.colorBgComponent,
+      backgroundColor: token.colorBgContainer,
       border: `${token.lineWidth}px ${token.lineType} ${token.colorBorder}`,
       paddingInline: 10,
       marginRight: token.marginXS,
@@ -88,7 +88,7 @@ const useStyle = makeStyle('ThemeSelect', (token) => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: token.colorBgComponent,
+        background: token.colorBgContainer,
         boxShadow:
           '0 2px 8px -2px rgba(0,0,0,0.05), 0 1px 4px -1px rgba(25,15,15,0.07), 0 0 1px 0 rgba(0,0,0,0.08)',
         borderRadius: '50%',
