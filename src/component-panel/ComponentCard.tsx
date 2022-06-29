@@ -1,6 +1,6 @@
 import type { FC, PropsWithChildren } from 'react';
-import React, { useContext, useRef, useState } from 'react';
-import { Card, ConfigProvider, useDesignToken } from '@madccc/antd';
+import React, { useRef, useState } from 'react';
+import { Card, ConfigProvider } from '@madccc/antd';
 import { Control } from '../icons';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
@@ -8,7 +8,6 @@ import ComponentTokenDrawer from './ComponentTokenDrawer';
 import type { MutableTheme, TokenName, TokenValue } from '../interface';
 import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
 import isColor from '../utils/isColor';
-import darkMap from '@madccc/antd/es/theme/themes/dark';
 
 const useStyle = makeStyle('ComponentCard', (token) => ({
   [`${token.rootCls}-card.component-card`]: {
