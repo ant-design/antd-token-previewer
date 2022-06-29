@@ -34,7 +34,7 @@ const useStyle = makeStyle('ComponentPanel', (token) => ({
       '.component-panel-head': {
         padding: `${token.paddingSM}px ${token.paddingSM}px`,
         flex: 'none',
-        backgroundColor: token.colorBgComponent,
+        backgroundColor: token.colorBgContainer,
         display: 'flex',
         alignItems: 'center',
         borderBottom: `${token.lineWidth}px ${token.lineType} ${token.colorBgContainer}`,
@@ -89,7 +89,7 @@ const useStyle = makeStyle('ComponentPanel', (token) => ({
         width: '100%',
         height: BREADCRUMB_HEIGHT,
         zIndex: 2,
-        backgroundColor: token.colorBgComponent,
+        backgroundColor: token.colorBgContainer,
         padding: '8px 16px',
         transition: 'opacity 0.3s',
         background: 'rgba(255, 255, 255, .6)',

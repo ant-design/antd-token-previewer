@@ -1,6 +1,6 @@
 import type { FC, PropsWithChildren } from 'react';
-import React, { useRef, useState } from 'react';
-import { Card, ConfigProvider } from '@madccc/antd';
+import React, { useContext, useRef, useState } from 'react';
+import { Card, ConfigProvider, useDesignToken } from '@madccc/antd';
 import { Control } from '../icons';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
@@ -8,6 +8,7 @@ import ComponentTokenDrawer from './ComponentTokenDrawer';
 import type { MutableTheme, TokenName, TokenValue } from '../interface';
 import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
 import isColor from '../utils/isColor';
+import darkMap from '@madccc/antd/es/theme/themes/dark';
 
 const useStyle = makeStyle('ComponentCard', (token) => ({
   [`${token.rootCls}-card.component-card`]: {
@@ -69,7 +70,8 @@ const ComponentCard: FC<ComponentCardProps> = ({
     }
     if (
       !highlightRef.current &&
-      isColor(defaultTheme?.override?.alias[token])
+      typeof defaultTheme?.override?.alias?.[token] === 'string' &&
+      isColor(defaultTheme?.override?.alias?.[token] as string)
     ) {
       setAliasToken({ ...aliasToken, [token]: '#faad14' });
       highlightRef.current = true;

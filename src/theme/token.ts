@@ -1,6 +1,5 @@
 import type { GlobalToken } from '@madccc/antd/es/theme/interface';
 import type { OverrideToken } from '@madccc/antd/es/theme/interface';
-import type { DeepPartial } from 'utility-types';
 import type {
   SuccessPalettes,
   PrimaryPalettes,
@@ -34,24 +33,24 @@ const genAliasToken = ({
   colorPrimaryHover: primaryPalettes['5'],
   colorPrimaryActive: primaryPalettes['7'],
   // TODO: 建议改名为 colorPrimaryBorder
-  colorPrimarySecondary: primaryPalettes['3'],
+  colorPrimaryBorder: primaryPalettes['3'],
   colorPrimaryBorderHover: primaryPalettes['4'],
 
-  colorBgSuccess: successPalettes['1'],
+  colorSuccessBg: successPalettes['1'],
   colorSuccess: successPalettes['6'],
-  colorSuccessSecondary: successPalettes['3'],
+  colorSuccessBorder: successPalettes['3'],
 
-  colorBgError: errorPalettes['1'],
+  colorErrorBg: errorPalettes['1'],
   colorError: errorPalettes['6'],
-  colorErrorSecondary: errorPalettes['3'],
+  colorErrorBorder: errorPalettes['3'],
 
-  colorBgWarning: warningPalettes['1'],
+  colorWarningBg: warningPalettes['1'],
   colorWarning: warningPalettes['6'],
-  colorWarningSecondary: warningPalettes['3'],
+  colorWarningBorder: warningPalettes['3'],
 
   colorInfo: primaryPalettes['6'],
-  colorBgInfo: primaryPalettes['1'],
-  colorInfoSecondary: primaryPalettes['3'],
+  colorInfoBg: primaryPalettes['1'],
+  colorInfoBorder: primaryPalettes['3'],
 
   colorLink: primaryPalettes['6'],
   colorLinkHover: primaryPalettes['5'],
@@ -63,19 +62,19 @@ const genAliasToken = ({
   // ============== 背景  ============== //
   colorBg: bgPalettes['0'],
 
-  colorBgContainer: bgPalettes['0'],
+  colorBgLayout: bgPalettes['0'],
   // 这个 token 是 浮窗等组件的背景色 token
   colorBgElevated: bgPalettes['12'],
 
-  colorBgComponent: bgPalettes['8'],
+  colorBgContainer: bgPalettes['8'],
   // TODO：Menu 用了这个 感觉命名有问题
   // TODO：能不能用透明色？用透明色会造成重叠后变亮的问题，是不是得用实色？
-  colorBgComponentSecondary: textAlphaPalettes['4'],
-  colorBgComponentDisabled: textAlphaPalettes['8'],
+  colorBgContainerSecondary: textAlphaPalettes['4'],
+  colorBgContainerDisabled: textAlphaPalettes['8'],
   // TODO： Slider 和 Progress 需要一个名字
-  colorBgComponentTmp: bgPalettes['15'],
+  colorBgContent: bgPalettes['15'],
   // TODO: 只有 Slider 用了，感觉命名有问题
-  colorBgContainerSecondary: bgPalettes['26'],
+  colorBgContentHover: bgPalettes['26'],
 
   // ============== 分割线  ============== //
   colorBorder: bgPalettes['26'],
@@ -93,7 +92,6 @@ const genAliasToken = ({
   colorTextPlaceholder: textAlphaPalettes['25'],
 
   // TODO： 确认 Action的色彩关系
-  colorActionTmp: textAlphaPalettes['30'],
   colorAction: textAlphaPalettes['45'],
   // @icon-color-hover -> colorActionHover
   // 用在 draw、modal 的按钮 hover 色
@@ -113,10 +111,7 @@ const genAliasToken = ({
 const genComponentToken = ({
   textAlphaPalettes,
   bgPalettes,
-}: Pick<
-  PaletteSheets,
-  'textAlphaPalettes' | 'bgPalettes'
->): DeepPartial<OverrideToken> => ({
+}: Pick<PaletteSheets, 'textAlphaPalettes' | 'bgPalettes'>): OverrideToken => ({
   Button: {
     colorBgTextHover: textAlphaPalettes['3'],
     colorBgTextActive: textAlphaPalettes['4'],
@@ -126,8 +121,6 @@ const genComponentToken = ({
     bgColor: 'rgba(0,0,0,0.25)',
     bgColorHover: 'rgba(0,0,0,0.45)',
     bgColorSelected: bgPalettes['19'],
-    labelColor: textAlphaPalettes['65'],
-    labelColorHover: textAlphaPalettes['85'],
   },
   Skeleton: {
     color: textAlphaPalettes['12'],
