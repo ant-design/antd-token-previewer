@@ -33,6 +33,7 @@ import {
   componentToken as lightComponentToken,
 } from './theme/light';
 import darkMap from '@madccc/antd/es/theme/themes/dark';
+import getDesignToken from './utils/getDesignToken';
 
 const { Header, Sider, Content } = Layout;
 const SIDER_WIDTH = 340;
@@ -402,11 +403,13 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({
 const Previewer: FC<PreviewerProps> & {
   convertTokenArrToConfig: typeof convertTokenArrToConfig;
   convertTokenConfigToArr: typeof convertTokenConfigToArr;
+  getDesignToken: typeof getDesignToken;
 } = (props) => {
   return <InternalPreviewer {...props} />;
 };
 
 Previewer.convertTokenArrToConfig = convertTokenArrToConfig;
 Previewer.convertTokenConfigToArr = convertTokenConfigToArr;
+Previewer.getDesignToken = getDesignToken;
 
 export default Previewer;
