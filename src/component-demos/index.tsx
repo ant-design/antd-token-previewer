@@ -1,5 +1,6 @@
 import AlertDemo from './alert';
-import AnchorDemo from './anchor';
+import AnchorDemo from './anchor/anchor';
+import AnchorLayout from './anchor/anchorInLayout';
 import AutoCompleteDemo from './auto-complete';
 import AvatarDemo from './avatar';
 import BadgeDemo from './badge';
@@ -75,7 +76,10 @@ export type PreviewerDemos = Record<
 
 const ComponentDemos: PreviewerDemos = {
   Alert: { default: <AlertDemo /> },
-  Anchor: { default: <AnchorDemo /> },
+  Anchor: {
+    default: <AnchorDemo />,
+    optional: [{ demo: <AnchorLayout />, tokens: ['colorSplit'] }],
+  },
   AutoComplete: { default: <AutoCompleteDemo /> },
   Avatar: { default: <AvatarDemo /> },
   Badge: { default: <BadgeDemo /> },
