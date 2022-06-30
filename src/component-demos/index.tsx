@@ -106,7 +106,7 @@ const ComponentDemos: PreviewerDemos = {
     optional: [
       {
         demo: <InputColorAction />,
-        tokens: ['colorAction'],
+        tokens: ['colorAction', 'colorActionHover'],
       },
     ],
   },
