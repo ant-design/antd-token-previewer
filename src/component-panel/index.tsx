@@ -11,7 +11,6 @@ import useStatistic from '../hooks/useStatistic';
 import ComponentDemoGroup from './ComponentDemoGroup';
 import type { FilterMode } from '../FilterPanel';
 import type { TokenName } from '../interface';
-import type { ThemeConfig } from 'antd/es/config-provider/context';
 
 const BREADCRUMB_HEIGHT = 40;
 

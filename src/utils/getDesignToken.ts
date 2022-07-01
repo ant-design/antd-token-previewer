@@ -6,7 +6,7 @@ import formatToken from 'antd/es/theme/util/alias';
 
 export default function getDesignToken(config: ThemeConfig = {}): GlobalToken {
   const seedToken = { ...seed, ...config.token };
-  const mapFn = config.derivative ?? defaultMap;
+  const mapFn = config.algorithm ?? defaultMap;
   const mapToken = { ...mapFn(seedToken), ...config.override };
   return formatToken(mapToken);
 }
