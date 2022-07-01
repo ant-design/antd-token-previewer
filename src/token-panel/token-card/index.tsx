@@ -124,15 +124,6 @@ export default ({
   const [wrapSSR, hashId] = useStyle();
   const { getRelatedComponents } = useStatistic();
 
-  console.log(
-    tokenArr.filter(
-      (item) =>
-        (!keyword ||
-          item.tokenName.toLowerCase().includes(keyword.toLowerCase())) &&
-        (!hideUseless || getRelatedComponents(item.tokenName).length > 0),
-    ),
-  );
-
   return wrapSSR(
     <div className={classNames('token-card', hashId)}>
       <Collapse

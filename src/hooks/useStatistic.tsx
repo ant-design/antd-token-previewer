@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import {
   _statistic_build_,
   statistic as runtimeStatistic,
-} from 'antd/lib/theme/util/statistic';
+} from '@madccc/antd/lib/theme/util/statistic';
 
 const useStatistic = (
   selectedTokens: string[] = [],
