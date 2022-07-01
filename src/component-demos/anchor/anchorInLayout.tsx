@@ -1,9 +1,9 @@
 import React from 'react';
-import { Anchor, useDesignToken } from '@madccc/antd';
+import { Anchor, theme } from '@madccc/antd';
 
 const { Link } = Anchor;
 export default () => {
-  const { token } = useDesignToken();
+  const { token } = theme.useToken();
 
   return (
     <div style={{ background: token.colorBorderSecondary, padding: 24 }}>
