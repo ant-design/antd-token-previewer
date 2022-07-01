@@ -6,7 +6,7 @@ import type { ComponentDemo } from '../../interface';
 const Demo = () => (
   <Input
     placeholder="Basic usage"
-    value={'右侧的图标就是 colorActionTmp'}
+    value={'右侧的图标就是 colorAction'}
     allowClear
   />
 );

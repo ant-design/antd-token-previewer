@@ -2,7 +2,9 @@ import React from 'react';
 import { Button, Tooltip } from '@madccc/antd';
 import { SearchOutlined } from '@ant-design/icons';
 
-export default () => (
+import type { ComponentDemo } from '../../interface';
+
+const Demo = () => (
   <>
     <Tooltip title="search">
       <Button type="primary" shape="circle" icon={<SearchOutlined />} />
@@ -31,3 +33,10 @@ export default () => (
     <Button icon={<SearchOutlined />} href="https://www.google.com" />
   </>
 );
+
+const componentDemo: ComponentDemo = {
+  demo: <Demo />,
+  tokens: ['colorPrimary'],
+};
+
+export default componentDemo;

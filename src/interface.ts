@@ -16,6 +16,10 @@ export interface ComponentDemo {
   tokens?: TokenName[];
   demo: ReactElement;
 }
+export interface PreviewerDemo {
+  default: ReactElement;
+  optional?: ComponentDemo[];
+}
 
 export interface MutableTheme extends Theme {
   onThemeChange?: (newTheme: ThemeConfig) => void;

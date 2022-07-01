@@ -1,11 +1,11 @@
-import AlertDemo from './alert';
+import Alert from './alert';
 import AnchorDemo from './anchor/anchor';
 import AnchorLayout from './anchor/anchorInLayout';
 import AutoCompleteDemo from './auto-complete';
 import AvatarDemo from './avatar';
 import BadgeDemo from './badge';
 import BreadcrumbDemo from './breadcrumb';
-import ButtonDemo from './button/button';
+import Button from './button';
 import CalendarDemo from './calendar';
 import CardDemo from './card/card';
 import CarouselDemo from './carousel';
@@ -43,7 +43,8 @@ import StatisticDemo from './statistic';
 import SwitchDemo from './switch';
 // import TableDemo from './table/table';
 import FilterTableDemo from './table/filterTable';
-import TabsDemo from './tabs';
+import TabsDemo from './tabs/tabs';
+import CardTabs from './tabs/cardTabs';
 import TagDemo from './tag';
 import TimePickerDemo from './time-picker';
 import TimelineDemo from './timeline';
@@ -62,23 +63,17 @@ import SegmentedDemo from './segmented';
 import DrawerDemo from './drawer';
 import MessageDemo from './message';
 import ProgressDemo from './progress/progress';
-import ResultDemo from './result';
-import ButtonIconDemo from './button/button-icon';
-import type { ReactElement } from 'react';
+import ResultDemo from './result/result';
+import ResultWithDesc from './result/resultWithDesc';
+
 import React from 'react';
 
-import type { ComponentDemo } from '../interface';
+import type { PreviewerDemo } from '../interface';
 
-export type PreviewerDemos = Record<
-  string,
-  {
-    default: ReactElement;
-    optional?: ComponentDemo[];
-  }
->;
+export type PreviewerDemos = Record<string, PreviewerDemo>;
 
 const ComponentDemos: PreviewerDemos = {
-  Alert: { default: <AlertDemo /> },
+  Alert,
   Anchor: {
     default: <AnchorDemo />,
     optional: [AnchorLayout],
@@ -87,13 +82,11 @@ const ComponentDemos: PreviewerDemos = {
   Avatar: { default: <AvatarDemo /> },
   Badge: { default: <BadgeDemo /> },
   Breadcrumb: { default: <BreadcrumbDemo /> },
-  Button: {
-    default: <ButtonDemo />,
-    optional: [{ tokens: ['colorPrimary'], demo: <ButtonIconDemo /> }],
-  },
+  Button,
   Calendar: { default: <CalendarDemo /> },
   Card: {
     default: <CardDemo />,
+    optional: [CardTabs],
   },
   Carousel: { default: <CarouselDemo /> },
   Cascader: { default: <CascaderDemo /> },
@@ -175,7 +168,7 @@ const ComponentDemos: PreviewerDemos = {
   Segmented: { default: <SegmentedDemo /> },
   Drawer: { default: <DrawerDemo /> },
   Message: { default: <MessageDemo /> },
-  Result: { default: <ResultDemo /> },
+  Result: { default: <ResultDemo />, optional: [ResultWithDesc] },
   Progress: {
     default: <ProgressDemo />,
   },
