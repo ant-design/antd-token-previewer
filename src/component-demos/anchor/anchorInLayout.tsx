@@ -1,12 +1,13 @@
 import React from 'react';
-import { Anchor, useDesignToken } from '@madccc/antd';
+import { Anchor, theme } from '@madccc/antd';
+import type { ComponentDemo } from '../../interface';
 
 const { Link } = Anchor;
-export default () => {
-  const { token } = useDesignToken();
+const Demo = () => {
+  const { token } = theme.useToken();
 
   return (
-    <div style={{ background: token.colorBorderSecondary, padding: 24 }}>
+    <div style={{ background: token.colorBorderSecondary, padding: 12 }}>
       <Anchor>
         <Link href="#components-anchor-demo-basic" title="Basic demo" />
         <Link href="#components-anchor-demo-static" title="Static demo" />
@@ -18,3 +19,7 @@ export default () => {
     </div>
   );
 };
+
+const componentDemo: ComponentDemo = { demo: <Demo />, tokens: ['colorSplit'] };
+
+export default componentDemo;

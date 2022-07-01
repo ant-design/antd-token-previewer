@@ -1,5 +1,6 @@
 import type { ThemeConfig } from 'antd/es/config-provider/context';
 import type { OverrideToken } from 'antd/es/theme/interface';
+import type { ReactElement } from 'react';
 
 export type Theme = {
   name: string;
@@ -10,6 +11,11 @@ export type Theme = {
 export type AliasToken = Exclude<OverrideToken['alias'], undefined>;
 export type TokenValue = string | number | string[] | number[];
 export type TokenName = keyof AliasToken;
+
+export interface ComponentDemo {
+  tokens?: TokenName[];
+  demo: ReactElement;
+}
 
 export interface MutableTheme extends Theme {
   onThemeChange?: (newTheme: ThemeConfig) => void;

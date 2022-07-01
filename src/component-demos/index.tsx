@@ -25,7 +25,8 @@ import InputDemo from './input/input';
 import InputColorAction from './input/inputColorAction';
 import ListDemo from './list';
 import MentionsDemo from './mentions';
-import ModalDemo from './modal';
+import ModalDemo from './modal/modal';
+import ModalWithButton from './modal/modalWithButton';
 import NotificationDemo from './notification';
 import PaginationDemo from './pagination/pagination';
 import PaginationDisabled from './pagination/paginationDisabled';
@@ -50,7 +51,8 @@ import TooltipDemo from './tooltip';
 import TransferDemo from './transfer';
 import TreeSelectDemo from './tree-select';
 import TreeDemo from './tree';
-import TypographyDemo from './typography';
+import TypographyDemo from './typography/typography';
+import Heading4 from './typography/Heading4';
 import UploadDemo from './upload';
 import DividerDemo from './divider';
 import SpaceDemo from './space';
@@ -64,13 +66,14 @@ import ResultDemo from './result';
 import ButtonIconDemo from './button/button-icon';
 import type { ReactElement } from 'react';
 import React from 'react';
-import type { TokenName } from '../interface';
+
+import type { ComponentDemo } from '../interface';
 
 export type PreviewerDemos = Record<
   string,
   {
     default: ReactElement;
-    optional?: { tokens?: TokenName[]; demo: ReactElement }[];
+    optional?: ComponentDemo[];
   }
 >;
 
@@ -78,7 +81,7 @@ const ComponentDemos: PreviewerDemos = {
   Alert: { default: <AlertDemo /> },
   Anchor: {
     default: <AnchorDemo />,
-    optional: [{ demo: <AnchorLayout />, tokens: ['colorSplit'] }],
+    optional: [AnchorLayout],
   },
   AutoComplete: { default: <AutoCompleteDemo /> },
   Avatar: { default: <AvatarDemo /> },
@@ -107,16 +110,11 @@ const ComponentDemos: PreviewerDemos = {
   InputNumber: { default: <InputNumberDemo /> },
   Input: {
     default: <InputDemo />,
-    optional: [
-      {
-        demo: <InputColorAction />,
-        tokens: ['colorAction', 'colorActionHover'],
-      },
-    ],
+    optional: [InputColorAction],
   },
   List: { default: <ListDemo /> },
   Mentions: { default: <MentionsDemo /> },
-  Modal: { default: <ModalDemo /> },
+  Modal: { default: <ModalDemo />, optional: [ModalWithButton] },
   Notification: { default: <NotificationDemo /> },
   Pagination: {
     default: <PaginationDemo />,
@@ -160,7 +158,15 @@ const ComponentDemos: PreviewerDemos = {
   Transfer: { default: <TransferDemo /> },
   TreeSelect: { default: <TreeSelectDemo /> },
   Tree: { default: <TreeDemo /> },
-  Typography: { default: <TypographyDemo /> },
+  Typography: {
+    default: <TypographyDemo />,
+    optional: [
+      {
+        demo: <Heading4 />,
+        tokens: ['fontSizeHeading4'],
+      },
+    ],
+  },
   Upload: { default: <UploadDemo /> },
   Divider: { default: <DividerDemo /> },
   Space: { default: <SpaceDemo /> },

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Modal, Button } from '@madccc/antd';
+import { ComponentDemo } from '../../interface';
 
-const App = () => {
+const Demo = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const showModal = () => {
     setIsModalVisible(true);
@@ -28,4 +29,9 @@ const App = () => {
     </>
   );
 };
-export default () => <App />;
+
+const componentDemo: ComponentDemo = {
+  demo: <Demo />,
+  tokens: ['colorBgMask'],
+};
+export default componentDemo;
