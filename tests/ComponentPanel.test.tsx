@@ -3,7 +3,7 @@ import React from 'react';
 import type { ComponentPanelProps } from '../src/component-panel';
 import ComponentPanel from '../src/component-panel';
 import useToken from '../src/hooks/useToken';
-import { _statistic_build_ as statistic } from '@madccc/antd/lib/theme/util/statistic';
+import { _statistic_build_ as statistic } from 'antd/lib/theme/util/statistic';
 import { antdComponents } from '../src/component-panel';
 
 describe('ComponentPanel', () => {

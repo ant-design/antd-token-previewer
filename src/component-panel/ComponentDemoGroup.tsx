@@ -3,11 +3,12 @@ import type { FC, ReactNode } from 'react';
 import React, { Fragment } from 'react';
 import ComponentDemos from '../component-demos';
 import ComponentCard, { getComponentDemoId } from './ComponentCard';
-import { ConfigProvider, Divider, useDesignToken } from '@madccc/antd';
+import { ConfigProvider, Divider, theme as antdTheme } from '@madccc/antd';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
 import type { TokenName } from '../interface';
-import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
+
+const { useToken } = antdTheme;
 
 const useStyle = makeStyle('ComponentDemoGroup', (token) => ({
   '.previewer-component-demo-group': {
@@ -40,7 +41,6 @@ const useStyle = makeStyle('ComponentDemoGroup', (token) => ({
 type ComponentDemoProps = {
   theme: MutableTheme;
   component: string;
-  defaultTheme?: ThemeConfig;
   onTokenClick?: (token: TokenName) => void;
   size?: 'small' | 'middle' | 'large';
   disabled?: boolean;
@@ -50,13 +50,12 @@ type ComponentDemoProps = {
 const ComponentDemo: FC<ComponentDemoProps> = ({
   theme,
   component,
-  defaultTheme,
   onTokenClick,
   size = 'middle',
   disabled = false,
   demos = [],
 }) => {
-  const { token } = useDesignToken();
+  const { token } = useToken();
 
   return (
     <div
@@ -68,7 +67,6 @@ const ComponentDemo: FC<ComponentDemoProps> = ({
       <ComponentCard
         component={component}
         theme={theme}
-        defaultTheme={defaultTheme}
         onTokenClick={onTokenClick}
       >
         <ConfigProvider componentSize={size} componentDisabled={disabled}>
@@ -86,7 +84,6 @@ const ComponentDemo: FC<ComponentDemoProps> = ({
 
 type ComponentDemoGroupProps = {
   themes: MutableTheme[];
-  defaultTheme: ThemeConfig;
   components: Record<string, string[]>;
   activeComponents?: string[];
   size?: 'small' | 'middle' | 'large';
@@ -97,7 +94,6 @@ type ComponentDemoGroupProps = {
 
 const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
   themes,
-  defaultTheme,
   components,
   size,
   disabled,
@@ -149,7 +145,6 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
                   <ComponentDemo
                     component={item}
                     theme={theme}
-                    defaultTheme={defaultTheme}
                     onTokenClick={onTokenClick}
                     demos={Demos}
                     disabled={disabled}

@@ -88,7 +88,7 @@ const ShowUsageButton = ({
         cursor: 'pointer',
         fontSize: 16,
         transition: 'color 0.3s',
-        marginLeft: 12,
+        marginInlineStart: 12,
         verticalAlign: 'middle',
       }}
       onClick={() => toggleSelected(!selected)}
@@ -141,7 +141,7 @@ const useStyle = makeStyle('TokenItem', (token) => ({
       '&:hover .previewer-token-preview': {
         '> .previewer-color-preview:not(:last-child)': {
           transform: 'translateX(-100%)',
-          marginRight: 4,
+          marginInlineEnd: 4,
         },
       },
 
@@ -152,7 +152,7 @@ const useStyle = makeStyle('TokenItem', (token) => ({
 
         '> .previewer-color-preview': {
           position: 'absolute',
-          right: 0,
+          insetInlineEnd: 0,
           top: 0,
           bottom: 0,
           margin: 'auto',
@@ -160,12 +160,12 @@ const useStyle = makeStyle('TokenItem', (token) => ({
 
         '> .previewer-color-preview:not(:last-child)': {
           transform: 'translateX(-50%)',
-          marginRight: 0,
+          marginInlineEnd: 0,
           transition: 'transform 0.3s, margin-right 0.3s',
         },
 
         '> *:not(:last-child)': {
-          marginRight: 4,
+          marginInlineEnd: 4,
         },
       },
     },

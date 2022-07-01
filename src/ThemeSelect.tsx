@@ -42,7 +42,7 @@ const useStyle = makeStyle('ThemeSelect', (token) => ({
       display: 'inline-flex',
       alignItems: 'center',
       justifyContent: 'center',
-      marginLeft: token.marginSM,
+      marginInlineStart: token.marginSM,
       boxShadow: 'none',
     },
 
@@ -56,7 +56,7 @@ const useStyle = makeStyle('ThemeSelect', (token) => ({
       backgroundColor: token.colorBgContainer,
       border: `${token.lineWidth}px ${token.lineType} ${token.colorBorder}`,
       paddingInline: 10,
-      marginRight: token.marginXS,
+      marginInlineEnd: token.marginXS,
       fontSize: token.fontSizeSM,
       position: 'relative',
       cursor: 'pointer',
@@ -69,9 +69,9 @@ const useStyle = makeStyle('ThemeSelect', (token) => ({
 
         '&::after': {
           content: '""',
-          borderTopRightRadius: 2,
+          borderStartEndRadius: 2,
           position: 'absolute',
-          right: 2,
+          insetInlineEnd: 2,
           top: 2,
           width: 6,
           height: 6,
@@ -82,7 +82,7 @@ const useStyle = makeStyle('ThemeSelect', (token) => ({
       '.previewer-theme-select-tag-close-btn': {
         position: 'absolute',
         top: -2,
-        right: -2,
+        insetInlineEnd: -2,
         width: 12,
         height: 12,
         display: 'flex',

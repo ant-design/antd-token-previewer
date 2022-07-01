@@ -5,10 +5,9 @@ import type { TableProps } from '@madccc/antd';
 import { Divider, Drawer, Table, Tag } from '@madccc/antd';
 import makeStyle from '../utils/makeStyle';
 import TokenInput from '../TokenInput';
-import type { OverrideToken } from '@madccc/antd/es/theme/interface';
+import type { OverrideToken } from 'antd/es/theme/interface';
 import useStatistic from '../hooks/useStatistic';
 import type { MutableTheme, TokenName } from '../interface';
-import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
 import getDesignToken from '../utils/getDesignToken';
 
 const useStyle = makeStyle('ComponentTokenDrawer', (token) => ({
@@ -22,7 +21,7 @@ const useStyle = makeStyle('ComponentTokenDrawer', (token) => ({
 
     '.previewer-component-token-drawer-theme': {
       fontWeight: 'normal',
-      marginLeft: 8,
+      marginInlineStart: 8,
       borderRadius: 4,
       backgroundColor: token.colorInfoBg,
       color: token.colorPrimary,
@@ -52,7 +51,7 @@ const useStyle = makeStyle('ComponentTokenDrawer', (token) => ({
       [`td${token.rootCls}-table-cell:first-child::before`]: {
         position: 'absolute',
         top: '50%',
-        right: 0,
+        insetInlineEnd: 0,
         width: 1,
         height: '1.6em',
         backgroundColor: token.colorSplit,
@@ -66,7 +65,7 @@ const useStyle = makeStyle('ComponentTokenDrawer', (token) => ({
         alignItems: 'center',
 
         '.component-token-value-color-preview': {
-          marginRight: token.marginXS,
+          marginInlineEnd: token.marginXS,
         },
       },
 
@@ -86,7 +85,6 @@ export type ComponentTokenDrawerProps = {
   onClose?: () => void;
   theme: MutableTheme;
   onTokenClick?: (token: TokenName) => void;
-  defaultTheme?: ThemeConfig;
 };
 
 const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
@@ -95,7 +93,6 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
   onClose,
   theme,
   onTokenClick,
-  defaultTheme,
 }) => {
   const [, hashId] = useStyle();
 
@@ -181,11 +178,10 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
         tokenName,
         value:
           (theme.config.override?.alias as any)?.[tokenName] ??
-          (getDesignToken(theme.config) as any)[tokenName] ??
-          (defaultTheme?.override?.alias as any)?.[tokenName],
+          (getDesignToken(theme.config) as any)[tokenName],
       },
     }));
-  }, [aliasTokenNames, theme.config, defaultTheme?.override?.alias]);
+  }, [aliasTokenNames, theme.config]);
 
   return (
     <Drawer

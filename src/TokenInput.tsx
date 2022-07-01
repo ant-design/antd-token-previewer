@@ -165,7 +165,7 @@ const TokenInput: FC<TokenInputProps> = ({
               color={String(tokenValue)}
               style={{
                 cursor: 'pointer',
-                marginRight: 8,
+                marginInlineEnd: 8,
                 verticalAlign: 'top',
               }}
             />

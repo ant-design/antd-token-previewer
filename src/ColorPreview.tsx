@@ -24,7 +24,7 @@ const useStyle = makeStyle('ColorPreview', () => ({
       height: '100%',
       borderRadius: '50%',
       top: 0,
-      left: 0,
+      insetInlineStart: 0,
       position: 'absolute',
       zIndex: 2,
       backgroundColor: 'var(--antd-token-previewer-color-preview)',
@@ -38,7 +38,7 @@ const useStyle = makeStyle('ColorPreview', () => ({
       height: 18,
       borderRadius: '50%',
       top: 1,
-      left: 1,
+      insetInlineStart: 1,
       position: 'absolute',
       zIndex: 1,
       background:

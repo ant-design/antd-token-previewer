@@ -1,5 +1,11 @@
 import { CheckOutlined } from '@ant-design/icons';
-import { Dropdown, Input, Menu, Switch } from '@madccc/antd';
+import {
+  Dropdown,
+  Input,
+  Menu,
+  Switch,
+  theme as antdTheme,
+} from '@madccc/antd';
 import classNames from 'classnames';
 import React, {
   forwardRef,
@@ -20,9 +26,10 @@ import TokenCard, { IconMap, TextMap } from './token-card';
 import type { MutableTheme, TokenName, TokenValue } from '../interface';
 import { SearchDropdown } from '../icons';
 import { getTokenItemId } from './token-item';
-import useToken from '../hooks/useToken';
-import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
+import type { ThemeConfig } from 'antd/es/config-provider/context';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
+
+const { useToken } = antdTheme;
 
 const useStyle = makeStyle('AliasTokenPreview', (token) => ({
   '.preview-panel-wrapper': {
@@ -45,8 +52,8 @@ const useStyle = makeStyle('AliasTokenPreview', (token) => ({
           transition: 'opacity .3s',
           content: '""',
           pointerEvents: 'none',
-          left: 0,
-          right: 0,
+          insetInlineStart: 0,
+          insetInlineEnd: 0,
           height: 40,
         },
 
@@ -80,7 +87,7 @@ const useStyle = makeStyle('AliasTokenPreview', (token) => ({
           display: 'flex',
           alignItems: 'center',
           '>*:first-child': {
-            marginRight: 2,
+            marginInlineEnd: 2,
           },
         },
       },
@@ -145,7 +152,7 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
     const cardWrapperRef = useRef<HTMLDivElement>(null);
     const [activeCards, setActiveCards] = useState<TokenType[]>([]);
     const [activeToken, setActiveToken] = useState<TokenName | undefined>();
-    const [token] = useToken();
+    const { token } = useToken();
     const [mergedFilterTypes, setMergedFilterTypes] = useMergedState<
       TokenType[]
     >(filterTypes || []);
@@ -265,7 +272,7 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
                                       opacity: mergedFilterTypes.includes(type)
                                         ? 1
                                         : 0,
-                                      marginRight: 8,
+                                      marginInlineEnd: 8,
                                       fontSize: 12,
                                     }}
                                   />

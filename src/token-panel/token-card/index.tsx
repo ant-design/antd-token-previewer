@@ -95,7 +95,10 @@ const useStyle = makeStyle('TokenCard', (token) => ({
       },
       [`> ${token.rootCls}-collapse-item > ${token.rootCls}-collapse-content > ${token.rootCls}-collapse-content-box`]:
         {
-          padding: `0 ${token.paddingXS}px 12px !important`,
+          padding: {
+            _skip_check_: true,
+            value: `0 ${token.paddingXS}px 12px !important`,
+          },
         },
     },
   },
@@ -120,6 +123,15 @@ export default ({
 }: TokenCardProps) => {
   const [wrapSSR, hashId] = useStyle();
   const { getRelatedComponents } = useStatistic();
+
+  console.log(
+    tokenArr.filter(
+      (item) =>
+        (!keyword ||
+          item.tokenName.toLowerCase().includes(keyword.toLowerCase())) &&
+        (!hideUseless || getRelatedComponents(item.tokenName).length > 0),
+    ),
+  );
 
   return wrapSSR(
     <div className={classNames('token-card', hashId)}>

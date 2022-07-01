@@ -21,11 +21,11 @@ const useStyle = makeStyle('FilterPanel', (token) => ({
       display: 'flex',
       alignItems: 'center',
       flex: 'none',
-      marginRight: 20,
+      marginInlineEnd: 20,
 
       '.component-tree-filter-type': {
         color: token.colorTextSecondary,
-        marginRight: token.marginXS,
+        marginInlineEnd: token.marginXS,
         fontSize: token.fontSizeSM,
       },
 

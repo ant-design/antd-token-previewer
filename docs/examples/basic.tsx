@@ -9,14 +9,16 @@ import { ConfigProvider } from '@madccc/antd';
 
 const Demo = () => {
   return (
-    <ConfigProvider theme={{ hashed: true }} prefixCls="hitu">
-      <Previewer
-        showTheme
-        onSave={(arr, obj) =>
-          console.log(arr, obj, convertTokenArrToConfig(arr))
-        }
-      />
-    </ConfigProvider>
+    <React.StrictMode>
+      <ConfigProvider theme={{ hashed: true }} prefixCls="hitu">
+        <Previewer
+          showTheme
+          onSave={(arr, obj) =>
+            console.log(arr, obj, convertTokenArrToConfig(arr))
+          }
+        />
+      </ConfigProvider>
+    </React.StrictMode>
   );
 };
 

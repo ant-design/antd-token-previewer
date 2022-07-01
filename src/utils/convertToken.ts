@@ -1,4 +1,4 @@
-import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
+import type { ThemeConfig } from 'antd/es/config-provider/context';
 import type { TokenEntity } from '../interface';
 import isColor from './isColor';
 

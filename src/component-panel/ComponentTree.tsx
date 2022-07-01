@@ -10,7 +10,7 @@ import { SearchOutlined } from '@ant-design/icons';
 const useStyle = makeStyle('ComponentTree', (token) => ({
   '.component-tree-wrapper': {
     minWidth: 200,
-    borderRight: `${token.lineWidth}px ${token.lineType} ${token.colorSplit}`,
+    borderInlineEnd: `${token.lineWidth}px ${token.lineType} ${token.colorSplit}`,
     height: '100%',
     overflow: 'hidden',
     display: 'flex',

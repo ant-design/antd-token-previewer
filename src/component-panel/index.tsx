@@ -11,7 +11,7 @@ import useStatistic from '../hooks/useStatistic';
 import ComponentDemoGroup from './ComponentDemoGroup';
 import type { FilterMode } from '../FilterPanel';
 import type { TokenName } from '../interface';
-import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
+import type { ThemeConfig } from 'antd/es/config-provider/context';
 
 const BREADCRUMB_HEIGHT = 40;
 
@@ -40,7 +40,7 @@ const useStyle = makeStyle('ComponentPanel', (token) => ({
         borderBottom: `${token.lineWidth}px ${token.lineType} ${token.colorBgContainer}`,
 
         '> *:not(:first-child)': {
-          marginLeft: token.margin,
+          marginInlineStart: token.margin,
         },
 
         [`${token.rootCls}-segmented-item`]: {
@@ -51,7 +51,7 @@ const useStyle = makeStyle('ComponentPanel', (token) => ({
       '.component-panel-toggle-side-icon': {
         flex: 'none',
         cursor: 'pointer',
-        marginRight: token.marginXS,
+        marginInlineEnd: token.marginXS,
 
         '.anticon': {
           color: token.colorAction,
@@ -85,7 +85,7 @@ const useStyle = makeStyle('ComponentPanel', (token) => ({
       '.component-demos-breadcrumb-wrapper': {
         position: 'absolute',
         top: 0,
-        left: 0,
+        insetInlineStart: 0,
         width: '100%',
         height: BREADCRUMB_HEIGHT,
         zIndex: 2,
@@ -172,7 +172,6 @@ export type ComponentPanelProps = {
   className?: string;
   style?: CSSProperties;
   onTokenClick?: (token: TokenName) => void;
-  defaultTheme: ThemeConfig;
 };
 
 const Index: FC<ComponentPanelProps> = ({
@@ -181,7 +180,6 @@ const Index: FC<ComponentPanelProps> = ({
   filterMode,
   className,
   onTokenClick,
-  defaultTheme,
   ...rest
 }) => {
   const [wrapSSR, hashId] = useStyle();
@@ -255,7 +253,6 @@ const Index: FC<ComponentPanelProps> = ({
     () => (
       <ComponentDemoGroup
         themes={themes}
-        defaultTheme={defaultTheme}
         components={antdComponents}
         size={componentSize}
         disabled={componentDisabled}
@@ -268,7 +265,6 @@ const Index: FC<ComponentPanelProps> = ({
     ),
     [
       themes,
-      defaultTheme,
       componentSize,
       componentDisabled,
       filterMode,

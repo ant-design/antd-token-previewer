@@ -6,12 +6,11 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Button, Layout, message } from '@madccc/antd';
+import { Button, Layout, message, theme as antdTheme } from '@madccc/antd';
 import classNames from 'classnames';
 import ComponentPanel from './component-panel';
 import type { ThemeSelectProps } from './ThemeSelect';
 import ThemeSelect from './ThemeSelect';
-import useToken from './hooks/useToken';
 import { Arrow, CompactTheme, DarkTheme } from './icons';
 import makeStyle from './utils/makeStyle';
 import type { TokenPanelRef } from './token-panel';
@@ -21,8 +20,7 @@ import FilterPanel from './FilterPanel';
 import type { MutableTheme, PreviewerProps, TokenName } from './interface';
 import type { TokenType } from './utils/classifyToken';
 import { useDebounceFn } from 'ahooks';
-import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
-
+import type { ThemeConfig } from 'antd/es/config-provider/context';
 import { componentToken as darkComponentToken } from './theme/dark';
 import {
   convertTokenArrToConfig,
@@ -32,8 +30,9 @@ import {
   aliasToken as lightAliasToken,
   componentToken as lightComponentToken,
 } from './theme/light';
-import darkMap from '@madccc/antd/es/theme/themes/dark';
 import getDesignToken from './utils/getDesignToken';
+
+const { darkAlgorithm } = antdTheme;
 
 const { Header, Sider, Content } = Layout;
 const SIDER_WIDTH = 340;
@@ -62,7 +61,7 @@ const useStyle = makeStyle('layout', (token) => ({
           boxShadow:
             '0 2px 8px -2px rgba(0,0,0,0.05), 0 1px 4px -1px rgba(25,15,15,0.07), 0 0 1px 0 rgba(0,0,0,0.08)',
           marginTop: token.margin,
-          right: 0,
+          insetInlineEnd: 0,
           color: 'rgba(0,0,0,0.25)',
 
           '&:hover': {
@@ -78,7 +77,7 @@ const useStyle = makeStyle('layout', (token) => ({
           },
 
           '&-collapsed': {
-            borderRadius: '0 100px 100px 0',
+            borderRadius: { _skip_check_: true, value: '0 100px 100px 0' },
             transform: 'translateX(90%)',
             '.previewer-sider-collapse-btn-icon': {
               transform: 'rotate(180deg)',
@@ -88,7 +87,7 @@ const useStyle = makeStyle('layout', (token) => ({
 
       '.previewer-sider-handler': {
         position: 'absolute',
-        right: 0,
+        insetInlineEnd: 0,
         height: '100%',
         width: 8,
         transform: 'translateX(50%)',
@@ -107,7 +106,6 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({
   onThemeChange,
 }) => {
   const [wrapSSR, hashId] = useStyle();
-  const [token] = useToken();
   const [selectedTokens, setSelectedTokens] = useState<TokenName[]>([]);
   const [siderVisible, setSiderVisible] = useState<boolean>(true);
   const [siderWidth, setSiderWidth] = useState<number>(SIDER_WIDTH);
@@ -118,12 +116,7 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({
   const dragRef = useRef(false);
   const siderRef = useRef<HTMLDivElement>(null);
 
-  const antdTheme = useMemo<ThemeConfig>(
-    () => ({ override: { alias: token } }),
-    [token],
-  );
-
-  const defaultThemes = useMemo(
+  const defaultThemes = useMemo<ThemeSelectProps['themes']>(
     () => [
       {
         name: '默认主题',
@@ -146,7 +139,7 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({
         name: '暗色主题',
         key: 'dark',
         config: {
-          derivative: darkMap,
+          algorithm: darkAlgorithm,
           override: {
             ...darkComponentToken,
           },
@@ -265,7 +258,6 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({
   const componentPanel = useMemo(
     () => (
       <ComponentPanel
-        defaultTheme={antdTheme}
         filterMode={filterMode}
         selectedTokens={selectedTokens}
         themes={mutableThemes}
@@ -273,7 +265,7 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({
         style={{ flex: 1, height: 0, marginTop: 12 }}
       />
     ),
-    [antdTheme, filterMode, handleTokenClick, mutableThemes, selectedTokens],
+    [filterMode, handleTokenClick, mutableThemes, selectedTokens],
   );
 
   return wrapSSR(
@@ -361,7 +353,6 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({
             shape="circle"
           />
           <TokenPanel
-            defaultTheme={antdTheme}
             ref={tokenPanelRef}
             filterTypes={filterTypes}
             onFilterTypesChange={(types) => setFilterTypes(types)}
