@@ -26,7 +26,6 @@ import TokenCard, { IconMap, TextMap } from './token-card';
 import type { MutableTheme, TokenName, TokenValue } from '../interface';
 import { SearchDropdown } from '../icons';
 import { getTokenItemId } from './token-item';
-import type { ThemeConfig } from 'antd/es/config-provider/context';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 
 const { useToken } = antdTheme;
@@ -121,7 +120,6 @@ const useStyle = makeStyle('AliasTokenPreview', (token) => ({
 
 export interface TokenPreviewProps {
   themes: MutableTheme[];
-  defaultTheme?: ThemeConfig;
   selectedTokens?: TokenName[];
   onTokenSelect?: (token: TokenName) => void;
   filterTypes?: TokenType[];
@@ -143,7 +141,7 @@ export type TokenPanelRef = {
 
 export default forwardRef<TokenPanelRef, TokenPreviewProps>(
   (props: TokenPreviewProps, ref) => {
-    const { filterTypes, onFilterTypesChange, defaultTheme } = props;
+    const { filterTypes, onFilterTypesChange } = props;
     const [wrapSSR, hashId] = useStyle();
     const [search, setSearch] = useState<string>('');
     const [showAll, setShowAll] = useState<boolean>(false);
@@ -156,10 +154,6 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
     const [mergedFilterTypes, setMergedFilterTypes] = useMergedState<
       TokenType[]
     >(filterTypes || []);
-
-    const mergedDefaultTheme = useMemo(() => {
-      return defaultTheme ?? { override: { alias: token } };
-    }, [defaultTheme, token]);
 
     // TODO: Split AliasToken and SeedToken
     const groupedToken = useMemo(() => classifyToken(token as any), [token]);
@@ -229,9 +223,7 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
     };
 
     return wrapSSR(
-      <PreviewContext.Provider
-        value={{ ...props, defaultTheme: mergedDefaultTheme }}
-      >
+      <PreviewContext.Provider value={{ ...props }}>
         <div className={classNames('preview-panel-wrapper', hashId)}>
           <div className={classNames('preview-panel')}>
             <div style={{ padding: 16 }}>

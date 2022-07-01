@@ -97,7 +97,7 @@ const ComponentCard: FC<ComponentCardProps> = ({
           {children}
         </ConfigProvider>
       </Card>
-      <ConfigProvider theme={{ algorithm: antdTheme.defaultAlgorithm }}>
+      <ConfigProvider theme={{ override: { alias: getDesignToken() } }}>
         <ComponentTokenDrawer
           visible={tokenDrawerOpen}
           theme={theme}

@@ -182,13 +182,8 @@ export default ({
   onTokenChange,
   tokenPath,
 }: TokenItemProps) => {
-  const {
-    selectedTokens,
-    themes,
-    onTokenSelect,
-    defaultTheme,
-    enableTokenSelect,
-  } = React.useContext(PreviewContext);
+  const { selectedTokens, themes, onTokenSelect, enableTokenSelect } =
+    React.useContext(PreviewContext);
   const [infoVisible, setInfoVisible] = React.useState(false);
   const [wrapSSR, hashId] = useStyle();
   const { getRelatedComponents } = useStatistic();
@@ -271,7 +266,6 @@ export default ({
                         info={
                           getValueByPath(config, [...tokenPath, tokenName]) ??
                           getDesignToken(config)[tokenName] ??
-                          defaultTheme?.override?.alias?.[tokenName] ??
                           ''
                         }
                         visible={!infoVisible}
@@ -313,8 +307,7 @@ export default ({
                     onChange={(value) => handleTokenChange(theme, value)}
                     value={
                       getValueByPath(theme.config, [...tokenPath, tokenName]) ??
-                      getDesignToken(theme.config)[tokenName] ??
-                      defaultTheme?.override?.alias?.[tokenName]
+                      getDesignToken(theme.config)[tokenName]
                     }
                   />
                 </div>

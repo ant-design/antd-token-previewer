@@ -139,6 +139,9 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({
         name: '暗色主题',
         key: 'dark',
         config: {
+          token: {
+            colorPrimary: '#177ddc',
+          },
           algorithm: darkAlgorithm,
           override: {
             ...darkComponentToken,
