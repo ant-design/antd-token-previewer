@@ -1,6 +1,5 @@
 import Alert from './alert';
-import AnchorDemo from './anchor/anchor';
-import AnchorLayout from './anchor/anchorInLayout';
+import Anchor from './anchor';
 import AutoCompleteDemo from './auto-complete';
 import AvatarDemo from './avatar';
 import BadgeDemo from './badge';
@@ -45,15 +44,14 @@ import SwitchDemo from './switch';
 import FilterTableDemo from './table/filterTable';
 import TabsDemo from './tabs/tabs';
 import CardTabs from './tabs/cardTabs';
-import TagDemo from './tag';
+import Tag from './tag';
 import TimePickerDemo from './time-picker';
 import TimelineDemo from './timeline';
 import TooltipDemo from './tooltip';
 import TransferDemo from './transfer';
 import TreeSelectDemo from './tree-select';
 import TreeDemo from './tree';
-import TypographyDemo from './typography/typography';
-import Heading4 from './typography/Heading4';
+import Typography from './typography';
 import UploadDemo from './upload';
 import DividerDemo from './divider';
 import SpaceDemo from './space';
@@ -74,10 +72,7 @@ export type PreviewerDemos = Record<string, PreviewerDemo>;
 
 const ComponentDemos: PreviewerDemos = {
   Alert,
-  Anchor: {
-    default: <AnchorDemo />,
-    optional: [AnchorLayout],
-  },
+  Anchor,
   AutoComplete: { default: <AutoCompleteDemo /> },
   Avatar: { default: <AvatarDemo /> },
   Badge: { default: <BadgeDemo /> },
@@ -144,22 +139,14 @@ const ComponentDemos: PreviewerDemos = {
     // ],
   },
   Tabs: { default: <TabsDemo /> },
-  Tag: { default: <TagDemo /> },
+  Tag,
   TimePicker: { default: <TimePickerDemo /> },
   Timeline: { default: <TimelineDemo /> },
   Tooltip: { default: <TooltipDemo /> },
   Transfer: { default: <TransferDemo /> },
   TreeSelect: { default: <TreeSelectDemo /> },
   Tree: { default: <TreeDemo /> },
-  Typography: {
-    default: <TypographyDemo />,
-    optional: [
-      {
-        demo: <Heading4 />,
-        tokens: ['fontSizeHeading4'],
-      },
-    ],
-  },
+  Typography,
   Upload: { default: <UploadDemo /> },
   Divider: { default: <DividerDemo /> },
   Space: { default: <SpaceDemo /> },

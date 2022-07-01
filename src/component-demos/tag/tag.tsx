@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tag } from '@madccc/antd';
 
-const App = () => (
+const Demo = () => (
   <div>
     <Tag color="magenta">magenta</Tag>
     <Tag color="red">red</Tag>
@@ -17,4 +17,4 @@ const App = () => (
   </div>
 );
 
-export default App;
+export default Demo;
