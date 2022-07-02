@@ -1,16 +1,16 @@
 import React from 'react';
 
-import AlertDemo from './alert';
-import error from './error';
+import Demo from './notification';
 import info from './info';
+import error from './error';
 import success from './success';
 import warning from './warning';
 
 import type { PreviewerDemo } from '../../interface';
 
 const previewerDemo: PreviewerDemo = {
-  default: <AlertDemo />,
-  optional: [error, info, success, warning],
+  default: <Demo />,
+  optional: [info, error, success, warning],
 };
 
 export default previewerDemo;

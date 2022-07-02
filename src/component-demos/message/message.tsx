@@ -19,9 +19,7 @@ const App: React.FC = () => {
   return (
     <Context.Provider value={{ name: 'Ant Design' }}>
       {contextHolder}
-      <Button type="primary" onClick={info}>
-        Display normal message
-      </Button>
+      <Button onClick={info}>Display normal message</Button>
     </Context.Provider>
   );
 };

@@ -26,9 +26,8 @@ import ListDemo from './list';
 import MentionsDemo from './mentions';
 import ModalDemo from './modal/modal';
 import ModalWithButton from './modal/modalWithButton';
-import NotificationDemo from './notification';
-import PaginationDemo from './pagination/pagination';
-import PaginationDisabled from './pagination/paginationDisabled';
+import Notification from './notification';
+import Pagination from './pagination';
 import PopconfirmDemo from './popconfirm';
 import PopoverDemo from './popover';
 import RadioDemo from './radio';
@@ -40,8 +39,7 @@ import SpinDemo from './spin';
 import StatisticDemo from './statistic';
 import SwitchDemo from './switch';
 import Table from './table';
-import TabsDemo from './tabs/tabs';
-import CardTabs from './tabs/cardTabs';
+import Tabs from './tabs';
 import Tag from './tag';
 import TimePickerDemo from './time-picker';
 import TimelineDemo from './timeline';
@@ -57,10 +55,9 @@ import Menu from './menu';
 import StepsDemo from './steps';
 import SegmentedDemo from './segmented';
 import DrawerDemo from './drawer';
-import MessageDemo from './message';
-import ProgressDemo from './progress/progress';
-import ResultDemo from './result/result';
-import ResultWithDesc from './result/resultWithDesc';
+import Message from './message';
+import Progress from './progress';
+import Result from './result';
 
 import React from 'react';
 
@@ -79,7 +76,6 @@ const ComponentDemos: PreviewerDemos = {
   Calendar: { default: <CalendarDemo /> },
   Card: {
     default: <CardDemo />,
-    optional: [CardTabs],
   },
   Carousel: { default: <CarouselDemo /> },
   Cascader,
@@ -101,13 +97,8 @@ const ComponentDemos: PreviewerDemos = {
   List: { default: <ListDemo /> },
   Mentions: { default: <MentionsDemo /> },
   Modal: { default: <ModalDemo />, optional: [ModalWithButton] },
-  Notification: { default: <NotificationDemo /> },
-  Pagination: {
-    default: <PaginationDemo />,
-    optional: [
-      { demo: <PaginationDisabled />, tokens: ['controlItemBgActiveDisabled'] },
-    ],
-  },
+  Notification,
+  Pagination,
   Popconfirm: { default: <PopconfirmDemo /> },
   Popover: { default: <PopoverDemo /> },
   Radio: { default: <RadioDemo /> },
@@ -119,7 +110,7 @@ const ComponentDemos: PreviewerDemos = {
   Statistic: { default: <StatisticDemo /> },
   Switch: { default: <SwitchDemo /> },
   Table,
-  Tabs: { default: <TabsDemo /> },
+  Tabs,
   Tag,
   TimePicker: { default: <TimePickerDemo /> },
   Timeline: { default: <TimelineDemo /> },
@@ -135,11 +126,9 @@ const ComponentDemos: PreviewerDemos = {
   Steps: { default: <StepsDemo /> },
   Segmented: { default: <SegmentedDemo /> },
   Drawer: { default: <DrawerDemo /> },
-  Message: { default: <MessageDemo /> },
-  Result: { default: <ResultDemo />, optional: [ResultWithDesc] },
-  Progress: {
-    default: <ProgressDemo />,
-  },
+  Message,
+  Result,
+  Progress,
 };
 
 export default ComponentDemos;

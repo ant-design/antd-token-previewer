@@ -1,0 +1,12 @@
+import React from 'react';
+import { Tag } from '@madccc/antd';
+import type { ComponentDemo } from '../../interface';
+
+const Demo = () => <Tag color="processing">Info</Tag>;
+
+const componentDemo: ComponentDemo = {
+  demo: <Demo />,
+  tokens: ['colorInfo', 'colorInfoBg', 'colorInfoBorder'],
+};
+
+export default componentDemo;

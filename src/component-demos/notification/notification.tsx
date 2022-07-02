@@ -12,8 +12,5 @@ const openNotification = () => {
   });
 };
 export default () => (
-  <Button type="primary" onClick={openNotification}>
-    {' '}
-    Open the notification box{' '}
-  </Button>
+  <Button onClick={openNotification}> Open the notification box </Button>
 );
