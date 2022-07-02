@@ -27,6 +27,7 @@ const componentDemo: ComponentDemo = {
   tokens: [
     'colorError',
     'colorErrorActive',
+    'colorErrorHover',
     'colorErrorBorder',
     'colorErrorOutline',
   ],

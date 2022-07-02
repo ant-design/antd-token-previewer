@@ -15,7 +15,7 @@ const previewerDemo: PreviewerDemo = {
     },
     {
       demo: <Error />,
-      tokens: ['colorError', 'colorErrorActive'],
+      tokens: ['colorError', 'colorErrorHover', 'colorErrorActive'],
     },
   ],
 };

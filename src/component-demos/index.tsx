@@ -1,14 +1,14 @@
 import Alert from './alert';
 import Anchor from './anchor';
 import AutoCompleteDemo from './auto-complete';
-import AvatarDemo from './avatar';
-import BadgeDemo from './badge';
+import Avatar from './avatar';
+import Badge from './badge';
 import BreadcrumbDemo from './breadcrumb';
 import Button from './button';
 import CalendarDemo from './calendar';
 import CardDemo from './card/card';
 import CarouselDemo from './carousel';
-import CascaderDemo from './cascader';
+import Cascader from './cascader';
 import CheckboxDemo from './checkbox';
 import CollapseDemo from './collapse';
 import DatePickerDemo from './date-picker';
@@ -40,8 +40,7 @@ import SliderDemo from './slider';
 import SpinDemo from './spin';
 import StatisticDemo from './statistic';
 import SwitchDemo from './switch';
-// import TableDemo from './table/table';
-import FilterTableDemo from './table/filterTable';
+import Table from './table';
 import TabsDemo from './tabs/tabs';
 import CardTabs from './tabs/cardTabs';
 import Tag from './tag';
@@ -74,8 +73,8 @@ const ComponentDemos: PreviewerDemos = {
   Alert,
   Anchor,
   AutoComplete: { default: <AutoCompleteDemo /> },
-  Avatar: { default: <AvatarDemo /> },
-  Badge: { default: <BadgeDemo /> },
+  Avatar,
+  Badge,
   Breadcrumb: { default: <BreadcrumbDemo /> },
   Button,
   Calendar: { default: <CalendarDemo /> },
@@ -84,7 +83,7 @@ const ComponentDemos: PreviewerDemos = {
     optional: [CardTabs],
   },
   Carousel: { default: <CarouselDemo /> },
-  Cascader: { default: <CascaderDemo /> },
+  Cascader,
   Checkbox: { default: <CheckboxDemo /> },
   Collapse: { default: <CollapseDemo /> },
   DatePicker: { default: <DatePickerDemo /> },
@@ -128,16 +127,7 @@ const ComponentDemos: PreviewerDemos = {
   Spin: { default: <SpinDemo /> },
   Statistic: { default: <StatisticDemo /> },
   Switch: { default: <SwitchDemo /> },
-  Table: {
-    // default: <TableDemo />,
-    default: <FilterTableDemo />,
-    // optional: [
-    //   {
-    //     demo: <FilterTableDemo />,
-    //     tokens: [],
-    //   },
-    // ],
-  },
+  Table,
   Tabs: { default: <TabsDemo /> },
   Tag,
   TimePicker: { default: <TimePickerDemo /> },

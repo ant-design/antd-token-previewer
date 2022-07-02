@@ -1,6 +1,7 @@
 import type { TableProps } from '@madccc/antd';
 import { Table } from '@madccc/antd';
 import React from 'react';
+import { ComponentDemo } from '../../interface';
 
 type TableData = { name: string; age: number; address: string };
 
@@ -96,8 +97,13 @@ const onChange: TableProps<TableData>['onChange'] = (
   console.log('params', pagination, filters, sorter, extra);
 };
 
-const App = () => (
+const Demo = () => (
   <Table columns={columns} dataSource={data} onChange={onChange} />
 );
 
-export default App;
+const componentDemo: ComponentDemo = {
+  demo: <Demo />,
+  tokens: ['colorBgContent', 'colorBgContentHover'],
+};
+
+export default componentDemo;
