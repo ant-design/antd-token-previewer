@@ -6,7 +6,7 @@ const Demo = () => <Tag color="error">Error</Tag>;
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorErrorBg', 'colorErrorBorder'],
+  tokens: ['colorError', 'colorErrorBg', 'colorErrorBorder'],
 };
 
 export default componentDemo;

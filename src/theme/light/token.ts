@@ -21,10 +21,6 @@ const aliasToken: Partial<GlobalToken> = {
     warningPalettes,
     bgPalettes,
   }),
-  // FIXME: 亮暗色用的不是用同一个色板体系
-  //  暗色用的是 ['4']
-  //  亮色用的是 ['8']
-  colorDefaultOutline: textAlphaPalettes['8'],
   //FIXME: Menu 用了
   // 在暗色模式下用的是透明色 textAlphaPalettes['4']
   // 再亮色模式下用的是实色

@@ -26,10 +26,7 @@ import {
   convertTokenArrToConfig,
   convertTokenConfigToArr,
 } from './utils/convertToken';
-import {
-  aliasToken as lightAliasToken,
-  componentToken as lightComponentToken,
-} from './theme/light';
+
 import getDesignToken from './utils/getDesignToken';
 
 const { darkAlgorithm } = antdTheme;
@@ -127,12 +124,7 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({
       {
         name: '亮色主题',
         key: 'light',
-        config: {
-          override: {
-            alias: { ...lightAliasToken },
-            ...lightComponentToken,
-          },
-        },
+        config: {},
         closable: true,
       },
       {

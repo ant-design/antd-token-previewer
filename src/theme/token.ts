@@ -55,10 +55,6 @@ const genAliasToken = ({
   colorLink: primaryPalettes['6'],
   colorLinkHover: primaryPalettes['5'],
   colorLinkActive: primaryPalettes['7'],
-
-  // TODO： `命名不对，这个用在 Button 的阴影上 干点
-  // 且亮色模式用值也不对，应该是不透明度的用法
-  colorDefaultOutline: textAlphaPalettes['4'],
   // ============== 背景  ============== //
 
   colorBgLayout: bgPalettes['0'],
@@ -66,8 +62,7 @@ const genAliasToken = ({
   colorBgElevated: bgPalettes['12'],
 
   colorBgContainer: bgPalettes['8'],
-  // TODO：Menu 用了这个 感觉命名有问题
-  // TODO：能不能用透明色？用透明色会造成重叠后变亮的问题，是不是得用实色？
+  // TODO 这一个是斑马线的效果
   colorBgContainerSecondary: textAlphaPalettes['4'],
   colorBgContainerDisabled: textAlphaPalettes['8'],
 
