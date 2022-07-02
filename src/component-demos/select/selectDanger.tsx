@@ -21,6 +21,7 @@ const Demo = () => (
     style={{
       width: '100%',
     }}
+    status={'error'}
     options={options}
     placeholder="Please select"
     defaultValue={['a10', 'c12']}
@@ -30,7 +31,7 @@ const Demo = () => (
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorPrimary'],
+  tokens: ['colorErrorBorder', 'colorErrorHover'],
 };
 
 export default componentDemo;

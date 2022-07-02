@@ -33,8 +33,7 @@ import PopconfirmDemo from './popconfirm';
 import PopoverDemo from './popover';
 import RadioDemo from './radio';
 import RateDemo from './rate';
-import SelectDemo from './select/select';
-import SelectTag from './select/selectTag';
+import Select from './select';
 import SkeletonDemo from './skeleton';
 import SliderDemo from './slider';
 import SpinDemo from './spin';
@@ -51,10 +50,10 @@ import TransferDemo from './transfer';
 import TreeSelectDemo from './tree-select';
 import TreeDemo from './tree';
 import Typography from './typography';
-import UploadDemo from './upload';
+import Upload from './upload';
 import DividerDemo from './divider';
 import SpaceDemo from './space';
-import MenuDemo from './menu';
+import Menu from './menu';
 import StepsDemo from './steps';
 import SegmentedDemo from './segmented';
 import DrawerDemo from './drawer';
@@ -113,15 +112,7 @@ const ComponentDemos: PreviewerDemos = {
   Popover: { default: <PopoverDemo /> },
   Radio: { default: <RadioDemo /> },
   Rate: { default: <RateDemo /> },
-  Select: {
-    default: <SelectDemo />,
-    optional: [
-      {
-        demo: <SelectTag />,
-        tokens: [],
-      },
-    ],
-  },
+  Select,
   Skeleton: { default: <SkeletonDemo /> },
   Slider: { default: <SliderDemo /> },
   Spin: { default: <SpinDemo /> },
@@ -137,10 +128,10 @@ const ComponentDemos: PreviewerDemos = {
   TreeSelect: { default: <TreeSelectDemo /> },
   Tree: { default: <TreeDemo /> },
   Typography,
-  Upload: { default: <UploadDemo /> },
+  Upload,
   Divider: { default: <DividerDemo /> },
   Space: { default: <SpaceDemo /> },
-  Menu: { default: <MenuDemo /> },
+  Menu,
   Steps: { default: <StepsDemo /> },
   Segmented: { default: <SegmentedDemo /> },
   Drawer: { default: <DrawerDemo /> },

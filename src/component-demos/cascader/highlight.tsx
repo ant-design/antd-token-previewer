@@ -1,6 +1,6 @@
 import React from 'react';
 import { Cascader } from '@madccc/antd';
-import { ComponentDemo } from '../../interface';
+import type { ComponentDemo } from '../../interface';
 
 const options = [
   {
@@ -27,15 +27,18 @@ const options = [
   },
 ];
 
-const Demo = () => (
-  <Cascader
-    options={options}
-    placeholder="Please select"
-    searchValue={'jiang'}
-    showSearch
-    popupVisible
-  />
-);
+const Demo = () => {
+  // FIXME: 这个应该放到容器里
+  return (
+    <Cascader
+      options={options}
+      placeholder="Please select"
+      searchValue={'jiang'}
+      showSearch
+      popupVisible
+    />
+  );
+};
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
