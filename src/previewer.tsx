@@ -20,7 +20,7 @@ import FilterPanel from './FilterPanel';
 import type { MutableTheme, PreviewerProps, TokenName } from './interface';
 import type { TokenType } from './utils/classifyToken';
 import { useDebounceFn } from 'ahooks';
-import type { ThemeConfig } from 'antd/es/config-provider/context';
+import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
 import { componentToken as darkComponentToken } from './theme/dark';
 import {
   convertTokenArrToConfig,

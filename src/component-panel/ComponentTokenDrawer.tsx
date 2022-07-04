@@ -5,7 +5,7 @@ import type { TableProps } from '@madccc/antd';
 import { Divider, Drawer, Table, Tag } from '@madccc/antd';
 import makeStyle from '../utils/makeStyle';
 import TokenInput from '../TokenInput';
-import type { OverrideToken } from 'antd/es/theme/interface';
+import type { OverrideToken } from '@madccc/antd/es/theme/interface';
 import useStatistic from '../hooks/useStatistic';
 import type { MutableTheme, TokenName } from '../interface';
 import getDesignToken from '../utils/getDesignToken';

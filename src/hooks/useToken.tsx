@@ -1,7 +1,7 @@
 import type React from 'react';
 import { theme } from '@madccc/antd';
 import { useState } from 'react';
-import type { GlobalToken } from 'antd/es/theme/interface';
+import type { GlobalToken } from '@madccc/antd/es/theme/interface';
 
 const useToken = (): [
   GlobalToken,
