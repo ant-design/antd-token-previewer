@@ -41,7 +41,6 @@
     "@ant-design/cssinjs": "^0.0.0-alpha.34",
     "@ant-design/icons": "^4.7.0",
     "@babel/runtime": "^7.11.1",
-    "antd": "^5.0.0-experimental.0",
     "@madccc/antd": "^5.0.0-alpha.13",
     "ahooks": "^3.4.1",
     "classnames": "^2.3.1",
