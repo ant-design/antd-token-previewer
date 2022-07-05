@@ -11,7 +11,7 @@ import CarouselDemo from './carousel';
 import Cascader from './cascader';
 import CheckboxDemo from './checkbox';
 import CollapseDemo from './collapse';
-import DatePickerDemo from './date-picker';
+import DatePicker from './datePicker';
 import DescriptionsDemo from './descriptions';
 import DropdownDemo from './dropdown';
 import EmptyDemo from './empty';
@@ -19,11 +19,10 @@ import FormDemo from './form';
 import GridDemo from './grid';
 import IconDemo from './icon';
 import ImageDemo from './image';
-import InputNumberDemo from './input-number';
-import InputDemo from './input/input';
-import InputColorAction from './input/inputColorAction';
+import InputNumber from './inputNumber';
+import Input from './input';
 import ListDemo from './list';
-import MentionsDemo from './mentions';
+import Mentions from './mentions';
 import ModalDemo from './modal/modal';
 import ModalWithButton from './modal/modalWithButton';
 import Notification from './notification';
@@ -81,7 +80,7 @@ const ComponentDemos: PreviewerDemos = {
   Cascader,
   Checkbox: { default: <CheckboxDemo /> },
   Collapse: { default: <CollapseDemo /> },
-  DatePicker: { default: <DatePickerDemo /> },
+  DatePicker,
   Descriptions: { default: <DescriptionsDemo /> },
   Dropdown: { default: <DropdownDemo /> },
   Empty: { default: <EmptyDemo /> },
@@ -89,13 +88,10 @@ const ComponentDemos: PreviewerDemos = {
   Grid: { default: <GridDemo /> },
   Icon: { default: <IconDemo /> },
   Image: { default: <ImageDemo /> },
-  InputNumber: { default: <InputNumberDemo /> },
-  Input: {
-    default: <InputDemo />,
-    optional: [InputColorAction],
-  },
+  InputNumber,
+  Input,
   List: { default: <ListDemo /> },
-  Mentions: { default: <MentionsDemo /> },
+  Mentions,
   Modal: { default: <ModalDemo />, optional: [ModalWithButton] },
   Notification,
   Pagination,
