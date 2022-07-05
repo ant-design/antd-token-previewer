@@ -6,16 +6,16 @@ const { Title, Text } = Typography;
 
 const Demo = () => (
   <div>
-    <Title type={'danger'} level={4}>
+    <Title type={'warning'} level={4}>
       Error Title
     </Title>
-    <Text type={'danger'}>error Text</Text>
+    <Text type={'warning'}>error Text</Text>
   </div>
 );
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorError', 'colorErrorHover', 'colorErrorActive'],
+  tokens: ['colorWarning'],
 };
 
 export default componentDemo;
