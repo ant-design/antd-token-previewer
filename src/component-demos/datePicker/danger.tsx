@@ -6,7 +6,12 @@ const Demo = () => <DatePicker status={'error'} />;
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorErrorBorder', 'colorErrorHover', 'colorErrorOutline'],
+  tokens: [
+    'colorError',
+    'colorErrorBorder',
+    'colorErrorHover',
+    'colorErrorOutline',
+  ],
 };
 
 export default componentDemo;

@@ -31,7 +31,7 @@ const Demo = () => (
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorErrorBorder', 'colorErrorHover'],
+  tokens: ['colorError', 'colorErrorBorder', 'colorErrorHover'],
 };
 
 export default componentDemo;
