@@ -1,15 +1,15 @@
 import React from 'react';
 
-import Demo from './result';
-import info from './info';
+import Default from './form';
+
 import warning from './warning';
-import ResultWithDesc from './resultWithDesc';
+import danger from './danger';
 
 import type { PreviewerDemo } from '../../interface';
 
 const previewerDemo: PreviewerDemo = {
-  default: <Demo />,
-  optional: [info, warning, ResultWithDesc],
+  default: <Default />,
+  optional: [warning, danger],
 };
 
 export default previewerDemo;

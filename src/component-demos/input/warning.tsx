@@ -10,7 +10,12 @@ const Demo = () => (
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorWarningBorder', 'colorWarningHover', 'colorWarningOutline'],
+  tokens: [
+    'colorWarning',
+    'colorWarningBorder',
+    'colorWarningHover',
+    'colorWarningOutline',
+  ],
 };
 
 export default componentDemo;

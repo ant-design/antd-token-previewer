@@ -15,7 +15,7 @@ import DatePicker from './datePicker';
 import DescriptionsDemo from './descriptions';
 import DropdownDemo from './dropdown';
 import EmptyDemo from './empty';
-import FormDemo from './form';
+import Form from './form';
 import GridDemo from './grid';
 import IconDemo from './icon';
 import ImageDemo from './image';
@@ -43,7 +43,7 @@ import Tag from './tag';
 import TimePickerDemo from './time-picker';
 import TimelineDemo from './timeline';
 import TooltipDemo from './tooltip';
-import TransferDemo from './transfer';
+import Transfer from './transfer';
 import TreeSelectDemo from './tree-select';
 import TreeDemo from './tree';
 import Typography from './typography';
@@ -84,7 +84,7 @@ const ComponentDemos: PreviewerDemos = {
   Descriptions: { default: <DescriptionsDemo /> },
   Dropdown: { default: <DropdownDemo /> },
   Empty: { default: <EmptyDemo /> },
-  Form: { default: <FormDemo /> },
+  Form,
   Grid: { default: <GridDemo /> },
   Icon: { default: <IconDemo /> },
   Image: { default: <ImageDemo /> },
@@ -111,7 +111,7 @@ const ComponentDemos: PreviewerDemos = {
   TimePicker: { default: <TimePickerDemo /> },
   Timeline: { default: <TimelineDemo /> },
   Tooltip: { default: <TooltipDemo /> },
-  Transfer: { default: <TransferDemo /> },
+  Transfer,
   TreeSelect: { default: <TreeSelectDemo /> },
   Tree: { default: <TreeDemo /> },
   Typography,
