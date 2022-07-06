@@ -3,11 +3,8 @@ import React from 'react';
 import Default from './upload';
 import danger from './danger';
 
-import type { PreviewerDemo } from '../../interface';
+import type { ComponentDemo } from '../../interface';
 
-const previewerDemo: PreviewerDemo = {
-  default: <Default />,
-  optional: [danger],
-};
+const previewerDemo: ComponentDemo[] = [{ demo: <Default /> }, danger];
 
 export default previewerDemo;

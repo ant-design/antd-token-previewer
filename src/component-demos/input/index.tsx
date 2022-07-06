@@ -5,11 +5,13 @@ import clearIcon from './clearIcon';
 import danger from './danger';
 import warning from './warning';
 
-import type { PreviewerDemo } from '../../interface';
+import type { ComponentDemo } from '../../interface';
 
-const previewerDemo: PreviewerDemo = {
-  default: <Default />,
-  optional: [clearIcon, danger, warning],
-};
+const previewerDemo: ComponentDemo[] = [
+  { demo: <Default /> },
+  clearIcon,
+  danger,
+  warning,
+];
 
 export default previewerDemo;

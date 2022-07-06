@@ -3,11 +3,12 @@ import React from 'react';
 import Default from './avatar';
 // import Progress from './progress';
 
-import type { PreviewerDemo } from '../../interface';
+import type { ComponentDemo } from '../../interface';
 
-const previewerDemo: PreviewerDemo = {
-  default: <Default />,
-  optional: [],
-};
+const previewerDemo: ComponentDemo[] = [
+  {
+    demo: <Default />,
+  },
+];
 
 export default previewerDemo;

@@ -5,11 +5,12 @@ import Default from './menu';
 import danger from './menuDanger';
 import MenuInLayout from './menuInLayout';
 
-import type { PreviewerDemo } from '../../interface';
+import type { ComponentDemo } from '../../interface';
 
-const previewerDemo: PreviewerDemo = {
-  default: <Default />,
-  optional: [danger, MenuInLayout],
-};
+const previewerDemo: ComponentDemo[] = [
+  { demo: <Default /> },
+  danger,
+  MenuInLayout,
+];
 
 export default previewerDemo;

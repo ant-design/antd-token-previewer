@@ -3,11 +3,8 @@ import React from 'react';
 import Default from './checkbox';
 import disabled from './disabled';
 
-import type { PreviewerDemo } from '../../interface';
+import type { ComponentDemo } from '../../interface';
 
-const previewerDemo: PreviewerDemo = {
-  default: <Default />,
-  optional: [disabled],
-};
+const previewerDemo: ComponentDemo[] = [{demo: <Default />},disabled];
 
 export default previewerDemo;

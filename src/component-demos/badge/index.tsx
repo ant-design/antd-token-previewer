@@ -4,11 +4,12 @@ import Default from './badge';
 import Progress from './progress';
 import warning from './warning';
 
-import type { PreviewerDemo } from '../../interface';
+import type { ComponentDemo } from '../../interface';
 
-const previewerDemo: PreviewerDemo = {
-  default: <Default />,
-  optional: [Progress, warning],
-};
+const previewerDemo: ComponentDemo[] = [
+  { demo: <Default /> },
+  Progress,
+  warning,
+];
 
 export default previewerDemo;

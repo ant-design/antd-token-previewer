@@ -6,11 +6,14 @@ import danger from './danger';
 import warning from './warning';
 import icon from './icon';
 
-import type { PreviewerDemo } from '../../interface';
+import type { ComponentDemo } from '../../interface';
 
-const previewerDemo: PreviewerDemo = {
-  default: <Default />,
-  optional: [SelectTag, danger, warning, icon],
-};
+const previewerDemo: ComponentDemo[] = [
+  { demo: <Default /> },
+  SelectTag,
+  danger,
+  warning,
+  icon
+];
 
 export default previewerDemo;

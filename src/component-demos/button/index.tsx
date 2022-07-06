@@ -4,11 +4,12 @@ import ButtonDemo from './button';
 import ButtonIconDemo from './button-icon';
 import DangerButton from './dangerButton';
 
-import type { PreviewerDemo } from '../../interface';
+import type { ComponentDemo } from '../../interface';
 
-const previewerDemo: PreviewerDemo = {
-  default: <ButtonDemo />,
-  optional: [ButtonIconDemo, DangerButton],
-};
+const previewerDemo: ComponentDemo[] = [
+  { demo: <ButtonDemo /> },
+  ButtonIconDemo,
+  DangerButton,
+];
 
 export default previewerDemo;

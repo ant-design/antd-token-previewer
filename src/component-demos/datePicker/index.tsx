@@ -5,11 +5,8 @@ import danger from './danger';
 import warning from './warning';
 import icon from './icon';
 
-import type { PreviewerDemo } from '../../interface';
+import type { ComponentDemo } from '../../interface';
 
-const previewerDemo: PreviewerDemo = {
-  default: <Default />,
-  optional: [danger, warning, icon],
-};
+const previewerDemo: ComponentDemo[] = [{ demo: <Default /> }, danger, warning,icon];
 
 export default previewerDemo;

@@ -4,11 +4,8 @@ import Default from './transfer';
 import danger from './danger';
 import warning from './warning';
 
-import type { PreviewerDemo } from '../../interface';
+import type { ComponentDemo } from '../../interface';
 
-const previewerDemo: PreviewerDemo = {
-  default: <Default />,
-  optional: [warning, danger],
-};
+const previewerDemo: ComponentDemo[] = [{ demo: <Default /> }, warning, danger];
 
 export default previewerDemo;
