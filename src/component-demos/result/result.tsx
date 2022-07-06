@@ -1,7 +1,8 @@
 import { Button, Result } from '@madccc/antd';
 import React from 'react';
+import type { ComponentDemo } from '../../interface';
 
-const App: React.FC = () => (
+const Demo: React.FC = () => (
   <Result
     status="success"
     title="Successfully Purchased Cloud Server ECS!"
@@ -15,4 +16,9 @@ const App: React.FC = () => (
   />
 );
 
-export default App;
+const componentDemo: ComponentDemo = {
+  demo: <Demo />,
+  tokens: ['colorSuccess'],
+};
+
+export default componentDemo;

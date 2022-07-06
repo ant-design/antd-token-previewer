@@ -3,14 +3,7 @@ import { Transfer } from '@madccc/antd';
 
 import type { ComponentDemo } from '../../interface';
 
-const mockData: any[] = [];
-for (let i = 0; i < 20; i++) {
-  mockData.push({
-    key: i.toString(),
-    title: `content${i + 1}`,
-    description: `description of content${i + 1}`,
-  });
-}
+import mockData from './data';
 
 const initialTargetKeys = mockData
   .filter((item) => +item.key > 10)

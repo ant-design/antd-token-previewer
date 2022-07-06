@@ -1,7 +1,8 @@
 import React from 'react';
 import { Alert, Space } from '@madccc/antd';
+import type { ComponentDemo } from '../../interface';
 
-const App = () => (
+const Demo = () => (
   <Space direction={'vertical'}>
     <Alert message="Success Tips" type="success" showIcon />
     <Alert message="Informational Notes" type="info" showIcon />
@@ -10,4 +11,9 @@ const App = () => (
   </Space>
 );
 
-export default App;
+const componentDemo: ComponentDemo = {
+  demo: <Demo />,
+  tokens: ['colorActionHover', 'colorAction', 'colorText'],
+};
+
+export default componentDemo;

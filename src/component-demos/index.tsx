@@ -13,7 +13,7 @@ import Checkbox from './checkbox';
 import CollapseDemo from './collapse';
 import DatePicker from './datePicker';
 import DescriptionsDemo from './descriptions';
-import DropdownDemo from './dropdown';
+import Dropdown from './dropdown';
 import EmptyDemo from './empty';
 import Form from './form';
 import GridDemo from './grid';
@@ -84,7 +84,7 @@ const ComponentDemos: PreviewerDemos = {
   Collapse: [{ demo: <CollapseDemo /> }],
   DatePicker,
   Descriptions: [{ demo: <DescriptionsDemo /> }],
-  Dropdown: [{ demo: <DropdownDemo /> }],
+  Dropdown,
   Empty: [{ demo: <EmptyDemo /> }],
   Form,
   Grid: [{ demo: <GridDemo /> }],

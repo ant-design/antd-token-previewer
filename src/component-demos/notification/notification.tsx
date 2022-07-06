@@ -1,16 +1,21 @@
 import React from 'react';
-import { Button, notification } from '@madccc/antd';
+import { notification } from '@madccc/antd';
+import type { ComponentDemo } from '../../interface';
 
-const openNotification = () => {
-  notification.open({
-    message: 'Notification Title',
-    description:
-      'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
-    onClick: () => {
-      console.log('Notification Clicked!');
-    },
-  });
-};
-export default () => (
-  <Button onClick={openNotification}> Open the notification box </Button>
+const { _InternalPanelDoNotUseOrYouWillBeFired } = notification;
+
+const Demo = () => (
+  <_InternalPanelDoNotUseOrYouWillBeFired
+    message={'Notification Title'}
+    description={
+      'This is the content of the notification. This is the content of the notification. This is the content of the notification.'
+    }
+  />
 );
+
+const componentDemo: ComponentDemo = {
+  demo: <Demo />,
+  tokens: ['colorAction', 'colorActionHover'],
+};
+
+export default componentDemo;
