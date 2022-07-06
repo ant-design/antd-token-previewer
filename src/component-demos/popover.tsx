@@ -1,5 +1,5 @@
 import React from 'react';
-import { Popover, Button } from '@madccc/antd';
+import { Popover, Button } from 'antd';
 
 const content = (
   <div>

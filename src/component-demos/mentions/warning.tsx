@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mentions } from '@madccc/antd';
+import { Mentions } from 'antd';
 import { ComponentDemo } from '../../interface';
 
 const { Option } = Mentions;

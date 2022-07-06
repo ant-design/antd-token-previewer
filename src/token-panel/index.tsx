@@ -1,11 +1,5 @@
 import { CheckOutlined } from '@ant-design/icons';
-import {
-  Dropdown,
-  Input,
-  Menu,
-  Switch,
-  theme as antdTheme,
-} from '@madccc/antd';
+import { Dropdown, Input, Menu, Switch, theme as antdTheme } from 'antd';
 import classNames from 'classnames';
 import React, {
   forwardRef,

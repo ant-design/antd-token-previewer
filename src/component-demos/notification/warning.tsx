@@ -1,5 +1,5 @@
 import React from 'react';
-import { notification } from '@madccc/antd';
+import { notification } from 'antd';
 import type { ComponentDemo } from '../../interface';
 
 const { _InternalPanelDoNotUseOrYouWillBeFired } = notification;

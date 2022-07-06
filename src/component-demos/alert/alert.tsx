@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Space } from '@madccc/antd';
+import { Alert, Space } from 'antd';
 
 const App = () => (
   <Space direction={'vertical'}>

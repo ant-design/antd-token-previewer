@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mentions } from '@madccc/antd';
+import { Mentions } from 'antd';
 
 const { Option } = Mentions;
 function onChange() {}

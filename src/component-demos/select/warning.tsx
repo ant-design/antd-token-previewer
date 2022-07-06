@@ -1,5 +1,5 @@
-import type { SelectProps } from '@madccc/antd';
-import { Select } from '@madccc/antd';
+import type { SelectProps } from 'antd';
+import { Select } from 'antd';
 
 import React from 'react';
 import type { ComponentDemo } from '../../interface';

@@ -12,7 +12,7 @@ import {
   FormatPainterOutlined,
   BulbOutlined,
 } from '@ant-design/icons';
-import { Collapse, Space } from '@madccc/antd';
+import { Collapse, Space } from 'antd';
 import classNames from 'classnames';
 import type { ReactNode } from 'react';
 import React from 'react';

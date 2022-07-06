@@ -6,7 +6,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Button, Layout, message, theme as antdTheme } from '@madccc/antd';
+import { Button, Layout, message, theme as antdTheme } from 'antd';
 import classNames from 'classnames';
 import ComponentPanel from './component-panel';
 import type { ThemeSelectProps } from './ThemeSelect';
@@ -20,7 +20,7 @@ import FilterPanel from './FilterPanel';
 import type { MutableTheme, PreviewerProps, TokenName } from './interface';
 import type { TokenType } from './utils/classifyToken';
 import { useDebounceFn } from 'ahooks';
-import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
+import type { ThemeConfig } from 'antd/es/config-provider/context';
 import { componentToken as darkComponentToken } from './theme/dark';
 import {
   convertTokenArrToConfig,
@@ -122,18 +122,9 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({
         fixed: true,
       },
       {
-        name: '亮色主题',
-        key: 'light',
-        config: {},
-        closable: true,
-      },
-      {
         name: '暗色主题',
         key: 'dark',
         config: {
-          token: {
-            colorPrimary: '#177ddc',
-          },
           algorithm: darkAlgorithm,
           override: {
             ...darkComponentToken,

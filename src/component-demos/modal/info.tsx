@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal } from '@madccc/antd';
+import { Modal } from 'antd';
 import type { ComponentDemo } from '../../interface';
 
 const { _InternalPanelDoNotUseOrYouWillBeFired } = Modal;

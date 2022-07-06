@@ -1,5 +1,5 @@
-import type { GlobalToken } from '@madccc/antd/es/theme/interface';
-import type { OverrideToken } from '@madccc/antd/es/theme/interface';
+import type { GlobalToken } from 'antd/es/theme/interface';
+import type { OverrideToken } from 'antd/es/theme/interface';
 import type {
   SuccessPalettes,
   PrimaryPalettes,

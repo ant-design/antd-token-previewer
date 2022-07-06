@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Space } from '@madccc/antd';
+import { Button, Space } from 'antd';
 
 export default () => (
   <Space>

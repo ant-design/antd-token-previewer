@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react';
 import React from 'react';
-import { Carousel } from '@madccc/antd';
+import { Carousel } from 'antd';
 
 const contentStyle = {
   height: '160px',

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TreeSelect } from '@madccc/antd';
+import { TreeSelect } from 'antd';
 
 const { TreeNode } = TreeSelect;
 const Demo = () => {

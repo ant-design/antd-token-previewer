@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tooltip } from '@madccc/antd';
+import { Tooltip } from 'antd';
 
 export default () => (
   <Tooltip title="prompt text">

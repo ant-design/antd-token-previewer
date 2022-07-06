@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tree } from '@madccc/antd';
+import { Tree } from 'antd';
 
 const treeData = [
   {

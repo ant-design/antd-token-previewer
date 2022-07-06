@@ -1,4 +1,4 @@
-import { Button, message } from '@madccc/antd';
+import { Button, message } from 'antd';
 import React from 'react';
 
 const Context = React.createContext({ name: 'Default' });

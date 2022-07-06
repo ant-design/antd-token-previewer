@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input } from '@madccc/antd';
+import { Form, Input } from 'antd';
 import type { ComponentDemo } from '../../interface';
 
 function onFinish() {}

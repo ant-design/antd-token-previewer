@@ -1,5 +1,5 @@
-import type { TableProps } from '@madccc/antd';
-import { Table } from '@madccc/antd';
+import type { TableProps } from 'antd';
+import { Table } from 'antd';
 import React from 'react';
 import { ComponentDemo } from '../../interface';
 

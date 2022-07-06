@@ -2,7 +2,7 @@ import type { CSSProperties, FC } from 'react';
 import React from 'react';
 import makeStyle from './utils/makeStyle';
 import classNames from 'classnames';
-import { Segmented, Tag } from '@madccc/antd';
+import { Segmented, Tag } from 'antd';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import type { TokenName } from './interface';
 

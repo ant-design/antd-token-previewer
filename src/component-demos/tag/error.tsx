@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tag } from '@madccc/antd';
+import { Tag } from 'antd';
 import type { ComponentDemo } from '../../interface';
 
 const Demo = () => <Tag color="error">Error</Tag>;

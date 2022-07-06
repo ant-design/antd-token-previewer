@@ -1,4 +1,4 @@
 import React from 'react';
-import { Rate } from '@madccc/antd';
+import { Rate } from 'antd';
 
 export default () => <Rate />;

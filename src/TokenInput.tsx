@@ -2,7 +2,7 @@ import { SketchPicker } from 'react-color';
 import type { FC } from 'react';
 import React, { useRef, useState } from 'react';
 import type { MutableTheme } from './interface';
-import { Button, Dropdown, Input, InputNumber } from '@madccc/antd';
+import { Button, Dropdown, Input, InputNumber } from 'antd';
 import ColorPreview from './ColorPreview';
 import makeStyle from './utils/makeStyle';
 import classNames from 'classnames';

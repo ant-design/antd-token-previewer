@@ -1,5 +1,5 @@
-import type { MenuProps } from '@madccc/antd';
-import { Menu } from '@madccc/antd';
+import type { MenuProps } from 'antd';
+import { Menu } from 'antd';
 import React from 'react';
 
 import type { ComponentDemo } from '../../interface';

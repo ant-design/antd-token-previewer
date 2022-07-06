@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tabs } from '@madccc/antd';
+import { Tabs } from 'antd';
 import type { ComponentDemo } from '../../interface';
 
 const { TabPane } = Tabs;

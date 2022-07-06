@@ -1,4 +1,4 @@
 import React from 'react';
-import { Spin } from '@madccc/antd';
+import { Spin } from 'antd';
 
 export default () => <Spin />;

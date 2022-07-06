@@ -1,4 +1,4 @@
-import { Segmented } from '@madccc/antd';
+import { Segmented } from 'antd';
 import React from 'react';
 
 export default () => (

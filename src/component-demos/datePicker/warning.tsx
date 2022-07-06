@@ -1,5 +1,5 @@
 import React from 'react';
-import { DatePicker } from '@madccc/antd';
+import { DatePicker } from 'antd';
 import type { ComponentDemo } from '../../interface';
 
 const Demo = () => <DatePicker status={'warning'} />;

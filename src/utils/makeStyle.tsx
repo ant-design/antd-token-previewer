@@ -1,8 +1,8 @@
-import { ConfigProvider, theme as antdTheme } from '@madccc/antd';
+import { ConfigProvider, theme as antdTheme } from 'antd';
 import type React from 'react';
 import type { CSSInterpolation } from '@ant-design/cssinjs';
 import { useStyleRegister } from '@ant-design/cssinjs';
-import type { GlobalToken } from '@madccc/antd/lib/theme/interface';
+import type { GlobalToken } from 'antd/es/theme/interface';
 import { useContext } from 'react';
 
 const { ConfigContext } = ConfigProvider;

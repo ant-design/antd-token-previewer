@@ -3,7 +3,7 @@ import type { FC, ReactNode } from 'react';
 import React, { Fragment } from 'react';
 import ComponentDemos from '../component-demos';
 import ComponentCard, { getComponentDemoId } from './ComponentCard';
-import { ConfigProvider, Divider, theme as antdTheme } from '@madccc/antd';
+import { ConfigProvider, Divider, theme as antdTheme } from 'antd';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
 import type { TokenName } from '../interface';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tag } from '@madccc/antd';
+import { Tag } from 'antd';
 
 const Demo = () => (
   <div>

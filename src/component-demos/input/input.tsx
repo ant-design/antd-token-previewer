@@ -1,4 +1,4 @@
 import React from 'react';
-import { Input } from '@madccc/antd';
+import { Input } from 'antd';
 
 export default () => <Input placeholder="Basic usage" />;

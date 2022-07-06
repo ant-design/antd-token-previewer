@@ -1,5 +1,5 @@
 import React from 'react';
-import { DatePicker, Space } from '@madccc/antd';
+import { DatePicker, Space } from 'antd';
 
 function onChange() {}
 export default () => (

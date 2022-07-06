@@ -1,4 +1,4 @@
 import React from 'react';
-import { Checkbox } from '@madccc/antd';
+import { Checkbox } from 'antd';
 
 export default () => <Checkbox>Checkbox</Checkbox>;

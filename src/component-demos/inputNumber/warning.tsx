@@ -1,5 +1,5 @@
 import React from 'react';
-import { InputNumber } from '@madccc/antd';
+import { InputNumber } from 'antd';
 import type { ComponentDemo } from '../../interface';
 
 function onChange() {}

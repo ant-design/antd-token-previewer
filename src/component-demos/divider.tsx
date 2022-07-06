@@ -1,4 +1,4 @@
-import { Divider } from '@madccc/antd';
+import { Divider } from 'antd';
 import React from 'react';
 
 const App: React.FC = () => (

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Space } from '@madccc/antd';
+import { Space } from 'antd';
 import type { TokenPreviewProps } from 'antd-token-previewer';
 import { TokenPanel } from 'antd-token-previewer';
 

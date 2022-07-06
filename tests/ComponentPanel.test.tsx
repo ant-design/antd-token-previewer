@@ -3,7 +3,7 @@ import React from 'react';
 import type { ComponentPanelProps } from '../src/component-panel';
 import ComponentPanel from '../src/component-panel';
 import useToken from '../src/hooks/useToken';
-import { _statistic_build_ as statistic } from '@madccc/antd/lib/theme/util/statistic';
+import { _statistic_build_ as statistic } from 'antd/es/theme/util/statistic';
 import { antdComponents } from '../src/component-panel';
 
 describe('ComponentPanel', () => {
@@ -18,13 +18,7 @@ describe('ComponentPanel', () => {
       },
     ];
 
-    return (
-      <ComponentPanel
-        themes={mergedThemes}
-        defaultTheme={{ override: { alias: token } }}
-        {...restProps}
-      />
-    );
+    return <ComponentPanel themes={mergedThemes} {...restProps} />;
   };
 
   it('filterMode filter should work', () => {

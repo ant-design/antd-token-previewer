@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Transfer } from '@madccc/antd';
+import { Transfer } from 'antd';
 
 const mockData: any[] = [];
 for (let i = 0; i < 20; i++) {

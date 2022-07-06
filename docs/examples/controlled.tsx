@@ -5,7 +5,7 @@
 import React, { useState } from 'react';
 import Previewer from 'antd-token-previewer';
 import { convertTokenArrToConfig } from '../../src/utils/convertToken';
-import { ConfigProvider } from '@madccc/antd';
+import { ConfigProvider } from 'antd';
 import type { Theme } from 'antd-token-previewer';
 
 const Demo = () => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Breadcrumb } from '@madccc/antd';
+import { Breadcrumb } from 'antd';
 
 export default () => (
   <Breadcrumb>

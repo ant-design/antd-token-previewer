@@ -1,5 +1,5 @@
 import React from 'react';
-import { Statistic, Row, Col, Button } from '@madccc/antd';
+import { Statistic, Row, Col, Button } from 'antd';
 
 export default () => (
   <Row gutter={16}>
