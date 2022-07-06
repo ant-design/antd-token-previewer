@@ -1,14 +1,9 @@
-import type { SelectProps } from '@madccc/antd';
 import { Select } from '@madccc/antd';
 
 import React from 'react';
 import type { ComponentDemo } from '../../interface';
 
-const options: SelectProps['options'] = [];
-
-for (let i = 10; i < 36; i++) {
-  options.push({ value: i.toString(36) + i, label: i.toString(36) + i });
-}
+import options from './data';
 
 const handleChange = (value: any) => {
   console.log(`selected ${value}`);

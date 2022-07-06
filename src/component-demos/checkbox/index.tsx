@@ -1,15 +1,13 @@
 import React from 'react';
 
-import Default from './date-picker';
-import danger from './danger';
-import warning from './warning';
-import icon from './icon';
+import Default from './checkbox';
+import disabled from './disabled';
 
 import type { PreviewerDemo } from '../../interface';
 
 const previewerDemo: PreviewerDemo = {
   default: <Default />,
-  optional: [danger, warning, icon],
+  optional: [disabled],
 };
 
 export default previewerDemo;

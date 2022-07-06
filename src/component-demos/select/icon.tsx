@@ -11,22 +11,20 @@ const handleChange = (value: any) => {
 
 const Demo = () => (
   <Select
-    mode="multiple"
     allowClear
     style={{
       width: '100%',
     }}
-    status={'warning'}
     options={options}
     placeholder="Please select"
-    defaultValue={['a10', 'c12']}
+    value={['a10', 'c12']}
     onChange={handleChange}
   />
 );
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorWarningHover', 'colorWarningOutline'],
+  tokens: ['colorAction', 'colorActionHover'],
 };
 
 export default componentDemo;

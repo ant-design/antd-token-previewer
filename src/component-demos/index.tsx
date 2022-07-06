@@ -9,7 +9,7 @@ import CalendarDemo from './calendar';
 import CardDemo from './card/card';
 import CarouselDemo from './carousel';
 import Cascader from './cascader';
-import CheckboxDemo from './checkbox';
+import Checkbox from './checkbox';
 import CollapseDemo from './collapse';
 import DatePicker from './datePicker';
 import DescriptionsDemo from './descriptions';
@@ -78,7 +78,7 @@ const ComponentDemos: PreviewerDemos = {
   },
   Carousel: { default: <CarouselDemo /> },
   Cascader,
-  Checkbox: { default: <CheckboxDemo /> },
+  Checkbox,
   Collapse: { default: <CollapseDemo /> },
   DatePicker,
   Descriptions: { default: <DescriptionsDemo /> },
