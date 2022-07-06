@@ -33,7 +33,7 @@ import RadioDemo from './radio';
 import RateDemo from './rate';
 import Select from './select';
 import SkeletonDemo from './skeleton';
-import SliderDemo from './slider';
+import Slider from './slider';
 import SpinDemo from './spin';
 import StatisticDemo from './statistic';
 import SwitchDemo from './switch';
@@ -41,7 +41,7 @@ import Table from './table';
 import Tabs from './tabs';
 import Tag from './tag';
 import TimePickerDemo from './time-picker';
-import TimelineDemo from './timeline';
+import Timeline from './timeline';
 import TooltipDemo from './tooltip';
 import Transfer from './transfer';
 import TreeSelectDemo from './tree-select';
@@ -51,7 +51,7 @@ import Upload from './upload';
 import DividerDemo from './divider';
 import SpaceDemo from './space';
 import Menu from './menu';
-import StepsDemo from './steps';
+import Steps from './steps';
 import SegmentedDemo from './segmented';
 import DrawerDemo from './drawer';
 import Message from './message';
@@ -103,7 +103,7 @@ const ComponentDemos: PreviewerDemos = {
   Rate: [{ demo: <RateDemo /> }],
   Select,
   Skeleton: [{ demo: <SkeletonDemo /> }],
-  Slider: [{ demo: <SliderDemo /> }],
+  Slider,
   Spin: [{ demo: <SpinDemo /> }],
   Statistic: [{ demo: <StatisticDemo /> }],
   Switch: [{ demo: <SwitchDemo /> }],
@@ -111,7 +111,7 @@ const ComponentDemos: PreviewerDemos = {
   Tabs,
   Tag,
   TimePicker: [{ demo: <TimePickerDemo /> }],
-  Timeline: [{ demo: <TimelineDemo /> }],
+  Timeline,
   Tooltip: [{ demo: <TooltipDemo /> }],
   Transfer,
   TreeSelect: [{ demo: <TreeSelectDemo /> }],
@@ -121,7 +121,7 @@ const ComponentDemos: PreviewerDemos = {
   Divider: [{ demo: <DividerDemo /> }],
   Space: [{ demo: <SpaceDemo /> }],
   Menu,
-  Steps: [{ demo: <StepsDemo /> }],
+  Steps,
   Segmented: [{ demo: <SegmentedDemo /> }],
   Drawer: [{ demo: <DrawerDemo /> }],
   Message,

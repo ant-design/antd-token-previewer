@@ -1,6 +1,6 @@
 import { Progress } from '@madccc/antd';
 import React from 'react';
-import { ComponentDemo } from '../../interface';
+import type { ComponentDemo } from '../../interface';
 
 const Demo: React.FC = () => (
   <>
@@ -15,7 +15,7 @@ const Demo: React.FC = () => (
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorError'],
+  tokens: ['colorBgContent', 'colorText'],
 };
 
 export default componentDemo;
