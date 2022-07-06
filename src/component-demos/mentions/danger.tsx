@@ -22,7 +22,12 @@ const Demo = () => (
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorError', 'colorErrorBorder', 'colorErrorHover'],
+  tokens: [
+    'colorError',
+    'colorErrorOutline',
+    'colorErrorBorder',
+    'colorErrorHover',
+  ],
 };
 
 export default componentDemo;
