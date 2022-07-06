@@ -1,6 +1,6 @@
 import type { FC, PropsWithChildren } from 'react';
 import React, { useRef, useState } from 'react';
-import { Card, ConfigProvider, theme as antdTheme } from 'antd';
+import { Card, ConfigProvider } from 'antd';
 import { Control } from '../icons';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';

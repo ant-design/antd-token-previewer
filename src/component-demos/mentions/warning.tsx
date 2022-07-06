@@ -1,6 +1,6 @@
 import React from 'react';
 import { Mentions } from 'antd';
-import { ComponentDemo } from '../../interface';
+import type { ComponentDemo } from '../../interface';
 
 const { Option } = Mentions;
 function onChange() {}
