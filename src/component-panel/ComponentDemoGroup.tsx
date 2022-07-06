@@ -14,7 +14,7 @@ const useStyle = makeStyle('ComponentDemoGroup', (token) => ({
   '.previewer-component-demo-group': {
     display: 'flex',
     width: '100%',
-    overflow: 'hidden',
+    overflowX: 'hidden',
 
     '&:first-child': {
       '.previewer-component-demo-group-item': {
@@ -68,15 +68,15 @@ const ComponentDemo: FC<ComponentDemoProps> = ({
         component={component}
         theme={theme}
         onTokenClick={onTokenClick}
+        componentSize={size}
+        componentDisabled={disabled}
       >
-        <ConfigProvider componentSize={size} componentDisabled={disabled}>
-          {demos.map((demo, index) => (
-            <Fragment key={index}>
-              {demo}
-              {index < demos.length - 1 && <Divider />}
-            </Fragment>
-          ))}
-        </ConfigProvider>
+        {demos.map((demo, index) => (
+          <Fragment key={index}>
+            {demo}
+            {index < demos.length - 1 && <Divider />}
+          </Fragment>
+        ))}
       </ComponentCard>
     </div>
   );

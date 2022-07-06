@@ -48,6 +48,8 @@ export type ComponentCardProps = PropsWithChildren<{
   component: string;
   theme: MutableTheme;
   onTokenClick?: (token: TokenName) => void;
+  componentSize?: 'small' | 'middle' | 'large';
+  componentDisabled?: boolean;
 }>;
 
 const ComponentCard: FC<ComponentCardProps> = ({
@@ -55,11 +57,15 @@ const ComponentCard: FC<ComponentCardProps> = ({
   component,
   theme,
   onTokenClick,
+  componentSize,
+  componentDisabled,
 }) => {
   const [wrapSSR, hashId] = useStyle();
   const [tokenDrawerOpen, setTokenDrawerOpen] = useState<boolean>(false);
   const [aliasToken, setAliasToken] = useState<Record<string, TokenValue>>({});
   const highlightRef = useRef(false);
+
+  const holderRef = useRef<HTMLDivElement>(null);
 
   const handleTokenClick = (token: TokenName) => {
     if (onTokenClick) {
@@ -93,9 +99,16 @@ const ComponentCard: FC<ComponentCardProps> = ({
           />
         }
       >
-        <ConfigProvider theme={{ override: { alias: aliasToken } }}>
-          {children}
-        </ConfigProvider>
+        <div ref={holderRef}>
+          <ConfigProvider
+            theme={{ override: { alias: aliasToken } }}
+            componentSize={componentSize}
+            componentDisabled={componentDisabled}
+            getPopupContainer={() => holderRef.current!}
+          >
+            {children}
+          </ConfigProvider>
+        </div>
       </Card>
       <ConfigProvider theme={{ override: { alias: getDesignToken() } }}>
         <ComponentTokenDrawer
