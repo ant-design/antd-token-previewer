@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Transfer } from '@madccc/antd';
 
 import mockData from './data';
-import { ComponentDemo } from '../../interface';
+import type { ComponentDemo } from '../../interface';
 
 const initialTargetKeys = mockData
   .filter((item) => +item.key > 10)

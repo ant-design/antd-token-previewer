@@ -1,7 +1,7 @@
 import type { TableProps } from '@madccc/antd';
 import { Table } from '@madccc/antd';
 import React from 'react';
-import { ComponentDemo } from '../../interface';
+import type { ComponentDemo } from '../../interface';
 
 type TableData = { name: string; age: number; address: string };
 

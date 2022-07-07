@@ -1,4 +1,4 @@
-import { SelectProps } from '@madccc/antd';
+import type { SelectProps } from '@madccc/antd';
 
 const options: SelectProps['options'] = [];
 
