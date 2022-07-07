@@ -1,5 +1,5 @@
 import React from 'react';
-import { Cascader } from '@madccc/antd';
+import { Cascader } from 'antd';
 
 import options from './data';
 

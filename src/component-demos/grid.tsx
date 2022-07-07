@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col } from '@madccc/antd';
+import { Row, Col } from 'antd';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
 

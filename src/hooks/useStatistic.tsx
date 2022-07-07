@@ -1,36 +1,31 @@
 import { useEffect, useState } from 'react';
-import {
-  _statistic_build_,
-  statistic as runtimeStatistic,
-} from '@madccc/antd/lib/theme/util/statistic';
+import tokenStatistic from 'antd/es/version/token';
 
-const useStatistic = (
-  selectedTokens: string[] = [],
-  statistic: typeof runtimeStatistic = runtimeStatistic,
-) => {
-  const mergedStatistic =
-    Object.keys(_statistic_build_).length === 0 ? statistic : _statistic_build_;
-  const length = Object.keys(mergedStatistic).length;
+const useStatistic = (selectedTokens: string[] = []) => {
+  const length = Object.keys(tokenStatistic).length;
   const [relatedComponents, setRelatedComponents] = useState<string[]>([]);
 
   useEffect(() => {
     setRelatedComponents(
-      Object.entries(mergedStatistic)
+      Object.entries(tokenStatistic)
         .filter(([, tokens]) =>
-          selectedTokens.some((item) => tokens.global.includes(item)),
+          selectedTokens.some((item) =>
+            (tokens.global as string[]).includes(item),
+          ),
         )
         .map(([component]) => component),
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mergedStatistic, length, selectedTokens.join(',')]);
+  }, [tokenStatistic, length, selectedTokens.join(',')]);
 
   return {
     relatedComponents,
     getRelatedComponents: (token: string): string[] =>
-      Object.entries(mergedStatistic)
-        .filter(([, tokens]) => tokens.global.includes(token))
+      Object.entries(tokenStatistic)
+        .filter(([, tokens]) => (tokens.global as string[]).includes(token))
         .map(([component]) => component),
-    getComponentToken: (component: string) => mergedStatistic[component],
+    getComponentToken: (component: string) =>
+      (tokenStatistic as any)[component],
   };
 };
 

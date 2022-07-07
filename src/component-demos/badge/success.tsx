@@ -1,5 +1,5 @@
 import React from 'react';
-import { Badge, Space } from '@madccc/antd';
+import { Badge, Space } from 'antd';
 import type { ComponentDemo } from '../../interface';
 
 const Demo = () => (

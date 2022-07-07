@@ -5,7 +5,7 @@ import ComponentTree from './ComponentTree';
 import makeStyle from '../utils/makeStyle';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { getComponentDemoId } from './ComponentCard';
-import { Breadcrumb, Segmented, Switch } from '@madccc/antd';
+import { Breadcrumb, Segmented, Switch } from 'antd';
 import type { Theme } from '../interface';
 import useStatistic from '../hooks/useStatistic';
 import ComponentDemoGroup from './ComponentDemoGroup';

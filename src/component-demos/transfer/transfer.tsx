@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Transfer } from '@madccc/antd';
+import { Transfer } from 'antd';
 
 import mockData from './data';
 import type { ComponentDemo } from '../../interface';

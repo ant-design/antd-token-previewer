@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Space } from '@madccc/antd';
+import { Card, Space } from 'antd';
 
 export default () => (
   <Space>

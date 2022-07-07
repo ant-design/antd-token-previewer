@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dropdown } from '@madccc/antd';
+import { Dropdown } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 
 import menu from './menu';

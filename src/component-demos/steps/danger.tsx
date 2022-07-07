@@ -1,4 +1,4 @@
-import { Steps } from '@madccc/antd';
+import { Steps } from 'antd';
 import React from 'react';
 import type { ComponentDemo } from '../../interface';
 

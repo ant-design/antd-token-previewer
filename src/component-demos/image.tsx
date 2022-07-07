@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image } from '@madccc/antd';
+import { Image } from 'antd';
 
 function ImageDemo() {
   return (

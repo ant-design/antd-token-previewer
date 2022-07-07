@@ -34,14 +34,17 @@ const Demo = () => {
 };
 
 describe('ThemeSelect', () => {
-  it('should render correctly', () => {
+  it('should render correctly', (done) => {
     const { container } = render(<Demo />, {
       container: document.body,
     });
     expect(container).toMatchSnapshot();
+    setImmediate(() => {
+      done();
+    });
   });
 
-  it('should show selected themes correctly', () => {
+  it('should show selected themes correctly', (done) => {
     const { container } = render(<Demo />, {
       container: document.body,
     });
@@ -53,9 +56,12 @@ describe('ThemeSelect', () => {
     ).toContain('ant-dropdown-open');
     fireEvent.click(container.querySelector('li.ant-dropdown-menu-item')!);
     expect(container).toMatchSnapshot();
+    setImmediate(() => {
+      done();
+    });
   });
 
-  it('should toggle active theme correctly', () => {
+  it('should toggle active theme correctly', (done) => {
     const { container } = render(<Demo />);
     expect(
       container.querySelectorAll('.previewer-theme-select-tag-active').length,
@@ -72,9 +78,12 @@ describe('ThemeSelect', () => {
     expect(
       container.querySelectorAll('.previewer-theme-select-tag-active').length,
     ).toBe(1);
+    setImmediate(() => {
+      done();
+    });
   });
 
-  it('should support remove theme from tags', () => {
+  it('should support remove theme from tags', (done) => {
     const { container } = render(<Demo />);
     expect(
       container.querySelectorAll('.previewer-theme-select-tag').length,
@@ -85,9 +94,13 @@ describe('ThemeSelect', () => {
     expect(
       container.querySelectorAll('.previewer-theme-select-tag').length,
     ).toBe(1);
+
+    setImmediate(() => {
+      done();
+    });
   });
 
-  it('should not toggle fixed theme', () => {
+  it('should not toggle fixed theme', (done) => {
     const { container } = render(<Demo />);
     expect(
       container.querySelector('.previewer-theme-select-tag')?.children.length,
@@ -99,5 +112,9 @@ describe('ThemeSelect', () => {
     expect(
       container.querySelectorAll('.previewer-theme-select-tag-active').length,
     ).toBe(1);
+
+    setImmediate(() => {
+      done();
+    });
   });
 });

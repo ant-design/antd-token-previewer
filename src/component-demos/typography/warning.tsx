@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography } from '@madccc/antd';
+import { Typography } from 'antd';
 import type { ComponentDemo } from '../../interface';
 
 const { Title, Text } = Typography;

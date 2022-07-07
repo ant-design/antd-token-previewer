@@ -1,5 +1,5 @@
 import { UploadOutlined } from '@ant-design/icons';
-import { Button, Upload } from '@madccc/antd';
+import { Upload, Button } from 'antd';
 import React from 'react';
 
 import type { ComponentDemo } from '../../interface';

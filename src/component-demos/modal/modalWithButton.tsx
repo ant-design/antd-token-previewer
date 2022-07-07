@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Button } from '@madccc/antd';
+import { Modal, Button } from 'antd';
 import type { ComponentDemo } from '../../interface';
 
 const Demo = () => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Slider } from '@madccc/antd';
+import { Slider } from 'antd';
 import type { ComponentDemo } from '../../interface';
 
 const Demo = () => (

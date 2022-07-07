@@ -3,7 +3,7 @@ import React from 'react';
 import type { ComponentPanelProps } from '../src/component-panel';
 import ComponentPanel from '../src/component-panel';
 import useToken from '../src/hooks/useToken';
-import { _statistic_build_ as statistic } from '@madccc/antd/lib/theme/util/statistic';
+import tokenStatistic from 'antd/es/version/token';
 import { antdComponents } from '../src/component-panel';
 
 describe('ComponentPanel', () => {
@@ -18,19 +18,15 @@ describe('ComponentPanel', () => {
       },
     ];
 
-    return (
-      <ComponentPanel
-        themes={mergedThemes}
-        defaultTheme={{ override: { alias: token } }}
-        {...restProps}
-      />
-    );
+    return <ComponentPanel themes={mergedThemes} {...restProps} />;
   };
 
-  it('filterMode filter should work', () => {
+  it('filterMode filter should work', (done) => {
     const { container } = render(<Panel selectedTokens={['colorPrimary']} />);
-    const relatedComponents = Object.entries(statistic)
-      .filter(([, { global: tokens }]) => tokens.includes('colorPrimary'))
+    const relatedComponents = Object.entries(tokenStatistic)
+      .filter(([, { global: tokens }]) =>
+        tokens.includes('colorPrimary' as unknown as never),
+      )
       .map(([name]) => name);
     const [treeLength, componentLength] = Object.entries(antdComponents).reduce(
       (result, [, components]) => {
@@ -57,9 +53,13 @@ describe('ComponentPanel', () => {
     expect(container.querySelector('.component-demos')?.children.length).toBe(
       componentLength,
     );
+
+    setImmediate(() => {
+      done();
+    });
   });
 
-  it('search should work', () => {
+  it('search should work', (done) => {
     const { container } = render(<Panel />);
     fireEvent.change(
       container.querySelector('.component-tree-search > input')!,
@@ -71,5 +71,9 @@ describe('ComponentPanel', () => {
         ?.querySelector('.ant-tree-list')
         ?.querySelectorAll('.ant-tree-treenode').length,
     ).toBe(2);
+
+    setImmediate(() => {
+      done();
+    });
   });
 });

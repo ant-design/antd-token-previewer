@@ -1,4 +1,4 @@
 import React from 'react';
-import { Empty } from '@madccc/antd';
+import { Empty } from 'antd';
 
 export default () => <Empty />;

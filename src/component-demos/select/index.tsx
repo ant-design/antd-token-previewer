@@ -13,7 +13,7 @@ const previewerDemo: ComponentDemo[] = [
   SelectTag,
   danger,
   warning,
-  icon
+  icon,
 ];
 
 export default previewerDemo;

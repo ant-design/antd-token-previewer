@@ -1,5 +1,5 @@
 import { CaretRightOutlined } from '@ant-design/icons';
-import { Collapse, Space } from '@madccc/antd';
+import { Collapse, Space } from 'antd';
 import { Pick } from '../../icons';
 import type { CSSProperties } from 'react';
 import React, { useEffect } from 'react';

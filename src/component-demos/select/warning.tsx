@@ -1,4 +1,4 @@
-import { Select } from '@madccc/antd';
+import { Select } from 'antd';
 
 import React from 'react';
 import type { ComponentDemo } from '../../interface';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Space } from '@madccc/antd';
+import { Avatar, Space } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 
 export default () => (

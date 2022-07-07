@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pagination, Space } from '@madccc/antd';
+import { Pagination, Space } from 'antd';
 
 const App: React.FC = () => (
   <Space direction={'vertical'}>

@@ -1,4 +1,4 @@
 import React from 'react';
-import { Skeleton } from '@madccc/antd';
+import { Skeleton } from 'antd';
 
 export default () => <Skeleton />;

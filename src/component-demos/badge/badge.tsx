@@ -1,5 +1,5 @@
 import React from 'react';
-import { Badge, Avatar, Space, theme } from '@madccc/antd';
+import { Badge, Avatar, Space, theme } from 'antd';
 import { ClockCircleFilled } from '@ant-design/icons';
 import type { ComponentDemo } from '../../interface';
 

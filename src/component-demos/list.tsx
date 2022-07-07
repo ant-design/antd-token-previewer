@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, Avatar } from '@madccc/antd';
+import { List, Avatar } from 'antd';
 
 const data = [
   { title: 'Ant Design Title 1' },

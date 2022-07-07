@@ -1,5 +1,5 @@
 import React from 'react';
-import { Descriptions } from '@madccc/antd';
+import { Descriptions } from 'antd';
 
 const App = () => (
   <Descriptions title="User Info" bordered>

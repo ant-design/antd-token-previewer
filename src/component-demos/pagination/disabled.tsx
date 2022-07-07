@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pagination } from '@madccc/antd';
+import { Pagination } from 'antd';
 import type { ComponentDemo } from '../../interface';
 
 const Demo: React.FC = () => (

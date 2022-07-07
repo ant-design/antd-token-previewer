@@ -1,4 +1,4 @@
-import { Menu, theme } from '@madccc/antd';
+import { Menu, theme } from 'antd';
 import React from 'react';
 
 import items from './data';

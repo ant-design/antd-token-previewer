@@ -1,4 +1,4 @@
-import type { MenuProps } from '@madccc/antd';
+import type { MenuProps } from 'antd';
 import React from 'react';
 import {
   AppstoreOutlined,

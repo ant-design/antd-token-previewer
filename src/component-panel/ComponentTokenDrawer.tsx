@@ -1,11 +1,11 @@
 import type { FC } from 'react';
 import React, { useMemo } from 'react';
 import classNames from 'classnames';
-import type { TableProps } from '@madccc/antd';
-import { Divider, Drawer, Table, Tag } from '@madccc/antd';
+import type { TableProps } from 'antd';
+import { Divider, Drawer, Table, Tag } from 'antd';
 import makeStyle from '../utils/makeStyle';
 import TokenInput from '../TokenInput';
-import type { OverrideToken } from '@madccc/antd/es/theme/interface';
+import type { OverrideToken } from 'antd/es/theme/interface';
 import useStatistic from '../hooks/useStatistic';
 import type { MutableTheme, TokenName } from '../interface';
 import getDesignToken from '../utils/getDesignToken';
@@ -172,7 +172,7 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
   );
 
   const aliasTokenData = useMemo(() => {
-    return aliasTokenNames.sort().map((tokenName) => ({
+    return aliasTokenNames.sort().map((tokenName: any) => ({
       name: tokenName,
       value: {
         tokenName,

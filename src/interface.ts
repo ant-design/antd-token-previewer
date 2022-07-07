@@ -1,5 +1,5 @@
-import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
-import type { OverrideToken } from '@madccc/antd/es/theme/interface';
+import type { ThemeConfig } from 'antd/es/config-provider/context';
+import type { OverrideToken } from 'antd/es/theme/interface';
 import type { ReactElement } from 'react';
 
 export type Theme = {

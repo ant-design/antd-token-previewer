@@ -1,5 +1,5 @@
 import React from 'react';
-import { InputNumber } from '@madccc/antd';
+import { InputNumber } from 'antd';
 
 function onChange() {}
 export default () => (

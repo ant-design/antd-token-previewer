@@ -1,4 +1,4 @@
-import { Button, Drawer } from '@madccc/antd';
+import { Button, Drawer } from 'antd';
 import React, { useState } from 'react';
 
 const App: React.FC = () => {

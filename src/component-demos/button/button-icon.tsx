@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Space, Tooltip } from '@madccc/antd';
+import { Button, Space, Tooltip } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
 import type { ComponentDemo } from '../../interface';

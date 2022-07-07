@@ -7,6 +7,11 @@ import icon from './icon';
 
 import type { ComponentDemo } from '../../interface';
 
-const previewerDemo: ComponentDemo[] = [{ demo: <Default /> }, danger, warning,icon];
+const previewerDemo: ComponentDemo[] = [
+  { demo: <Default /> },
+  danger,
+  warning,
+  icon,
+];
 
 export default previewerDemo;

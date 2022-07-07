@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import type { FC } from 'react';
-import { Badge, Tree, Input } from '@madccc/antd';
+import { Badge, Tree, Input } from 'antd';
 import classNames from 'classnames';
 import useStatistic from '../hooks/useStatistic';
 import makeStyle from '../utils/makeStyle';

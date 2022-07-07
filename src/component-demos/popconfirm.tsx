@@ -1,5 +1,5 @@
 import React from 'react';
-import { Popconfirm, message } from '@madccc/antd';
+import { Popconfirm, message } from 'antd';
 
 function confirm() {
   message.success('Click on Yes');

@@ -1,5 +1,5 @@
 import type { TokenEntity } from '../src/interface';
-import type { ThemeConfig } from '@madccc/antd/es/config-provider/context';
+import type { ThemeConfig } from 'antd/es/config-provider/context';
 import {
   convertTokenArrToConfig,
   convertTokenConfigToArr,
@@ -12,18 +12,18 @@ describe('Utils', () => {
       {
         arr: [
           {
-            name: 'colorDefaultOutline',
-            token: 'colorDefaultOutline',
+            name: 'colorBgElevated',
+            token: 'colorBgElevated',
             value: '#f5f5',
             type: 'color',
-            description: 'colorDefaultOutline',
+            description: 'colorBgElevated',
             source: 'alias',
           },
         ],
         config: {
           override: {
             alias: {
-              colorDefaultOutline: '#f5f5',
+              colorBgElevated: '#f5f5',
             },
           },
         },

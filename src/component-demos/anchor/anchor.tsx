@@ -1,5 +1,5 @@
 import React from 'react';
-import { Anchor } from '@madccc/antd';
+import { Anchor } from 'antd';
 import type { ComponentDemo } from '../../interface';
 
 const { Link } = Anchor;

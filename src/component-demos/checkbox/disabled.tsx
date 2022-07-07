@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox } from '@madccc/antd';
+import { Checkbox } from 'antd';
 import type { ComponentDemo } from '../../interface';
 
 const Demo = () => <Checkbox disabled>Checkbox</Checkbox>;

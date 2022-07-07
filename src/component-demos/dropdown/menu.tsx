@@ -1,6 +1,6 @@
-import { Menu } from '@madccc/antd';
-import { DownOutlined } from '@ant-design/icons';
 import React from 'react';
+import { Menu } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
 
 const menu = (
   <Menu>

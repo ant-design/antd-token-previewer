@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Button, Checkbox } from '@madccc/antd';
+import { Form, Input, Button, Checkbox } from 'antd';
 
 const Demo = () => {
   const onFinish = () => {};

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal } from '@madccc/antd';
+import { Modal } from 'antd';
 
 const App = () => {
   return (

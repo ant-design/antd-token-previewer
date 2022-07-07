@@ -1,4 +1,4 @@
 import React from 'react';
-import { Calendar } from '@madccc/antd';
+import { Calendar } from 'antd';
 
 export default () => <Calendar />;

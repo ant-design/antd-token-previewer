@@ -1,5 +1,5 @@
 import React from 'react';
-import { Timeline } from '@madccc/antd';
+import { Timeline } from 'antd';
 import type { ComponentDemo } from '../../interface';
 
 const Demo = () => (

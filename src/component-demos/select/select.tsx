@@ -1,5 +1,5 @@
 import React from 'react';
-import { Select, Space } from '@madccc/antd';
+import { Select, Space } from 'antd';
 
 const { Option } = Select;
 function handleChange() {}
