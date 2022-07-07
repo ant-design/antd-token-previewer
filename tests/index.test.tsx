@@ -4,11 +4,14 @@ import type { Theme } from 'antd-token-previewer';
 import Previewer from 'antd-token-previewer';
 
 describe('previewer', () => {
-  it('should not crash', () => {
+  it('should not crash', (done) => {
     render(<Previewer />);
+    setImmediate(() => {
+      done();
+    });
   });
 
-  it('should support controlled', () => {
+  it('should support controlled', (done) => {
     const Demo = () => {
       const [theme, setTheme] = useState<Theme>({
         name: '小猪蹄',
@@ -26,5 +29,8 @@ describe('previewer', () => {
     };
 
     render(<Demo />);
+    setImmediate(() => {
+      done();
+    });
   });
 });
