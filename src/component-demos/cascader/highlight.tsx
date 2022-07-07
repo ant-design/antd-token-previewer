@@ -1,8 +1,10 @@
 import React from 'react';
-import { Cascader } from 'antd';
+import { Cascader as _Cascader } from 'antd';
 import type { ComponentDemo } from '../../interface';
 
 import options from './data';
+
+const { _InternalPanelDoNotUseOrYouWillBeFired: Cascader } = _Cascader;
 
 const Demo = () => {
   return (
@@ -11,7 +13,6 @@ const Demo = () => {
       placeholder="Please select"
       searchValue={'jiang'}
       showSearch
-      popupVisible
     />
   );
 };

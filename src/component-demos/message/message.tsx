@@ -1,27 +1,20 @@
-import { Button, message } from 'antd';
+import { message } from 'antd';
 import React from 'react';
 
-const Context = React.createContext({ name: 'Default' });
+import type { ComponentDemo } from '../../interface';
 
-const App: React.FC = () => {
-  const [messageApi, contextHolder] = message.useMessage();
+const { _InternalPanelDoNotUseOrYouWillBeFired } = message;
 
-  const info = () => {
-    messageApi.open({
-      type: 'info',
-      content: (
-        <Context.Consumer>{({ name }) => `Hello, ${name}!`}</Context.Consumer>
-      ),
-      duration: 1,
-    });
-  };
+const Demo = () => (
+  <_InternalPanelDoNotUseOrYouWillBeFired
+    type={'info'}
+    content={`Hello, Ant Design!`}
+  />
+);
 
-  return (
-    <Context.Provider value={{ name: 'Ant Design' }}>
-      {contextHolder}
-      <Button onClick={info}>Display normal message</Button>
-    </Context.Provider>
-  );
+const componentDemo: ComponentDemo = {
+  demo: <Demo />,
+  tokens: ['colorText', 'colorBgElevated'],
 };
 
-export default App;
+export default componentDemo;

@@ -1,10 +1,12 @@
 import React from 'react';
-import { Select, Space } from 'antd';
+import { Select as _Select, Space } from 'antd';
+import type { ComponentDemo } from '../../interface';
 
-const { Option } = Select;
+const { Option, _InternalPanelDoNotUseOrYouWillBeFired: Select } = _Select;
+
 function handleChange() {}
-export default () => (
-  <Space>
+const Demo = () => (
+  <Space align={'start'}>
     <Select defaultValue="lucy" style={{ width: 120 }} onChange={handleChange}>
       <Option value="jack">Jack</Option> <Option value="lucy">Lucy</Option>
       <Option value="disabled" disabled>
@@ -23,3 +25,10 @@ export default () => (
     </Select>
   </Space>
 );
+
+const componentDemo: ComponentDemo = {
+  demo: <Demo />,
+  tokens: ['colorPrimaryOutline', 'colorPrimary', 'colorText'],
+};
+
+export default componentDemo;

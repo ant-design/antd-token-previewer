@@ -2,7 +2,13 @@ import React from 'react';
 import { Cascader } from 'antd';
 
 import options from './data';
+const { _InternalPanelDoNotUseOrYouWillBeFired: InternalCascader } = Cascader;
 
 export default (props: any) => (
-  <Cascader options={options} {...props} open placeholder="Please select" />
+  <InternalCascader
+    options={options}
+    {...props}
+    open
+    placeholder="Please select"
+  />
 );

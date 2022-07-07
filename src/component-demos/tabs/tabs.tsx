@@ -1,5 +1,6 @@
 import React from 'react';
 import { Tabs } from 'antd';
+import { ComponentDemo } from '../../interface';
 
 const { TabPane } = Tabs;
 function callback() {}
@@ -16,4 +17,10 @@ const Demo = () => (
     </TabPane>
   </Tabs>
 );
-export default () => <Demo />;
+
+const componentDemo: ComponentDemo = {
+  demo: <Demo />,
+  tokens: ['colorPrimary'],
+};
+
+export default componentDemo;

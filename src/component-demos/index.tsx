@@ -44,7 +44,7 @@ import TimePickerDemo from './time-picker';
 import Timeline from './timeline';
 import TooltipDemo from './tooltip';
 import Transfer from './transfer';
-import TreeSelectDemo from './tree-select';
+import TreeSelect from './treeSelect';
 import TreeDemo from './tree';
 import Typography from './typography';
 import Upload from './upload';
@@ -114,7 +114,7 @@ const ComponentDemos: PreviewerDemos = {
   Timeline,
   Tooltip: [{ demo: <TooltipDemo /> }],
   Transfer,
-  TreeSelect: [{ demo: <TreeSelectDemo /> }],
+  TreeSelect,
   Tree: [{ demo: <TreeDemo /> }],
   Typography,
   Upload,

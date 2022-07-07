@@ -1,4 +1,4 @@
-import { Select } from 'antd';
+import Select from './_internal';
 
 import React from 'react';
 import type { ComponentDemo } from '../../interface';
