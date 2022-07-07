@@ -1,4 +1,4 @@
-import { Progress } from '@madccc/antd';
+import { Progress } from 'antd';
 import React from 'react';
 import type { ComponentDemo } from '../../interface';
 

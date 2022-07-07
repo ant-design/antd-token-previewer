@@ -172,7 +172,7 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
   );
 
   const aliasTokenData = useMemo(() => {
-    return aliasTokenNames.sort().map((tokenName) => ({
+    return aliasTokenNames.sort().map((tokenName: any) => ({
       name: tokenName,
       value: {
         tokenName,
