@@ -1,7 +1,8 @@
 import { Progress } from 'antd';
 import React from 'react';
+import type { ComponentDemo } from '../../interface';
 
-const App: React.FC = () => (
+const Demo: React.FC = () => (
   <>
     <Progress percent={30} />
     <Progress percent={50} status="active" />
@@ -12,4 +13,9 @@ const App: React.FC = () => (
   </>
 );
 
-export default App;
+const componentDemo: ComponentDemo = {
+  demo: <Demo />,
+  tokens: ['colorBgContent', 'colorText'],
+};
+
+export default componentDemo;

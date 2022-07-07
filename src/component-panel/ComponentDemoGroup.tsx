@@ -1,4 +1,4 @@
-import type { MutableTheme } from '../interface';
+import type { AliasToken, MutableTheme } from '../interface';
 import type { FC, ReactNode } from 'react';
 import React, { Fragment } from 'react';
 import ComponentDemos from '../component-demos';
@@ -118,22 +118,16 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
           if (!componentDemos) {
             return null;
           }
-          const Demos: ReactNode[] = [componentDemos.default];
-          if (
-            selectedTokens &&
-            selectedTokens.length > 0 &&
-            componentDemos.optional
-          ) {
-            componentDemos.optional.forEach(({ tokens, demo }) => {
-              if (
-                (tokens &&
-                  tokens.some((token) => selectedTokens.includes(token))) ||
-                !tokens
-              ) {
-                Demos.push(demo);
-              }
-            });
-          }
+          const demos: ReactNode[] = componentDemos
+            .filter(
+              (demo, index) =>
+                ((!selectedTokens || selectedTokens.length === 0) &&
+                  index === 0) ||
+                selectedTokens?.some((token) =>
+                  demo.tokens?.includes(token as keyof AliasToken),
+                ),
+            )
+            .map((demo) => demo.demo);
           return (
             <div
               className={classNames('previewer-component-demo-group', hashId)}
@@ -146,7 +140,7 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
                     component={item}
                     theme={theme}
                     onTokenClick={onTokenClick}
-                    demos={Demos}
+                    demos={demos}
                     disabled={disabled}
                     size={size}
                   />

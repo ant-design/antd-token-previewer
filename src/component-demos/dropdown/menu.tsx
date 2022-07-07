@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Dropdown } from 'antd';
+import { Menu } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 
 const menu = (
@@ -34,10 +34,5 @@ const menu = (
     <Menu.Item danger>a danger item</Menu.Item>
   </Menu>
 );
-export default () => (
-  <Dropdown overlay={menu}>
-    <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
-      Hover me <DownOutlined />
-    </a>
-  </Dropdown>
-);
+
+export default menu;

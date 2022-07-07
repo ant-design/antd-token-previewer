@@ -1,9 +1,10 @@
 import { Steps } from 'antd';
 import React from 'react';
+import type { ComponentDemo } from '../../interface';
 
 const { Step } = Steps;
 
-const App: React.FC = () => (
+const Demo: React.FC = () => (
   <Steps current={1}>
     <Step title="Finished" description="This is a description." />
     <Step
@@ -15,4 +16,9 @@ const App: React.FC = () => (
   </Steps>
 );
 
-export default App;
+const componentDemo: ComponentDemo = {
+  demo: <Demo />,
+  tokens: ['colorPrimary'],
+};
+
+export default componentDemo;

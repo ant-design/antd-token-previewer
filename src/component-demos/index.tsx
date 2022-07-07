@@ -9,11 +9,11 @@ import CalendarDemo from './calendar';
 import CardDemo from './card/card';
 import CarouselDemo from './carousel';
 import Cascader from './cascader';
-import CheckboxDemo from './checkbox';
+import Checkbox from './checkbox';
 import CollapseDemo from './collapse';
 import DatePicker from './datePicker';
 import DescriptionsDemo from './descriptions';
-import DropdownDemo from './dropdown';
+import Dropdown from './dropdown';
 import EmptyDemo from './empty';
 import Form from './form';
 import GridDemo from './grid';
@@ -33,7 +33,7 @@ import RadioDemo from './radio';
 import RateDemo from './rate';
 import Select from './select';
 import SkeletonDemo from './skeleton';
-import SliderDemo from './slider';
+import Slider from './slider';
 import SpinDemo from './spin';
 import StatisticDemo from './statistic';
 import SwitchDemo from './switch';
@@ -41,7 +41,7 @@ import Table from './table';
 import Tabs from './tabs';
 import Tag from './tag';
 import TimePickerDemo from './time-picker';
-import TimelineDemo from './timeline';
+import Timeline from './timeline';
 import TooltipDemo from './tooltip';
 import Transfer from './transfer';
 import TreeSelectDemo from './tree-select';
@@ -51,7 +51,7 @@ import Upload from './upload';
 import DividerDemo from './divider';
 import SpaceDemo from './space';
 import Menu from './menu';
-import StepsDemo from './steps';
+import Steps from './steps';
 import SegmentedDemo from './segmented';
 import DrawerDemo from './drawer';
 import Message from './message';
@@ -60,68 +60,70 @@ import Result from './result';
 
 import React from 'react';
 
-import type { PreviewerDemo } from '../interface';
+import type { ComponentDemo } from '../interface';
 
-export type PreviewerDemos = Record<string, PreviewerDemo>;
+export type PreviewerDemos = Record<string, ComponentDemo[]>;
 
 const ComponentDemos: PreviewerDemos = {
   Alert,
   Anchor,
-  AutoComplete: { default: <AutoCompleteDemo /> },
+  AutoComplete: [{ demo: <AutoCompleteDemo /> }],
   Avatar,
   Badge,
-  Breadcrumb: { default: <BreadcrumbDemo /> },
+  Breadcrumb: [{ demo: <BreadcrumbDemo /> }],
   Button,
-  Calendar: { default: <CalendarDemo /> },
-  Card: {
-    default: <CardDemo />,
-  },
-  Carousel: { default: <CarouselDemo /> },
+  Calendar: [{ demo: <CalendarDemo /> }],
+  Card: [
+    {
+      demo: <CardDemo />,
+    },
+  ],
+  Carousel: [{ demo: <CarouselDemo /> }],
   Cascader,
-  Checkbox: { default: <CheckboxDemo /> },
-  Collapse: { default: <CollapseDemo /> },
+  Checkbox,
+  Collapse: [{ demo: <CollapseDemo /> }],
   DatePicker,
-  Descriptions: { default: <DescriptionsDemo /> },
-  Dropdown: { default: <DropdownDemo /> },
-  Empty: { default: <EmptyDemo /> },
+  Descriptions: [{ demo: <DescriptionsDemo /> }],
+  Dropdown,
+  Empty: [{ demo: <EmptyDemo /> }],
   Form,
-  Grid: { default: <GridDemo /> },
-  Icon: { default: <IconDemo /> },
-  Image: { default: <ImageDemo /> },
+  Grid: [{ demo: <GridDemo /> }],
+  Icon: [{ demo: <IconDemo /> }],
+  Image: [{ demo: <ImageDemo /> }],
   InputNumber,
   Input,
-  List: { default: <ListDemo /> },
+  List: [{ demo: <ListDemo /> }],
   Mentions,
-  Modal: { default: <ModalDemo />, optional: [ModalWithButton] },
+  Modal: [{ demo: <ModalDemo /> }, ModalWithButton],
   Notification,
   Pagination,
-  Popconfirm: { default: <PopconfirmDemo /> },
-  Popover: { default: <PopoverDemo /> },
-  Radio: { default: <RadioDemo /> },
-  Rate: { default: <RateDemo /> },
+  Popconfirm: [{ demo: <PopconfirmDemo /> }],
+  Popover: [{ demo: <PopoverDemo /> }],
+  Radio: [{ demo: <RadioDemo /> }],
+  Rate: [{ demo: <RateDemo /> }],
   Select,
-  Skeleton: { default: <SkeletonDemo /> },
-  Slider: { default: <SliderDemo /> },
-  Spin: { default: <SpinDemo /> },
-  Statistic: { default: <StatisticDemo /> },
-  Switch: { default: <SwitchDemo /> },
+  Skeleton: [{ demo: <SkeletonDemo /> }],
+  Slider,
+  Spin: [{ demo: <SpinDemo /> }],
+  Statistic: [{ demo: <StatisticDemo /> }],
+  Switch: [{ demo: <SwitchDemo /> }],
   Table,
   Tabs,
   Tag,
-  TimePicker: { default: <TimePickerDemo /> },
-  Timeline: { default: <TimelineDemo /> },
-  Tooltip: { default: <TooltipDemo /> },
+  TimePicker: [{ demo: <TimePickerDemo /> }],
+  Timeline,
+  Tooltip: [{ demo: <TooltipDemo /> }],
   Transfer,
-  TreeSelect: { default: <TreeSelectDemo /> },
-  Tree: { default: <TreeDemo /> },
+  TreeSelect: [{ demo: <TreeSelectDemo /> }],
+  Tree: [{ demo: <TreeDemo /> }],
   Typography,
   Upload,
-  Divider: { default: <DividerDemo /> },
-  Space: { default: <SpaceDemo /> },
+  Divider: [{ demo: <DividerDemo /> }],
+  Space: [{ demo: <SpaceDemo /> }],
   Menu,
-  Steps: { default: <StepsDemo /> },
-  Segmented: { default: <SegmentedDemo /> },
-  Drawer: { default: <DrawerDemo /> },
+  Steps,
+  Segmented: [{ demo: <SegmentedDemo /> }],
+  Drawer: [{ demo: <DrawerDemo /> }],
   Message,
   Result,
   Progress,

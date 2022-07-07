@@ -7,8 +7,8 @@ function onFinish() {}
 const Demo = () => (
   <Form
     name="basic"
-    labelCol={{ span: 8 }}
-    wrapperCol={{ span: 16 }}
+    labelCol={{ span: 4 }}
+    wrapperCol={{ span: 20 }}
     initialValues={{ remember: true }}
     onFinish={onFinish}
     autoComplete="off"

@@ -1,7 +1,8 @@
 import React from 'react';
 import { Button, Space } from 'antd';
+import type { ComponentDemo } from '../../interface';
 
-export default () => (
+const Demo = () => (
   <Space>
     <Button type="primary">Primary Button</Button>
     <Button>Default Button</Button>
@@ -11,3 +12,15 @@ export default () => (
     <Button type="link">Link Button</Button>
   </Space>
 );
+
+const componentDemo: ComponentDemo = {
+  demo: <Demo />,
+  tokens: [
+    'colorText',
+    'colorPrimary',
+    'colorPrimaryActive',
+    'colorPrimaryHover',
+  ],
+};
+
+export default componentDemo;

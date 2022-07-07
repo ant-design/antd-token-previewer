@@ -1,7 +1,8 @@
 import React from 'react';
 import { Timeline } from 'antd';
+import type { ComponentDemo } from '../../interface';
 
-export default () => (
+const Demo = () => (
   <Timeline>
     <Timeline.Item>Create a services site 2015-09-01</Timeline.Item>
     <Timeline.Item>Solve initial network problems 2015-09-01</Timeline.Item>
@@ -9,3 +10,10 @@ export default () => (
     <Timeline.Item>Network problems being solved 2015-09-01</Timeline.Item>
   </Timeline>
 );
+
+const componentDemo: ComponentDemo = {
+  demo: <Demo />,
+  tokens: ['colorPrimary', 'colorText', 'colorSplit'],
+};
+
+export default componentDemo;

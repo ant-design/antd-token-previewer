@@ -6,11 +6,14 @@ import info from './info';
 import success from './success';
 import warning from './warning';
 
-import type { PreviewerDemo } from '../../interface';
+import type { ComponentDemo } from '../../interface';
 
-const previewerDemo: PreviewerDemo = {
-  default: <Demo />,
-  optional: [error, info, success, warning],
-};
+const previewerDemo: ComponentDemo[] = [
+  { demo: <Demo /> },
+  error,
+  info,
+  success,
+  warning,
+];
 
 export default previewerDemo;

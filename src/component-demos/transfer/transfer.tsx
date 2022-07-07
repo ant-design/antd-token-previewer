@@ -1,20 +1,16 @@
 import React, { useState } from 'react';
 import { Transfer } from 'antd';
 
-const mockData: any[] = [];
-for (let i = 0; i < 20; i++) {
-  mockData.push({
-    key: i.toString(),
-    title: `content${i + 1}`,
-    description: `description of content${i + 1}`,
-  });
-}
+import mockData from './data';
+import type { ComponentDemo } from '../../interface';
+
 const initialTargetKeys = mockData
   .filter((item) => +item.key > 10)
   .map((item) => item.key);
-const App = () => {
+
+const Demo = () => {
   const [targetKeys, setTargetKeys] = useState(initialTargetKeys);
-  const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
+  const [selectedKeys, setSelectedKeys] = useState<string[]>(['1', '2']);
   const onScroll = () => {};
   return (
     <Transfer
@@ -33,4 +29,10 @@ const App = () => {
     />
   );
 };
-export default () => <App />;
+
+const componentDemo: ComponentDemo = {
+  demo: <Demo />,
+  tokens: ['controlItemBgActiveHover', 'controlItemBgActive'],
+};
+
+export default componentDemo;

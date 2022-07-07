@@ -1,8 +1,9 @@
 import React from 'react';
 import { Badge, Avatar, Space, theme } from 'antd';
 import { ClockCircleFilled } from '@ant-design/icons';
+import type { ComponentDemo } from '../../interface';
 
-export default () => {
+const Demo = () => {
   const { token } = theme.useToken();
   return (
     <Space size="large">
@@ -18,3 +19,10 @@ export default () => {
     </Space>
   );
 };
+
+const componentDemo: ComponentDemo = {
+  demo: <Demo />,
+  tokens: ['colorError', 'colorBorderBg'],
+};
+
+export default componentDemo;

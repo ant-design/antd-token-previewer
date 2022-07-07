@@ -3,11 +3,8 @@ import React from 'react';
 import Default from './cascader';
 import HighLight from './highlight';
 
-import type { PreviewerDemo } from '../../interface';
+import type { ComponentDemo } from '../../interface';
 
-const previewerDemo: PreviewerDemo = {
-  default: <Default />,
-  optional: [HighLight],
-};
+const previewerDemo: ComponentDemo[] = [{ demo: <Default /> }, HighLight];
 
 export default previewerDemo;

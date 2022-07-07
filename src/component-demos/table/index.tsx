@@ -3,11 +3,8 @@ import React from 'react';
 import Default from './table';
 import Filter from './filterTable';
 
-import type { PreviewerDemo } from '../../interface';
+import type { ComponentDemo } from '../../interface';
 
-const previewerDemo: PreviewerDemo = {
-  default: <Default />,
-  optional: [Filter],
-};
+const previewerDemo: ComponentDemo[] = [{ demo: <Default /> }, Filter];
 
 export default previewerDemo;
