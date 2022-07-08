@@ -1,12 +1,16 @@
-import type { AliasToken, MutableTheme } from '../interface';
-import type { FC, ReactNode } from 'react';
+import type {
+  AliasToken,
+  ComponentDemo,
+  MutableTheme,
+  TokenName,
+} from '../interface';
+import type { FC } from 'react';
 import React, { Fragment } from 'react';
 import ComponentDemos from '../component-demos';
 import ComponentCard, { getComponentDemoId } from './ComponentCard';
-import { ConfigProvider, Divider, theme as antdTheme } from 'antd';
+import { ConfigProvider, theme as antdTheme, Tooltip, Divider } from 'antd';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
-import type { TokenName } from '../interface';
 
 const { useToken } = antdTheme;
 
@@ -27,27 +31,38 @@ const useStyle = makeStyle('ComponentDemoGroup', (token) => ({
         paddingBottom: token.padding,
       },
     },
+  },
+}));
 
-    '.previewer-component-demo-group-item': {
-      flex: '1 1 50%',
-      paddingInline: token.padding,
-      paddingBlock: token.padding / 2,
-      width: 0,
-      backgroundColor: token.colorBgLayout,
+const useDemoStyle = makeStyle('ComponentDemoBlock', (token) => ({
+  '.previewer-component-demo-group-item': {
+    flex: '1 1 50%',
+    paddingInline: token.padding,
+    paddingBlock: token.padding / 2,
+    width: 0,
+    backgroundColor: token.colorBgLayout,
+
+    '.previewer-component-demo-group-item-relative-token': {
+      color: token.colorTextSecondary,
+      paddingBottom: 8,
+
+      '&:not(:first-child)': {
+        marginTop: 12,
+      },
     },
   },
 }));
 
-type ComponentDemoProps = {
+type ComponentDemoBlockProps = {
   theme: MutableTheme;
   component: string;
   onTokenClick?: (token: TokenName) => void;
   size?: 'small' | 'middle' | 'large';
   disabled?: boolean;
-  demos?: ReactNode[];
+  demos?: ComponentDemo[];
 };
 
-const ComponentDemo: FC<ComponentDemoProps> = ({
+const ComponentDemoBlock: FC<ComponentDemoBlockProps> = ({
   theme,
   component,
   onTokenClick,
@@ -55,15 +70,10 @@ const ComponentDemo: FC<ComponentDemoProps> = ({
   disabled = false,
   demos = [],
 }) => {
-  const { token } = useToken();
+  const [, hashId] = useDemoStyle();
 
   return (
-    <div
-      className="previewer-component-demo-group-item"
-      style={{
-        backgroundColor: token.colorBgLayout,
-      }}
-    >
+    <div className={classNames('previewer-component-demo-group-item', hashId)}>
       <ComponentCard
         component={component}
         theme={theme}
@@ -72,8 +82,18 @@ const ComponentDemo: FC<ComponentDemoProps> = ({
         <ConfigProvider componentSize={size} componentDisabled={disabled}>
           {demos.map((demo, index) => (
             <Fragment key={index}>
-              {demo}
-              {index < demos.length - 1 && <Divider />}
+              {index > 0 && <Divider />}
+              {demo.tokens && (
+                <div className="previewer-component-demo-group-item-relative-token">
+                  <Tooltip title={demo.tokens.join(', ')}>
+                    <span>
+                      关联 token: {demo.tokens.slice(0, 2).join(', ')}
+                      {demo.tokens.length > 2 ? '...' : ''}
+                    </span>
+                  </Tooltip>
+                </div>
+              )}
+              {demo.demo}
             </Fragment>
           ))}
         </ConfigProvider>
@@ -118,16 +138,17 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
           if (!componentDemos) {
             return null;
           }
-          const demos: ReactNode[] = componentDemos
-            .filter(
-              (demo, index) =>
+          const demos: ComponentDemo[] = componentDemos.filter(
+            (demo, index) => {
+              return (
                 ((!selectedTokens || selectedTokens.length === 0) &&
                   index === 0) ||
                 selectedTokens?.some((token) =>
                   demo.tokens?.includes(token as keyof AliasToken),
-                ),
-            )
-            .map((demo) => demo.demo);
+                )
+              );
+            },
+          );
           return (
             <div
               className={classNames('previewer-component-demo-group', hashId)}
@@ -136,7 +157,7 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
             >
               {themes.map((theme) => (
                 <ConfigProvider key={theme.key} theme={theme.config}>
-                  <ComponentDemo
+                  <ComponentDemoBlock
                     component={item}
                     theme={theme}
                     onTokenClick={onTokenClick}

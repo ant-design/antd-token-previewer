@@ -103,7 +103,7 @@ const ComponentDemos: PreviewerDemos = {
   Rate: [{ demo: <RateDemo /> }],
   Select,
   Skeleton: [{ demo: <SkeletonDemo /> }],
-  Slider: [{ demo: <Slider /> }],
+  Slider,
   Spin: [{ demo: <SpinDemo /> }],
   Statistic: [{ demo: <StatisticDemo /> }],
   Switch: [{ demo: <SwitchDemo /> }],
