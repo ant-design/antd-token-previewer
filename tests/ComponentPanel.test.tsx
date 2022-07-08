@@ -21,7 +21,7 @@ describe('ComponentPanel', () => {
     return <ComponentPanel themes={mergedThemes} {...restProps} />;
   };
 
-  it('filterMode filter should work', (done) => {
+  it('filterMode filter should work', () => {
     const { container } = render(<Panel selectedTokens={['colorPrimary']} />);
     const relatedComponents = Object.entries(tokenStatistic)
       .filter(([, { global: tokens }]) =>
@@ -53,13 +53,9 @@ describe('ComponentPanel', () => {
     expect(container.querySelector('.component-demos')?.children.length).toBe(
       componentLength,
     );
-
-    setImmediate(() => {
-      done();
-    });
   });
 
-  it('search should work', (done) => {
+  it('search should work', () => {
     const { container } = render(<Panel />);
     fireEvent.change(
       container.querySelector('.component-tree-search > input')!,
@@ -71,9 +67,5 @@ describe('ComponentPanel', () => {
         ?.querySelector('.ant-tree-list')
         ?.querySelectorAll('.ant-tree-treenode').length,
     ).toBe(2);
-
-    setImmediate(() => {
-      done();
-    });
   });
 });

@@ -3,7 +3,7 @@ import React from 'react';
 import TokenInput from '../src/TokenInput';
 
 describe('TokenInput', () => {
-  it('reset btn should display correctly', (done) => {
+  it('reset btn should display correctly', () => {
     const { container } = render(<TokenInput value="test" />);
     expect(
       container.querySelector('.ant-input-group-addon > span > button'),
@@ -15,9 +15,5 @@ describe('TokenInput', () => {
     expect(
       container.querySelector('.ant-input-group-addon > span > button'),
     ).toBeTruthy();
-
-    setImmediate(() => {
-      done();
-    });
   });
 });
