@@ -8,11 +8,9 @@ import type { FC } from 'react';
 import React, { Fragment } from 'react';
 import ComponentDemos from '../component-demos';
 import ComponentCard, { getComponentDemoId } from './ComponentCard';
-import { ConfigProvider, theme as antdTheme, Tooltip, Divider } from 'antd';
+import { ConfigProvider, Divider, Tooltip } from 'antd';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
-
-const { useToken } = antdTheme;
 
 const useStyle = makeStyle('ComponentDemoGroup', (token) => ({
   '.previewer-component-demo-group': {
