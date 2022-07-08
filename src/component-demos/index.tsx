@@ -29,7 +29,7 @@ import Notification from './notification';
 import Pagination from './pagination';
 import PopconfirmDemo from './popconfirm';
 import PopoverDemo from './popover';
-import RadioDemo from './radio';
+import Radio from './radio';
 import RateDemo from './rate';
 import Select from './select';
 import SkeletonDemo from './skeleton';
@@ -99,7 +99,7 @@ const ComponentDemos: PreviewerDemos = {
   Pagination,
   Popconfirm: [{ demo: <PopconfirmDemo /> }],
   Popover: [{ demo: <PopoverDemo /> }],
-  Radio: [{ demo: <RadioDemo /> }],
+  Radio,
   Rate: [{ demo: <RateDemo /> }],
   Select,
   Skeleton: [{ demo: <SkeletonDemo /> }],
