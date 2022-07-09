@@ -1,7 +1,20 @@
 import React from 'react';
 import { InputNumber } from 'antd';
+import type { ComponentDemo } from '../../interface';
 
 function onChange() {}
-export default () => (
+const Demo = () => (
   <InputNumber min={1} max={10} defaultValue={3} onChange={onChange} />
 );
+
+const componentDemo: ComponentDemo = {
+  demo: <Demo />,
+  tokens: [
+    'colorPrimaryBorder',
+    'colorPrimaryOutline',
+    'colorPrimaryHover',
+    'colorPrimary',
+  ],
+};
+
+export default componentDemo;
