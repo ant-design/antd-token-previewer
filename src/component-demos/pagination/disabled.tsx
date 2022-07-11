@@ -8,7 +8,7 @@ const Demo: React.FC = () => (
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['controlItemBgActiveDisabled'],
+  tokens: ['controlItemBgActiveDisabled', 'colorBgContainerSecondary'],
 };
 
 export default componentDemo;
