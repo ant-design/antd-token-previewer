@@ -2,21 +2,22 @@ import React from 'react';
 import { Cascader } from 'antd';
 
 import options from './data';
-import { ComponentDemo } from '../../interface';
+import type { ComponentDemo } from '../../interface';
+
 const { _InternalPanelDoNotUseOrYouWillBeFired: InternalCascader } = Cascader;
 
-const Demo = (props: any) => (
+const Demo = () => (
   <InternalCascader
     options={options}
-    {...props}
     open
+    disable
     placeholder="Please select"
   />
 );
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: [],
+  tokens: ['colorBgContainerDisabled'],
 };
 
 export default componentDemo;

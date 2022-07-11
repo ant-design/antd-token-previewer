@@ -30,7 +30,6 @@ const componentDemo: ComponentDemo = {
     'colorTextHeading',
     'colorTextSecondary',
     'colorBgContainer',
-    'colorBgContainerSecondary',
     'colorBorderSecondary',
     'colorPrimary',
   ],

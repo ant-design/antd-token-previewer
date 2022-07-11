@@ -28,7 +28,12 @@ const Demo: React.FC = () => {
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorPrimary', 'colorBorderSecondary', 'colorPrimaryHover'],
+  tokens: [
+    'colorPrimary',
+    'colorBgContainerSecondary',
+    'colorBorderSecondary',
+    'colorPrimaryHover',
+  ],
 };
 
 export default componentDemo;
