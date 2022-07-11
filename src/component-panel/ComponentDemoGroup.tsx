@@ -53,7 +53,6 @@ const useDemoStyle = makeStyle('ComponentDemoBlock', (token) => ({
 }));
 
 type ComponentDemoBlockProps = {
-  theme: MutableTheme;
   component: string;
   onTokenClick?: (token: TokenName) => void;
   size?: 'small' | 'middle' | 'large';
@@ -63,7 +62,6 @@ type ComponentDemoBlockProps = {
 };
 
 const ComponentDemoBlock: FC<ComponentDemoBlockProps> = ({
-  theme,
   component,
   onTokenClick,
   size = 'middle',
@@ -77,7 +75,6 @@ const ComponentDemoBlock: FC<ComponentDemoBlockProps> = ({
     <div className={classNames('previewer-component-demo-group-item', hashId)}>
       <ComponentCard
         component={component}
-        theme={theme}
         onTokenClick={onTokenClick}
         onToggleTokenDrawerOpen={onToggleTokenDrawerOpen}
       >
@@ -183,7 +180,6 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
                 <ConfigProvider key={theme.key} theme={theme.config}>
                   <ComponentDemoBlock
                     component={item}
-                    theme={theme}
                     onTokenClick={onTokenClick}
                     demos={demos}
                     disabled={disabled}
