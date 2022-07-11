@@ -3,7 +3,6 @@ import { Collapse, Space } from 'antd';
 import { Pick } from '../../icons';
 import type { CSSProperties } from 'react';
 import React, { useEffect } from 'react';
-import { PreviewContext } from '..';
 import type { MutableTheme, TokenName, TokenValue } from '../../interface';
 import makeStyle from '../../utils/makeStyle';
 import classNames from 'classnames';
@@ -17,7 +16,7 @@ import getDesignToken from '../../utils/getDesignToken';
 const { Panel } = Collapse;
 
 interface TokenItemProps {
-  tokenName: TokenName;
+  tokenName: string;
   tokenPath: string[];
   active?: boolean;
   onActiveChange?: (active: boolean) => void;
@@ -26,6 +25,11 @@ interface TokenItemProps {
     tokenName: string,
     value: TokenValue,
   ) => void;
+  themes: MutableTheme[];
+  selectedTokens?: TokenName[];
+  onTokenSelect?: (token: TokenName) => void;
+  enableTokenSelect?: boolean;
+  hideUsageCount?: boolean;
 }
 
 const AdditionInfo = ({
@@ -172,7 +176,7 @@ const useStyle = makeStyle('TokenItem', (token) => ({
   },
 }));
 
-export const getTokenItemId = (token: TokenName) =>
+export const getTokenItemId = (token: string) =>
   `previewer-token-panel-item-${token}`;
 
 export default ({
@@ -181,9 +185,12 @@ export default ({
   onActiveChange,
   onTokenChange,
   tokenPath,
+  selectedTokens,
+  themes,
+  onTokenSelect,
+  enableTokenSelect,
+  hideUsageCount,
 }: TokenItemProps) => {
-  const { selectedTokens, themes, onTokenSelect, enableTokenSelect } =
-    React.useContext(PreviewContext);
   const [infoVisible, setInfoVisible] = React.useState(false);
   const [wrapSSR, hashId] = useStyle();
   const { getRelatedComponents } = useStatistic();
@@ -247,9 +254,11 @@ export default ({
                 >
                   {tokenName}
                 </span>
-                <span className="previewer-token-count">
-                  {getRelatedComponents(tokenName).length}
-                </span>
+                {!hideUsageCount && (
+                  <span className="previewer-token-count">
+                    {getRelatedComponents(tokenName).length}
+                  </span>
+                )}
               </span>
               {!infoVisible && (
                 <div

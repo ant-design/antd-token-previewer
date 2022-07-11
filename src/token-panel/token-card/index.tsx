@@ -18,36 +18,39 @@ import type { ReactNode } from 'react';
 import React from 'react';
 import makeStyle from '../../utils/makeStyle';
 import TokenItem from '../token-item';
-import type {
-  AliasToken,
-  MutableTheme,
-  TokenName,
-  TokenValue,
-} from '../../interface';
+import type { MutableTheme, TokenName, TokenValue } from '../../interface';
 import { Motion, ShapeLine } from '../../icons';
 import type { TokenType } from '../../utils/classifyToken';
 import useStatistic from '../../hooks/useStatistic';
+import useMergedState from 'rc-util/es/hooks/useMergedState';
 
 const { Panel } = Collapse;
 
 interface TokenCardProps {
-  typeName: TokenType;
+  title: string;
+  icon?: ReactNode;
   tokenArr: {
-    tokenName: keyof AliasToken;
+    tokenName: string;
     value: TokenValue;
   }[];
   tokenPath: string[];
   keyword?: string;
   hideUseless?: boolean;
+  defaultOpen?: boolean;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   activeToken?: TokenName;
-  onActiveTokenChange?: (token: TokenName | undefined) => void;
+  onActiveTokenChange?: (token: string | undefined) => void;
   onTokenChange?: (
     theme: MutableTheme,
     tokenName: string,
     value: TokenValue,
   ) => void;
+  themes: MutableTheme[];
+  selectedTokens?: TokenName[];
+  onTokenSelect?: (token: TokenName) => void;
+  enableTokenSelect?: boolean;
+  hideUsageCount?: boolean;
 }
 
 export const IconMap: Record<TokenType, ReactNode> = {
@@ -110,19 +113,31 @@ const useStyle = makeStyle('TokenCard', (token) => ({
 }));
 
 export default ({
-  typeName,
+  title,
+  icon,
   tokenArr,
   keyword,
   hideUseless,
-  open,
+  defaultOpen,
+  open: customOpen,
   onOpenChange,
   activeToken,
   onActiveTokenChange,
   onTokenChange,
   tokenPath,
+  selectedTokens,
+  themes,
+  onTokenSelect,
+  enableTokenSelect,
+  hideUsageCount,
 }: TokenCardProps) => {
   const [wrapSSR, hashId] = useStyle();
   const { getRelatedComponents } = useStatistic();
+  const [open, setOpen] = useMergedState(false, {
+    onChange: onOpenChange,
+    defaultValue: defaultOpen,
+    value: customOpen,
+  });
 
   return wrapSSR(
     <div className={classNames('token-card', hashId)}>
@@ -138,14 +153,15 @@ export default ({
         className="token-card-collapse"
         activeKey={open ? '1' : undefined}
         onChange={(keys) => {
-          onOpenChange?.(keys.length > 0);
+          // onOpenChange?.(keys.length > 0);
+          setOpen(keys.length > 0);
         }}
       >
         <Panel
           header={
             <Space size="small">
-              <span>{IconMap[typeName]}</span>
-              <span>{TextMap[typeName]}</span>
+              <span>{title}</span>
+              <span>{icon}</span>
             </Space>
           }
           key="1"
@@ -170,6 +186,11 @@ export default ({
                 tokenName={tokenName}
                 key={tokenName}
                 onTokenChange={onTokenChange}
+                themes={themes}
+                selectedTokens={selectedTokens}
+                onTokenSelect={onTokenSelect}
+                enableTokenSelect={enableTokenSelect}
+                hideUsageCount={hideUsageCount}
               />
             ))}
         </Panel>

@@ -2,15 +2,7 @@ import type { FC } from 'react';
 import React, { useMemo } from 'react';
 import classNames from 'classnames';
 import type { TableProps } from 'antd';
-import {
-  Divider,
-  Drawer,
-  Table,
-  Tag,
-  ConfigProvider,
-  theme as antdTheme,
-  Tooltip,
-} from 'antd';
+import { Drawer, Tag, ConfigProvider, theme as antdTheme, Tooltip } from 'antd';
 import makeStyle from '../utils/makeStyle';
 import TokenInput from '../TokenInput';
 import type { OverrideToken } from 'antd/es/theme/interface';
@@ -19,6 +11,8 @@ import type { ComponentDemo, MutableTheme, TokenName } from '../interface';
 import getDesignToken from '../utils/getDesignToken';
 import ComponentCard from './ComponentCard';
 import ComponentDemos from '../component-demos';
+import TokenCard from '../token-panel/token-card';
+import { CarOutlined } from '@ant-design/icons';
 
 const { defaultAlgorithm } = antdTheme;
 
@@ -42,55 +36,6 @@ const useStyle = makeStyle('ComponentTokenDrawer', (token) => ({
       backgroundColor: token.colorInfoBg,
       color: token.colorPrimary,
       borderColor: token.colorInfoBg,
-    },
-
-    [`${token.rootCls}-table-wrapper.component-token-table`]: {
-      [`${token.rootCls}-table-cell`]: {
-        borderBottom: 'none',
-      },
-
-      [`${token.rootCls}-table-row:hover > td`]: {
-        backgroundColor: `${token.colorBgContainer} !important`,
-      },
-
-      [`th${token.rootCls}-table-cell`]: {
-        background: token.colorBgContainer,
-        fontSize: token.fontSizeSM,
-        color: token.colorTextSecondary,
-        fontWeight: 'normal',
-
-        '&:not(:last-child)::before': {
-          backgroundColor: 'transparent !important',
-        },
-      },
-
-      [`td${token.rootCls}-table-cell:first-child::before`]: {
-        position: 'absolute',
-        top: '50%',
-        insetInlineEnd: 0,
-        width: 1,
-        height: '1.6em',
-        backgroundColor: token.colorSplit,
-        transform: 'translateY(-50%)',
-        transition: `background-color ${token.motionDurationMid}`,
-        content: '""',
-      },
-
-      '.component-token-value-color': {
-        display: 'flex',
-        alignItems: 'center',
-
-        '.component-token-value-color-preview': {
-          marginInlineEnd: token.marginXS,
-        },
-      },
-
-      '.component-token-value-color-tag': {
-        backgroundColor: token.colorBgContainerSecondary,
-        borderRadius: token.radiusLG,
-        padding: '4px 8px',
-        minWidth: 140,
-      },
     },
   },
 }));
@@ -227,24 +172,18 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
   const componentTokenData = useMemo(
     () =>
       Object.entries(componentToken ?? {}).map(([key, value]) => ({
-        name: key,
-        value: {
-          tokenName: key,
-          value: (theme.config.override as any)?.[component]?.[key] ?? value,
-        },
+        tokenName: key,
+        value: (theme.config.override as any)?.[component]?.[key] ?? value,
       })),
     [componentToken, theme.config, component],
   );
 
   const aliasTokenData = useMemo(() => {
     return aliasTokenNames.sort().map((tokenName: any) => ({
-      name: tokenName,
-      value: {
-        tokenName,
-        value:
-          (theme.config.override?.alias as any)?.[tokenName] ??
-          (getDesignToken(theme.config) as any)[tokenName],
-      },
+      tokenName,
+      value:
+        (theme.config.override?.alias as any)?.[tokenName] ??
+        (getDesignToken(theme.config) as any)[tokenName],
     }));
   }, [aliasTokenNames, theme.config]);
 
@@ -267,35 +206,28 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
         <ConfigProvider theme={theme.config}>
           <ComponentFullDemos demos={ComponentDemos[component]} theme={theme} />
         </ConfigProvider>
-        <div style={{ flex: 1, overflow: 'auto', padding: 24 }}>
+        <div style={{ flex: '0 0 400px', overflow: 'auto', padding: 24 }}>
           <div className="previewer-component-drawer-subtitle">
-            Component Token
+            Related Tokens / 相关 token
           </div>
-          <Table
-            className="component-token-table"
-            dataSource={componentTokenData}
-            columns={componentTokenColumns}
-            rowKey="name"
-            size="small"
-            pagination={false}
-            style={{ marginBottom: 24 }}
-          />
-          <Divider />
-          <div
-            className={classNames(
-              'previewer-component-drawer-subtitle',
-              hashId,
-            )}
-          >
-            Alias Token
-          </div>
-          <Table
-            className={classNames('component-token-table', hashId)}
-            dataSource={aliasTokenData}
-            columns={aliasTokenColumns}
-            rowKey="name"
-            size="small"
-            pagination={false}
+          {componentTokenData.length > 0 && (
+            <TokenCard
+              hideUsageCount
+              defaultOpen
+              title="Component Token"
+              tokenArr={componentTokenData}
+              tokenPath={['override', component]}
+              themes={[theme]}
+            />
+          )}
+          <TokenCard
+            icon={<CarOutlined />}
+            hideUsageCount
+            themes={[theme]}
+            defaultOpen
+            title="Alias Token"
+            tokenArr={aliasTokenData}
+            tokenPath={['override', 'alias']}
           />
         </div>
       </div>
