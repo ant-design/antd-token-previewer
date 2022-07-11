@@ -12,6 +12,7 @@ import isColor from '../../utils/isColor';
 import TokenInput from '../../TokenInput';
 import getValueByPath from '../../utils/getValueByPath';
 import getDesignToken from '../../utils/getDesignToken';
+import type { ThemeConfig } from 'antd/es/config-provider/context';
 
 const { Panel } = Collapse;
 
@@ -30,6 +31,7 @@ interface TokenItemProps {
   onTokenSelect?: (token: TokenName) => void;
   enableTokenSelect?: boolean;
   hideUsageCount?: boolean;
+  fallbackConfig?: ThemeConfig;
 }
 
 const AdditionInfo = ({
@@ -190,6 +192,7 @@ export default ({
   onTokenSelect,
   enableTokenSelect,
   hideUsageCount,
+  fallbackConfig,
 }: TokenItemProps) => {
   const [infoVisible, setInfoVisible] = React.useState(false);
   const [wrapSSR, hashId] = useStyle();
@@ -274,7 +277,10 @@ export default ({
                         tokenName={tokenName}
                         info={
                           getValueByPath(config, [...tokenPath, tokenName]) ??
-                          getDesignToken(config)[tokenName] ??
+                          getValueByPath(fallbackConfig, [
+                            ...tokenPath,
+                            tokenName,
+                          ]) ??
                           ''
                         }
                         visible={!infoVisible}
@@ -316,7 +322,7 @@ export default ({
                     onChange={(value) => handleTokenChange(theme, value)}
                     value={
                       getValueByPath(theme.config, [...tokenPath, tokenName]) ??
-                      getDesignToken(theme.config)[tokenName]
+                      getValueByPath(fallbackConfig, [...tokenPath, tokenName])
                     }
                   />
                 </div>

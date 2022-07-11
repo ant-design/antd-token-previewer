@@ -23,16 +23,14 @@ import { Motion, ShapeLine } from '../../icons';
 import type { TokenType } from '../../utils/classifyToken';
 import useStatistic from '../../hooks/useStatistic';
 import useMergedState from 'rc-util/es/hooks/useMergedState';
+import type { ThemeConfig } from 'antd/es/config-provider/context';
 
 const { Panel } = Collapse;
 
 interface TokenCardProps {
   title: string;
   icon?: ReactNode;
-  tokenArr: {
-    tokenName: string;
-    value: TokenValue;
-  }[];
+  tokenArr: string[];
   tokenPath: string[];
   keyword?: string;
   hideUseless?: boolean;
@@ -51,6 +49,7 @@ interface TokenCardProps {
   onTokenSelect?: (token: TokenName) => void;
   enableTokenSelect?: boolean;
   hideUsageCount?: boolean;
+  fallbackConfig?: ThemeConfig;
 }
 
 export const IconMap: Record<TokenType, ReactNode> = {
@@ -130,6 +129,7 @@ export default ({
   onTokenSelect,
   enableTokenSelect,
   hideUsageCount,
+  fallbackConfig,
 }: TokenCardProps) => {
   const [wrapSSR, hashId] = useStyle();
   const { getRelatedComponents } = useStatistic();
@@ -168,15 +168,12 @@ export default ({
         >
           {tokenArr
             .filter(
-              (item) =>
+              (tokenName) =>
                 (!keyword ||
-                  item.tokenName
-                    .toLowerCase()
-                    .includes(keyword.toLowerCase())) &&
-                (!hideUseless ||
-                  getRelatedComponents(item.tokenName).length > 0),
+                  tokenName.toLowerCase().includes(keyword.toLowerCase())) &&
+                (!hideUseless || getRelatedComponents(tokenName).length > 0),
             )
-            .map(({ tokenName }) => (
+            .map((tokenName) => (
               <TokenItem
                 tokenPath={tokenPath}
                 onActiveChange={(active) =>
@@ -191,6 +188,7 @@ export default ({
                 onTokenSelect={onTokenSelect}
                 enableTokenSelect={enableTokenSelect}
                 hideUsageCount={hideUsageCount}
+                fallbackConfig={fallbackConfig}
               />
             ))}
         </Panel>

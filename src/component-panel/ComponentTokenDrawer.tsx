@@ -1,18 +1,15 @@
 import type { FC } from 'react';
 import React, { useMemo } from 'react';
 import classNames from 'classnames';
-import type { TableProps } from 'antd';
-import { Drawer, Tag, ConfigProvider, theme as antdTheme, Tooltip } from 'antd';
+import { ConfigProvider, Drawer, Tag, theme as antdTheme, Tooltip } from 'antd';
 import makeStyle from '../utils/makeStyle';
-import TokenInput from '../TokenInput';
-import type { OverrideToken } from 'antd/es/theme/interface';
 import useStatistic from '../hooks/useStatistic';
 import type { ComponentDemo, MutableTheme, TokenName } from '../interface';
 import getDesignToken from '../utils/getDesignToken';
 import ComponentCard from './ComponentCard';
 import ComponentDemos from '../component-demos';
 import TokenCard from '../token-panel/token-card';
-import { CarOutlined } from '@ant-design/icons';
+import { BuildOutlined, CarOutlined } from '@ant-design/icons';
 
 const { defaultAlgorithm } = antdTheme;
 
@@ -102,7 +99,6 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
     name: 'unknown',
     key: 'unknown',
   },
-  onTokenClick,
 }) => {
   const [, hashId] = useStyle();
   const { getComponentToken } = useStatistic();
@@ -110,82 +106,14 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
   const { component: componentToken, global: aliasTokenNames } =
     getComponentToken(component) || { global: [] };
 
-  const componentTokenColumns: TableProps<{
-    name: string;
-    value: any;
-  }>['columns'] = [
-    {
-      dataIndex: 'name',
-      title: 'Name',
-    },
-    {
-      dataIndex: 'value',
-      title: 'Value',
-      render: ({ tokenName, value }: any) => {
-        return (
-          <TokenInput
-            light
-            value={value}
-            onChange={(newValue) => {
-              theme.onThemeChange?.({
-                ...theme.config,
-                override: {
-                  ...theme.config.override,
-                  [component]: {
-                    ...theme.config.override?.[
-                      component as keyof OverrideToken
-                    ],
-                    [tokenName]: newValue,
-                  },
-                },
-              });
-            }}
-          />
-        );
-      },
-    },
-  ];
-
-  const aliasTokenColumns: TableProps<{ name: string; value: any }>['columns'] =
-    [
-      {
-        dataIndex: 'name',
-        title: 'Name',
-        render: (value) => (
-          <span
-            style={{ cursor: 'pointer' }}
-            onClick={() => onTokenClick?.(value)}
-          >
-            {value}
-          </span>
-        ),
-      },
-      {
-        dataIndex: 'value',
-        title: 'Value',
-        render: ({ value }) => {
-          return <TokenInput light value={value} readonly />;
-        },
-      },
-    ];
-
   const componentTokenData = useMemo(
-    () =>
-      Object.entries(componentToken ?? {}).map(([key, value]) => ({
-        tokenName: key,
-        value: (theme.config.override as any)?.[component]?.[key] ?? value,
-      })),
-    [componentToken, theme.config, component],
+    () => Object.keys(componentToken ?? {}),
+    [componentToken],
   );
 
   const aliasTokenData = useMemo(() => {
-    return aliasTokenNames.sort().map((tokenName: any) => ({
-      tokenName,
-      value:
-        (theme.config.override?.alias as any)?.[tokenName] ??
-        (getDesignToken(theme.config) as any)[tokenName],
-    }));
-  }, [aliasTokenNames, theme.config]);
+    return aliasTokenNames.sort();
+  }, [aliasTokenNames]);
 
   return (
     <Drawer
@@ -212,12 +140,14 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
           </div>
           {componentTokenData.length > 0 && (
             <TokenCard
+              icon={<BuildOutlined />}
               hideUsageCount
               defaultOpen
               title="Component Token"
               tokenArr={componentTokenData}
               tokenPath={['override', component]}
               themes={[theme]}
+              fallbackConfig={{ override: { [component]: componentToken } }}
             />
           )}
           <TokenCard
@@ -228,6 +158,7 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
             title="Alias Token"
             tokenArr={aliasTokenData}
             tokenPath={['override', 'alias']}
+            fallbackConfig={{ override: { alias: getDesignToken() } }}
           />
         </div>
       </div>

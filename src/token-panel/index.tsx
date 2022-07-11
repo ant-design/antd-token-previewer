@@ -21,6 +21,7 @@ import type { MutableTheme, TokenName, TokenValue } from '../interface';
 import { SearchDropdown } from '../icons';
 import { getTokenItemId } from './token-item';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import getDesignToken from '../utils/getDesignToken';
 
 const { useToken } = antdTheme;
 
@@ -313,7 +314,7 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
                 <TokenCard
                   title={TextMap.seed}
                   icon={IconMap.seed}
-                  tokenArr={[{ tokenName: 'colorPrimary', value: '' }]}
+                  tokenArr={['colorPrimary']}
                   tokenPath={['token']}
                   keyword={search}
                   open={activeCards.includes('seed')}
@@ -329,6 +330,7 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
                   selectedTokens={selectedTokens}
                   onTokenSelect={onTokenSelect}
                   enableTokenSelect={enableTokenSelect}
+                  fallbackConfig={{ token: getDesignToken() }} // TODO: fallback seed
                 />
                 {TOKEN_SORTS.filter(
                   (type) =>
@@ -367,6 +369,7 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
                     selectedTokens={selectedTokens}
                     onTokenSelect={onTokenSelect}
                     enableTokenSelect={enableTokenSelect}
+                    fallbackConfig={{ override: { alias: getDesignToken() } }}
                   />
                 ))}
               </div>

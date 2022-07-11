@@ -74,19 +74,16 @@ export function getTypeOfToken(tokenName: keyof GlobalToken): TokenType {
 
 export const classifyToken = (
   token: Record<string, TokenValue>,
-): Record<string, { tokenName: TokenName; value: TokenValue }[]> => {
-  const groupedToken: Record<
-    string,
-    { tokenName: TokenName; value: TokenValue }[]
-  > = {};
-  Object.entries(token || {})
-    .sort((a, b) => a[0].localeCompare(b[0]))
-    .forEach(([key, value]) => {
+): Record<string, string[]> => {
+  const groupedToken: Record<string, string[]> = {};
+  Object.keys(token || {})
+    .sort((a, b) => a.localeCompare(b))
+    .forEach((key) => {
       const type = getTypeOfToken(key as keyof GlobalToken);
       if (!groupedToken[type]) {
         groupedToken[type] = [];
       }
-      groupedToken[type].push({ tokenName: key as TokenName, value });
+      groupedToken[type].push(key);
     });
   return groupedToken;
 };
