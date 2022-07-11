@@ -10,7 +10,7 @@ const Demo = () => (
   <InternalCascader
     options={options}
     open
-    disable
+    disabled
     placeholder="Please select"
   />
 );
