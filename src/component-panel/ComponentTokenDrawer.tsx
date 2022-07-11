@@ -112,7 +112,7 @@ const useComponentFullDemosStyle = makeStyle('ComponentFullDemos', (token) => ({
   },
 }));
 
-const ComponentFullDemos: FC<ComponentFullDemosProps> = ({ demos, theme }) => {
+const ComponentFullDemos: FC<ComponentFullDemosProps> = ({ demos }) => {
   const [, hashId] = useComponentFullDemosStyle();
 
   return (
@@ -131,7 +131,6 @@ const ComponentFullDemos: FC<ComponentFullDemosProps> = ({ demos, theme }) => {
               </span>
             </Tooltip>
           }
-          theme={theme}
         >
           {demo.demo}
         </ComponentCard>

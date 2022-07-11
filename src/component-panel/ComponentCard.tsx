@@ -1,14 +1,11 @@
 import type { FC, PropsWithChildren } from 'react';
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import type { CardProps } from 'antd';
-import { Card, ConfigProvider } from 'antd';
+import { Card } from 'antd';
 import { Control } from '../icons';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
-import ComponentTokenDrawer from './ComponentTokenDrawer';
-import type { MutableTheme, TokenName, TokenValue } from '../interface';
-import isColor from '../utils/isColor';
-import getDesignToken from '../utils/getDesignToken';
+import type { TokenName } from '../interface';
 
 const useStyle = makeStyle('ComponentCard', (token) => ({
   [`${token.rootCls}-card.component-card`]: {
@@ -47,7 +44,6 @@ export const getComponentDemoId = (component: string) =>
 
 export type ComponentCardProps = PropsWithChildren<{
   component: CardProps['title'];
-  theme: MutableTheme;
   onTokenClick?: (token: TokenName) => void;
   onToggleTokenDrawerOpen?: () => void;
 }>;
@@ -55,33 +51,9 @@ export type ComponentCardProps = PropsWithChildren<{
 const ComponentCard: FC<ComponentCardProps> = ({
   children,
   component,
-  theme,
-  onTokenClick,
   onToggleTokenDrawerOpen,
 }) => {
   const [wrapSSR, hashId] = useStyle();
-  const [aliasToken, setAliasToken] = useState<Record<string, TokenValue>>({});
-  const highlightRef = useRef(false);
-
-  const handleTokenClick = (token: TokenName) => {
-    if (onTokenClick) {
-      onTokenClick(token);
-    }
-    if (
-      !highlightRef.current &&
-      typeof getDesignToken(theme.config)[token] === 'string' &&
-      isColor(getDesignToken(theme.config)[token] as string)
-    ) {
-      setAliasToken({ ...aliasToken, [token]: '#faad14' });
-      highlightRef.current = true;
-      setTimeout(() => {
-        const newAlias = { ...aliasToken };
-        delete newAlias[token];
-        setAliasToken(newAlias);
-        highlightRef.current = false;
-      }, 2000);
-    }
-  };
 
   return wrapSSR(
     <Card
@@ -96,9 +68,7 @@ const ComponentCard: FC<ComponentCardProps> = ({
         )
       }
     >
-      <ConfigProvider theme={{ override: { alias: aliasToken } }}>
-        {children}
-      </ConfigProvider>
+      {children}
     </Card>,
   );
 };
