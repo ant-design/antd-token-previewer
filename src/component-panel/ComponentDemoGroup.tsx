@@ -5,12 +5,13 @@ import type {
   TokenName,
 } from '../interface';
 import type { FC } from 'react';
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import ComponentDemos from '../component-demos';
 import ComponentCard, { getComponentDemoId } from './ComponentCard';
 import { ConfigProvider, Divider, Tooltip } from 'antd';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
+import ComponentTokenDrawer from './ComponentTokenDrawer';
 
 const useStyle = makeStyle('ComponentDemoGroup', (token) => ({
   '.previewer-component-demo-group': {
@@ -58,6 +59,7 @@ type ComponentDemoBlockProps = {
   size?: 'small' | 'middle' | 'large';
   disabled?: boolean;
   demos?: ComponentDemo[];
+  onToggleTokenDrawerOpen?: () => void;
 };
 
 const ComponentDemoBlock: FC<ComponentDemoBlockProps> = ({
@@ -67,6 +69,7 @@ const ComponentDemoBlock: FC<ComponentDemoBlockProps> = ({
   size = 'middle',
   disabled = false,
   demos = [],
+  onToggleTokenDrawerOpen,
 }) => {
   const [, hashId] = useDemoStyle();
 
@@ -76,6 +79,7 @@ const ComponentDemoBlock: FC<ComponentDemoBlockProps> = ({
         component={component}
         theme={theme}
         onTokenClick={onTokenClick}
+        onToggleTokenDrawerOpen={onToggleTokenDrawerOpen}
       >
         <ConfigProvider componentSize={size} componentDisabled={disabled}>
           {demos.map((demo, index) => (
@@ -120,6 +124,28 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
   onTokenClick,
 }) => {
   const [wrapSSR, hashId] = useStyle();
+  const [drawerInfo, setDrawerInfo] = useState<{
+    component?: string;
+    theme?: MutableTheme;
+    open: boolean;
+  }>({
+    open: false,
+  });
+
+  const toggleTokenDrawerOpen = (component: string, theme: MutableTheme) => {
+    setDrawerInfo((prev) => {
+      return {
+        ...prev,
+        component,
+        theme,
+        open: !(
+          prev.open &&
+          prev.component === component &&
+          prev.theme === theme
+        ),
+      };
+    });
+  };
 
   return wrapSSR(
     <>
@@ -162,12 +188,22 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
                     demos={demos}
                     disabled={disabled}
                     size={size}
+                    onToggleTokenDrawerOpen={() =>
+                      toggleTokenDrawerOpen(item, theme)
+                    }
                   />
                 </ConfigProvider>
               ))}
             </div>
           );
         })}
+      <ComponentTokenDrawer
+        visible={drawerInfo.open}
+        theme={drawerInfo.theme}
+        component={drawerInfo.component}
+        onClose={() => setDrawerInfo((prev) => ({ ...prev, open: false }))}
+        // onTokenClick={handleTokenClick}
+      />
     </>,
   );
 };

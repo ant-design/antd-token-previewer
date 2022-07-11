@@ -1,5 +1,6 @@
 import type { FC, PropsWithChildren } from 'react';
 import React, { useRef, useState } from 'react';
+import type { CardProps } from 'antd';
 import { Card, ConfigProvider } from 'antd';
 import { Control } from '../icons';
 import makeStyle from '../utils/makeStyle';
@@ -45,9 +46,10 @@ export const getComponentDemoId = (component: string) =>
   `antd-token-previewer-${component}`;
 
 export type ComponentCardProps = PropsWithChildren<{
-  component: string;
+  component: CardProps['title'];
   theme: MutableTheme;
   onTokenClick?: (token: TokenName) => void;
+  onToggleTokenDrawerOpen?: () => void;
 }>;
 
 const ComponentCard: FC<ComponentCardProps> = ({
@@ -55,9 +57,9 @@ const ComponentCard: FC<ComponentCardProps> = ({
   component,
   theme,
   onTokenClick,
+  onToggleTokenDrawerOpen,
 }) => {
   const [wrapSSR, hashId] = useStyle();
-  const [tokenDrawerOpen, setTokenDrawerOpen] = useState<boolean>(false);
   const [aliasToken, setAliasToken] = useState<Record<string, TokenValue>>({});
   const highlightRef = useRef(false);
 
@@ -82,31 +84,22 @@ const ComponentCard: FC<ComponentCardProps> = ({
   };
 
   return wrapSSR(
-    <div>
-      <Card
-        className={classNames('component-card', hashId)}
-        title={component}
-        extra={
+    <Card
+      className={classNames('component-card', hashId)}
+      title={component}
+      extra={
+        onToggleTokenDrawerOpen && (
           <Control
             className="component-token-control-icon"
-            onClick={() => setTokenDrawerOpen((prev) => !prev)}
+            onClick={() => onToggleTokenDrawerOpen()}
           />
-        }
-      >
-        <ConfigProvider theme={{ override: { alias: aliasToken } }}>
-          {children}
-        </ConfigProvider>
-      </Card>
-      <ConfigProvider theme={{ override: { alias: getDesignToken() } }}>
-        <ComponentTokenDrawer
-          visible={tokenDrawerOpen}
-          theme={theme}
-          component={component}
-          onClose={() => setTokenDrawerOpen(false)}
-          onTokenClick={handleTokenClick}
-        />
+        )
+      }
+    >
+      <ConfigProvider theme={{ override: { alias: aliasToken } }}>
+        {children}
       </ConfigProvider>
-    </div>,
+    </Card>,
   );
 };
 
