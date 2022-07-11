@@ -1,12 +1,14 @@
+import { Segmented } from 'antd';
 import React from 'react';
-import { Radio } from 'antd';
 import type { ComponentDemo } from '../../interface';
 
-const Demo = () => <Radio>Radio</Radio>;
+const Demo = () => (
+  <Segmented options={['Daily', 'Weekly', 'Monthly', 'Quarterly', 'Yearly']} />
+);
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorPrimary', 'colorPrimaryHover'],
+  tokens: [],
 };
 
 export default componentDemo;

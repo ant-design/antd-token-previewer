@@ -1,12 +1,13 @@
 import React from 'react';
-import { Radio } from 'antd';
+import { Switch } from 'antd';
 import type { ComponentDemo } from '../../interface';
 
-const Demo = () => <Radio>Radio</Radio>;
+function onChange() {}
+const Demo = () => <Switch defaultChecked onChange={onChange} />;
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorPrimary', 'colorPrimaryHover'],
+  tokens: ['colorPrimary'],
 };
 
 export default componentDemo;

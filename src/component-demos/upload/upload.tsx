@@ -3,6 +3,8 @@ import type { UploadProps } from 'antd';
 import { Upload, message, Button } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 
+import type { ComponentDemo } from '../../interface';
+
 const props: UploadProps = {
   name: 'file',
   action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
@@ -15,8 +17,15 @@ const props: UploadProps = {
     }
   },
 };
-export default () => (
+const Demo = () => (
   <Upload {...props}>
     <Button icon={<UploadOutlined />}>Click to Upload</Button>
   </Upload>
 );
+
+const componentDemo: ComponentDemo = {
+  demo: <Demo />,
+  tokens: ['colorPrimary', 'colorPrimaryHover', 'colorPrimaryActive'],
+};
+
+export default componentDemo;

@@ -1,7 +1,8 @@
 import React from 'react';
 import { Card, Space } from 'antd';
+import { ComponentDemo } from '../../interface';
 
-export default () => (
+const Demo = () => (
   <Space>
     <Card
       title="Default size card"
@@ -21,3 +22,18 @@ export default () => (
     </Card>
   </Space>
 );
+
+const componentDemo: ComponentDemo = {
+  demo: <Demo />,
+  tokens: [
+    'colorText',
+    'colorTextHeading',
+    'colorTextSecondary',
+    'colorBgContainer',
+    'colorBgContainerSecondary',
+    'colorBorderSecondary',
+    'colorPrimary',
+  ],
+};
+
+export default componentDemo;

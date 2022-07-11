@@ -1,8 +1,9 @@
 import React from 'react';
 import { DatePicker, Space } from 'antd';
+import { ComponentDemo } from '../../interface';
 
 function onChange() {}
-export default () => (
+const Demo = () => (
   <Space direction="vertical">
     <DatePicker onChange={onChange} />
     <DatePicker onChange={onChange} picker="week" />
@@ -11,3 +12,10 @@ export default () => (
     <DatePicker onChange={onChange} picker="year" />
   </Space>
 );
+
+const componentDemo: ComponentDemo = {
+  demo: <Demo />,
+  tokens: ['colorPrimaryBorder'],
+};
+
+export default componentDemo;

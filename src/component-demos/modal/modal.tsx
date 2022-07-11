@@ -1,11 +1,18 @@
 import React from 'react';
 import { Modal } from 'antd';
 
-const App = () => {
+import type { ComponentDemo } from '../../interface';
+
+const Demo = () => {
   return (
     <Modal._InternalPanelDoNotUseOrYouWillBeFired title="Basic Modal">
       <p>Some contents...</p> <p>Some contents...</p> <p>Some contents...</p>
     </Modal._InternalPanelDoNotUseOrYouWillBeFired>
   );
 };
-export default () => <App />;
+
+const componentDemo: ComponentDemo = {
+  demo: <Demo />,
+  tokens: ['colorBgElevated'],
+};
+export default componentDemo;

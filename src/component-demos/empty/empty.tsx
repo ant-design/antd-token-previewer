@@ -1,12 +1,12 @@
 import React from 'react';
-import { Radio } from 'antd';
+import { Empty } from 'antd';
 import type { ComponentDemo } from '../../interface';
 
-const Demo = () => <Radio>Radio</Radio>;
+const Demo = () => <Empty />;
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorPrimary', 'colorPrimaryHover'],
+  tokens: ['colorTextDisabled'],
 };
 
 export default componentDemo;
