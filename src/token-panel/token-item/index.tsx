@@ -100,7 +100,7 @@ const useStyle = makeStyle('TokenItem', (token) => ({
   [`${token.rootCls}-collapse.previewer-token-item-collapse`]: {
     [`.previewer-token-item${token.rootCls}-collapse-item`]: {
       transition: `background-color ${token.motionDurationSlow}`,
-      borderRadius: `4px !important`,
+      borderRadius: { _skip_check_: true, value: `4px !important` },
 
       [`&:not(${token.rootCls}-collapse-item-active):hover`]: {
         backgroundColor: '#f5f5f5',

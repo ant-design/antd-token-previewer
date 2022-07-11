@@ -2,16 +2,32 @@ import type { FC } from 'react';
 import React, { useMemo } from 'react';
 import classNames from 'classnames';
 import type { TableProps } from 'antd';
-import { Divider, Drawer, Table, Tag } from 'antd';
+import {
+  Divider,
+  Drawer,
+  Table,
+  Tag,
+  ConfigProvider,
+  theme as antdTheme,
+  Tooltip,
+} from 'antd';
 import makeStyle from '../utils/makeStyle';
 import TokenInput from '../TokenInput';
 import type { OverrideToken } from 'antd/es/theme/interface';
 import useStatistic from '../hooks/useStatistic';
-import type { MutableTheme, TokenName } from '../interface';
+import type { ComponentDemo, MutableTheme, TokenName } from '../interface';
 import getDesignToken from '../utils/getDesignToken';
+import ComponentCard from './ComponentCard';
+import ComponentDemos from '../component-demos';
+
+const { defaultAlgorithm } = antdTheme;
 
 const useStyle = makeStyle('ComponentTokenDrawer', (token) => ({
   '.previewer-component-token-drawer': {
+    [`&${token.rootCls}-drawer ${token.rootCls}-drawer-body`]: {
+      padding: '0 !important',
+    },
+
     '.previewer-component-drawer-subtitle': {
       fontWeight: token.fontWeightStrong,
       marginBottom: token.marginSM,
@@ -79,24 +95,73 @@ const useStyle = makeStyle('ComponentTokenDrawer', (token) => ({
   },
 }));
 
+export type ComponentFullDemosProps = {
+  demos: ComponentDemo[];
+  theme: MutableTheme;
+};
+
+const useComponentFullDemosStyle = makeStyle('ComponentFullDemos', (token) => ({
+  '.previewer-component-full-demos': {
+    flex: 1,
+    overflow: 'auto',
+    padding: 24,
+    backgroundColor: token.colorBgLayout,
+    '> *:not(:last-child)': {
+      marginBottom: 12,
+    },
+  },
+}));
+
+const ComponentFullDemos: FC<ComponentFullDemosProps> = ({ demos }) => {
+  const [, hashId] = useComponentFullDemosStyle();
+
+  return (
+    <div
+      className={classNames('previewer-component-full-demos', hashId)}
+      style={{}}
+    >
+      {demos?.map((demo) => (
+        <ComponentCard
+          key={demo.tokens?.join(',') || ''}
+          component={
+            <Tooltip title={demo.tokens?.join(', ')}>
+              <span>
+                关联 token: {demo.tokens?.join(', ')}
+                {(demo.tokens?.length || 0) > 2 ? '...' : ''}
+              </span>
+            </Tooltip>
+          }
+        >
+          {demo.demo}
+        </ComponentCard>
+      ))}
+    </div>
+  );
+};
+
 export type ComponentTokenDrawerProps = {
   visible?: boolean;
-  component: string;
+  component?: string;
   onClose?: () => void;
-  theme: MutableTheme;
+  theme?: MutableTheme;
   onTokenClick?: (token: TokenName) => void;
 };
 
 const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
   visible,
-  component,
+  component = 'Button',
   onClose,
-  theme,
+  theme = {
+    config: {},
+    onThemeChange: () => {},
+    name: 'unknown',
+    key: 'unknown',
+  },
   onTokenClick,
 }) => {
   const [, hashId] = useStyle();
-
   const { getComponentToken } = useStatistic();
+
   const { component: componentToken, global: aliasTokenNames } =
     getComponentToken(component) || { global: [] };
 
@@ -168,7 +233,7 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
           value: (theme.config.override as any)?.[component]?.[key] ?? value,
         },
       })),
-    [componentToken, theme, component],
+    [componentToken, theme.config, component],
   );
 
   const aliasTokenData = useMemo(() => {
@@ -185,7 +250,6 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
 
   return (
     <Drawer
-      mask={false}
       visible={visible}
       title={
         <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -196,35 +260,51 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
         </div>
       }
       onClose={onClose}
-      width={600}
+      width={1200}
       className={classNames('previewer-component-token-drawer', hashId)}
     >
-      <div className="previewer-component-drawer-subtitle">Component Token</div>
-      <Table
-        className="component-token-table"
-        dataSource={componentTokenData}
-        columns={componentTokenColumns}
-        rowKey="name"
-        size="small"
-        pagination={false}
-        style={{ marginBottom: 24 }}
-      />
-      <Divider />
-      <div
-        className={classNames('previewer-component-drawer-subtitle', hashId)}
-      >
-        Alias Token
+      <div style={{ display: 'flex', height: '100%' }}>
+        <ConfigProvider theme={theme.config}>
+          <ComponentFullDemos demos={ComponentDemos[component]} theme={theme} />
+        </ConfigProvider>
+        <div style={{ flex: 1, overflow: 'auto', padding: 24 }}>
+          <div className="previewer-component-drawer-subtitle">
+            Component Token
+          </div>
+          <Table
+            className="component-token-table"
+            dataSource={componentTokenData}
+            columns={componentTokenColumns}
+            rowKey="name"
+            size="small"
+            pagination={false}
+            style={{ marginBottom: 24 }}
+          />
+          <Divider />
+          <div
+            className={classNames(
+              'previewer-component-drawer-subtitle',
+              hashId,
+            )}
+          >
+            Alias Token
+          </div>
+          <Table
+            className={classNames('component-token-table', hashId)}
+            dataSource={aliasTokenData}
+            columns={aliasTokenColumns}
+            rowKey="name"
+            size="small"
+            pagination={false}
+          />
+        </div>
       </div>
-      <Table
-        className={classNames('component-token-table', hashId)}
-        dataSource={aliasTokenData}
-        columns={aliasTokenColumns}
-        rowKey="name"
-        size="small"
-        pagination={false}
-      />
     </Drawer>
   );
 };
 
-export default ComponentTokenDrawer;
+export default ({ ...props }: ComponentTokenDrawerProps) => (
+  <ConfigProvider theme={{ algorithm: defaultAlgorithm }}>
+    <ComponentTokenDrawer {...props} />
+  </ConfigProvider>
+);
