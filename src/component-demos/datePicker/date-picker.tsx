@@ -15,7 +15,7 @@ const Demo = () => (
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorPrimaryBorder', 'colorBgElevated'],
+  tokens: ['colorPrimaryBorder', 'colorBgElevated', 'colorBgContainer'],
 };
 
 export default componentDemo;

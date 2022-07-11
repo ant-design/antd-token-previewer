@@ -14,6 +14,7 @@ const componentDemo: ComponentDemo = {
     'colorPrimaryOutline',
     'colorPrimaryHover',
     'colorPrimary',
+    'colorBgContainer',
   ],
 };
 

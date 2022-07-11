@@ -12,7 +12,7 @@ const Demo: React.FC = () => (
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorPrimary', 'colorPrimaryHover'],
+  tokens: ['colorPrimary', 'colorPrimaryHover', 'colorBgContainer'],
 };
 
 export default componentDemo;

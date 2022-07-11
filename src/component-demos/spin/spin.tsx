@@ -6,7 +6,7 @@ const Demo = () => <Spin />;
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorPrimary'],
+  tokens: ['colorPrimary', 'colorBgContainer'],
 };
 
 export default componentDemo;

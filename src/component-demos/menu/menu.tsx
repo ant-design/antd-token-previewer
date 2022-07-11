@@ -30,6 +30,7 @@ const componentDemo: ComponentDemo = {
   demo: <Demo />,
   tokens: [
     'colorPrimary',
+    'colorBgContainer',
     'colorBgContainerSecondary',
     'colorBorderSecondary',
     'colorPrimaryHover',

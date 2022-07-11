@@ -16,7 +16,7 @@ const Demo = (props: any) => (
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: [],
+  tokens: ['colorBgContainer'],
 };
 
 export default componentDemo;

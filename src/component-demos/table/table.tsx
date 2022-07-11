@@ -68,7 +68,7 @@ const Demo = () => <Table columns={columns} dataSource={data} />;
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorPrimaryActive'],
+  tokens: ['colorPrimaryActive', 'colorBgContainer'],
 };
 
 export default componentDemo;

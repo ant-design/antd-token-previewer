@@ -6,7 +6,7 @@ const Demo = () => <Calendar />;
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorPrimary', 'colorPrimaryHover'],
+  tokens: ['colorPrimary', 'colorPrimaryHover', 'colorBgContainer'],
 };
 
 export default componentDemo;

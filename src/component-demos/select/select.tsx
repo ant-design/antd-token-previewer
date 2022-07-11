@@ -34,6 +34,7 @@ const componentDemo: ComponentDemo = {
     'colorPrimaryHover',
     'colorText',
     'colorBgElevated',
+    'colorBgContainer',
   ],
 };
 

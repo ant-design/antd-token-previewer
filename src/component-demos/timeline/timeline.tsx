@@ -13,7 +13,7 @@ const Demo = () => (
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorPrimary', 'colorText', 'colorSplit'],
+  tokens: ['colorPrimary', 'colorText', 'colorSplit', 'colorBgContainer'],
 };
 
 export default componentDemo;

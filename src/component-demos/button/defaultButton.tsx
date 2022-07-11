@@ -1,12 +1,13 @@
 import React from 'react';
-import { Input } from 'antd';
+import { Button } from 'antd';
+
 import type { ComponentDemo } from '../../interface';
 
-const Demo = () => <Input placeholder="Basic usage" />;
+const Demo = () => <Button>default</Button>;
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorPrimaryHover', 'colorPrimaryOutline', 'colorBgContainer'],
+  tokens: ['colorBgContainer'],
 };
 
 export default componentDemo;

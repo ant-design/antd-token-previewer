@@ -32,7 +32,11 @@ const Demo = () => {
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['controlItemBgActiveHover', 'controlItemBgActive'],
+  tokens: [
+    'controlItemBgActiveHover',
+    'controlItemBgActive',
+    'colorBgContainer',
+  ],
 };
 
 export default componentDemo;

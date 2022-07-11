@@ -20,7 +20,12 @@ const Demo = () => (
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorPrimary', 'colorPrimaryHover', 'colorPrimaryActive'],
+  tokens: [
+    'colorPrimary',
+    'colorPrimaryHover',
+    'colorPrimaryActive',
+    'colorBgContainer',
+  ],
 };
 
 export default componentDemo;

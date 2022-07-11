@@ -32,6 +32,7 @@ const componentDemo: ComponentDemo = {
     'colorBgContainer',
     'colorBorderSecondary',
     'colorPrimary',
+    'colorBgContainer',
   ],
 };
 
