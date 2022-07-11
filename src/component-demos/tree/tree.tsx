@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tree } from 'antd';
-import { ComponentDemo } from '../../interface';
+import type { ComponentDemo } from '../../interface';
 
 const treeData = [
   {

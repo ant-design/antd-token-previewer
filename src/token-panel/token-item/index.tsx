@@ -3,7 +3,7 @@ import { Collapse, Space } from 'antd';
 import { Pick } from '../../icons';
 import type { CSSProperties } from 'react';
 import React, { useEffect } from 'react';
-import type { MutableTheme, TokenName, TokenValue } from '../../interface';
+import type { MutableTheme, TokenValue } from '../../interface';
 import makeStyle from '../../utils/makeStyle';
 import classNames from 'classnames';
 import ColorPreview from '../../ColorPreview';
@@ -11,7 +11,6 @@ import useStatistic from '../../hooks/useStatistic';
 import isColor from '../../utils/isColor';
 import TokenInput from '../../TokenInput';
 import getValueByPath from '../../utils/getValueByPath';
-import getDesignToken from '../../utils/getDesignToken';
 import type { ThemeConfig } from 'antd/es/config-provider/context';
 
 const { Panel } = Collapse;
@@ -27,8 +26,8 @@ interface TokenItemProps {
     value: TokenValue,
   ) => void;
   themes: MutableTheme[];
-  selectedTokens?: TokenName[];
-  onTokenSelect?: (token: TokenName) => void;
+  selectedTokens?: string[];
+  onTokenSelect?: (token: string) => void;
   enableTokenSelect?: boolean;
   hideUsageCount?: boolean;
   fallbackConfig?: ThemeConfig;

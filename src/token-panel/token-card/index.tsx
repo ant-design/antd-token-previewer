@@ -37,7 +37,7 @@ interface TokenCardProps {
   defaultOpen?: boolean;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
-  activeToken?: TokenName;
+  activeToken?: string;
   onActiveTokenChange?: (token: string | undefined) => void;
   onTokenChange?: (
     theme: MutableTheme,
@@ -46,7 +46,7 @@ interface TokenCardProps {
   ) => void;
   themes: MutableTheme[];
   selectedTokens?: TokenName[];
-  onTokenSelect?: (token: TokenName) => void;
+  onTokenSelect?: (token: string) => void;
   enableTokenSelect?: boolean;
   hideUsageCount?: boolean;
   fallbackConfig?: ThemeConfig;

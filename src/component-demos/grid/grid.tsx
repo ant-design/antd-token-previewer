@@ -2,7 +2,7 @@ import React from 'react';
 import { Row, Col } from 'antd';
 import makeStyle from '../../utils/makeStyle';
 import classNames from 'classnames';
-import { ComponentDemo } from '../../interface';
+import type { ComponentDemo } from '../../interface';
 
 const useStyle = makeStyle('GridDemo', (token) => ({
   '.previewer-grid-demo': {

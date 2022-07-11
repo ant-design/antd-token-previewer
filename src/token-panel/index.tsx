@@ -116,7 +116,7 @@ const useStyle = makeStyle('AliasTokenPreview', (token) => ({
 export interface TokenPreviewProps {
   themes: MutableTheme[];
   selectedTokens?: TokenName[];
-  onTokenSelect?: (token: TokenName) => void;
+  onTokenSelect?: (token: string) => void;
   filterTypes?: TokenType[];
   onFilterTypesChange?: (types: TokenType[]) => void;
   enableTokenSelect?: boolean;
@@ -143,7 +143,7 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
       useState<boolean>(false);
     const cardWrapperRef = useRef<HTMLDivElement>(null);
     const [activeCards, setActiveCards] = useState<TokenType[]>([]);
-    const [activeToken, setActiveToken] = useState<TokenName | undefined>();
+    const [activeToken, setActiveToken] = useState<string | undefined>();
     const { token } = useToken();
     const [mergedFilterTypes, setMergedFilterTypes] = useMergedState<
       TokenType[]
@@ -339,9 +339,7 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
                       mergedFilterTypes.length === 0) &&
                     (!search ||
                       groupedToken[type].some((item) =>
-                        item.tokenName
-                          .toLowerCase()
-                          .includes(search.toLowerCase()),
+                        item.toLowerCase().includes(search.toLowerCase()),
                       )),
                 ).map((key) => (
                   <TokenCard

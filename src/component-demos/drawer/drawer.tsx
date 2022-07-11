@@ -1,6 +1,6 @@
 import { Button, Drawer } from 'antd';
 import React, { useState } from 'react';
-import { ComponentDemo } from '../../interface';
+import type { ComponentDemo } from '../../interface';
 
 const Demo: React.FC = () => {
   const [visible, setVisible] = useState(false);
