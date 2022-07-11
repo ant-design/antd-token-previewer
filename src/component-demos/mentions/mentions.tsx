@@ -1,10 +1,11 @@
 import React from 'react';
 import { Mentions } from 'antd';
+import type { ComponentDemo } from '../../interface';
 
 const { Option } = Mentions;
 function onChange() {}
 function onSelect() {}
-export default () => (
+const Demo = () => (
   <Mentions
     style={{ width: '100%' }}
     onChange={onChange}
@@ -16,3 +17,16 @@ export default () => (
     <Option value="yesmeck">yesmeck</Option>
   </Mentions>
 );
+
+const componentDemo: ComponentDemo = {
+  demo: <Demo />,
+  tokens: [
+    'colorBgContainer',
+    'colorBorder',
+    'colorPrimary',
+    'colorPrimaryHover',
+    'colorPrimaryOutline',
+  ],
+};
+
+export default componentDemo;

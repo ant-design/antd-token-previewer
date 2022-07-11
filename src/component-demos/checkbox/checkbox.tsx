@@ -1,4 +1,19 @@
 import React from 'react';
-import { Checkbox } from 'antd';
+import { Checkbox, Space } from 'antd';
+import type { ComponentDemo } from '../../interface';
 
-export default (props: any) => <Checkbox {...props}>Checkbox</Checkbox>;
+const Demo = (props: any) => (
+  <Space>
+    <Checkbox {...props}>Checkbox</Checkbox>
+    <Checkbox {...props} checked>
+      选中态
+    </Checkbox>
+  </Space>
+);
+
+const componentDemo: ComponentDemo = {
+  demo: <Demo />,
+  tokens: ['colorText', 'colorBgContainer'],
+};
+
+export default componentDemo;

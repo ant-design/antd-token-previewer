@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { AutoComplete } from 'antd';
+import type { ComponentDemo } from '../../interface';
 
 const mockVal = (str: string, repeat: number = 1) => ({
   value: str.repeat(repeat),
@@ -44,4 +45,11 @@ const Complete: React.FC = () => {
     </>
   );
 };
-export default () => <Complete />;
+const Demo = () => <Complete />;
+
+const componentDemo: ComponentDemo = {
+  demo: <Demo />,
+  tokens: [],
+};
+
+export default componentDemo;

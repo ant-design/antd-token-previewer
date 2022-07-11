@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table, Tag, Space } from 'antd';
+import { ComponentDemo } from '../../interface';
 
 const columns = [
   {
@@ -63,4 +64,11 @@ const data = [
     tags: ['cool', 'teacher'],
   },
 ];
-export default () => <Table columns={columns} dataSource={data} />;
+const Demo = () => <Table columns={columns} dataSource={data} />;
+
+const componentDemo: ComponentDemo = {
+  demo: <Demo />,
+  tokens: ['colorBgFillTmp', 'colorPrimaryActive'],
+};
+
+export default componentDemo;

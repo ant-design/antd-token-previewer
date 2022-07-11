@@ -1,6 +1,6 @@
 import Alert from './alert';
 import Anchor from './anchor';
-import AutoCompleteDemo from './auto-complete';
+import AutoComplete from './autoComplete';
 import Avatar from './avatar';
 import Badge from './badge';
 import BreadcrumbDemo from './breadcrumb';
@@ -30,9 +30,9 @@ import Pagination from './pagination';
 import PopconfirmDemo from './popconfirm';
 import PopoverDemo from './popover';
 import Radio from './radio';
-import RateDemo from './rate';
+import Rate from './rate';
 import Select from './select';
-import SkeletonDemo from './skeleton';
+import Skeleton from './skeleton';
 import Slider from './slider';
 import SpinDemo from './spin';
 import StatisticDemo from './statistic';
@@ -42,7 +42,7 @@ import Tabs from './tabs';
 import Tag from './tag';
 import TimePickerDemo from './time-picker';
 import Timeline from './timeline';
-import TooltipDemo from './tooltip';
+import Tooltip from './tooltip';
 import Transfer from './transfer';
 import TreeSelect from './treeSelect';
 import TreeDemo from './tree';
@@ -67,7 +67,7 @@ export type PreviewerDemos = Record<string, ComponentDemo[]>;
 const ComponentDemos: PreviewerDemos = {
   Alert,
   Anchor,
-  AutoComplete: [{ demo: <AutoCompleteDemo /> }],
+  AutoComplete,
   Avatar,
   Badge,
   Breadcrumb: [{ demo: <BreadcrumbDemo /> }],
@@ -100,9 +100,9 @@ const ComponentDemos: PreviewerDemos = {
   Popconfirm: [{ demo: <PopconfirmDemo /> }],
   Popover: [{ demo: <PopoverDemo /> }],
   Radio,
-  Rate: [{ demo: <RateDemo /> }],
+  Rate,
   Select,
-  Skeleton: [{ demo: <SkeletonDemo /> }],
+  Skeleton,
   Slider,
   Spin: [{ demo: <SpinDemo /> }],
   Statistic: [{ demo: <StatisticDemo /> }],
@@ -112,7 +112,7 @@ const ComponentDemos: PreviewerDemos = {
   Tag,
   TimePicker: [{ demo: <TimePickerDemo /> }],
   Timeline,
-  Tooltip: [{ demo: <TooltipDemo /> }],
+  Tooltip,
   Transfer,
   TreeSelect,
   Tree: [{ demo: <TreeDemo /> }],

@@ -16,6 +16,7 @@ const componentDemo: ComponentDemo = {
     'colorBgContentHover',
     'colorBgContainer',
     'colorPrimary',
+    'colorPrimaryHover',
     'colorPrimaryBorderHover',
     'colorPrimaryBorder',
   ],
