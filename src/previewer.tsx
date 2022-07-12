@@ -17,7 +17,7 @@ import type { TokenPanelRef } from './token-panel';
 import TokenPanel from './token-panel';
 import type { FilterMode } from './FilterPanel';
 import FilterPanel from './FilterPanel';
-import type { MutableTheme, PreviewerProps, TokenName } from './interface';
+import type { MutableTheme, PreviewerProps } from './interface';
 import type { TokenType } from './utils/classifyToken';
 import { useDebounceFn } from 'ahooks';
 import type { ThemeConfig } from 'antd/es/config-provider/context';
