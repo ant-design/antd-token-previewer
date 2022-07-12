@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Default from './form';
 
 import warning from './warning';

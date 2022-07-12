@@ -1,5 +1,3 @@
-import React from 'react';
-
 import TypographyDemo from './typography';
 import Heading4 from './Heading4';
 import warning from './warning';
