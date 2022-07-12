@@ -109,6 +109,7 @@ const componentDemo: ComponentDemo = {
     'colorBgFillTmp',
     'colorBgContainerSecondary',
   ],
+  key: 'filterTable',
 };
 
 export default componentDemo;

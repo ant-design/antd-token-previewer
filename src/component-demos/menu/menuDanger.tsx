@@ -41,6 +41,7 @@ const Demo: React.FC = () => {
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
   tokens: ['colorError', 'colorErrorHover', 'colorErrorOutline'],
+  key: 'danger',
 };
 
 export default componentDemo;

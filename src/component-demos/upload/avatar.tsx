@@ -24,6 +24,7 @@ const Demo = () => (
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
   tokens: ['colorBgContainerSecondary'],
+  key: 'avatar',
 };
 
 export default componentDemo;

@@ -26,6 +26,7 @@ const Demo = () => (
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
   tokens: ['colorPrimary', 'colorPrimaryHover', 'colorPrimaryActive'],
+  key: 'upload',
 };
 
 export default componentDemo;

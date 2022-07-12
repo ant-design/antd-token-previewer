@@ -21,9 +21,9 @@ import TokenItem from '../token-item';
 import type { MutableTheme, TokenValue } from '../../interface';
 import { Motion, ShapeLine } from '../../icons';
 import type { TokenType } from '../../utils/classifyToken';
-import useStatistic from '../../hooks/useStatistic';
 import useMergedState from 'rc-util/es/hooks/useMergedState';
 import type { ThemeConfig } from 'antd/es/config-provider/context';
+import { getRelatedComponents } from '../../utils/statistic';
 
 const { Panel } = Collapse;
 
@@ -131,7 +131,6 @@ export default ({
   placeholder,
 }: TokenCardProps) => {
   const [wrapSSR, hashId] = useStyle();
-  const { getRelatedComponents } = useStatistic();
   const [open, setOpen] = useMergedState(false, {
     onChange: onOpenChange,
     defaultValue: defaultOpen,

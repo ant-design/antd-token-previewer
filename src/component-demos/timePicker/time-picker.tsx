@@ -8,6 +8,7 @@ const Demo = () => <TimePicker onChange={onChange} />;
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
   tokens: ['colorPrimary'],
+  key: 'default',
 };
 
 export default componentDemo;

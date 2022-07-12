@@ -38,6 +38,7 @@ const Demo = () => (
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
   tokens: ['colorSplit', 'colorText'],
+  key: 'divider',
 };
 
 export default componentDemo;

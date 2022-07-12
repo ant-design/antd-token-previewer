@@ -10,7 +10,6 @@ import {
   Tooltip,
 } from 'antd';
 import makeStyle from '../utils/makeStyle';
-import useStatistic from '../hooks/useStatistic';
 import type {
   AliasToken,
   ComponentDemo,
@@ -24,6 +23,7 @@ import ComponentDemos from '../component-demos';
 import TokenCard from '../token-panel/token-card';
 import { BuildOutlined, CarOutlined } from '@ant-design/icons';
 import type { ThemeConfig } from 'antd/es/config-provider/context';
+import { getComponentToken } from '../utils/statistic';
 
 const { defaultAlgorithm } = antdTheme;
 
@@ -77,7 +77,7 @@ const ComponentFullDemos: FC<ComponentFullDemosProps> = ({ demos }) => {
     >
       {demos?.map((demo) => (
         <ComponentCard
-          key={demo.tokens?.join(',') || ''}
+          key={demo.key}
           title={
             <Tooltip title={demo.tokens?.join(', ')}>
               <span>
@@ -122,7 +122,6 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
   theme,
 }) => {
   const [, hashId] = useStyle();
-  const { getComponentToken } = useStatistic();
   const [config, setConfig] = useState<ThemeConfig>({});
 
   const { component: componentToken, global: aliasTokenNames } =

@@ -20,6 +20,7 @@ const Demo = () => (
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
   tokens: ['colorSuccess'],
+  key: 'success',
 };
 
 export default componentDemo;

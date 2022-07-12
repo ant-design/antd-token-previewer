@@ -5,10 +5,10 @@ import type {
   TokenName,
 } from '../interface';
 import type { FC } from 'react';
-import React, { Fragment } from 'react';
+import React from 'react';
 import ComponentDemos from '../component-demos';
 import ComponentCard, { getComponentDemoId } from './ComponentCard';
-import { ConfigProvider, Divider, Tooltip } from 'antd';
+import { ConfigProvider, Tooltip } from 'antd';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
 
@@ -56,7 +56,7 @@ type ComponentDemoBlockProps = {
   onTokenClick?: (token: TokenName) => void;
   size?: 'small' | 'middle' | 'large';
   disabled?: boolean;
-  demos?: ComponentDemo[];
+  demos?: (ComponentDemo & { active?: boolean })[];
   theme: MutableTheme;
 };
 
@@ -80,9 +80,8 @@ const ComponentDemoBlock: FC<ComponentDemoBlockProps> = ({
         theme={theme}
       >
         <ConfigProvider componentSize={size} componentDisabled={disabled}>
-          {demos.map((demo, index) => (
-            <Fragment key={index}>
-              {index > 0 && <Divider />}
+          {demos.map((demo) => (
+            <div key={demo.key} style={{ display: demo.active ? '' : 'none' }}>
               {demo.tokens && (
                 <div className="previewer-component-demo-group-item-relative-token">
                   <Tooltip title={demo.tokens.join(', ')}>
@@ -94,7 +93,7 @@ const ComponentDemoBlock: FC<ComponentDemoBlockProps> = ({
                 </div>
               )}
               {demo.demo}
-            </Fragment>
+            </div>
           ))}
         </ConfigProvider>
       </ComponentCard>
@@ -127,33 +126,35 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
     <>
       {Object.entries(components)
         .reduce<string[]>((result, [, group]) => result.concat(group), [])
-        .filter(
-          (item) =>
-            !activeComponents ||
-            activeComponents.length === 0 ||
-            activeComponents.includes(item),
-        )
         .map((item) => {
           const componentDemos = ComponentDemos[item];
           if (!componentDemos) {
             return null;
           }
-          const demos: ComponentDemo[] = componentDemos.filter(
-            (demo, index) => {
-              return (
+          const demos: ComponentDemo[] = componentDemos.map((demo, index) => {
+            return {
+              ...demo,
+              active:
                 ((!selectedTokens || selectedTokens.length === 0) &&
                   index === 0) ||
                 selectedTokens?.some((token) =>
                   demo.tokens?.includes(token as keyof AliasToken),
-                )
-              );
-            },
-          );
+                ),
+            };
+          });
           return (
             <div
               className={classNames('previewer-component-demo-group', hashId)}
               key={item}
               id={getComponentDemoId(item)}
+              style={{
+                display:
+                  !activeComponents ||
+                  activeComponents.length === 0 ||
+                  activeComponents.includes(item)
+                    ? ''
+                    : 'none',
+              }}
             >
               {themes.map((theme) => (
                 <ConfigProvider key={theme.key} theme={theme.config}>

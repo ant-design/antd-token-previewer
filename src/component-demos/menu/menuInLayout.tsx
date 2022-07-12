@@ -23,6 +23,7 @@ const Demo: React.FC = () => {
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
   tokens: ['colorBorderSecondary'],
+  key: 'menuInLayout',
 };
 
 export default componentDemo;

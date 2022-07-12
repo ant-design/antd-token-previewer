@@ -37,6 +37,7 @@ const componentDemo: ComponentDemo = {
     'controlItemBgActive',
     'colorBgContainer',
   ],
+  key: 'default',
 };
 
 export default componentDemo;

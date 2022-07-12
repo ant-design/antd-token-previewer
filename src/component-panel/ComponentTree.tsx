@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
 import type { FC } from 'react';
-import { Badge, Tree, Input } from 'antd';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Badge, Input, Tree } from 'antd';
 import classNames from 'classnames';
-import useStatistic from '../hooks/useStatistic';
 import makeStyle from '../utils/makeStyle';
 import type { FilterMode } from '../FilterPanel';
 import { SearchOutlined } from '@ant-design/icons';
+import { getRelatedComponents } from '../utils/statistic';
 
 const useStyle = makeStyle('ComponentTree', (token) => ({
   '.component-tree-wrapper': {
@@ -86,9 +86,14 @@ const ComponentTree: FC<ComponentTreeProps> = ({
   activeComponent,
 }) => {
   const [wrapSSR, hashId] = useStyle();
-  const { relatedComponents } = useStatistic(selectedTokens);
   const treeRef = useRef<HTMLDivElement>(null);
   const [search, setSearch] = useState<string>('');
+
+  const relatedComponents = useMemo(() => {
+    console.log('tree memo components');
+    return selectedTokens ? getRelatedComponents(selectedTokens) : [];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedTokens]);
 
   useEffect(() => {
     treeRef.current

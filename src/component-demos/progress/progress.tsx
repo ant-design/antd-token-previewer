@@ -16,6 +16,7 @@ const Demo: React.FC = () => (
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
   tokens: ['colorBgContent', 'colorText', 'colorBgContainer'],
+  key: 'default',
 };
 
 export default componentDemo;

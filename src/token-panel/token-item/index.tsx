@@ -2,16 +2,16 @@ import { CaretRightOutlined } from '@ant-design/icons';
 import { Collapse, Space } from 'antd';
 import { Pick } from '../../icons';
 import type { CSSProperties } from 'react';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import type { MutableTheme, TokenValue } from '../../interface';
 import makeStyle from '../../utils/makeStyle';
 import classNames from 'classnames';
 import ColorPreview from '../../ColorPreview';
-import useStatistic from '../../hooks/useStatistic';
 import isColor from '../../utils/isColor';
 import TokenInput from '../../TokenInput';
 import getValueByPath from '../../utils/getValueByPath';
 import type { ThemeConfig } from 'antd/es/config-provider/context';
+import { getRelatedComponents } from '../../utils/statistic';
 
 const { Panel } = Collapse;
 
@@ -194,7 +194,6 @@ export default ({
 }: TokenItemProps) => {
   const [infoVisible, setInfoVisible] = React.useState(false);
   const [wrapSSR, hashId] = useStyle();
-  const { getRelatedComponents } = useStatistic();
 
   useEffect(() => {
     if (active) {
@@ -205,6 +204,11 @@ export default ({
   const handleTokenChange = (theme: MutableTheme, value: TokenValue) => {
     onTokenChange?.(theme, tokenName, value);
   };
+
+  const count = useMemo(
+    () => getRelatedComponents(tokenName).length,
+    [tokenName],
+  );
 
   return wrapSSR(
     <div onMouseEnter={() => onActiveChange?.(false)}>
@@ -256,9 +260,7 @@ export default ({
                   {tokenName}
                 </span>
                 {!hideUsageCount && (
-                  <span className="previewer-token-count">
-                    {getRelatedComponents(tokenName).length}
-                  </span>
+                  <span className="previewer-token-count">{count}</span>
                 )}
               </span>
               {!infoVisible && (

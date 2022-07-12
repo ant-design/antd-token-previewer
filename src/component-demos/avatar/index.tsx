@@ -8,6 +8,7 @@ import type { ComponentDemo } from '../../interface';
 const previewerDemo: ComponentDemo[] = [
   {
     demo: <Default />,
+    key: 'default',
   },
 ];
 

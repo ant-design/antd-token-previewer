@@ -33,5 +33,6 @@ const Demo = () => {
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
   tokens: ['colorBgMask'],
+  key: 'modalWithButton',
 };
 export default componentDemo;

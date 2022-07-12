@@ -26,6 +26,7 @@ const componentDemo: ComponentDemo = {
     'colorPrimaryActive',
     'colorBgContainer',
   ],
+  key: 'default',
 };
 
 export default componentDemo;

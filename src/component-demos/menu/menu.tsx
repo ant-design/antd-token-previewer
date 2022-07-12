@@ -35,6 +35,7 @@ const componentDemo: ComponentDemo = {
     'colorBorderSecondary',
     'colorPrimaryHover',
   ],
+  key: 'default',
 };
 
 export default componentDemo;

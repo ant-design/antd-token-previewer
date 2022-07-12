@@ -16,6 +16,7 @@ const componentDemo: ComponentDemo = {
     'colorErrorBorder',
     'colorErrorHover',
   ],
+  key: 'danger',
 };
 
 export default componentDemo;

@@ -7,6 +7,7 @@ const Demo = () => <Tag closable>Error</Tag>;
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
   tokens: ['colorBgContainerSecondary', 'colorAction', 'colorActionHover'],
+  key: 'closable',
 };
 
 export default componentDemo;

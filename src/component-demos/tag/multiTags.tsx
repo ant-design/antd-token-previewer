@@ -14,6 +14,7 @@ const Checkable = () => (
 const componentDemo: ComponentDemo = {
   demo: <Checkable />,
   tokens: ['colorPrimary', 'colorPrimaryHover', 'colorPrimaryActive'],
+  key: 'multiTags',
 };
 
 export default componentDemo;

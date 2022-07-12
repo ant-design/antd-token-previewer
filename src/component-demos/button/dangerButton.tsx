@@ -31,6 +31,7 @@ const componentDemo: ComponentDemo = {
     'colorErrorBorder',
     'colorErrorOutline',
   ],
+  key: 'danger',
 };
 
 export default componentDemo;

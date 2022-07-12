@@ -14,6 +14,7 @@ const Demo = () => (
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
   tokens: ['colorWarning'],
+  key: 'warning',
 };
 
 export default componentDemo;

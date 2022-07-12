@@ -69,6 +69,7 @@ const Demo = () => <Table columns={columns} dataSource={data} />;
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
   tokens: ['colorPrimaryActive', 'colorBgContainer'],
+  key: 'table',
 };
 
 export default componentDemo;

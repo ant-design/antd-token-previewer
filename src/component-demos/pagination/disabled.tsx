@@ -13,6 +13,7 @@ const componentDemo: ComponentDemo = {
     'colorBgContainerDisabled',
     'colorBgContainerSecondary',
   ],
+  key: 'disabled',
 };
 
 export default componentDemo;
