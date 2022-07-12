@@ -87,7 +87,20 @@ const ComponentFullDemos: FC<ComponentFullDemosProps> = ({ demos }) => {
             </Tooltip>
           }
         >
-          {demo.demo}
+          <ConfigProvider
+            theme={{
+              override: {
+                Select: {
+                  zIndexPopup: 1010,
+                },
+                TreeSelect: {
+                  zIndexPopup: 1010,
+                },
+              },
+            }}
+          >
+            {demo.demo}
+          </ConfigProvider>
         </ComponentCard>
       ))}
     </div>

@@ -5,7 +5,7 @@ import ComponentTree from './ComponentTree';
 import makeStyle from '../utils/makeStyle';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { getComponentDemoId } from './ComponentCard';
-import { Breadcrumb, Segmented, Switch } from 'antd';
+import { Breadcrumb, ConfigProvider, Segmented, Switch } from 'antd';
 import type { Theme } from '../interface';
 import useStatistic from '../hooks/useStatistic';
 import ComponentDemoGroup from './ComponentDemoGroup';
@@ -87,7 +87,7 @@ const useStyle = makeStyle('ComponentPanel', (token) => ({
         insetInlineStart: 0,
         width: '100%',
         height: BREADCRUMB_HEIGHT,
-        zIndex: 2,
+        zIndex: 20,
         backgroundColor: token.colorBgContainer,
         padding: '8px 16px',
         transition: 'opacity 0.3s',
@@ -250,17 +250,30 @@ const Index: FC<ComponentPanelProps> = ({
 
   const demoGroup = useMemo(
     () => (
-      <ComponentDemoGroup
-        themes={themes}
-        components={antdComponents}
-        size={componentSize}
-        disabled={componentDisabled}
-        activeComponents={
-          filterMode === 'highlight' ? undefined : relatedComponents
-        }
-        selectedTokens={selectedTokens}
-        onTokenClick={onTokenClick}
-      />
+      <ConfigProvider
+        theme={{
+          override: {
+            Select: {
+              zIndexPopup: 10,
+            },
+            TreeSelect: {
+              zIndexPopup: 10,
+            },
+          },
+        }}
+      >
+        <ComponentDemoGroup
+          themes={themes}
+          components={antdComponents}
+          size={componentSize}
+          disabled={componentDisabled}
+          activeComponents={
+            filterMode === 'highlight' ? undefined : relatedComponents
+          }
+          selectedTokens={selectedTokens}
+          onTokenClick={onTokenClick}
+        />
+      </ConfigProvider>
     ),
     [
       themes,
