@@ -103,7 +103,7 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({
   onThemeChange,
 }) => {
   const [wrapSSR, hashId] = useStyle();
-  const [selectedTokens, setSelectedTokens] = useState<TokenName[]>([]);
+  const [selectedTokens, setSelectedTokens] = useState<string[]>([]);
   const [siderVisible, setSiderVisible] = useState<boolean>(true);
   const [siderWidth, setSiderWidth] = useState<number>(SIDER_WIDTH);
   const [filterMode, setFilterMode] = useState<FilterMode>('filter');
@@ -221,7 +221,7 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({
     { wait: 500 },
   );
 
-  const handleTokenClick = useCallback((tokenName: TokenName) => {
+  const handleTokenClick = useCallback((tokenName: string) => {
     tokenPanelRef.current?.scrollToToken(tokenName);
   }, []);
 

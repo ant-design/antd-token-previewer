@@ -18,7 +18,7 @@ import type { ReactNode } from 'react';
 import React from 'react';
 import makeStyle from '../../utils/makeStyle';
 import TokenItem from '../token-item';
-import type { MutableTheme, TokenName, TokenValue } from '../../interface';
+import type { MutableTheme, TokenValue } from '../../interface';
 import { Motion, ShapeLine } from '../../icons';
 import type { TokenType } from '../../utils/classifyToken';
 import useStatistic from '../../hooks/useStatistic';
@@ -45,7 +45,7 @@ interface TokenCardProps {
     value: TokenValue,
   ) => void;
   themes: MutableTheme[];
-  selectedTokens?: TokenName[];
+  selectedTokens?: string[];
   onTokenSelect?: (token: string) => void;
   enableTokenSelect?: boolean;
   hideUsageCount?: boolean;

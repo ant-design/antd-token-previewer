@@ -17,12 +17,7 @@ import {
 } from '../utils/classifyToken';
 import makeStyle from '../utils/makeStyle';
 import TokenCard, { IconMap, TextMap } from './token-card';
-import type {
-  AliasToken,
-  MutableTheme,
-  TokenName,
-  TokenValue,
-} from '../interface';
+import type { AliasToken, MutableTheme, TokenValue } from '../interface';
 import { SearchDropdown } from '../icons';
 import { getTokenItemId } from './token-item';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
@@ -120,7 +115,7 @@ const useStyle = makeStyle('AliasTokenPreview', (token) => ({
 
 export interface TokenPreviewProps {
   themes: MutableTheme[];
-  selectedTokens?: TokenName[];
+  selectedTokens?: string[];
   onTokenSelect?: (token: string) => void;
   filterTypes?: TokenType[];
   onFilterTypesChange?: (types: TokenType[]) => void;
@@ -128,7 +123,7 @@ export interface TokenPreviewProps {
 }
 
 export type TokenPanelRef = {
-  scrollToToken: (token: TokenName) => void;
+  scrollToToken: (token: string) => void;
 };
 
 export default forwardRef<TokenPanelRef, TokenPreviewProps>(

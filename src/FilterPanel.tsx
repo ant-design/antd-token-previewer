@@ -4,7 +4,6 @@ import makeStyle from './utils/makeStyle';
 import classNames from 'classnames';
 import { Segmented, Tag } from 'antd';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import type { TokenName } from './interface';
 
 const useStyle = makeStyle('FilterPanel', (token) => ({
   '.previewer-filter-panel': {
@@ -57,9 +56,9 @@ export type FilterMode = 'highlight' | 'filter';
 export type FilterPanelProps = {
   filterMode?: FilterMode;
   onFilterModeChange?: (mode: FilterMode) => void;
-  selectedTokens: TokenName[];
-  onSelectedTokensChange?: (newTokens: TokenName[]) => void;
-  onTokenClick?: (token: TokenName) => void;
+  selectedTokens: string[];
+  onSelectedTokensChange?: (newTokens: string[]) => void;
+  onTokenClick?: (token: string) => void;
   className?: string;
   style?: CSSProperties;
 };
