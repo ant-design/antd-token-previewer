@@ -52,9 +52,11 @@ describe('ComponentPanel', () => {
         ?.querySelector('.ant-tree-list')
         ?.querySelectorAll('.ant-tree-treenode').length,
     ).toBe(treeLength);
-    expect(container.querySelector('.component-demos')?.children.length).toBe(
-      componentLength,
-    );
+    expect(
+      Array.from(
+        container.querySelector('.component-demos')?.children || [],
+      ).filter((el: any) => el.style.display !== 'none').length,
+    ).toBe(componentLength);
   });
 
   it('search should work', () => {
