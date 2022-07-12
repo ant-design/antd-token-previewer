@@ -9,7 +9,7 @@ import error from './error';
 import type { ComponentDemo } from '../../interface';
 
 const previewerDemo: ComponentDemo[] = [
-  { demo: <TypographyDemo /> },
+  TypographyDemo,
   Heading4,
   error,
   warning,

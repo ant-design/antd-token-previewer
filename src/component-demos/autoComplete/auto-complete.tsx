@@ -50,6 +50,7 @@ const Demo = () => <Complete />;
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
   tokens: [],
+  key: 'autoComplete',
 };
 
 export default componentDemo;

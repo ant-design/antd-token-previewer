@@ -8,6 +8,7 @@ const Demo = () => <Button>default</Button>;
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
   tokens: ['colorBgContainer'],
+  key: 'default',
 };
 
 export default componentDemo;

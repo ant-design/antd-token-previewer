@@ -27,6 +27,7 @@ const componentDemo: ComponentDemo = {
     'colorPrimaryHover',
     'colorPrimaryOutline',
   ],
+  key: 'default',
 };
 
 export default componentDemo;

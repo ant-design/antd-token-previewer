@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
+import type { ComponentDemo } from '../../interface';
 
 const Demo = () => {
   const onFinish = () => {};
@@ -43,4 +44,11 @@ const Demo = () => {
     </Form>
   );
 };
-export default () => <Demo />;
+
+const componentDemo: ComponentDemo = {
+  demo: <Demo />,
+  tokens: ['colorError', 'colorErrorBorder', 'colorErrorHover'],
+  key: 'default',
+};
+
+export default componentDemo;

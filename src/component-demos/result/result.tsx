@@ -19,6 +19,7 @@ const Demo: React.FC = () => (
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
   tokens: ['colorSuccess'],
+  key: 'result',
 };
 
 export default componentDemo;

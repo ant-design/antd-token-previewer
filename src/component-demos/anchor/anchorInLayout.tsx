@@ -20,6 +20,10 @@ const Demo = () => {
   );
 };
 
-const componentDemo: ComponentDemo = { demo: <Demo />, tokens: ['colorSplit'] };
+const componentDemo: ComponentDemo = {
+  demo: <Demo />,
+  tokens: ['colorSplit'],
+  key: 'anchorInLayout',
+};
 
 export default componentDemo;

@@ -21,6 +21,7 @@ const componentDemo: ComponentDemo = {
     'colorPrimaryActive',
     'colorPrimaryHover',
   ],
+  key: 'button',
 };
 
 export default componentDemo;

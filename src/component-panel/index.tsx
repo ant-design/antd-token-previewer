@@ -6,11 +6,10 @@ import makeStyle from '../utils/makeStyle';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { getComponentDemoId } from './ComponentCard';
 import { Breadcrumb, ConfigProvider, Segmented, Switch } from 'antd';
-import type { Theme } from '../interface';
-import useStatistic from '../hooks/useStatistic';
+import type { Theme, TokenName } from '../interface';
 import ComponentDemoGroup from './ComponentDemoGroup';
 import type { FilterMode } from '../FilterPanel';
-import type { TokenName } from '../interface';
+import { getRelatedComponents } from '../utils/statistic';
 
 const BREADCRUMB_HEIGHT = 40;
 
@@ -191,7 +190,10 @@ const Index: FC<ComponentPanelProps> = ({
   const [activeComponent, setActiveComponent] = useState<string | undefined>();
   const [showBreadcrumb, setShowBreadcrumb] = useState<boolean>(false);
 
-  const { relatedComponents } = useStatistic(selectedTokens);
+  const relatedComponents = useMemo(() => {
+    return selectedTokens ? getRelatedComponents(selectedTokens) : [];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedTokens]);
 
   useEffect(() => {
     setShowSide(true);
@@ -229,7 +231,7 @@ const Index: FC<ComponentPanelProps> = ({
       top:
         (demosRef.current?.querySelector<HTMLElement>(
           `#${getComponentDemoId(component)}`,
-        )?.offsetTop || 0) - 40,
+        )?.offsetTop || 0) - 38,
       behavior: 'smooth',
     });
   };

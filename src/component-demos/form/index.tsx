@@ -7,6 +7,6 @@ import danger from './danger';
 
 import type { ComponentDemo } from '../../interface';
 
-const previewerDemo: ComponentDemo[] = [{ demo: <Default /> }, warning, danger];
+const previewerDemo: ComponentDemo[] = [Default, warning, danger];
 
 export default previewerDemo;

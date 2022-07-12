@@ -23,6 +23,7 @@ const componentDemo: ComponentDemo = {
     'colorPrimaryActive',
     'colorPrimaryHover',
   ],
+  key: 'breadcrumb',
 };
 
 export default componentDemo;

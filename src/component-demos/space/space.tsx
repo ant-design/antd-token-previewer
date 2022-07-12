@@ -24,7 +24,7 @@ const Demo: React.FC = () => (
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: [],
+  key: 'default',
 };
 
 export default componentDemo;

@@ -34,6 +34,7 @@ const componentDemo: ComponentDemo = {
     'colorPrimary',
     'colorBgContainer',
   ],
+  key: 'card',
 };
 
 export default componentDemo;

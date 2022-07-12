@@ -18,7 +18,7 @@ const Demo = () => (
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: [],
+  key: 'default',
 };
 
 export default componentDemo;

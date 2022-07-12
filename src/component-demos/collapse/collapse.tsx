@@ -27,6 +27,7 @@ const componentDemo: ComponentDemo = {
     'colorBgContainerSecondary',
     'colorBgContainer',
   ],
+  key: 'default',
 };
 
 export default componentDemo;

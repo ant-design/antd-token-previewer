@@ -20,6 +20,7 @@ const componentDemo: ComponentDemo = {
     'colorPrimaryBorderHover',
     'colorPrimaryBorder',
   ],
+  key: 'default',
 };
 
 export default componentDemo;

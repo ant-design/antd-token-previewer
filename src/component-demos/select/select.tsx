@@ -36,6 +36,7 @@ const componentDemo: ComponentDemo = {
     'colorBgElevated',
     'colorBgContainer',
   ],
+  key: 'select',
 };
 
 export default componentDemo;

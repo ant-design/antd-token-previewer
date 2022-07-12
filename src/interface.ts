@@ -15,6 +15,7 @@ export type TokenName = keyof AliasToken;
 export interface ComponentDemo {
   tokens?: TokenName[];
   demo: ReactElement;
+  key: string;
 }
 export interface PreviewerDemo {
   default: ReactElement;

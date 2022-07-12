@@ -9,6 +9,7 @@ const Demo: React.FC = () => (
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
   tokens: ['colorError'],
+  key: 'danger',
 };
 
 export default componentDemo;

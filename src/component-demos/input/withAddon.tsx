@@ -9,6 +9,7 @@ const Demo = () => (
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
   tokens: ['colorBgContainerSecondary'],
+  key: 'withAddon',
 };
 
 export default componentDemo;

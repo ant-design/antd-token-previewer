@@ -8,6 +8,7 @@ const Demo = () => <Skeleton />;
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
   tokens: ['colorBgFillTmp', 'colorTextPlaceholder'],
+  key: 'default',
 };
 
 export default componentDemo;

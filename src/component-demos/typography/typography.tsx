@@ -1,8 +1,9 @@
 import React from 'react';
 import { Typography } from 'antd';
+import type { ComponentDemo } from '../../interface';
 
 const { Title, Paragraph, Text, Link } = Typography;
-export default () => (
+const Demo = () => (
   <Typography>
     <Title level={4}>《故乡》 </Title>
     <Paragraph>——鲁迅</Paragraph>
@@ -27,3 +28,11 @@ export default () => (
     </Paragraph>
   </Typography>
 );
+
+const componentDemo: ComponentDemo = {
+  demo: <Demo />,
+  tokens: ['colorSuccess'],
+  key: 'default',
+};
+
+export default componentDemo;

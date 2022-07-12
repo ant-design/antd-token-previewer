@@ -28,6 +28,7 @@ const componentDemo: ComponentDemo = {
     'colorWarningHover',
     'colorWarningOutline',
   ],
+  key: 'warning',
 };
 
 export default componentDemo;

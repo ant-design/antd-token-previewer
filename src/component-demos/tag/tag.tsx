@@ -94,6 +94,7 @@ const componentDemo: ComponentDemo = {
     'red-6',
     'red-7',
   ],
+  key: 'default',
 };
 
 export default componentDemo;

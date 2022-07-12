@@ -2,13 +2,15 @@ import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import type { ComponentPanelProps } from '../src/component-panel';
 import ComponentPanel from '../src/component-panel';
-import useToken from '../src/hooks/useToken';
 import tokenStatistic from 'antd/es/version/token';
 import { antdComponents } from '../src/component-panel';
+import { theme } from 'antd';
+
+const { useToken } = theme;
 
 describe('ComponentPanel', () => {
   const Panel = ({ themes, ...restProps }: Partial<ComponentPanelProps>) => {
-    const [token] = useToken();
+    const { token } = useToken();
 
     const mergedThemes = themes || [
       {
