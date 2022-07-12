@@ -1,6 +1,6 @@
 import React from 'react';
 import { Statistic, Row, Col, Button } from 'antd';
-import { ComponentDemo } from '../../interface';
+import type { ComponentDemo } from '../../interface';
 
 const Demo = () => (
   <Row gutter={16}>

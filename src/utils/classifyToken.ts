@@ -1,4 +1,4 @@
-import type { TokenName, TokenValue } from '../interface';
+import type { TokenValue } from '../interface';
 import type { GlobalToken } from 'antd/es/theme/interface';
 
 function defineTokenType<T extends string>(types: T[]) {
@@ -23,7 +23,7 @@ export const TOKEN_SORTS = defineTokenType([
 
 export type TokenType = typeof TOKEN_SORTS[number];
 
-export function getTypeOfToken(tokenName: keyof GlobalToken): TokenType {
+export function getTypeOfToken(tokenName: string): TokenType {
   if (tokenName.startsWith('color')) {
     if (
       tokenName.startsWith('colorLink') ||
@@ -74,19 +74,16 @@ export function getTypeOfToken(tokenName: keyof GlobalToken): TokenType {
 
 export const classifyToken = (
   token: Record<string, TokenValue>,
-): Record<string, { tokenName: TokenName; value: TokenValue }[]> => {
-  const groupedToken: Record<
-    string,
-    { tokenName: TokenName; value: TokenValue }[]
-  > = {};
-  Object.entries(token || {})
-    .sort((a, b) => a[0].localeCompare(b[0]))
-    .forEach(([key, value]) => {
+): Record<string, string[]> => {
+  const groupedToken: Record<string, string[]> = {};
+  Object.keys(token || {})
+    .sort((a, b) => a.localeCompare(b))
+    .forEach((key) => {
       const type = getTypeOfToken(key as keyof GlobalToken);
       if (!groupedToken[type]) {
         groupedToken[type] = [];
       }
-      groupedToken[type].push({ tokenName: key as TokenName, value });
+      groupedToken[type].push(key);
     });
   return groupedToken;
 };

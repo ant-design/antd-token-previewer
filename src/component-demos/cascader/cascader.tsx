@@ -2,7 +2,7 @@ import React from 'react';
 import { Cascader } from 'antd';
 
 import options from './data';
-import { ComponentDemo } from '../../interface';
+import type { ComponentDemo } from '../../interface';
 const { _InternalPanelDoNotUseOrYouWillBeFired: InternalCascader } = Cascader;
 
 const Demo = (props: any) => (

@@ -3,8 +3,7 @@ import { Collapse, Space } from 'antd';
 import { Pick } from '../../icons';
 import type { CSSProperties } from 'react';
 import React, { useEffect } from 'react';
-import { PreviewContext } from '..';
-import type { MutableTheme, TokenName, TokenValue } from '../../interface';
+import type { MutableTheme, TokenValue } from '../../interface';
 import makeStyle from '../../utils/makeStyle';
 import classNames from 'classnames';
 import ColorPreview from '../../ColorPreview';
@@ -12,12 +11,12 @@ import useStatistic from '../../hooks/useStatistic';
 import isColor from '../../utils/isColor';
 import TokenInput from '../../TokenInput';
 import getValueByPath from '../../utils/getValueByPath';
-import getDesignToken from '../../utils/getDesignToken';
+import type { ThemeConfig } from 'antd/es/config-provider/context';
 
 const { Panel } = Collapse;
 
 interface TokenItemProps {
-  tokenName: TokenName;
+  tokenName: string;
   tokenPath: string[];
   active?: boolean;
   onActiveChange?: (active: boolean) => void;
@@ -26,6 +25,12 @@ interface TokenItemProps {
     tokenName: string,
     value: TokenValue,
   ) => void;
+  themes: MutableTheme[];
+  selectedTokens?: string[];
+  onTokenSelect?: (token: string) => void;
+  enableTokenSelect?: boolean;
+  hideUsageCount?: boolean;
+  fallback?: (config: ThemeConfig) => Record<string, TokenValue>;
 }
 
 const AdditionInfo = ({
@@ -54,7 +59,6 @@ const AdditionInfo = ({
     return (
       <div
         style={{
-          maxWidth: 40,
           height: 20,
           overflow: 'hidden',
           backgroundColor: 'rgba(0,0,0,0.04)',
@@ -172,7 +176,7 @@ const useStyle = makeStyle('TokenItem', (token) => ({
   },
 }));
 
-export const getTokenItemId = (token: TokenName) =>
+export const getTokenItemId = (token: string) =>
   `previewer-token-panel-item-${token}`;
 
 export default ({
@@ -181,9 +185,13 @@ export default ({
   onActiveChange,
   onTokenChange,
   tokenPath,
+  selectedTokens,
+  themes,
+  onTokenSelect,
+  enableTokenSelect,
+  hideUsageCount,
+  fallback,
 }: TokenItemProps) => {
-  const { selectedTokens, themes, onTokenSelect, enableTokenSelect } =
-    React.useContext(PreviewContext);
   const [infoVisible, setInfoVisible] = React.useState(false);
   const [wrapSSR, hashId] = useStyle();
   const { getRelatedComponents } = useStatistic();
@@ -247,9 +255,11 @@ export default ({
                 >
                   {tokenName}
                 </span>
-                <span className="previewer-token-count">
-                  {getRelatedComponents(tokenName).length}
-                </span>
+                {!hideUsageCount && (
+                  <span className="previewer-token-count">
+                    {getRelatedComponents(tokenName).length}
+                  </span>
+                )}
               </span>
               {!infoVisible && (
                 <div
@@ -265,7 +275,7 @@ export default ({
                         tokenName={tokenName}
                         info={
                           getValueByPath(config, [...tokenPath, tokenName]) ??
-                          getDesignToken(config)[tokenName] ??
+                          fallback?.(config)[tokenName] ??
                           ''
                         }
                         visible={!infoVisible}
@@ -307,7 +317,7 @@ export default ({
                     onChange={(value) => handleTokenChange(theme, value)}
                     value={
                       getValueByPath(theme.config, [...tokenPath, tokenName]) ??
-                      getDesignToken(theme.config)[tokenName]
+                      fallback?.(theme.config)[tokenName]
                     }
                   />
                 </div>
