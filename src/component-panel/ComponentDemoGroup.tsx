@@ -5,13 +5,12 @@ import type {
   TokenName,
 } from '../interface';
 import type { FC } from 'react';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import ComponentDemos from '../component-demos';
 import ComponentCard, { getComponentDemoId } from './ComponentCard';
 import { ConfigProvider, Divider, Tooltip } from 'antd';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
-import ComponentTokenDrawer from './ComponentTokenDrawer';
 
 const useStyle = makeStyle('ComponentDemoGroup', (token) => ({
   '.previewer-component-demo-group': {
