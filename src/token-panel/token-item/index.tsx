@@ -30,7 +30,7 @@ interface TokenItemProps {
   onTokenSelect?: (token: string) => void;
   enableTokenSelect?: boolean;
   hideUsageCount?: boolean;
-  fallbackConfig?: ThemeConfig;
+  fallback?: (config: ThemeConfig) => Record<string, TokenValue>;
 }
 
 const AdditionInfo = ({
@@ -59,7 +59,6 @@ const AdditionInfo = ({
     return (
       <div
         style={{
-          maxWidth: 40,
           height: 20,
           overflow: 'hidden',
           backgroundColor: 'rgba(0,0,0,0.04)',
@@ -191,7 +190,7 @@ export default ({
   onTokenSelect,
   enableTokenSelect,
   hideUsageCount,
-  fallbackConfig,
+  fallback,
 }: TokenItemProps) => {
   const [infoVisible, setInfoVisible] = React.useState(false);
   const [wrapSSR, hashId] = useStyle();
@@ -276,10 +275,7 @@ export default ({
                         tokenName={tokenName}
                         info={
                           getValueByPath(config, [...tokenPath, tokenName]) ??
-                          getValueByPath(fallbackConfig, [
-                            ...tokenPath,
-                            tokenName,
-                          ]) ??
+                          fallback?.(config)[tokenName] ??
                           ''
                         }
                         visible={!infoVisible}
@@ -321,7 +317,7 @@ export default ({
                     onChange={(value) => handleTokenChange(theme, value)}
                     value={
                       getValueByPath(theme.config, [...tokenPath, tokenName]) ??
-                      getValueByPath(fallbackConfig, [...tokenPath, tokenName])
+                      fallback?.(theme.config)[tokenName]
                     }
                   />
                 </div>

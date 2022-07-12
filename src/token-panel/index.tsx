@@ -17,7 +17,12 @@ import {
 } from '../utils/classifyToken';
 import makeStyle from '../utils/makeStyle';
 import TokenCard, { IconMap, TextMap } from './token-card';
-import type { MutableTheme, TokenName, TokenValue } from '../interface';
+import type {
+  AliasToken,
+  MutableTheme,
+  TokenName,
+  TokenValue,
+} from '../interface';
 import { SearchDropdown } from '../icons';
 import { getTokenItemId } from './token-item';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
@@ -330,7 +335,7 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
                   selectedTokens={selectedTokens}
                   onTokenSelect={onTokenSelect}
                   enableTokenSelect={enableTokenSelect}
-                  fallbackConfig={{ token: getDesignToken() }} // TODO: fallback seed
+                  fallback={(config) => getDesignToken(config) as AliasToken} // TODO: fallback seed
                 />
                 {TOKEN_SORTS.filter(
                   (type) =>
@@ -367,7 +372,7 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
                     selectedTokens={selectedTokens}
                     onTokenSelect={onTokenSelect}
                     enableTokenSelect={enableTokenSelect}
-                    fallbackConfig={{ override: { alias: getDesignToken() } }}
+                    fallback={(config) => getDesignToken(config) as AliasToken}
                   />
                 ))}
               </div>

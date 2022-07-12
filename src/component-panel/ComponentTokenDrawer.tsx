@@ -12,6 +12,7 @@ import {
 import makeStyle from '../utils/makeStyle';
 import useStatistic from '../hooks/useStatistic';
 import type {
+  AliasToken,
   ComponentDemo,
   MutableTheme,
   TokenName,
@@ -181,7 +182,7 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
             tokenArr={componentTokenData}
             tokenPath={['override', component]}
             themes={[theme]}
-            fallbackConfig={{ override: { [component]: componentToken } }}
+            fallback={() => componentToken}
             onTokenChange={(_, tokenName, value) =>
               handleComponentTokenChange(tokenName, value)
             }
@@ -189,6 +190,10 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
               <Empty
                 image={Empty.PRESENTED_IMAGE_SIMPLE}
                 description="暂无相关 Component Token"
+                style={{
+                  marginBlock: 0,
+                  paddingBlock: 32,
+                }}
               />
             }
           />
@@ -200,7 +205,9 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
             title="Alias Token"
             tokenArr={aliasTokenData}
             tokenPath={['override', 'alias']}
-            fallbackConfig={{ override: { alias: getDesignToken() } }}
+            fallback={(themeConfig) =>
+              getDesignToken(themeConfig) as AliasToken
+            }
             onTokenChange={(_, tokenName, value) =>
               handleAliasTokenChange(tokenName, value)
             }
@@ -208,6 +215,10 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
               <Empty
                 image={Empty.PRESENTED_IMAGE_SIMPLE}
                 description="暂无相关 Alias Token"
+                style={{
+                  marginBlock: 0,
+                  paddingBlock: 32,
+                }}
               />
             }
           />

@@ -16,7 +16,7 @@ const useStyle = makeStyle('TokenInput', (token) => ({
         color: `rgba(0, 0, 0, 0.25) !important`,
         fontSize: `${token.fontSizeSM}px !important`,
         padding: '0 !important',
-        background: 'transparent',
+        backgroundColor: 'transparent !important',
 
         '&:first-child': {
           paddingInlineStart: 0,

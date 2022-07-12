@@ -49,8 +49,8 @@ interface TokenCardProps {
   onTokenSelect?: (token: string) => void;
   enableTokenSelect?: boolean;
   hideUsageCount?: boolean;
-  fallbackConfig?: ThemeConfig;
   placeholder?: ReactNode;
+  fallback?: (config: ThemeConfig) => Record<string, TokenValue>;
 }
 
 export const IconMap: Record<TokenType, ReactNode> = {
@@ -93,9 +93,6 @@ const useStyle = makeStyle('TokenCard', (token) => ({
     marginBottom: token.marginSM,
 
     [`${token.rootCls}-collapse.token-card-collapse`]: {
-      [`> ${token.rootCls}-collapse-item > ${token.rootCls}-collapse-header`]: {
-        padding: token.paddingSM,
-      },
       [`> ${token.rootCls}-collapse-item > ${token.rootCls}-collapse-content > ${token.rootCls}-collapse-content-box`]:
         {
           padding: {
@@ -130,7 +127,7 @@ export default ({
   onTokenSelect,
   enableTokenSelect,
   hideUsageCount,
-  fallbackConfig,
+  fallback,
   placeholder,
 }: TokenCardProps) => {
   const [wrapSSR, hashId] = useStyle();
@@ -190,7 +187,7 @@ export default ({
                 onTokenSelect={onTokenSelect}
                 enableTokenSelect={enableTokenSelect}
                 hideUsageCount={hideUsageCount}
-                fallbackConfig={fallbackConfig}
+                fallback={fallback}
               />
             ))}
           {tokenArr.length === 0 && placeholder}
