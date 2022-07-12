@@ -1,11 +1,12 @@
 import type { FC, PropsWithChildren } from 'react';
-import React from 'react';
+import React, { useState } from 'react';
 import type { CardProps } from 'antd';
 import { Card } from 'antd';
 import { Control } from '../icons';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
-import type { TokenName } from '../interface';
+import type { MutableTheme, TokenName } from '../interface';
+import ComponentTokenDrawer from './ComponentTokenDrawer';
 
 const useStyle = makeStyle('ComponentCard', (token) => ({
   [`${token.rootCls}-card.component-card`]: {
@@ -43,33 +44,49 @@ export const getComponentDemoId = (component: string) =>
   `antd-token-previewer-${component}`;
 
 export type ComponentCardProps = PropsWithChildren<{
-  component: CardProps['title'];
+  title: CardProps['title'];
+  component?: string;
   onTokenClick?: (token: TokenName) => void;
-  onToggleTokenDrawerOpen?: () => void;
+  drawer?: boolean;
+  theme?: MutableTheme;
 }>;
 
 const ComponentCard: FC<ComponentCardProps> = ({
   children,
   component,
-  onToggleTokenDrawerOpen,
+  title,
+  theme,
+  drawer,
 }) => {
   const [wrapSSR, hashId] = useStyle();
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   return wrapSSR(
-    <Card
-      className={classNames('component-card', hashId)}
-      title={component}
-      extra={
-        onToggleTokenDrawerOpen && (
-          <Control
-            className="component-token-control-icon"
-            onClick={() => onToggleTokenDrawerOpen()}
-          />
-        )
-      }
-    >
-      {children}
-    </Card>,
+    <>
+      <Card
+        className={classNames('component-card', hashId)}
+        title={title}
+        extra={
+          drawer &&
+          theme && (
+            <Control
+              className="component-token-control-icon"
+              onClick={() => setDrawerOpen(true)}
+            />
+          )
+        }
+      >
+        {children}
+      </Card>
+      {drawer && theme && (
+        <ComponentTokenDrawer
+          visible={drawerOpen}
+          theme={theme}
+          component={component}
+          onClose={() => setDrawerOpen(false)}
+        />
+      )}
+    </>,
   );
 };
 

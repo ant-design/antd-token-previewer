@@ -58,7 +58,7 @@ type ComponentDemoBlockProps = {
   size?: 'small' | 'middle' | 'large';
   disabled?: boolean;
   demos?: ComponentDemo[];
-  onToggleTokenDrawerOpen?: () => void;
+  theme: MutableTheme;
 };
 
 const ComponentDemoBlock: FC<ComponentDemoBlockProps> = ({
@@ -67,16 +67,18 @@ const ComponentDemoBlock: FC<ComponentDemoBlockProps> = ({
   size = 'middle',
   disabled = false,
   demos = [],
-  onToggleTokenDrawerOpen,
+  theme,
 }) => {
   const [, hashId] = useDemoStyle();
 
   return (
     <div className={classNames('previewer-component-demo-group-item', hashId)}>
       <ComponentCard
+        title={component}
         component={component}
         onTokenClick={onTokenClick}
-        onToggleTokenDrawerOpen={onToggleTokenDrawerOpen}
+        drawer
+        theme={theme}
       >
         <ConfigProvider componentSize={size} componentDisabled={disabled}>
           {demos.map((demo, index) => (
@@ -121,28 +123,6 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
   onTokenClick,
 }) => {
   const [wrapSSR, hashId] = useStyle();
-  const [drawerInfo, setDrawerInfo] = useState<{
-    component?: string;
-    theme?: MutableTheme;
-    open: boolean;
-  }>({
-    open: false,
-  });
-
-  const toggleTokenDrawerOpen = (component: string, theme: MutableTheme) => {
-    setDrawerInfo((prev) => {
-      return {
-        ...prev,
-        component,
-        theme,
-        open: !(
-          prev.open &&
-          prev.component === component &&
-          prev.theme === theme
-        ),
-      };
-    });
-  };
 
   return wrapSSR(
     <>
@@ -184,22 +164,13 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
                     demos={demos}
                     disabled={disabled}
                     size={size}
-                    onToggleTokenDrawerOpen={() =>
-                      toggleTokenDrawerOpen(item, theme)
-                    }
+                    theme={theme}
                   />
                 </ConfigProvider>
               ))}
             </div>
           );
         })}
-      <ComponentTokenDrawer
-        visible={drawerInfo.open}
-        theme={drawerInfo.theme}
-        component={drawerInfo.component}
-        onClose={() => setDrawerInfo((prev) => ({ ...prev, open: false }))}
-        // onTokenClick={handleTokenClick}
-      />
     </>,
   );
 };

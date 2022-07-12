@@ -1,15 +1,28 @@
 import type { FC } from 'react';
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import classNames from 'classnames';
-import { ConfigProvider, Drawer, Tag, theme as antdTheme, Tooltip } from 'antd';
+import {
+  ConfigProvider,
+  Drawer,
+  Empty,
+  Tag,
+  theme as antdTheme,
+  Tooltip,
+} from 'antd';
 import makeStyle from '../utils/makeStyle';
 import useStatistic from '../hooks/useStatistic';
-import type { ComponentDemo, MutableTheme, TokenName } from '../interface';
+import type {
+  ComponentDemo,
+  MutableTheme,
+  TokenName,
+  TokenValue,
+} from '../interface';
 import getDesignToken from '../utils/getDesignToken';
 import ComponentCard from './ComponentCard';
 import ComponentDemos from '../component-demos';
 import TokenCard from '../token-panel/token-card';
 import { BuildOutlined, CarOutlined } from '@ant-design/icons';
+import type { ThemeConfig } from 'antd/es/config-provider/context';
 
 const { defaultAlgorithm } = antdTheme;
 
@@ -39,7 +52,6 @@ const useStyle = makeStyle('ComponentTokenDrawer', (token) => ({
 
 export type ComponentFullDemosProps = {
   demos: ComponentDemo[];
-  theme: MutableTheme;
 };
 
 const useComponentFullDemosStyle = makeStyle('ComponentFullDemos', (token) => ({
@@ -65,7 +77,7 @@ const ComponentFullDemos: FC<ComponentFullDemosProps> = ({ demos }) => {
       {demos?.map((demo) => (
         <ComponentCard
           key={demo.tokens?.join(',') || ''}
-          component={
+          title={
             <Tooltip title={demo.tokens?.join(', ')}>
               <span>
                 关联 token: {demo.tokens?.join(', ')}
@@ -85,7 +97,7 @@ export type ComponentTokenDrawerProps = {
   visible?: boolean;
   component?: string;
   onClose?: () => void;
-  theme?: MutableTheme;
+  theme: MutableTheme;
   onTokenClick?: (token: TokenName) => void;
 };
 
@@ -93,15 +105,11 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
   visible,
   component = 'Button',
   onClose,
-  theme = {
-    config: {},
-    onThemeChange: () => {},
-    name: 'unknown',
-    key: 'unknown',
-  },
+  theme,
 }) => {
   const [, hashId] = useStyle();
   const { getComponentToken } = useStatistic();
+  const [config, setConfig] = useState<ThemeConfig>({});
 
   const { component: componentToken, global: aliasTokenNames } =
     getComponentToken(component) || { global: [] };
@@ -114,6 +122,31 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
   const aliasTokenData = useMemo(() => {
     return aliasTokenNames.sort();
   }, [aliasTokenNames]);
+
+  const handleComponentTokenChange = (token: string, value: TokenValue) => {
+    setConfig((prev) => ({
+      ...prev,
+      override: {
+        ...prev.override,
+        [component]: {
+          [token]: value,
+        },
+      },
+    }));
+  };
+
+  const handleAliasTokenChange = (token: string, value: TokenValue) => {
+    setConfig((prev) => ({
+      ...prev,
+      override: {
+        ...prev.override,
+        alias: {
+          ...prev.override?.alias,
+          [token]: value,
+        },
+      },
+    }));
+  };
 
   return (
     <Drawer
@@ -132,24 +165,33 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
     >
       <div style={{ display: 'flex', height: '100%' }}>
         <ConfigProvider theme={theme.config}>
-          <ComponentFullDemos demos={ComponentDemos[component]} theme={theme} />
+          <ConfigProvider theme={config}>
+            <ComponentFullDemos demos={ComponentDemos[component]} />
+          </ConfigProvider>
         </ConfigProvider>
         <div style={{ flex: '0 0 400px', overflow: 'auto', padding: 24 }}>
           <div className="previewer-component-drawer-subtitle">
             Related Tokens / 相关 token
           </div>
-          {componentTokenData.length > 0 && (
-            <TokenCard
-              icon={<BuildOutlined />}
-              hideUsageCount
-              defaultOpen
-              title="Component Token"
-              tokenArr={componentTokenData}
-              tokenPath={['override', component]}
-              themes={[theme]}
-              fallbackConfig={{ override: { [component]: componentToken } }}
-            />
-          )}
+          <TokenCard
+            icon={<BuildOutlined />}
+            hideUsageCount
+            defaultOpen
+            title="Component Token"
+            tokenArr={componentTokenData}
+            tokenPath={['override', component]}
+            themes={[theme]}
+            fallbackConfig={{ override: { [component]: componentToken } }}
+            onTokenChange={(_, tokenName, value) =>
+              handleComponentTokenChange(tokenName, value)
+            }
+            placeholder={
+              <Empty
+                image={Empty.PRESENTED_IMAGE_SIMPLE}
+                description="暂无相关 Component Token"
+              />
+            }
+          />
           <TokenCard
             icon={<CarOutlined />}
             hideUsageCount
@@ -159,6 +201,15 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
             tokenArr={aliasTokenData}
             tokenPath={['override', 'alias']}
             fallbackConfig={{ override: { alias: getDesignToken() } }}
+            onTokenChange={(_, tokenName, value) =>
+              handleAliasTokenChange(tokenName, value)
+            }
+            placeholder={
+              <Empty
+                image={Empty.PRESENTED_IMAGE_SIMPLE}
+                description="暂无相关 Alias Token"
+              />
+            }
           />
         </div>
       </div>

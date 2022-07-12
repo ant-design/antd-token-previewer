@@ -50,6 +50,7 @@ interface TokenCardProps {
   enableTokenSelect?: boolean;
   hideUsageCount?: boolean;
   fallbackConfig?: ThemeConfig;
+  placeholder?: ReactNode;
 }
 
 export const IconMap: Record<TokenType, ReactNode> = {
@@ -130,6 +131,7 @@ export default ({
   enableTokenSelect,
   hideUsageCount,
   fallbackConfig,
+  placeholder,
 }: TokenCardProps) => {
   const [wrapSSR, hashId] = useStyle();
   const { getRelatedComponents } = useStatistic();
@@ -191,6 +193,7 @@ export default ({
                 fallbackConfig={fallbackConfig}
               />
             ))}
+          {tokenArr.length === 0 && placeholder}
         </Panel>
       </Collapse>
     </div>,
