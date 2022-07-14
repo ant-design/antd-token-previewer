@@ -20,6 +20,7 @@ const componentDemo: ComponentDemo = {
     'colorPrimary',
     'colorPrimaryActive',
     'colorPrimaryHover',
+    'colorPrimaryOutline',
   ],
   key: 'button',
 };

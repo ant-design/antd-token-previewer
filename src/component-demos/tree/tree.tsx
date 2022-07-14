@@ -43,7 +43,7 @@ const Demo = () => {
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorPrimary', 'colorBgContainer'],
+  tokens: ['colorPrimary', 'colorPrimaryOutline', 'colorBgContainer'],
   key: 'default',
 };
 

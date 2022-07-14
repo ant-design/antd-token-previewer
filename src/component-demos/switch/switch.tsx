@@ -7,7 +7,7 @@ const Demo = () => <Switch defaultChecked onChange={onChange} />;
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorPrimary', 'colorBgContainer'],
+  tokens: ['colorPrimary', 'colorPrimaryOutline', 'colorBgContainer'],
   key: 'default',
 };
 

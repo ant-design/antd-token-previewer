@@ -11,7 +11,7 @@ const Demo = () => (
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorPrimaryActive'],
+  tokens: ['colorPrimaryActive', 'colorPrimaryHover'],
   key: 'button',
 };
 
