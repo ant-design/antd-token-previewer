@@ -7,16 +7,17 @@ import menu from './menu';
 import type { ComponentDemo } from '../../interface';
 
 const Demo = () => (
-  <Dropdown overlay={menu}>
+  <div>
     <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
       Hover me <DownOutlined />
     </a>
-  </Dropdown>
+    <Dropdown._InternalPanelDoNotUseOrYouWillBeFired overlay={menu} />
+  </div>
 );
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorError', 'colorErrorHover', 'colorBgElevated'],
+  tokens: ['colorPrimary', 'colorError', 'colorErrorHover', 'colorBgElevated'],
   key: 'default',
 };
 

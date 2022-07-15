@@ -2,8 +2,7 @@ import React from 'react';
 import { TimePicker } from 'antd';
 import type { ComponentDemo } from '../../interface';
 
-function onChange() {}
-const Demo = () => <TimePicker onChange={onChange} />;
+const Demo = () => <TimePicker._InternalPanelDoNotUseOrYouWillBeFired />;
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,

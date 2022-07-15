@@ -6,7 +6,7 @@ const { Option } = Mentions;
 function onChange() {}
 function onSelect() {}
 const Demo = () => (
-  <Mentions
+  <Mentions._InternalPanelDoNotUseOrYouWillBeFired
     style={{ width: '100%' }}
     onChange={onChange}
     onSelect={onSelect}
@@ -15,7 +15,7 @@ const Demo = () => (
     <Option value="afc163">afc163</Option>
     <Option value="zombieJ">zombieJ</Option>
     <Option value="yesmeck">yesmeck</Option>
-  </Mentions>
+  </Mentions._InternalPanelDoNotUseOrYouWillBeFired>
 );
 
 const componentDemo: ComponentDemo = {

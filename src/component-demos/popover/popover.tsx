@@ -8,9 +8,13 @@ const content = (
   </div>
 );
 const Demo = () => (
-  <Popover content={content} title="Title">
+  <div>
+    <Popover._InternalPanelDoNotUseOrYouWillBeFired
+      content={content}
+      title="Title"
+    ></Popover._InternalPanelDoNotUseOrYouWillBeFired>
     <Button type="primary">Hover me</Button>
-  </Popover>
+  </div>
 );
 
 const componentDemo: ComponentDemo = {

@@ -3,9 +3,10 @@ import { Tooltip } from 'antd';
 import type { ComponentDemo } from '../../interface';
 
 const Demo = () => (
-  <Tooltip title="prompt text">
+  <div>
+    <Tooltip._InternalPanelDoNotUseOrYouWillBeFired title="prompt text" />
     <span>Tooltip will show on mouse enter.</span>
-  </Tooltip>
+  </div>
 );
 const componentDemo: ComponentDemo = {
   demo: <Demo />,

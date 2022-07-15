@@ -2,20 +2,19 @@ import React from 'react';
 import { DatePicker, Space } from 'antd';
 import type { ComponentDemo } from '../../interface';
 
-function onChange() {}
 const Demo = () => (
   <Space direction="vertical">
-    <DatePicker onChange={onChange} />
-    <DatePicker onChange={onChange} picker="week" />
-    <DatePicker onChange={onChange} picker="month" />
-    <DatePicker onChange={onChange} picker="quarter" />
-    <DatePicker onChange={onChange} picker="year" />
+    <DatePicker._InternalPanelDoNotUseOrYouWillBeFired picker="week" />
+    <DatePicker._InternalPanelDoNotUseOrYouWillBeFired picker="month" />
+    <DatePicker._InternalPanelDoNotUseOrYouWillBeFired picker="quarter" />
+    <DatePicker._InternalPanelDoNotUseOrYouWillBeFired picker="year" />
   </Space>
 );
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
   tokens: [
+    'colorPrimary',
     'colorPrimaryBorder',
     'colorPrimaryHover',
     'colorPrimaryOutline',

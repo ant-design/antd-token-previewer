@@ -9,20 +9,21 @@ function cancel() {
   message.error('Click on No');
 }
 const Demo = () => (
-  <Popconfirm
-    title="Are you sure to delete this task?"
-    onConfirm={confirm}
-    onCancel={cancel}
-    okText="Yes"
-    cancelText="No"
-  >
+  <div>
+    <Popconfirm._InternalPanelDoNotUseOrYouWillBeFired
+      title="Are you sure to delete this task?"
+      onConfirm={confirm}
+      onCancel={cancel}
+      okText="Yes"
+      cancelText="No"
+    ></Popconfirm._InternalPanelDoNotUseOrYouWillBeFired>
     <a href="#">Delete</a>
-  </Popconfirm>
+  </div>
 );
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorBgElevated'],
+  tokens: ['colorBgElevated', 'colorWarning'],
   key: 'default',
 };
 
