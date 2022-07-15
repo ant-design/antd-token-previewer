@@ -2,27 +2,38 @@
  * iframe: 800
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Previewer from 'antd-token-previewer';
-import { convertTokenArrToConfig } from '../../src/utils/convertToken';
-import { ConfigProvider } from 'antd';
+import { ConfigProvider, message } from 'antd';
 import type { Theme } from 'antd-token-previewer';
+
+const ANT_DESIGN_V5_CUSTOM_THEME = 'ant-design-v5-custom-theme';
 
 const Demo = () => {
   const [theme, setTheme] = useState<Theme>({
-    name: '小猪蹄',
+    name: '自定义主题',
     key: 'xiaozhuti',
-    config: { token: { colorPrimary: '#5A3CFF' } },
+    config: {},
   });
+  const [messageApi, contextHolder] = message.useMessage();
+
+  useEffect(() => {
+    const storedConfig = localStorage.getItem(ANT_DESIGN_V5_CUSTOM_THEME);
+    if (storedConfig) {
+      setTheme((prev) => ({ ...prev, config: JSON.parse(storedConfig) }));
+    }
+  }, []);
 
   return (
     <ConfigProvider theme={{ hashed: true }} prefixCls="hitu">
+      {contextHolder}
       <Previewer
         theme={theme}
         onThemeChange={(config) => setTheme({ ...theme, config })}
-        onSave={(arr, obj) =>
-          console.log(arr, obj, convertTokenArrToConfig(arr))
-        }
+        onSave={(_, obj) => {
+          localStorage.setItem(ANT_DESIGN_V5_CUSTOM_THEME, JSON.stringify(obj));
+          messageApi.success('保存成功');
+        }}
       />
     </ConfigProvider>
   );
