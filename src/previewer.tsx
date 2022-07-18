@@ -218,7 +218,7 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({
         );
       }
     },
-    { wait: 500 },
+    { wait: 800 },
   );
 
   const handleTokenClick = useCallback((tokenName: string) => {

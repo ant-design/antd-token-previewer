@@ -301,7 +301,14 @@ const Index: FC<ComponentPanelProps> = ({
           selectedTokens={selectedTokens}
           components={antdComponents}
           onSelect={(component) => {
-            scrollToComponent(component);
+            if (component.startsWith('type-')) {
+              console.log((antdComponents as any)[component.split('-')[1]][0]);
+              scrollToComponent(
+                (antdComponents as any)[component.split('-')[1]][0],
+              );
+            } else {
+              scrollToComponent(component);
+            }
           }}
         />
       </div>

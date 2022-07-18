@@ -22,6 +22,7 @@ import { SearchDropdown } from '../icons';
 import { getTokenItemId } from './token-item';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import getDesignToken from '../utils/getDesignToken';
+import seed from 'antd/es/theme/themes/seed';
 
 const { useToken } = antdTheme;
 
@@ -314,7 +315,7 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
                 <TokenCard
                   title={TextMap.seed}
                   icon={IconMap.seed}
-                  tokenArr={['colorPrimary']}
+                  tokenArr={Object.keys(seed)}
                   tokenPath={['token']}
                   keyword={search}
                   open={activeCards.includes('seed')}

@@ -7,6 +7,8 @@ import type { FilterMode } from '../FilterPanel';
 import { SearchOutlined } from '@ant-design/icons';
 import { getRelatedComponents } from '../utils/statistic';
 
+const { DirectoryTree } = Tree;
+
 const useStyle = makeStyle('ComponentTree', (token) => ({
   '.component-tree-wrapper': {
     minWidth: 200,
@@ -45,13 +47,7 @@ const useStyle = makeStyle('ComponentTree', (token) => ({
 
       [`${token.rootCls}-tree-treenode-selected ${token.rootCls}-tree-node-content-wrapper`]:
         {
-          backgroundColor: token.colorBgContainer,
-        },
-
-      [`${token.rootCls}-tree-treenode-active ${token.rootCls}-tree-node-content-wrapper`]:
-        {
           color: token.colorTextLightSolid,
-          backgroundColor: token.colorPrimary,
 
           '.component-tree-item.component-tree-item-highlight': {
             color: token.colorTextLightSolid,
@@ -146,7 +142,9 @@ const ComponentTree: FC<ComponentTreeProps> = ({
                   color={
                     filterMode === 'highlight' &&
                     relatedComponents.includes(item)
-                      ? 'blue'
+                      ? activeComponent === item
+                        ? 'white'
+                        : 'blue'
                       : 'transparent'
                   }
                 />
@@ -154,7 +152,7 @@ const ComponentTree: FC<ComponentTreeProps> = ({
               key: item,
             })),
         })),
-    [components, relatedComponents, filterMode, search],
+    [components, relatedComponents, filterMode, search, activeComponent],
   );
 
   useEffect(() => {
@@ -183,13 +181,14 @@ const ComponentTree: FC<ComponentTreeProps> = ({
         className="component-tree-search"
       />
       <div ref={treeRef} style={{ overflow: 'auto', flex: 1 }}>
-        <Tree
-          activeKey={activeComponent}
-          showIcon
+        <DirectoryTree
+          selectedKeys={[activeComponent ?? '']}
+          showIcon={false}
           defaultExpandAll
           treeData={treeData}
           className="component-tree"
           onSelect={(node) => onSelect?.(node[0] as string)}
+          expandAction="doubleClick"
         />
       </div>
     </div>,
