@@ -55,7 +55,7 @@ const AdditionInfo = ({
     );
   }
 
-  if (info.toString().length < 6) {
+  if (info.toString().length < 6 && String(info) !== '') {
     return (
       <div
         style={{
