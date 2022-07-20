@@ -1,5 +1,5 @@
 import { getAlphaColor, getSolidColor } from './colorAlgorithm';
-import type { BgPalettes, TextAlphaPalettes } from '../IPalettes';
+import type { BgMapToken, TextMapToken } from '../IPalettes';
 
 export const colorPalettes = {
   'blue-1': '#111d2c',
@@ -182,25 +182,21 @@ const textBaseColor = '#fff';
 // };
 
 // TODO： 需要定义这些色值下面的色板含义
-export const bgPalettes: BgPalettes = {
-  26: getSolidColor(bgBaseColor, 26),
-  19: getSolidColor(bgBaseColor, 19),
-  15: getSolidColor(bgBaseColor, 15),
-  12: getSolidColor(bgBaseColor, 12),
-  8: getSolidColor(bgBaseColor, 8),
-  0: getSolidColor(bgBaseColor, 0),
+export const bgMapToken: BgMapToken = {
+  colorFill: getAlphaColor(textBaseColor, 18),
+  colorFillSecondary: getAlphaColor(textBaseColor, 12),
+  colorFillTertiary: getAlphaColor(textBaseColor, 8),
+  colorFillQuaternary: getAlphaColor(textBaseColor, 4),
+
+  colorBgElevated: getSolidColor(bgBaseColor, 12),
+  colorBgContainer: getSolidColor(bgBaseColor, 8),
+  colorBgLayout: getSolidColor(bgBaseColor, 0),
 };
 
 // TODO： 需要定义这些色值下面的色板含义
-export const textAlphaPalettes: TextAlphaPalettes = {
-  85: getAlphaColor(textBaseColor, 0.85),
-  65: getAlphaColor(textBaseColor, 0.65), // 目前只有 Segment Label 用了
-  45: getAlphaColor(textBaseColor, 0.45),
-  30: getAlphaColor(textBaseColor, 0.3),
-  25: getAlphaColor(textBaseColor, 0.25),
-  // 从 12 往下基本上就是偏背景和装饰性元素了
-  12: getAlphaColor(textBaseColor, 0.12),
-  8: getAlphaColor(textBaseColor, 0.08),
-  4: getAlphaColor(textBaseColor, 0.04),
-  3: getAlphaColor(textBaseColor, 0.03),
+export const textMapToken: TextMapToken = {
+  colorText: getAlphaColor(textBaseColor, 0.85),
+  colorTextSecondary: getAlphaColor(textBaseColor, 0.65),
+  colorTextTertiary: getAlphaColor(textBaseColor, 0.45),
+  colorTextQuaternary: getAlphaColor(textBaseColor, 0.25),
 };
