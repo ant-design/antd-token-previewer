@@ -8,7 +8,9 @@ const Demo = () => {
     <Modal._InternalPanelDoNotUseOrYouWillBeFired
       type={'confirm'}
       title={'Confirm This?'}
-    />
+    >
+      Some descriptions.
+    </Modal._InternalPanelDoNotUseOrYouWillBeFired>
   );
 };
 
