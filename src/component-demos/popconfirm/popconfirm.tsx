@@ -16,7 +16,7 @@ const Demo = () => (
       onCancel={cancel}
       okText="Yes"
       cancelText="No"
-    ></Popconfirm._InternalPanelDoNotUseOrYouWillBeFired>
+    />
     <a href="#">Delete</a>
   </div>
 );

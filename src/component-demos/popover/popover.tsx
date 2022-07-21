@@ -12,7 +12,7 @@ const Demo = () => (
     <Popover._InternalPanelDoNotUseOrYouWillBeFired
       content={content}
       title="Title"
-    ></Popover._InternalPanelDoNotUseOrYouWillBeFired>
+    />
     <Button type="primary">Hover me</Button>
   </div>
 );
