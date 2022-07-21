@@ -1,11 +1,11 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
 import type { ThemeSelectProps } from '../ThemeSelect';
 import ThemeSelect from '../ThemeSelect';
 import { componentToken as darkComponentToken } from '../theme/dark';
 import { DarkTheme, Pick } from '../icons';
-import { Button, Collapse, theme, Tooltip } from 'antd';
+import { Button, Collapse, Empty, theme, Tooltip } from 'antd';
 import {
   CaretRightOutlined,
   QuestionCircleOutlined,
@@ -17,7 +17,8 @@ import TokenInput from '../TokenInput';
 import getValueByPath from '../utils/getValueByPath';
 import type { MapToken, SeedToken } from 'antd/es/theme/interface';
 import tokenInfo from '../token-info/TokenInfo';
-import { seedRelatedMap } from '../token-info/TokenRelation';
+import { seedRelatedAlias, seedRelatedMap } from '../token-info/TokenRelation';
+import TokenDetail from './TokenDetail';
 
 const { darkAlgorithm } = theme;
 const { Panel } = Collapse;
@@ -137,16 +138,6 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
                   marginInlineEnd: 8,
                 },
 
-                '.token-panel-pro-token-collapse-map-collapse-count': {
-                  color: token.colorTextSecondary,
-                  display: 'inline-block',
-                  fontSize: 12,
-                  lineHeight: '16px',
-                  padding: '0 6px',
-                  backgroundColor: token.colorBgContainerSecondary,
-                  borderRadius: 999,
-                },
-
                 '.token-panel-pro-token-collapse-map-collapse-preview': {
                   display: 'flex',
                   flex: 'none',
@@ -160,42 +151,33 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
             [`> ${token.rootCls}-collapse-content > ${token.rootCls}-collapse-content-box`]:
               {
                 padding: '0',
-
-                '.token-panel-pro-token-collapse-map-collapse-token-description':
-                  {
-                    color: token.colorTextPlaceholder,
-                    marginBottom: 8,
-                    fontSize: 12,
-                  },
-
-                '.token-panel-pro-token-collapse-map-collapse-token-usage-tag':
-                  {
-                    display: 'inline-block',
-                    marginInlineEnd: 8,
-                    borderRadius: 4,
-                    height: 20,
-                    padding: '0 8px',
-                    fontSize: 12,
-                    backgroundColor: token.colorBgContainerSecondary,
-                  },
-
-                '.token-panel-pro-token-collapse-map-collapse-token-inputs': {
-                  padding: '8px 10px',
-                  backgroundColor: 'rgba(0,0,0,0.02)',
-                  marginTop: 12,
-                  '> *:not(:last-child)': {
-                    marginBottom: 8,
-                  },
-                },
               },
           },
         },
+    },
+
+    [`.token-panel-pro-alias-collapse${token.rootCls}-collapse`]: {
+      [`> ${token.rootCls}-collapse-item > ${token.rootCls}-collapse-content > ${token.rootCls}-collapse-content-box`]:
+        {
+          paddingBlock: '0',
+        },
+    },
+
+    '.token-panel-pro-token-collapse-map-collapse-count': {
+      color: token.colorTextSecondary,
+      display: 'inline-block',
+      fontSize: 12,
+      lineHeight: '16px',
+      padding: '0 6px',
+      backgroundColor: token.colorBgContainerSecondary,
+      borderRadius: 999,
     },
   },
 }));
 
 const ColorTokenContent = () => {
   const [wrapSSR, hashId] = useStyle();
+  const [activeSeed, setActiveSeed] = useState<keyof SeedToken>('colorPrimary');
 
   const defaultThemes = useMemo<ThemeSelectProps['themes']>(
     () => [
@@ -239,13 +221,14 @@ const ColorTokenContent = () => {
           expandIconPosition="end"
           ghost
           accordion
-          defaultActiveKey="brandColor"
+          activeKey={activeSeed}
           expandIcon={({ isActive }) => (
             <CaretRightOutlined
               rotate={isActive ? 450 : 360}
-              style={{ fontSize: 12, color: 'rgba(0,0,0,0.45)' }}
+              style={{ fontSize: 12 }}
             />
           )}
+          onChange={(key) => setActiveSeed(key as keyof SeedToken)}
         >
           {Object.entries(seedRelatedMap).map((tokenRelationship) => {
             const [seedToken, mapTokens] = tokenRelationship as [
@@ -346,8 +329,6 @@ const ColorTokenContent = () => {
                                       height: 56,
                                       width: 56,
                                       position: 'relative',
-                                      // marginTop: -1,
-                                      // marginBottom: -1,
                                       background:
                                         'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAFpJREFUWAntljEKADAIA23p6v//qQ+wfUEcCu1yriEgp0FHRJSJcnehmmWm1Dv/lO4HIg1AAAKjTqm03ea88zMCCEDgO4HV5bS757f+7wRoAAIQ4B9gByAAgQ3pfiDmXmAeEwAAAABJRU5ErkJggg==) 0% 0% / 40px',
                                     }}
@@ -373,60 +354,12 @@ const ColorTokenContent = () => {
                           }
                           key={mapToken}
                         >
-                          <div style={{ padding: 8 }}>
-                            <div className="token-panel-pro-token-collapse-map-collapse-token-description">
-                              {tokenInfo[mapToken]?.description}
-                            </div>
-                            {getRelatedComponents(mapToken).length > 0 && (
-                              <Tooltip
-                                title={getRelatedComponents(mapToken).join(
-                                  ', ',
-                                )}
-                              >
-                                <div
-                                  style={{
-                                    textOverflow: 'ellipsis',
-                                    whiteSpace: 'nowrap',
-                                    overflow: 'hidden',
-                                  }}
-                                >
-                                  {getRelatedComponents(mapToken).map(
-                                    (item) => (
-                                      <span
-                                        key={item}
-                                        className="token-panel-pro-token-collapse-map-collapse-token-usage-tag"
-                                      >
-                                        {item}
-                                      </span>
-                                    ),
-                                  )}
-                                </div>
-                              </Tooltip>
-                            )}
-                            <div className="token-panel-pro-token-collapse-map-collapse-token-inputs">
-                              {defaultThemes.map((themeItem) => {
-                                return (
-                                  <div key={themeItem.key}>
-                                    <TokenInput
-                                      theme={themeItem}
-                                      // onChange={(value) => handleTokenChange(themeItem, value)}
-                                      value={
-                                        getValueByPath(themeItem.config, [
-                                          'override',
-                                          'derivative',
-                                        ]) ??
-                                        (
-                                          getDesignToken(
-                                            themeItem.config,
-                                          ) as any
-                                        )[mapToken]
-                                      }
-                                    />
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          </div>
+                          <TokenDetail
+                            style={{ margin: 8 }}
+                            themes={defaultThemes}
+                            path={['override', 'derivative']}
+                            tokenName={mapToken}
+                          />
                         </Panel>
                       ))}
                     </Collapse>
@@ -457,7 +390,45 @@ const ColorTokenContent = () => {
             style={{ marginLeft: 'auto' }}
           />
         </div>
-        <div />
+        <div>
+          <Collapse
+            className="token-panel-pro-alias-collapse"
+            ghost
+            expandIcon={({ isActive }) => (
+              <CaretRightOutlined
+                rotate={isActive ? 90 : 0}
+                style={{ fontSize: 12 }}
+              />
+            )}
+          >
+            {seedRelatedAlias[activeSeed]?.map((aliasToken) => (
+              <Panel
+                header={
+                  <div>
+                    <span style={{ marginRight: 8 }}>{aliasToken}</span>
+                    <span className="token-panel-pro-token-collapse-map-collapse-count">
+                      {getRelatedComponents(aliasToken).length}
+                    </span>
+                  </div>
+                }
+                key={aliasToken}
+              >
+                <TokenDetail
+                  style={{ paddingBottom: 10 }}
+                  themes={defaultThemes}
+                  path={['override', 'alias']}
+                  tokenName={aliasToken}
+                />
+              </Panel>
+            ))}
+          </Collapse>
+          {!seedRelatedAlias[activeSeed]?.length && (
+            <Empty
+              image={Empty.PRESENTED_IMAGE_SIMPLE}
+              description="暂无相关 Alias Token"
+            />
+          )}
+        </div>
       </div>
     </div>,
   );

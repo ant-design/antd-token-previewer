@@ -35,10 +35,10 @@ const TokenPanelPro = () => {
         <TabPane key="color" tab="颜色">
           <ColorTokenContent />
         </TabPane>
-        <TabPane key="size" tab="尺寸大小">
+        <TabPane key="size" tab="尺寸大小" disabled>
           Size
         </TabPane>
-        <TabPane key="others" tab="其他">
+        <TabPane key="others" tab="其他" disabled>
           Others
         </TabPane>
       </Tabs>

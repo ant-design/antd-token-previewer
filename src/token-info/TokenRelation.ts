@@ -10,7 +10,7 @@ type SeedRelatedAlias = {
 };
 
 export const seedRelatedMap: SeedRelatedMap = {
-  brandColor: [
+  colorPrimary: [
     'colorPrimaryBg',
     'colorPrimaryBgHover',
     'colorPrimaryOutline',
@@ -19,6 +19,9 @@ export const seedRelatedMap: SeedRelatedMap = {
     'colorPrimaryHover',
     'colorPrimary',
     'colorPrimaryActive',
+    'colorLink',
+    'colorLinkHover',
+    'colorLinkActive',
   ],
   colorError: [
     'colorErrorBg',
@@ -38,10 +41,11 @@ export const seedRelatedMap: SeedRelatedMap = {
   ],
   colorSuccess: ['colorSuccessBg', 'colorSuccessBorder', 'colorSuccess'],
   colorInfo: ['colorInfoBg', 'colorInfoBorder', 'colorInfo'],
-  colorTextBase: ['colorText'],
+  colorTextBase: ['colorText', 'colorTextLightSolid'],
   colorBgBase: ['colorBgContainer'],
 };
 
 export const seedRelatedAlias: SeedRelatedAlias = {
-  brandColor: ['controlItemBgActive', 'controlItemBgActiveHover'],
+  colorPrimary: ['controlItemBgActive', 'controlItemBgActiveHover'],
+  colorError: ['colorHighlight'],
 };
