@@ -183,14 +183,15 @@ const textBaseColor = '#fff';
 
 // TODO： 需要定义这些色值下面的色板含义
 export const bgMapToken: BgMapToken = {
-  colorFill: getAlphaColor(textBaseColor, 18),
-  colorFillSecondary: getAlphaColor(textBaseColor, 12),
-  colorFillTertiary: getAlphaColor(textBaseColor, 8),
-  colorFillQuaternary: getAlphaColor(textBaseColor, 4),
+  colorFill: getAlphaColor(textBaseColor, 0.18),
+  colorFillSecondary: getAlphaColor(textBaseColor, 0.12),
+  colorFillTertiary: getAlphaColor(textBaseColor, 0.08),
+  colorFillQuaternary: getAlphaColor(textBaseColor, 0.04),
 
   colorBgElevated: getSolidColor(bgBaseColor, 12),
   colorBgContainer: getSolidColor(bgBaseColor, 8),
   colorBgLayout: getSolidColor(bgBaseColor, 0),
+  colorBgSpotlight: getSolidColor(bgBaseColor, 26),
 };
 
 // TODO： 需要定义这些色值下面的色板含义
@@ -199,4 +200,11 @@ export const textMapToken: TextMapToken = {
   colorTextSecondary: getAlphaColor(textBaseColor, 0.65),
   colorTextTertiary: getAlphaColor(textBaseColor, 0.45),
   colorTextQuaternary: getAlphaColor(textBaseColor, 0.25),
+};
+
+export const borderMapToken = {
+  colorBorder: getSolidColor(bgBaseColor, 26),
+  // TODO：Secondary 在纯实色背景下的颜色和 Split 是一样的
+  colorBorderSecondary: getSolidColor(bgBaseColor, 19),
+  colorSplit: getAlphaColor(textBaseColor, 12),
 };
