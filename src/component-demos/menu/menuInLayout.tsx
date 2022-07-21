@@ -8,7 +8,7 @@ import type { ComponentDemo } from '../../interface';
 const Demo: React.FC = () => {
   const { token } = theme.useToken();
   return (
-    <div style={{ background: token.colorBgLayout, padding: 12 }}>
+    <div style={{ background: token.colorBorderSecondary, padding: 12 }}>
       <Menu
         style={{ width: 256 }}
         defaultSelectedKeys={['1']}

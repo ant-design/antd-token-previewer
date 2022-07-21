@@ -45,11 +45,15 @@ export interface BgMapToken {
 
   colorFillQuaternary: string;
 
+  // 0 是 base 模式
+  colorBgLayout: string;
   // Container 类型
   // 8 是卡片容器底色
   colorBgContainer: string;
   // 12 是 elevated 模式
   colorBgElevated: string;
-  // 0 是 base 模式
-  colorBgLayout: string;
+  /**
+   * 用于吸引注意力
+   */
+  colorBgSpotlight?: string;
 }
