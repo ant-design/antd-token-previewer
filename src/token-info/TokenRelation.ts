@@ -1,12 +1,12 @@
-import type { MapToken, SeedToken } from 'antd/es/theme/interface';
-import type { AliasToken } from '../interface';
+import type { SeedToken } from 'antd/es/theme/interface';
+import type { PureAliasToken, PureMapToken } from '../hooks/useTokenLayer';
 
 type SeedRelatedMap = {
-  [key in keyof SeedToken]?: (keyof MapToken)[];
+  [key in keyof SeedToken]?: (keyof PureMapToken)[];
 };
 
 type SeedRelatedAlias = {
-  [key in keyof SeedToken]?: (keyof AliasToken)[];
+  [key in keyof SeedToken]?: (keyof PureAliasToken)[];
 };
 
 export const seedRelatedMap: SeedRelatedMap = {
@@ -40,11 +40,12 @@ export const seedRelatedMap: SeedRelatedMap = {
   colorInfo: ['colorInfoBg', 'colorInfoBorder'],
   colorTextBase: [
     'colorText',
-    'colorTextLightSolid',
     'colorTextLabel',
     'colorTextDisabled',
     'colorTextSecondary',
     'colorTextHeading',
+    'colorAction',
+    'colorActionHover',
   ],
   colorBgBase: [
     'colorBgContainer',
@@ -64,4 +65,6 @@ export const seedRelatedMap: SeedRelatedMap = {
 export const seedRelatedAlias: SeedRelatedAlias = {
   colorPrimary: ['controlItemBgActive', 'controlItemBgActiveHover'],
   colorError: ['colorHighlight'],
+  colorTextBase: ['colorTextPlaceholder', 'controlItemBgActiveDisabled'],
+  colorBgBase: ['controlItemBgHover'],
 };

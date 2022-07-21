@@ -13,8 +13,6 @@ import {
 } from '@ant-design/icons';
 import getDesignToken from '../utils/getDesignToken';
 import { getRelatedComponents } from '../utils/statistic';
-import TokenInput from '../TokenInput';
-import getValueByPath from '../utils/getValueByPath';
 import type { MapToken, SeedToken } from 'antd/es/theme/interface';
 import tokenInfo from '../token-info/TokenInfo';
 import { seedRelatedAlias, seedRelatedMap } from '../token-info/TokenRelation';
@@ -32,12 +30,15 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
       flex: '0 0 540px',
       height: '100%',
       borderInlineEnd: `1px solid ${token.colorSplit}`,
+      display: 'flex',
+      flexDirection: 'column',
+      boxSizing: 'border-box',
 
       '.token-panel-pro-color-themes': {
-        height: 60,
         display: 'flex',
         alignItems: 'center',
         padding: '0 16px',
+        flex: '0 0 60px',
 
         '> span': {
           fontSize: token.fontSizeLG,
@@ -62,6 +63,8 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
       },
     },
     [`.token-panel-pro-token-collapse${token.rootCls}-collapse`]: {
+      flex: 1,
+      overflow: 'auto',
       [`> ${token.rootCls}-collapse-item-active`]: {
         backgroundColor: '#fff',
         boxShadow:

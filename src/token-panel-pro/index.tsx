@@ -13,6 +13,8 @@ const useStyle = makeStyle('TokenPanelPro', (token) => ({
     backgroundImage:
       'linear-gradient(180deg, #FFFFFF 0%, rgba(246,247,249,0.00) 100%)',
     [`.token-panel-pro-tabs${token.rootCls}-tabs`]: {
+      height: '100%',
+      overflow: 'auto',
       [`${token.rootCls}-tabs-content`]: {
         height: '100%',
       },

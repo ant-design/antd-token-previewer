@@ -5,6 +5,7 @@
 import React from 'react';
 import { ConfigProvider } from 'antd';
 import ThemeEditor from '../../src/ThemeEditor';
+import 'antd/es/style/reset.css';
 
 const Demo = () => {
   return (
