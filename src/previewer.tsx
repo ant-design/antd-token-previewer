@@ -21,7 +21,6 @@ import type { MutableTheme, PreviewerProps } from './interface';
 import type { TokenType } from './utils/classifyToken';
 import { useDebounceFn } from 'ahooks';
 import type { ThemeConfig } from 'antd/es/config-provider/context';
-import { componentToken as darkComponentToken } from './theme/dark';
 import {
   convertTokenArrToConfig,
   convertTokenConfigToArr,
@@ -126,9 +125,6 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({
         key: 'dark',
         config: {
           algorithm: darkAlgorithm,
-          override: {
-            ...darkComponentToken,
-          },
         },
         icon: <DarkTheme style={{ fontSize: 16 }} />,
         closable: true,

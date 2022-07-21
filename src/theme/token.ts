@@ -5,17 +5,17 @@ import type {
   PrimaryPalettes,
   ErrorPalettes,
   WarningPalettes,
-  TextAlphaPalettes,
-  BgPalettes,
+  TextMapToken,
+  BgMapToken,
 } from './IPalettes';
 
-interface PaletteSheets {
+interface MapTokenSheets {
   primaryPalettes: PrimaryPalettes;
   successPalettes: SuccessPalettes;
   errorPalettes: ErrorPalettes;
   warningPalettes: WarningPalettes;
-  textAlphaPalettes: TextAlphaPalettes;
-  bgPalettes: BgPalettes;
+  textMapToken: TextMapToken;
+  bgMapToken: BgMapToken;
 }
 
 // 全局 Alias Token
@@ -24,9 +24,9 @@ const genAliasToken = ({
   successPalettes,
   errorPalettes,
   warningPalettes,
-  textAlphaPalettes,
-  bgPalettes,
-}: PaletteSheets): Partial<GlobalToken> => ({
+  textMapToken,
+  bgMapToken,
+}: MapTokenSheets): Partial<GlobalToken> => ({
   // ============== 基础公用  ============== //
 
   colorPrimary: primaryPalettes['6'],
@@ -57,85 +57,79 @@ const genAliasToken = ({
   colorLinkActive: primaryPalettes['7'],
   // ============== 背景  ============== //
 
-  colorBgLayout: bgPalettes['0'],
+  colorBgLayout: bgMapToken.colorBgLayout,
   // 这个 token 是 浮窗等组件的背景色 token
-  colorBgElevated: bgPalettes['12'],
+  colorBgElevated: bgMapToken.colorBgElevated,
 
-  colorBgContainer: bgPalettes['8'],
+  colorBgContainer: bgMapToken.colorBgContainer,
+
+  // ============== 填色  ============== //
   // TODO 这一个是斑马线的效果
-  colorBgContainerSecondary: textAlphaPalettes['4'],
-  colorBgContainerDisabled: textAlphaPalettes['8'],
+  colorBgContainerSecondary: bgMapToken.colorFillQuaternary,
+  colorBgContainerDisabled: bgMapToken.colorFillTertiary,
 
-  colorBgContent: bgPalettes['15'],
-  colorBgContentHover: bgPalettes['26'],
+  colorBgContent: bgMapToken.colorFillTertiary,
+  colorBgContentHover: bgMapToken.colorFill,
 
   // ============== 分割线  ============== //
-  colorBorder: bgPalettes['26'],
+  colorBorder: bgMapToken.colorFill,
   // TODO：Secondary 在纯实色背景下的颜色和 Split 是一样的
-  colorBorderSecondary: bgPalettes['19'],
-  colorSplit: textAlphaPalettes['12'],
+  colorBorderSecondary: bgMapToken.colorFillSecondary,
+  colorSplit: bgMapToken.colorFillSecondary,
 
   // ============== 文本  ============== //
-  colorText: textAlphaPalettes['85'],
-  colorTextHeading: textAlphaPalettes['85'],
-  colorTextSecondary: textAlphaPalettes['45'],
-  //  @disabled-color -> colorTextDisabled
-  colorTextDisabled: textAlphaPalettes['25'],
-  colorTextPlaceholder: textAlphaPalettes['25'],
+  colorText: textMapToken.colorText,
+  colorTextHeading: textMapToken.colorText,
+  colorTextSecondary: textMapToken.colorTextTertiary,
+  colorTextDisabled: textMapToken.colorTextQuaternary,
+  colorTextPlaceholder: textMapToken.colorTextQuaternary,
 
-  colorAction: textAlphaPalettes['45'],
-  // @icon-color-hover -> colorActionHover
+  colorAction: textMapToken.colorTextTertiary,
+  // @icon-color-hover -> colorIconHover
   // 用在 draw、modal 的按钮 hover 色
-  colorActionHover: textAlphaPalettes['85'],
+  colorActionHover: textMapToken.colorText,
 
   // ============== Control Token  ============== //
   // TODO: 确认下 hover 是用 Alpha 还是实色
   // 暂时确认下来应该用 alpha
-  controlItemBgHover: textAlphaPalettes['8'],
+  controlItemBgHover: bgMapToken.colorFillTertiary,
 
   controlItemBgActive: primaryPalettes['1'],
-  controlItemBgActiveDisabled: textAlphaPalettes['25'],
+  controlItemBgActiveDisabled: bgMapToken.colorFill,
   // TODO: 需要在设计上确认暗色模式的交互逻辑。现在是hover以后就变暗，很怪
   controlItemBgActiveHover: primaryPalettes['0'],
 });
 
 const genComponentToken = ({
-  textAlphaPalettes,
-  bgPalettes,
-}: Pick<PaletteSheets, 'textAlphaPalettes' | 'bgPalettes'>): OverrideToken => ({
+  textMapToken,
+  bgMapToken,
+}: Pick<MapTokenSheets, 'textMapToken' | 'bgMapToken'>): OverrideToken => ({
   Button: {
-    colorBgTextHover: textAlphaPalettes['3'],
-    colorBgTextActive: textAlphaPalettes['4'],
+    colorBgTextHover: bgMapToken.colorFillQuaternary,
+    colorBgTextActive: bgMapToken.colorFillTertiary,
   },
   // TODO: Segmented 样式逻辑设计的不统一
   Segmented: {
     bgColor: 'rgba(0,0,0,0.25)',
     bgColorHover: 'rgba(0,0,0,0.45)',
-    bgColorSelected: bgPalettes['19'],
+    bgColorSelected: bgMapToken.colorFillSecondary,
   },
   Skeleton: {
-    color: textAlphaPalettes['12'],
-    colorGradientEnd: textAlphaPalettes['25'],
+    color: bgMapToken.colorFillSecondary,
+    colorGradientEnd: textMapToken.colorTextQuaternary,
   },
-  // TODO：整体考虑优化下禁用的效果
-  // 要用 whiteAlphaPalettes['25']
-  Pagination: {},
-  Rate: { defaultColor: textAlphaPalettes['12'] },
-  Radio: {},
-  Calendar: {},
+  Rate: { defaultColor: bgMapToken.colorFillSecondary },
   Avatar: {
-    bgColor: textAlphaPalettes['25'],
-    groupBorderColor: bgPalettes['0'],
+    bgColor: textMapToken.colorTextQuaternary,
+    groupBorderColor: bgMapToken.colorBgLayout,
   },
-  // FIXME：TimePicker 的 now 要用 antd 自己的 link
-
   Table: {
     // TODO: 激活样式该不该用实色？还是不透明的用法？
-    headerSortActiveBgColor: bgPalettes['15'],
-    headerHoverBgColor: textAlphaPalettes['12'],
+    headerSortActiveBgColor: bgMapToken.colorFillTertiary,
+    headerHoverBgColor: bgMapToken.colorFillSecondary,
   },
   Tooltip: {
-    colorBgDefault: bgPalettes['26'],
+    colorBgDefault: bgMapToken.colorFill,
   },
 });
 

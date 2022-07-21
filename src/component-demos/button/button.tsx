@@ -21,6 +21,9 @@ const componentDemo: ComponentDemo = {
     'colorPrimaryActive',
     'colorPrimaryHover',
     'colorPrimaryOutline',
+    'buttonColorBgTextActive',
+    'buttonColorBgTextHover',
+    'controlTmpOutline',
   ],
   key: 'button',
 };
