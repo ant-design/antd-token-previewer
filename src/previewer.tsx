@@ -26,6 +26,8 @@ import {
 
 import getDesignToken from './utils/getDesignToken';
 
+import * as darkToken from './theme/dark';
+
 const { darkAlgorithm } = antdTheme;
 
 const { Header, Sider, Content } = Layout;
@@ -123,6 +125,10 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({
         key: 'dark',
         config: {
           algorithm: darkAlgorithm,
+          override: {
+            ...darkToken.componentToken,
+            alias: { ...darkToken.aliasToken },
+          },
         },
         icon: <DarkTheme style={{ fontSize: 16 }} />,
         closable: true,
