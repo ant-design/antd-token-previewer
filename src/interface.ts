@@ -41,3 +41,9 @@ export type PreviewerProps = {
   theme?: Theme;
   onThemeChange?: (config: ThemeConfig) => void;
 };
+
+export type SelectedToken = {
+  seed?: string[];
+  map?: string[];
+  alias?: string[];
+};

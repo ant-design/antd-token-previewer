@@ -8,3 +8,4 @@ export { default as Control } from './Control.js';
 export { default as Arrow } from './Arrow.js';
 export { default as SearchDropdown } from './SearchDropdown.js';
 export { default as TokenPanelIcon } from './TokenPanel.js';
+export { default as Brush } from './Brush.js';
