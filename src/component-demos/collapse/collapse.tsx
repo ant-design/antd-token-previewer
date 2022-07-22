@@ -22,9 +22,9 @@ const Demo = () => (
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
   tokens: [
-    'colorBgContent',
+    'colorTextSecondary',
     'colorText',
-    'colorBgContainerSecondary',
+    'colorFillAlter',
     'colorBgContainer',
   ],
   key: 'default',

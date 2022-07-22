@@ -65,11 +65,10 @@ const genAliasToken = ({
 
   // ============== 填色  ============== //
   // TODO 这一个是斑马线的效果
-  colorBgContainerSecondary: bgMapToken.colorFillQuaternary,
+  colorFillAlter: bgMapToken.colorFillQuaternary,
   colorBgContainerDisabled: bgMapToken.colorFillTertiary,
 
-  colorBgContent: bgMapToken.colorFillTertiary,
-  colorBgContentHover: bgMapToken.colorFill,
+  colorFillContentHover: bgMapToken.colorFill,
 
   // ============== 分割线  ============== //
   colorBorder: bgMapToken.colorFill,
@@ -84,10 +83,10 @@ const genAliasToken = ({
   colorTextDisabled: textMapToken.colorTextQuaternary,
   colorTextPlaceholder: textMapToken.colorTextQuaternary,
 
-  colorAction: textMapToken.colorTextTertiary,
+  colorIcon: textMapToken.colorTextTertiary,
   // @icon-color-hover -> colorIconHover
   // 用在 draw、modal 的按钮 hover 色
-  colorActionHover: textMapToken.colorText,
+  colorIconHover: textMapToken.colorText,
 
   // ============== Control Token  ============== //
   // TODO: 确认下 hover 是用 Alpha 还是实色

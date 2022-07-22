@@ -31,7 +31,7 @@ const componentDemo: ComponentDemo = {
   tokens: [
     'colorPrimary',
     'colorBgContainer',
-    'colorBgContainerSecondary',
+    'colorFillAlter',
     'colorBorderSecondary',
     'colorPrimaryHover',
   ],

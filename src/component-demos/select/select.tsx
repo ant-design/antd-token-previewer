@@ -29,7 +29,7 @@ const Demo = () => (
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
   tokens: [
-    'colorPrimaryOutline',
+    'controlOutline',
     'colorPrimary',
     'colorPrimaryHover',
     'colorText',

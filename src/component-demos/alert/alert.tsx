@@ -13,7 +13,7 @@ const Demo = () => (
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorActionHover', 'colorAction', 'colorText'],
+  tokens: ['colorIconHover', 'colorIcon', 'colorText'],
   key: 'alert',
 };
 

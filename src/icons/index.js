@@ -7,3 +7,4 @@ export { default as CompactTheme } from './Compact.js';
 export { default as Control } from './Control.js';
 export { default as Arrow } from './Arrow.js';
 export { default as SearchDropdown } from './SearchDropdown.js';
+export { default as TokenPanelIcon } from './TokenPanel.js';

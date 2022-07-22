@@ -1,3 +1,4 @@
+import type { FC } from 'react';
 import React from 'react';
 import makeStyle from '../utils/makeStyle';
 import { Tabs } from 'antd';
@@ -9,9 +10,6 @@ const { TabPane } = Tabs;
 const useStyle = makeStyle('TokenPanelPro', (token) => ({
   '.token-panel-pro': {
     height: '100%',
-    backgroundColor: '#F7F8FA',
-    backgroundImage:
-      'linear-gradient(180deg, #FFFFFF 0%, rgba(246,247,249,0.00) 100%)',
     [`.token-panel-pro-tabs${token.rootCls}-tabs`]: {
       height: '100%',
       overflow: 'auto',
@@ -22,11 +20,19 @@ const useStyle = makeStyle('TokenPanelPro', (token) => ({
   },
 }));
 
-const TokenPanelPro = () => {
+export type TokenPanelProProps = {
+  className?: string;
+  style?: React.CSSProperties;
+};
+
+const TokenPanelPro: FC<TokenPanelProProps> = ({ className, style }) => {
   const [wrapSSR, hashId] = useStyle();
 
   return wrapSSR(
-    <div className={classNames(hashId, 'token-panel-pro')}>
+    <div
+      className={classNames(hashId, className, 'token-panel-pro')}
+      style={style}
+    >
       <Tabs
         defaultActiveKey="color"
         tabBarGutter={32}

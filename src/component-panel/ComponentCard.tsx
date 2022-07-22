@@ -28,13 +28,13 @@ const useStyle = makeStyle('ComponentCard', (token) => ({
     },
 
     '.component-token-control-icon': {
-      color: token.colorAction,
+      color: token.colorIcon,
       transition: `color ${token.motionDurationMid}`,
       fontSize: token.fontSizeLG,
       cursor: 'pointer',
 
       '&:hover': {
-        color: token.colorActionHover,
+        color: token.colorIconHover,
       },
     },
   },

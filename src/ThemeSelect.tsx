@@ -95,7 +95,7 @@ const useStyle = makeStyle('ThemeSelect', (token) => ({
         opacity: 0,
         pointerEvents: 'none',
         zIndex: 2,
-        color: token.colorAction,
+        color: token.colorIcon,
 
         '> .anticon': {
           fontSize: 6,

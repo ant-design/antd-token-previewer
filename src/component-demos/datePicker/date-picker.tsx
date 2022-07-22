@@ -17,7 +17,7 @@ const componentDemo: ComponentDemo = {
     'colorPrimary',
     'colorPrimaryBorder',
     'colorPrimaryHover',
-    'colorPrimaryOutline',
+    'controlOutline',
     'colorBgElevated',
     'colorBgContainer',
   ],

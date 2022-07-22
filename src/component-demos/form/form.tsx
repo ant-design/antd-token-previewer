@@ -49,7 +49,7 @@ const componentDemo: ComponentDemo = {
   demo: <Demo />,
   tokens: [
     'colorError',
-    'colorPrimaryOutline',
+    'controlOutline',
     'colorErrorBorder',
     'colorErrorHover',
   ],

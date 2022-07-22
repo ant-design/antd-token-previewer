@@ -6,7 +6,7 @@ const Demo = () => <Radio>Radio</Radio>;
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorPrimary', 'colorPrimaryOutline', 'colorBgContainer'],
+  tokens: ['colorPrimary', 'controlOutline', 'colorBgContainer'],
   key: 'default',
 };
 

@@ -39,7 +39,7 @@ const componentDemo: ComponentDemo = {
   tokens: [
     'colorPrimary',
     'colorPrimaryActive',
-    'colorPrimaryOutline',
+    'controlOutline',
     'colorBgElevated',
     'colorBgContainer',
   ],

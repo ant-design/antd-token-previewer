@@ -21,7 +21,7 @@ const Demo = () => {
         <Tag color="purple">purple</Tag>
       </div>
       <Divider />
-      <div style={{ background: token.colorBgContent, padding: 12 }}>
+      <div style={{ background: token.colorFillSecondary, padding: 12 }}>
         <Tag color="magenta">magenta</Tag>
         <Tag color="red">red</Tag>
         <Tag color="volcano">volcano</Tag>

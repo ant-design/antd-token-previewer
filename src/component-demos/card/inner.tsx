@@ -12,7 +12,7 @@ const Demo = () => (
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorBgContainerSecondary'],
+  tokens: ['colorFillAlter'],
   key: 'inner',
 };
 

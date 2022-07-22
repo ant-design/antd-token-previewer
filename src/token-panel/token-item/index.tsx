@@ -131,7 +131,7 @@ const useStyle = makeStyle('TokenItem', (token) => ({
         borderRadius: 100,
         paddingInline: token.paddingXXS * 1.5,
         color: token.colorTextSecondary,
-        backgroundColor: token.colorBgContainerSecondary,
+        backgroundColor: token.colorFillAlter,
       },
 
       '.previewer-token-item-name': {

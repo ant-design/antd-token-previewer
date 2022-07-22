@@ -10,7 +10,10 @@ import 'antd/es/style/reset.css';
 const Demo = () => {
   return (
     <React.StrictMode>
-      <ConfigProvider theme={{ hashed: true }} prefixCls="editor">
+      <ConfigProvider
+        theme={{ hashed: true, token: { colorPrimary: '#1677FF' } }}
+        prefixCls="editor"
+      >
         <ThemeEditor />
       </ConfigProvider>
     </React.StrictMode>

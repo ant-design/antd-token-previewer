@@ -25,7 +25,7 @@ const componentDemo: ComponentDemo = {
     'colorBorder',
     'colorPrimary',
     'colorPrimaryHover',
-    'colorPrimaryOutline',
+    'controlOutline',
   ],
   key: 'default',
 };

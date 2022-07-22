@@ -21,7 +21,7 @@ const tokenInfo: TokenInfo = {
     name: '浅色背景悬浮态',
     description: 'TBD',
   },
-  colorPrimaryOutline: {
+  controlOutline: {
     name: '浅色背景激活态',
     description: 'TBD',
   },

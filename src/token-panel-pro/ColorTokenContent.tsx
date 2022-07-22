@@ -49,12 +49,14 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
     '.token-panel-pro-color-alias': {
       width: 0,
       flex: '0 0 320px',
+      display: 'flex',
+      flexDirection: 'column',
 
       '&-title': {
-        height: 60,
         display: 'flex',
         alignItems: 'center',
         padding: '0 16px',
+        flex: '0 0 60px',
 
         '&-text': {
           fontSize: token.fontSizeLG,
@@ -172,7 +174,7 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
       fontSize: 12,
       lineHeight: '16px',
       padding: '0 6px',
-      backgroundColor: token.colorBgContainerSecondary,
+      backgroundColor: token.colorFillAlter,
       borderRadius: 999,
     },
   },
@@ -187,13 +189,14 @@ const ColorTokenContent = () => {
       {
         name: '默认主题',
         key: 'default',
-        config: {},
+        config: { token: { colorPrimary: '#1677FF' } },
         fixed: true,
       },
       {
         name: '暗色主题',
         key: 'dark',
         config: {
+          token: { colorPrimary: '#1677FF' },
           algorithm: darkAlgorithm,
           override: {
             ...darkComponentToken,
@@ -394,7 +397,7 @@ const ColorTokenContent = () => {
             style={{ marginLeft: 'auto' }}
           />
         </div>
-        <div>
+        <div style={{ flex: 1, overflow: 'auto' }}>
           <Collapse
             className="token-panel-pro-alias-collapse"
             ghost

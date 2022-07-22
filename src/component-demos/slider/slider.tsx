@@ -12,8 +12,8 @@ const Demo = () => (
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
   tokens: [
-    'colorBgContent',
-    'colorBgContentHover',
+    'colorFillSecondary',
+    'colorFillContentHover',
     'colorBgContainer',
     'colorPrimary',
     'colorPrimaryHover',

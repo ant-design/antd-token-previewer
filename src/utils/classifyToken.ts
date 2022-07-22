@@ -30,7 +30,7 @@ export function getTypeOfToken(tokenName: string): TokenType {
       tokenName.startsWith('colorText') ||
       tokenName.startsWith('colorIcon') ||
       tokenName.startsWith('colorPlaceholder') ||
-      tokenName.startsWith('colorAction')
+      tokenName.startsWith('colorIcon')
     ) {
       return 'colorText';
     }

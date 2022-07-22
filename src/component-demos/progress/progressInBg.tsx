@@ -18,7 +18,7 @@ const Demo: React.FC = () => {
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorBgContent', 'colorText', 'colorBgContainer'],
+  tokens: ['colorFillSecondary', 'colorText', 'colorBgContainer'],
   key: 'layout',
 };
 

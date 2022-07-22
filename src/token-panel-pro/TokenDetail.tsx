@@ -74,7 +74,10 @@ const TokenDetail: FC<TokenDetailProps> = ({
         {tokenInfo[tokenName]?.description}
       </div>
       {getRelatedComponents(tokenName).length > 0 && (
-        <Tooltip title={getRelatedComponents(tokenName).join(', ')}>
+        <Tooltip
+          title={getRelatedComponents(tokenName).join(', ')}
+          placement="topLeft"
+        >
           <div className="token-panel-pro-token-collapse-map-collapse-token-usage-tag-container">
             {getRelatedComponents(tokenName).map((item) => (
               <span
