@@ -1,10 +1,10 @@
 import type { FC } from 'react';
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
 import ThemeSelect from '../ThemeSelect';
 import { Pick } from '../icons';
-import { Button, Collapse, Dropdown, Empty, Switch, Tooltip } from 'antd';
+import { Button, Collapse, Dropdown, Empty, Tooltip } from 'antd';
 import {
   CaretRightOutlined,
   QuestionCircleOutlined,

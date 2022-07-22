@@ -61,6 +61,7 @@ const ColorPanel: FC<ColorPanelProps> = ({ color, onChange }) => {
       token.gold,
       token.lime,
     ];
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, []);
 
   return wrapSSR(
