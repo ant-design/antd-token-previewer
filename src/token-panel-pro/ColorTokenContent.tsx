@@ -1,11 +1,10 @@
+import type { FC } from 'react';
 import React, { useMemo, useState } from 'react';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
-import type { ThemeSelectProps } from '../ThemeSelect';
 import ThemeSelect from '../ThemeSelect';
-import { componentToken as darkComponentToken } from '../theme/dark';
-import { DarkTheme, Pick } from '../icons';
-import { Button, Collapse, Empty, theme, Tooltip } from 'antd';
+import { Pick } from '../icons';
+import { Button, Collapse, Dropdown, Empty, Switch, Tooltip } from 'antd';
 import {
   CaretRightOutlined,
   QuestionCircleOutlined,
@@ -17,8 +16,11 @@ import type { MapToken, SeedToken } from 'antd/es/theme/interface';
 import tokenInfo from '../token-info/TokenInfo';
 import { seedRelatedAlias, seedRelatedMap } from '../token-info/TokenRelation';
 import TokenDetail from './TokenDetail';
+import type { MutableTheme } from 'antd-token-previewer';
+import ColorPanel from '../ColorPanel';
+import { useDebouncyFn } from 'use-debouncy';
+import type { ThemeConfig } from 'antd/es/config-provider/context';
 
-const { darkAlgorithm } = theme;
 const { Panel } = Collapse;
 
 const useStyle = makeStyle('ColorTokenContent', (token) => ({
@@ -180,34 +182,72 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
   },
 }));
 
-const ColorTokenContent = () => {
+export type ColorSeedTokenProps = {
+  theme: MutableTheme;
+  tokenName: keyof SeedToken;
+};
+
+const getSeedValue = (config: ThemeConfig, token: keyof SeedToken) => {
+  return (config.token?.[token] ?? getDesignToken(config)[token]) as string;
+};
+
+const ColorSeedTokenPreview: FC<ColorSeedTokenProps> = ({
+  theme,
+  tokenName,
+}) => {
+  const [tokenValue, setTokenValue] = useState(
+    getSeedValue(theme.config, tokenName),
+  );
+
+  const debouncedOnChange = useDebouncyFn((newValue: number | string) => {
+    theme.onThemeChange?.({
+      ...theme.config,
+      token: {
+        ...theme.config.token,
+        [tokenName]: newValue,
+      },
+    });
+  }, 500);
+
+  const handleChange = (value: string) => {
+    setTokenValue(value);
+    debouncedOnChange(value);
+  };
+
+  return (
+    <div className="token-panel-pro-token-collapse-seed-block-sample">
+      <div className="token-panel-pro-token-collapse-seed-block-sample-theme">
+        {theme.name}
+      </div>
+      <div className="token-panel-pro-token-collapse-seed-block-sample-card">
+        <Dropdown
+          trigger={['click']}
+          overlay={<ColorPanel color={tokenValue} onChange={handleChange} />}
+        >
+          <div
+            style={{
+              backgroundColor: tokenValue,
+              width: 48,
+              height: 32,
+              borderRadius: 4,
+              marginRight: 14,
+              cursor: 'pointer',
+            }}
+          />
+        </Dropdown>
+        <div>{tokenValue}</div>
+      </div>
+    </div>
+  );
+};
+
+export type ColorTokenContentProps = {
+  themes: MutableTheme[];
+};
+
+const ColorTokenContent: FC<ColorTokenContentProps> = ({ themes }) => {
   const [wrapSSR, hashId] = useStyle();
   const [activeSeed, setActiveSeed] = useState<keyof SeedToken>('colorPrimary');
-
-  const defaultThemes = useMemo<ThemeSelectProps['themes']>(
-    () => [
-      {
-        name: '默认主题',
-        key: 'default',
-        config: { token: { colorPrimary: '#1677FF' } },
-        fixed: true,
-      },
-      {
-        name: '暗色主题',
-        key: 'dark',
-        config: {
-          token: { colorPrimary: '#1677FF' },
-          algorithm: darkAlgorithm,
-          override: {
-            ...darkComponentToken,
-          },
-        },
-        icon: <DarkTheme style={{ fontSize: 16 }} />,
-        closable: true,
-      },
-    ],
-    [],
-  );
 
   return wrapSSR(
     <div className={classNames(hashId, 'token-panel-pro-color')}>
@@ -219,7 +259,7 @@ const ColorTokenContent = () => {
             onShownThemeChange={() => {}}
             enabledThemes={['default', 'dark']}
             shownThemes={['default', 'dark']}
-            themes={defaultThemes}
+            themes={themes}
           />
         </div>
         <Collapse
@@ -274,35 +314,12 @@ const ColorTokenContent = () => {
                         </span>
                       </div>
                     </div>
-                    {defaultThemes.map((themeItem) => (
-                      <div
+                    {themes.map((themeItem) => (
+                      <ColorSeedTokenPreview
                         key={themeItem.key}
-                        className="token-panel-pro-token-collapse-seed-block-sample"
-                      >
-                        <div className="token-panel-pro-token-collapse-seed-block-sample-theme">
-                          {themeItem.name}
-                        </div>
-                        <div className="token-panel-pro-token-collapse-seed-block-sample-card">
-                          <div
-                            style={{
-                              backgroundColor: getDesignToken(themeItem.config)[
-                                seedToken as keyof SeedToken
-                              ] as string,
-                              width: 48,
-                              height: 32,
-                              borderRadius: 4,
-                              marginRight: 14,
-                            }}
-                          />
-                          <div>
-                            {
-                              getDesignToken(themeItem.config)[
-                                seedToken as keyof SeedToken
-                              ]
-                            }
-                          </div>
-                        </div>
-                      </div>
+                        theme={themeItem}
+                        tokenName={seedToken}
+                      />
                     ))}
                   </div>
                   <div style={{ marginTop: 16, marginBottom: 24 }}>
@@ -328,7 +345,7 @@ const ColorTokenContent = () => {
                                 </span>
                               </div>
                               <div className="token-panel-pro-token-collapse-map-collapse-preview">
-                                {defaultThemes.map((themeItem) => (
+                                {themes.map((themeItem) => (
                                   <div
                                     key={themeItem.key}
                                     style={{
@@ -363,7 +380,7 @@ const ColorTokenContent = () => {
                         >
                           <TokenDetail
                             style={{ margin: 8 }}
-                            themes={defaultThemes}
+                            themes={themes}
                             path={['override', 'derivative']}
                             tokenName={mapToken}
                           />
@@ -422,7 +439,7 @@ const ColorTokenContent = () => {
               >
                 <TokenDetail
                   style={{ paddingBottom: 10 }}
-                  themes={defaultThemes}
+                  themes={themes}
                   path={['override', 'alias']}
                   tokenName={aliasToken}
                 />

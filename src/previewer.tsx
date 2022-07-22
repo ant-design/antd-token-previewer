@@ -197,26 +197,6 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({
     };
   }, []);
 
-  const debouncedSetTheme = useDebounceFn(
-    (themeConfig: ThemeConfig, themeKey: string) => {
-      if (themeKey === theme?.key) {
-        onThemeChange?.(themeConfig);
-      } else {
-        setThemes((prev) =>
-          prev.map((themeItem) =>
-            themeItem.key === themeKey
-              ? {
-                  ...themeItem,
-                  config: themeConfig,
-                }
-              : themeItem,
-          ),
-        );
-      }
-    },
-    { wait: 800 },
-  );
-
   const handleTokenClick = useCallback((tokenName: string) => {
     tokenPanelRef.current?.scrollToToken(tokenName);
   }, []);
@@ -230,11 +210,24 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({
           key: themeEntity.key,
           config: themeEntity.config,
           onThemeChange: (newTheme) => {
-            debouncedSetTheme.run(newTheme, themeEntity.key);
+            if (themeEntity.key === theme?.key) {
+              onThemeChange?.(newTheme);
+            } else {
+              setThemes((prev) =>
+                prev.map((themeItem) =>
+                  themeItem.key === themeEntity.key
+                    ? {
+                        ...themeItem,
+                        config: newTheme,
+                      }
+                    : themeItem,
+                ),
+              );
+            }
           },
         };
       }),
-    [enabledThemes, themes, debouncedSetTheme],
+    [enabledThemes, onThemeChange, theme?.key, themes],
   );
 
   const componentPanel = useMemo(

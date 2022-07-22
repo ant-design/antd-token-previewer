@@ -1,11 +1,16 @@
-import React, { useMemo } from 'react';
+import React, { useState } from 'react';
 import TokenPanelPro from './token-panel-pro';
 import ComponentDemoGroup from './component-panel/ComponentDemoGroup';
-import type { ThemeSelectProps } from './ThemeSelect';
 import { antdComponents } from './component-panel';
-import { TokenPanelIcon } from './icons';
+import { DarkTheme, TokenPanelIcon } from './icons';
 import makeStyle from './utils/makeStyle';
 import classNames from 'classnames';
+import { componentToken as darkComponentToken } from './theme/dark';
+import { theme } from 'antd';
+import type { MutableTheme } from './interface';
+import type { ThemeConfig } from 'antd/es/config-provider/context';
+
+const { darkAlgorithm } = theme;
 
 const useStyle = makeStyle('ThemeEditor', (token) => ({
   '.antd-theme-editor': {
@@ -14,8 +19,10 @@ const useStyle = makeStyle('ThemeEditor', (token) => ({
     display: 'flex',
     '.antd-theme-editor-sidebar': {
       padding: 12,
+      width: 52,
       flex: '0 0 52px',
       borderRight: '1px solid rgba(0, 0, 0, 0.04)',
+      boxSizing: 'border-box',
 
       '&-icon-wrapper': {
         width: 28,
@@ -35,19 +42,47 @@ const useStyle = makeStyle('ThemeEditor', (token) => ({
   },
 }));
 
+const defaultThemes = [
+  {
+    name: '默认主题',
+    key: 'default',
+    config: { token: { colorPrimary: '#1677FF' } },
+    fixed: true,
+  },
+  {
+    name: '暗色主题',
+    key: 'dark',
+    config: {
+      token: { colorPrimary: '#1677FF' },
+      algorithm: darkAlgorithm,
+      override: {
+        ...darkComponentToken,
+      },
+    },
+    icon: <DarkTheme style={{ fontSize: 16 }} />,
+    closable: true,
+  },
+];
+
 const ThemeEditor = () => {
   const [wrapSSR, hashId] = useStyle();
 
-  const defaultThemes = useMemo<ThemeSelectProps['themes']>(
-    () => [
-      {
-        name: '默认主题',
-        key: 'default',
-        config: { token: { colorPrimary: '#1677ff' } },
-        fixed: true,
+  const [themes, setThemes] = useState<MutableTheme[]>(
+    defaultThemes.map((themeItem) => ({
+      ...themeItem,
+      onThemeChange: (themeConfig: ThemeConfig) => {
+        setThemes((prev) =>
+          prev.map((prevTheme) =>
+            themeItem.key === prevTheme.key
+              ? {
+                  ...prevTheme,
+                  config: themeConfig,
+                }
+              : prevTheme,
+          ),
+        );
       },
-    ],
-    [],
+    })),
   );
 
   return wrapSSR(
@@ -67,13 +102,10 @@ const ThemeEditor = () => {
             <TokenPanelIcon />
           </div>
         </div>
-        <TokenPanelPro style={{ flex: 1 }} />
+        <TokenPanelPro themes={themes} style={{ flex: 1 }} />
       </div>
       <div style={{ flex: 1, overflow: 'auto', height: '100%' }}>
-        <ComponentDemoGroup
-          themes={defaultThemes}
-          components={antdComponents}
-        />
+        <ComponentDemoGroup themes={[themes[0]]} components={antdComponents} />
       </div>
     </div>,
   );
