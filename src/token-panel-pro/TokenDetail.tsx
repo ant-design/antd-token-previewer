@@ -10,6 +10,7 @@ import type { MutableTheme } from 'antd-token-previewer';
 import type { TokenName } from '../interface';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
+import type { TokenValue } from '../interface';
 
 const useStyle = makeStyle('TokenDetail', (token) => ({
   '.token-panel-token-detail': {
@@ -48,6 +49,19 @@ const useStyle = makeStyle('TokenDetail', (token) => ({
   },
 }));
 
+const deepUpdateObj = (obj: any, path: string[], value: any): any => {
+  if (path.length === 0) {
+    return obj;
+  }
+  return {
+    ...obj,
+    [path[0]]:
+      path.length === 1
+        ? value
+        : deepUpdateObj(obj[path[0]] ?? {}, path.slice(1), value),
+  };
+};
+
 export type TokenDetailProps = {
   themes: MutableTheme[];
   path: string[];
@@ -64,6 +78,12 @@ const TokenDetail: FC<TokenDetailProps> = ({
   style,
 }) => {
   const [wrapSSR, hashId] = useStyle();
+
+  const handleTokenChange = (theme: MutableTheme) => (value: TokenValue) => {
+    theme.onThemeChange?.(
+      deepUpdateObj(theme.config, [...path, tokenName], value),
+    );
+  };
 
   return wrapSSR(
     <div
@@ -96,7 +116,7 @@ const TokenDetail: FC<TokenDetailProps> = ({
             <div key={themeItem.key}>
               <TokenInput
                 theme={themeItem}
-                // onChange={(value) => handleTokenChange(themeItem, value)}
+                onChange={handleTokenChange(themeItem)}
                 value={
                   getValueByPath(themeItem.config, path) ??
                   (getDesignToken(themeItem.config) as any)[tokenName]

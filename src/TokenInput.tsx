@@ -1,4 +1,3 @@
-import { SketchPicker } from 'react-color';
 import type { FC } from 'react';
 import React, { useRef, useState } from 'react';
 import type { MutableTheme } from './interface';
@@ -7,6 +6,8 @@ import ColorPreview from './ColorPreview';
 import makeStyle from './utils/makeStyle';
 import classNames from 'classnames';
 import isColor from './utils/isColor';
+import { useDebouncyFn } from 'use-debouncy';
+import ColorPanel from './ColorPanel';
 
 const useStyle = makeStyle('TokenInput', (token) => ({
   '.previewer-token-input': {
@@ -71,23 +72,6 @@ const useStyle = makeStyle('TokenInput', (token) => ({
   },
 }));
 
-const ColorPanel = ({
-  color,
-  onChange,
-}: {
-  color: string;
-  onChange: (color: string) => void;
-}) => {
-  return (
-    <SketchPicker
-      color={color}
-      onChange={(v) => {
-        onChange(v.hex);
-      }}
-    />
-  );
-};
-
 type TokenInputProps = {
   theme?: MutableTheme;
   value?: string | number;
@@ -109,12 +93,18 @@ const TokenInput: FC<TokenInputProps> = ({
 
   const [wrapSSR, hashId] = useStyle();
 
+  const debouncedOnChange = useDebouncyFn((newValue: number | string) => {
+    onChange?.(newValue);
+  }, 500);
+
   const handleTokenChange = (newValue: number | string) => {
     if (!readonly) {
       setTokenValue(newValue);
-      onChange?.(newValue);
+      debouncedOnChange(newValue);
     }
   };
+
+  // useDebouncyEffect(() => onChange?.(tokenValue), 200, [tokenValue]);
 
   const addonAfter = !readonly && (
     <span
@@ -154,7 +144,7 @@ const TokenInput: FC<TokenInputProps> = ({
             trigger={['click']}
             overlay={
               <ColorPanel
-                color={String(value)}
+                color={String(tokenValue)}
                 onChange={(v: string) => {
                   handleTokenChange(v);
                 }}
