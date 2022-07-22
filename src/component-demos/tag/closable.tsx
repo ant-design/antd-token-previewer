@@ -6,7 +6,7 @@ const Demo = () => <Tag closable>Error</Tag>;
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorBgContainerSecondary', 'colorAction', 'colorActionHover'],
+  tokens: ['colorFillAlter', 'colorIcon', 'colorIconHover'],
   key: 'closable',
 };
 

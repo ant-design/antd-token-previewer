@@ -9,7 +9,7 @@ const componentDemo: ComponentDemo = {
   tokens: [
     'colorPrimary',
     'colorPrimaryHover',
-    'colorPrimaryOutline',
+    'controlOutline',
     'colorBgContainer',
   ],
   key: 'default',

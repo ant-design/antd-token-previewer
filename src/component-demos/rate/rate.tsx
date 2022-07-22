@@ -7,7 +7,7 @@ const Demo = () => <Rate />;
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorBgFillTmp'],
+  tokens: ['colorFillContent'],
   key: 'default',
 };
 

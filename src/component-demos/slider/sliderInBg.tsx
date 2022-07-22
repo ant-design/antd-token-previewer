@@ -5,7 +5,7 @@ import type { ComponentDemo } from '../../interface';
 const Demo = () => {
   const { token } = theme.useToken();
   return (
-    <div style={{ padding: 12, background: token.colorBgContent }}>
+    <div style={{ padding: 12, background: token.colorFillSecondary }}>
       <Slider defaultValue={30} />
       <Slider range defaultValue={[20, 50]} />
     </div>
@@ -15,8 +15,8 @@ const Demo = () => {
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
   tokens: [
-    'colorBgContent',
-    'colorBgContentHover',
+    'colorFillSecondary',
+    'colorFillContentHover',
     'colorBgContainer',
     'colorPrimary',
     'colorPrimaryHover',

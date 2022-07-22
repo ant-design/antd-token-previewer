@@ -15,7 +15,7 @@ const Demo = () => (
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorSplit', 'colorText', 'colorBgContainerSecondary'],
+  tokens: ['colorSplit', 'colorText', 'colorFillAlter'],
   key: 'default',
 };
 

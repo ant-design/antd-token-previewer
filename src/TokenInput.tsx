@@ -58,7 +58,7 @@ const useStyle = makeStyle('TokenInput', (token) => ({
       [`${token.rootCls}-input-group-wrapper ${token.rootCls}-input,
         ${token.rootCls}-input-number-group-wrapper ${token.rootCls}-input-number-input`]:
         {
-          background: token.colorBgContainerSecondary,
+          background: token.colorFillAlter,
         },
     },
 

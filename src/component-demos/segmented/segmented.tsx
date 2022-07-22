@@ -9,11 +9,7 @@ const Demo = () => (
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
   key: 'default',
-  tokens: [
-    'segmentedBgColor',
-    'segmentedBgColorHover',
-    'segmentedBgColorActive',
-  ],
+  tokens: [],
 };
 
 export default componentDemo;

@@ -12,7 +12,7 @@ const componentDemo: ComponentDemo = {
   demo: <Demo />,
   tokens: [
     'colorPrimary',
-    'colorPrimaryOutline',
+    'controlOutline',
     'colorPrimaryHover',
     'colorBgContainer',
   ],

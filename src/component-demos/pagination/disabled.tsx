@@ -11,7 +11,7 @@ const componentDemo: ComponentDemo = {
   tokens: [
     'controlItemBgActiveDisabled',
     'colorBgContainerDisabled',
-    'colorBgContainerSecondary',
+    'colorFillAlter',
   ],
   key: 'disabled',
 };

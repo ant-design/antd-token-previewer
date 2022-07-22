@@ -52,11 +52,11 @@ const useStyle = makeStyle('ComponentPanel', (token) => ({
         marginInlineEnd: token.marginXS,
 
         '.anticon': {
-          color: token.colorAction,
+          color: token.colorIcon,
           transition: `color ${token.motionDurationMid}`,
 
           '&:hover': {
-            color: token.colorActionHover,
+            color: token.colorIconHover,
           },
         },
       },

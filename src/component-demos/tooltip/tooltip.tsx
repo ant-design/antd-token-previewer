@@ -10,7 +10,7 @@ const Demo = () => (
 );
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorBgTooltipTmp', 'colorTextLightSolid'],
+  tokens: ['colorBgSpotlight', 'colorTextLightSolid'],
   key: 'default',
 };
 

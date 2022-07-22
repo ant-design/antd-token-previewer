@@ -7,7 +7,7 @@ const Demo = () => <Skeleton active />;
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorBgFillTmp', 'colorTextPlaceholder'],
+  tokens: ['colorFillContent', 'colorTextPlaceholder'],
   key: 'default',
 };
 

@@ -15,7 +15,7 @@ const Demo = () => (
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorAction', 'colorActionHover', 'colorBgElevated'],
+  tokens: ['colorIcon', 'colorIconHover', 'colorBgElevated'],
   key: 'default',
 };
 
