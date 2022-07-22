@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
 import ThemeSelect from '../ThemeSelect';
@@ -14,12 +14,17 @@ import getDesignToken from '../utils/getDesignToken';
 import { getRelatedComponents } from '../utils/statistic';
 import type { MapToken, SeedToken } from 'antd/es/theme/interface';
 import tokenInfo from '../token-info/TokenInfo';
-import { seedRelatedAlias, seedRelatedMap } from '../token-info/TokenRelation';
+import {
+  mapRelatedAlias,
+  seedRelatedAlias,
+  seedRelatedMap,
+} from '../token-info/TokenRelation';
 import TokenDetail from './TokenDetail';
 import type { MutableTheme } from 'antd-token-previewer';
 import ColorPanel from '../ColorPanel';
 import { useDebouncyFn } from 'use-debouncy';
 import type { ThemeConfig } from 'antd/es/config-provider/context';
+import type { AliasToken, SelectedToken } from '../interface';
 
 const { Panel } = Collapse;
 
@@ -130,7 +135,7 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
 
           [`> ${token.rootCls}-collapse-item`]: {
             [`> ${token.rootCls}-collapse-header`]: {
-              paddingBlock: 0,
+              padding: { value: '0 12px 0 16px', _skip_check_: true },
 
               [`> ${token.rootCls}-collapse-expand-icon`]: {
                 alignSelf: 'center',
@@ -168,6 +173,14 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
         {
           paddingBlock: '0',
         },
+
+      [`> ${token.rootCls}-collapse-item`]: {
+        [`> ${token.rootCls}-collapse-header`]: {
+          [`> ${token.rootCls}-collapse-header-text`]: {
+            flex: 1,
+          },
+        },
+      },
     },
 
     '.token-panel-pro-token-collapse-map-collapse-count': {
@@ -178,6 +191,14 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
       padding: '0 6px',
       backgroundColor: token.colorFillAlter,
       borderRadius: 999,
+    },
+
+    '.token-panel-pro-token-pick': {
+      transition: 'color 0.3s',
+    },
+
+    '.token-panel-pro-token-picked': {
+      color: token.colorPrimary,
     },
   },
 }));
@@ -243,11 +264,28 @@ const ColorSeedTokenPreview: FC<ColorSeedTokenProps> = ({
 
 export type ColorTokenContentProps = {
   themes: MutableTheme[];
+  selectedTokens?: SelectedToken;
+  onTokenSelect?: (token: string, type: keyof SelectedToken) => void;
 };
 
-const ColorTokenContent: FC<ColorTokenContentProps> = ({ themes }) => {
+const ColorTokenContent: FC<ColorTokenContentProps> = ({
+  themes,
+  selectedTokens,
+  onTokenSelect,
+}) => {
   const [wrapSSR, hashId] = useStyle();
   const [activeSeed, setActiveSeed] = useState<keyof SeedToken>('colorPrimary');
+
+  const shownAlias = useMemo(
+    () =>
+      selectedTokens?.map?.length
+        ? selectedTokens?.map.reduce<string[]>((result, map) => {
+            result.push(...((mapRelatedAlias as any)[map] ?? []));
+            return result;
+          }, [])
+        : seedRelatedAlias[activeSeed],
+    [selectedTokens, activeSeed],
+  );
 
   return wrapSSR(
     <div className={classNames(hashId, 'token-panel-pro-color')}>
@@ -274,7 +312,10 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({ themes }) => {
               style={{ fontSize: 12 }}
             />
           )}
-          onChange={(key) => setActiveSeed(key as keyof SeedToken)}
+          onChange={(key) => {
+            setActiveSeed(key as keyof SeedToken);
+            onTokenSelect?.(key as string, 'seed');
+          }}
         >
           {Object.entries(seedRelatedMap).map((tokenRelationship) => {
             const [seedToken, mapTokens] = tokenRelationship as [
@@ -371,8 +412,22 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({ themes }) => {
                                   </div>
                                 ))}
                               </div>
-                              <div style={{ flex: 'none', marginLeft: 4 }}>
-                                <Pick />
+                              <div
+                                style={{ flex: 'none', margin: 4 }}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  onTokenSelect?.(mapToken, 'map');
+                                }}
+                              >
+                                <Pick
+                                  className={classNames(
+                                    'token-panel-pro-token-pick',
+                                    {
+                                      'token-panel-pro-token-picked':
+                                        selectedTokens?.map?.includes(mapToken),
+                                    },
+                                  )}
+                                />
                               </div>
                             </div>
                           }
@@ -425,14 +480,28 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({ themes }) => {
               />
             )}
           >
-            {seedRelatedAlias[activeSeed]?.map((aliasToken) => (
+            {shownAlias?.map((aliasToken) => (
               <Panel
                 header={
-                  <div>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
                     <span style={{ marginRight: 8 }}>{aliasToken}</span>
                     <span className="token-panel-pro-token-collapse-map-collapse-count">
                       {getRelatedComponents(aliasToken).length}
                     </span>
+                    <div
+                      style={{ padding: 4, marginLeft: 'auto' }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onTokenSelect?.(aliasToken, 'alias');
+                      }}
+                    >
+                      <Pick
+                        className={classNames('token-panel-pro-token-pick', {
+                          'token-panel-pro-token-picked':
+                            selectedTokens?.alias?.includes(aliasToken),
+                        })}
+                      />
+                    </div>
                   </div>
                 }
                 key={aliasToken}
@@ -441,12 +510,12 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({ themes }) => {
                   style={{ paddingBottom: 10 }}
                   themes={themes}
                   path={['override', 'alias']}
-                  tokenName={aliasToken}
+                  tokenName={aliasToken as keyof AliasToken}
                 />
               </Panel>
             ))}
           </Collapse>
-          {!seedRelatedAlias[activeSeed]?.length && (
+          {!shownAlias?.length && (
             <Empty
               image={Empty.PRESENTED_IMAGE_SIMPLE}
               description="暂无相关 Alias Token"

@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import type { MutableTheme } from './interface';
 import { Button, Dropdown, Input, InputNumber } from 'antd';
 import ColorPreview from './ColorPreview';
@@ -93,6 +93,12 @@ const TokenInput: FC<TokenInputProps> = ({
 
   const [wrapSSR, hashId] = useStyle();
 
+  useEffect(() => {
+    if (value !== undefined) {
+      setTokenValue(value);
+    }
+  }, [value]);
+
   const debouncedOnChange = useDebouncyFn((newValue: number | string) => {
     onChange?.(newValue);
   }, 500);
@@ -103,8 +109,6 @@ const TokenInput: FC<TokenInputProps> = ({
       debouncedOnChange(newValue);
     }
   };
-
-  // useDebouncyEffect(() => onChange?.(tokenValue), 200, [tokenValue]);
 
   const addonAfter = !readonly && (
     <span

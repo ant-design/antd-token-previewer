@@ -5,6 +5,7 @@ import { Tabs } from 'antd';
 import classNames from 'classnames';
 import ColorTokenContent from './ColorTokenContent';
 import type { MutableTheme } from 'antd-token-previewer';
+import type { SelectedToken } from '../interface';
 
 const { TabPane } = Tabs;
 
@@ -25,12 +26,16 @@ export type TokenPanelProProps = {
   className?: string;
   style?: React.CSSProperties;
   themes: MutableTheme[];
+  selectedTokens?: SelectedToken;
+  onTokenSelect?: (token: string, type: keyof SelectedToken) => void;
 };
 
 const TokenPanelPro: FC<TokenPanelProProps> = ({
   className,
   style,
   themes,
+  selectedTokens,
+  onTokenSelect,
 }) => {
   const [wrapSSR, hashId] = useStyle();
 
@@ -47,7 +52,11 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
         className="token-panel-pro-tabs"
       >
         <TabPane key="color" tab="颜色">
-          <ColorTokenContent themes={themes} />
+          <ColorTokenContent
+            themes={themes}
+            selectedTokens={selectedTokens}
+            onTokenSelect={onTokenSelect}
+          />
         </TabPane>
         <TabPane key="size" tab="尺寸大小" disabled>
           Size
