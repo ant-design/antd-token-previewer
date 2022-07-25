@@ -1,11 +1,11 @@
 import type { MapToken, SeedToken } from 'antd/es/theme/interface';
-import type { PureAliasToken, PureMapToken } from '../hooks/useTokenLayer';
+import type { PureAliasToken } from '../hooks/useTokenLayer';
 import seedToken from 'antd/es/theme/themes/seed';
 import defaultMap from 'antd/es/theme/themes/default';
 import formatToken from 'antd/es/theme/util/alias';
 
 type SeedRelatedMap = {
-  [key in keyof SeedToken]?: (keyof PureMapToken)[];
+  [key in keyof SeedToken]?: (keyof MapToken)[];
 };
 
 type SeedRelatedAlias = {
@@ -23,24 +23,55 @@ export const seedRelatedMap: SeedRelatedMap = {
     'colorPrimaryBorder',
     'colorPrimaryBorderHover',
     'colorPrimaryHover',
+    'colorPrimary',
     'colorPrimaryActive',
     'colorPrimaryText',
     'colorPrimaryTextHover',
   ],
   colorError: [
     'colorErrorBg',
+    'colorErrorBgHover',
     'colorErrorBorder',
+    'colorErrorBorderHover',
     'colorErrorHover',
+    'colorError',
     'colorErrorActive',
+    'colorErrorText',
+    'colorErrorTextHover',
   ],
   colorWarning: [
     'colorWarningBg',
+    'colorWarningBgHover',
     'colorWarningBorder',
-    'colorWarningActive',
+    'colorWarningBorderHover',
     'colorWarningHover',
+    'colorWarning',
+    'colorWarningActive',
+    'colorWarningText',
+    'colorWarningTextHover',
   ],
-  colorSuccess: ['colorSuccessBg', 'colorSuccessBorder'],
-  colorInfo: ['colorInfoBg', 'colorInfoBorder'],
+  colorSuccess: [
+    'colorSuccessBg',
+    'colorSuccessBgHover',
+    'colorSuccessBorder',
+    'colorSuccessBorderHover',
+    'colorSuccessHover',
+    'colorSuccess',
+    'colorSuccessActive',
+    'colorSuccessText',
+    'colorSuccessTextHover',
+  ],
+  colorInfo: [
+    'colorInfoBg',
+    'colorInfoBgHover',
+    'colorInfoBorder',
+    'colorInfoBorderHover',
+    'colorInfoHover',
+    'colorInfo',
+    'colorInfoActive',
+    'colorInfoText',
+    'colorInfoTextHover',
+  ],
   colorTextBase: [
     'colorText',
     'colorTextSecondary',
@@ -89,12 +120,14 @@ const getSeedRelatedAlias = (): SeedRelatedAlias => {
   const result: SeedRelatedAlias = {};
   Object.keys(seedToken).forEach((key) => {
     const seedKey = key as keyof SeedToken;
-    const arr = mapRelatedAlias[seedKey] || [];
+    const arr = ['colorTextBg', 'colorBgBase'].includes(seedKey)
+      ? []
+      : mapRelatedAlias[seedKey] || [];
     seedRelatedMap[seedKey]?.forEach((mapKey) => {
       arr.push(...(mapRelatedAlias[mapKey] ?? []));
     });
     if (arr.length) {
-      (result as any)[key] = arr.sort();
+      (result as any)[key] = Array.from(new Set(arr)).sort();
     }
   });
   return result;
