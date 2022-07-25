@@ -86,7 +86,6 @@ const ComponentTree: FC<ComponentTreeProps> = ({
   const [search, setSearch] = useState<string>('');
 
   const relatedComponents = useMemo(() => {
-    console.log('tree memo components');
     return selectedTokens ? getRelatedComponents(selectedTokens) : [];
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedTokens]);

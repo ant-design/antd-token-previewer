@@ -2,10 +2,10 @@ import tokenStatistic from 'antd/es/version/token';
 import type { TokenName } from '../interface';
 
 const tokenRelatedComponents: {
-  [key in TokenName]?: string[];
+  [key in string]?: string[];
 } = {};
 
-const getRelatedComponentsSingle = (token: TokenName): string[] => {
+const getRelatedComponentsSingle = (token: string): string[] => {
   if (!tokenRelatedComponents[token]) {
     tokenRelatedComponents[token] = Object.entries(tokenStatistic)
       .filter(([, tokens]) => {
@@ -16,9 +16,7 @@ const getRelatedComponentsSingle = (token: TokenName): string[] => {
   return tokenRelatedComponents[token] ?? [];
 };
 
-export const getRelatedComponents = (
-  token: TokenName | TokenName[],
-): string[] => {
+export const getRelatedComponents = (token: string | string[]): string[] => {
   const mergedTokens = Array.isArray(token) ? token : [token];
   return Array.from(
     new Set(
