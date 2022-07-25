@@ -383,7 +383,12 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
                                   {mapToken}
                                 </span>
                                 <span className="token-panel-pro-token-collapse-map-collapse-count">
-                                  {getRelatedComponents(mapToken).length}
+                                  {
+                                    getRelatedComponents([
+                                      mapToken,
+                                      ...(mapRelatedAlias[mapToken] ?? []),
+                                    ]).length
+                                  }
                                 </span>
                               </div>
                               <div className="token-panel-pro-token-collapse-map-collapse-preview">

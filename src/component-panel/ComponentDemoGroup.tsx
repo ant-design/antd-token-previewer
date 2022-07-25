@@ -80,21 +80,26 @@ const ComponentDemoBlock: FC<ComponentDemoBlockProps> = ({
         theme={theme}
       >
         <ConfigProvider componentSize={size} componentDisabled={disabled}>
-          {demos.map((demo) => (
-            <div key={demo.key} style={{ display: demo.active ? '' : 'none' }}>
-              {demo.tokens && (
-                <div className="previewer-component-demo-group-item-relative-token">
-                  <Tooltip title={demo.tokens.join(', ')}>
-                    <span>
-                      关联 token: {demo.tokens.slice(0, 2).join(', ')}
-                      {demo.tokens.length > 2 ? '...' : ''}
-                    </span>
-                  </Tooltip>
+          {demos.some((item) => item.active)
+            ? demos.map((demo) => (
+                <div
+                  key={demo.key}
+                  style={{ display: demo.active ? '' : 'none' }}
+                >
+                  {demo.tokens && (
+                    <div className="previewer-component-demo-group-item-relative-token">
+                      <Tooltip title={demo.tokens.join(', ')}>
+                        <span>
+                          关联 token: {demo.tokens.slice(0, 2).join(', ')}
+                          {demo.tokens.length > 2 ? '...' : ''}
+                        </span>
+                      </Tooltip>
+                    </div>
+                  )}
+                  {demo.demo}
                 </div>
-              )}
-              {demo.demo}
-            </div>
-          ))}
+              ))
+            : demos[0]?.demo}
         </ConfigProvider>
       </ComponentCard>
     </div>
