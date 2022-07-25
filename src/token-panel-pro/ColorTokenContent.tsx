@@ -176,6 +176,7 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
 
       [`> ${token.rootCls}-collapse-item`]: {
         [`> ${token.rootCls}-collapse-header`]: {
+          alignItems: 'center',
           [`> ${token.rootCls}-collapse-header-text`]: {
             flex: 1,
           },

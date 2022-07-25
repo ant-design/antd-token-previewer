@@ -11,7 +11,10 @@ const Demo = () => {
   return (
     <React.StrictMode>
       <ConfigProvider
-        theme={{ hashed: true, token: { colorPrimary: '#1677FF' } }}
+        theme={{
+          hashed: true,
+          token: { colorPrimary: '#1677FF', radiusBase: 4 },
+        }}
         prefixCls="editor"
       >
         <ThemeEditor />
