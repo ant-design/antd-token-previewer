@@ -93,7 +93,7 @@ const ThemeEditor = () => {
     setSelectedTokens((prev) => {
       if (type === 'seed') {
         return {
-          seed: [token],
+          seed: token ? [token] : [],
         };
       }
       const newSelectedTokens = {
