@@ -93,7 +93,7 @@ const ThemeEditor = () => {
     setSelectedTokens((prev) => {
       if (type === 'seed') {
         return {
-          seed: [token],
+          seed: token ? [token] : [],
         };
       }
       const newSelectedTokens = {
@@ -112,7 +112,6 @@ const ThemeEditor = () => {
   const computedSelectedTokens = useMemo(() => {
     if (
       selectedTokens.seed?.length &&
-      selectedTokens.seed[0] &&
       !selectedTokens.map?.length &&
       !selectedTokens.alias?.length
     ) {
