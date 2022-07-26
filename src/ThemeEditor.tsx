@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import TokenPanelPro from './token-panel-pro';
 import ComponentDemoGroup from './component-panel/ComponentDemoGroup';
 import { antdComponents } from './component-panel';
@@ -85,14 +85,19 @@ const ThemeEditor = () => {
       },
       onThemeChange: (themeConfig: ThemeConfig) => {
         setThemes((prev) =>
-          prev.map((prevTheme) =>
-            themeItem.key === prevTheme.key
-              ? {
-                  ...prevTheme,
-                  config: themeConfig,
-                }
-              : prevTheme,
-          ),
+          prev.map((prevTheme) => {
+            if (themeItem.key === prevTheme.key) {
+              const newToken = { ...themeConfig.token };
+              if (infoFollowPrimary) {
+                newToken.colorInfo = getDesignToken(themeConfig).colorPrimary;
+              }
+              return {
+                ...prevTheme,
+                config: { ...themeConfig, token: newToken },
+              };
+            }
+            return prevTheme;
+          }),
         );
       },
     })),
@@ -150,41 +155,45 @@ const ThemeEditor = () => {
       : [];
   }, [computedSelectedTokens]);
 
+  const followColorPrimary = () => {
+    setThemes((prev) =>
+      prev.map((prevTheme) => {
+        // const newDerivative = {
+        //   ...prevTheme.config.override?.derivative,
+        // };
+        // seedRelatedMap.colorInfo?.forEach((item) => {
+        //   delete newDerivative[item];
+        // })
+        // const newAlias = {
+        //   ...prevTheme.config.override?.alias,
+        // };
+        // seedRelatedAlias.colorInfo?.forEach((item) => {
+        //   delete newAlias[item];
+        // })
+
+        return {
+          ...prevTheme,
+          config: {
+            ...prevTheme.config,
+            token: {
+              ...prevTheme.config.token,
+              colorInfo: getDesignToken(prevTheme.config).colorPrimary,
+            },
+            // override: {
+            //   ...prevTheme.config.override,
+            //   derivative: newDerivative,
+            //   alias: newAlias,
+            // }
+          },
+        };
+      }),
+    );
+  };
+
   const handleInfoFollowPrimaryChange = (checked: boolean) => {
     setInfoFollowPrimary(checked);
     if (checked) {
-      setThemes((prev) =>
-        prev.map((prevTheme) => {
-          // const newDerivative = {
-          //   ...prevTheme.config.override?.derivative,
-          // };
-          // seedRelatedMap.colorInfo?.forEach((item) => {
-          //   delete newDerivative[item];
-          // })
-          // const newAlias = {
-          //   ...prevTheme.config.override?.alias,
-          // };
-          // seedRelatedAlias.colorInfo?.forEach((item) => {
-          //   delete newAlias[item];
-          // })
-
-          return {
-            ...prevTheme,
-            config: {
-              ...prevTheme.config,
-              token: {
-                ...prevTheme.config.token,
-                colorInfo: getDesignToken(prevTheme.config).colorPrimary,
-              },
-              // override: {
-              //   ...prevTheme.config.override,
-              //   derivative: newDerivative,
-              //   alias: newAlias,
-              // }
-            },
-          };
-        }),
-      );
+      followColorPrimary();
     }
   };
 
