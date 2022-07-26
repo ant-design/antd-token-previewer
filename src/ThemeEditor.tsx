@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import TokenPanelPro from './token-panel-pro';
 import ComponentDemoGroup from './component-panel/ComponentDemoGroup';
 import { antdComponents } from './component-panel';
