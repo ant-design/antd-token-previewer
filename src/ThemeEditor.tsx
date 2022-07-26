@@ -14,6 +14,7 @@ import {
   seedRelatedMap,
 } from './token-info/TokenRelation';
 import { getRelatedComponents } from './utils/statistic';
+import getDesignToken from './utils/getDesignToken';
 
 const { darkAlgorithm } = theme;
 
@@ -70,10 +71,18 @@ const ThemeEditor = () => {
   const [selectedTokens, setSelectedTokens] = useState<SelectedToken>({
     seed: ['colorPrimary'],
   });
+  const [infoFollowPrimary, setInfoFollowPrimary] = useState<boolean>(true);
 
   const [themes, setThemes] = useState<MutableTheme[]>(
     defaultThemes.map((themeItem) => ({
       ...themeItem,
+      config: {
+        ...themeItem.config,
+        token: {
+          ...themeItem.config.token,
+          colorInfo: getDesignToken(themeItem.config).colorPrimary,
+        },
+      },
       onThemeChange: (themeConfig: ThemeConfig) => {
         setThemes((prev) =>
           prev.map((prevTheme) =>
@@ -141,6 +150,44 @@ const ThemeEditor = () => {
       : [];
   }, [computedSelectedTokens]);
 
+  const handleInfoFollowPrimaryChange = (checked: boolean) => {
+    setInfoFollowPrimary(checked);
+    if (checked) {
+      setThemes((prev) =>
+        prev.map((prevTheme) => {
+          // const newDerivative = {
+          //   ...prevTheme.config.override?.derivative,
+          // };
+          // seedRelatedMap.colorInfo?.forEach((item) => {
+          //   delete newDerivative[item];
+          // })
+          // const newAlias = {
+          //   ...prevTheme.config.override?.alias,
+          // };
+          // seedRelatedAlias.colorInfo?.forEach((item) => {
+          //   delete newAlias[item];
+          // })
+
+          return {
+            ...prevTheme,
+            config: {
+              ...prevTheme.config,
+              token: {
+                ...prevTheme.config.token,
+                colorInfo: getDesignToken(prevTheme.config).colorPrimary,
+              },
+              // override: {
+              //   ...prevTheme.config.override,
+              //   derivative: newDerivative,
+              //   alias: newAlias,
+              // }
+            },
+          };
+        }),
+      );
+    }
+  };
+
   return wrapSSR(
     <div className={classNames(hashId, 'antd-theme-editor')}>
       <div
@@ -163,6 +210,8 @@ const ThemeEditor = () => {
           style={{ flex: 1 }}
           selectedTokens={selectedTokens}
           onTokenSelect={handleTokenSelect}
+          infoFollowPrimary={infoFollowPrimary}
+          onInfoFollowPrimaryChange={handleInfoFollowPrimaryChange}
         />
       </div>
       <div style={{ flex: 1, overflow: 'auto', height: '100%' }}>

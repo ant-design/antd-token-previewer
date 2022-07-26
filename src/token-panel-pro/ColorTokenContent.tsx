@@ -1,10 +1,10 @@
 import type { FC } from 'react';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
 import ThemeSelect from '../ThemeSelect';
 import { Pick } from '../icons';
-import { Button, Collapse, Dropdown, Empty, Tooltip } from 'antd';
+import { Button, Checkbox, Collapse, Dropdown, Empty, Tooltip } from 'antd';
 import {
   CaretRightOutlined,
   QuestionCircleOutlined,
@@ -207,6 +207,7 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
 export type ColorSeedTokenProps = {
   theme: MutableTheme;
   tokenName: keyof SeedToken;
+  disabled?: boolean;
 };
 
 const getSeedValue = (config: ThemeConfig, token: keyof SeedToken) => {
@@ -216,6 +217,7 @@ const getSeedValue = (config: ThemeConfig, token: keyof SeedToken) => {
 const ColorSeedTokenPreview: FC<ColorSeedTokenProps> = ({
   theme,
   tokenName,
+  disabled,
 }) => {
   const [tokenValue, setTokenValue] = useState(
     getSeedValue(theme.config, tokenName),
@@ -236,6 +238,10 @@ const ColorSeedTokenPreview: FC<ColorSeedTokenProps> = ({
     debouncedOnChange(value);
   };
 
+  useEffect(() => {
+    setTokenValue(getSeedValue(theme.config, tokenName));
+  }, [theme.config, tokenName]);
+
   return (
     <div className="token-panel-pro-token-collapse-seed-block-sample">
       <div className="token-panel-pro-token-collapse-seed-block-sample-theme">
@@ -243,6 +249,7 @@ const ColorSeedTokenPreview: FC<ColorSeedTokenProps> = ({
       </div>
       <div className="token-panel-pro-token-collapse-seed-block-sample-card">
         <Dropdown
+          disabled={disabled}
           trigger={['click']}
           overlay={<ColorPanel color={tokenValue} onChange={handleChange} />}
         >
@@ -267,12 +274,16 @@ export type ColorTokenContentProps = {
   themes: MutableTheme[];
   selectedTokens?: SelectedToken;
   onTokenSelect?: (token: string, type: keyof SelectedToken) => void;
+  infoFollowPrimary?: boolean;
+  onInfoFollowPrimaryChange?: (value: boolean) => void;
 };
 
 const ColorTokenContent: FC<ColorTokenContentProps> = ({
   themes,
   selectedTokens,
   onTokenSelect,
+  infoFollowPrimary,
+  onInfoFollowPrimaryChange,
 }) => {
   const [wrapSSR, hashId] = useStyle();
   const [activeSeed, setActiveSeed] = useState<keyof SeedToken>('colorPrimary');
@@ -351,9 +362,20 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
                         <span className="token-panel-pro-token-collapse-seed-block-name-cn">
                           {tokenInfo[seedToken]?.name}
                         </span>
-                        <span className="token-panel-pro-token-collapse-seed-block-name">
+                        {/*<span className="token-panel-pro-token-collapse-seed-block-name">
                           {seedToken}
-                        </span>
+                        </span>*/}
+                        {seedToken === 'colorInfo' && (
+                          <Checkbox
+                            style={{ marginLeft: 12 }}
+                            checked={infoFollowPrimary}
+                            onChange={(e) =>
+                              onInfoFollowPrimaryChange?.(e.target.checked)
+                            }
+                          >
+                            跟随主色
+                          </Checkbox>
+                        )}
                       </div>
                     </div>
                     {themes.map((themeItem) => (
@@ -361,6 +383,9 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
                         key={themeItem.key}
                         theme={themeItem}
                         tokenName={seedToken}
+                        disabled={
+                          seedToken === 'colorInfo' && infoFollowPrimary
+                        }
                       />
                     ))}
                   </div>
@@ -413,6 +438,7 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
                                             themeItem.config,
                                           ) as any
                                         )[mapToken],
+                                        transition: 'background-color 0.2s',
                                       }}
                                     />
                                   </div>
