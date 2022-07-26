@@ -30,6 +30,8 @@ export type TokenPanelProProps = {
   onTokenSelect?: (token: string, type: keyof SelectedToken) => void;
   infoFollowPrimary?: boolean;
   onInfoFollowPrimaryChange?: (value: boolean) => void;
+  activeTheme?: string;
+  onActiveThemeChange?: (theme: string) => void;
 };
 
 const TokenPanelPro: FC<TokenPanelProProps> = ({
@@ -40,6 +42,8 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
   onTokenSelect,
   infoFollowPrimary,
   onInfoFollowPrimaryChange,
+  activeTheme,
+  onActiveThemeChange,
 }) => {
   const [wrapSSR, hashId] = useStyle();
 
@@ -62,6 +66,8 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
             onTokenSelect={onTokenSelect}
             infoFollowPrimary={infoFollowPrimary}
             onInfoFollowPrimaryChange={onInfoFollowPrimaryChange}
+            activeTheme={activeTheme}
+            onActiveThemeChange={onActiveThemeChange}
           />
         </TabPane>
         <TabPane key="size" tab="尺寸大小" disabled>

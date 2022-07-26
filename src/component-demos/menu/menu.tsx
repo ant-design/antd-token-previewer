@@ -1,5 +1,5 @@
 import type { MenuProps } from 'antd';
-import { Button, Menu } from 'antd';
+import { Menu } from 'antd';
 import React from 'react';
 
 import items from './data';
@@ -13,7 +13,6 @@ const Demo: React.FC = () => {
 
   return (
     <div>
-      <Button onClick={focus}>点击触发 focus 态，显示 colorPrimaryHover</Button>
       <Menu
         onClick={onClick}
         style={{ width: 256 }}

@@ -22,6 +22,7 @@ export type ThemeSelectProps = {
   enabledThemes: string[];
   shownThemes: string[];
   themes: ThemeItem[];
+  showAddTheme?: boolean;
 };
 
 const useStyle = makeStyle('ThemeSelect', (token) => ({
@@ -56,11 +57,14 @@ const useStyle = makeStyle('ThemeSelect', (token) => ({
       backgroundColor: token.colorBgContainer,
       border: `${token.lineWidth}px ${token.lineType} ${token.colorBorder}`,
       paddingInline: 10,
-      marginInlineEnd: token.marginXS,
       fontSize: token.fontSizeSM,
       position: 'relative',
       cursor: 'pointer',
       transition: `all ${token.motionDurationMid}`,
+
+      '&:not(:last-child)': {
+        marginInlineEnd: token.marginXS,
+      },
 
       '&.previewer-theme-select-tag-active': {
         border: `${token.lineWidth}px ${token.lineType} ${token['blue-1']}`,
@@ -129,6 +133,7 @@ const ThemeSelect: FC<ThemeSelectProps> = (props) => {
     enabledThemes,
     shownThemes,
     themes,
+    showAddTheme,
   } = props;
 
   const [wrapSSR, hashId] = useStyle();
@@ -206,19 +211,24 @@ const ThemeSelect: FC<ThemeSelectProps> = (props) => {
           )}
         </span>
       ))}
-      <Dropdown
-        placement="bottomRight"
-        trigger={['click']}
-        overlay={<Menu items={dropdownItems} />}
-        overlayClassName={classNames('previewer-theme-select-dropdown', hashId)}
-      >
-        <Button
-          type="primary"
-          shape="circle"
-          className="previewer-theme-select-add-btn"
-          icon={<PlusOutlined />}
-        />
-      </Dropdown>
+      {showAddTheme && (
+        <Dropdown
+          placement="bottomRight"
+          trigger={['click']}
+          overlay={<Menu items={dropdownItems} />}
+          overlayClassName={classNames(
+            'previewer-theme-select-dropdown',
+            hashId,
+          )}
+        >
+          <Button
+            type="primary"
+            shape="circle"
+            className="previewer-theme-select-add-btn"
+            icon={<PlusOutlined />}
+          />
+        </Dropdown>
+      )}
     </div>,
   );
 };

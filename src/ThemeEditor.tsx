@@ -53,7 +53,6 @@ const defaultThemes = [
     name: '默认主题',
     key: 'default',
     config: { token: { colorPrimary: '#1677FF' } },
-    fixed: true,
   },
   {
     name: '暗色主题',
@@ -62,7 +61,6 @@ const defaultThemes = [
       token: { colorPrimary: '#1677FF' },
       algorithm: darkAlgorithm,
     },
-    fixed: true,
   },
 ];
 
@@ -72,6 +70,7 @@ const ThemeEditor = () => {
     seed: ['colorPrimary'],
   });
   const [infoFollowPrimary, setInfoFollowPrimary] = useState<boolean>(true);
+  const [activeTheme, setActiveTheme] = useState<string>('default');
 
   const [themes, setThemes] = useState<MutableTheme[]>(
     defaultThemes.map((themeItem) => ({
@@ -197,6 +196,11 @@ const ThemeEditor = () => {
     }
   };
 
+  const memoizedActiveTheme = useMemo(
+    () => themes.find((item) => item.key === activeTheme)!,
+    [activeTheme, themes],
+  );
+
   return wrapSSR(
     <div className={classNames(hashId, 'antd-theme-editor')}>
       <div
@@ -221,12 +225,14 @@ const ThemeEditor = () => {
           onTokenSelect={handleTokenSelect}
           infoFollowPrimary={infoFollowPrimary}
           onInfoFollowPrimaryChange={handleInfoFollowPrimaryChange}
+          activeTheme={activeTheme}
+          onActiveThemeChange={(newActive) => setActiveTheme(newActive)}
         />
       </div>
       <div style={{ flex: 1, overflow: 'auto', height: '100%' }}>
         <ComponentDemoGroup
           selectedTokens={computedSelectedTokens}
-          themes={[themes[0]]}
+          themes={[memoizedActiveTheme]}
           components={antdComponents}
           activeComponents={relatedComponents}
         />
