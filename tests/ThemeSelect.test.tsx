@@ -29,6 +29,7 @@ const Demo = () => {
       themes={themes}
       onEnabledThemeChange={(value) => setEnabledThemes(value)}
       onShownThemeChange={(value) => setShownThemes(value)}
+      showAddTheme
     />
   );
 };

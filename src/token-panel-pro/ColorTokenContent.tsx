@@ -235,6 +235,8 @@ export type ColorTokenContentProps = {
   onInfoFollowPrimaryChange?: (value: boolean) => void;
   activeSeed: keyof SeedToken;
   onActiveSeedChange?: (value: keyof SeedToken) => void;
+  activeTheme?: string;
+  onActiveThemeChange?: (theme: string) => void;
 };
 
 const ColorTokenContent: FC<ColorTokenContentProps> = ({
@@ -245,8 +247,16 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
   onInfoFollowPrimaryChange,
   activeSeed,
   onActiveSeedChange,
+  activeTheme = 'default',
+  onActiveThemeChange,
 }) => {
   const [wrapSSR, hashId] = useStyle();
+
+  const handleEnabledThemeChange = (enabledThemes: string[]) => {
+    onActiveThemeChange?.(
+      enabledThemes.filter((theme) => theme !== activeTheme)[0],
+    );
+  };
 
   return wrapSSR(
     <div className={classNames(hashId, 'token-panel-pro-color')}>
@@ -254,9 +264,9 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
         <div className="token-panel-pro-color-themes">
           <span style={{ marginRight: 12 }}>定制主题</span>
           <ThemeSelect
-            onEnabledThemeChange={() => {}}
+            onEnabledThemeChange={handleEnabledThemeChange}
             onShownThemeChange={() => {}}
-            enabledThemes={['default', 'dark']}
+            enabledThemes={[activeTheme]}
             shownThemes={['default', 'dark']}
             themes={themes}
           />

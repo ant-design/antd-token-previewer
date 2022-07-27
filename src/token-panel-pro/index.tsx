@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import makeStyle from '../utils/makeStyle';
 import { Tabs } from 'antd';
 import classNames from 'classnames';
@@ -8,7 +8,6 @@ import type { MutableTheme } from 'antd-token-previewer';
 import type { SelectedToken } from '../interface';
 import AliasPanel from './AliasPanel';
 import type { SeedToken } from 'antd/es/theme/interface';
-import { mapRelatedAlias, seedRelatedAlias } from '../token-info/TokenRelation';
 
 const { TabPane } = Tabs;
 
@@ -36,6 +35,8 @@ export type TokenPanelProProps = {
   onInfoFollowPrimaryChange?: (value: boolean) => void;
   aliasOpen?: boolean;
   onAliasOpenChange?: (value: boolean) => void;
+  activeTheme?: string;
+  onActiveThemeChange?: (theme: string) => void;
 };
 
 const TokenPanelPro: FC<TokenPanelProProps> = ({
@@ -48,6 +49,8 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
   onInfoFollowPrimaryChange,
   aliasOpen,
   onAliasOpenChange,
+  activeTheme,
+  onActiveThemeChange,
 }) => {
   const [wrapSSR, hashId] = useStyle();
   const [activeSeed, setActiveSeed] = useState<keyof SeedToken>('colorPrimary');
@@ -73,6 +76,8 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
             onInfoFollowPrimaryChange={onInfoFollowPrimaryChange}
             activeSeed={activeSeed}
             onActiveSeedChange={(seed) => setActiveSeed(seed)}
+            activeTheme={activeTheme}
+            onActiveThemeChange={onActiveThemeChange}
           />
         </TabPane>
         <TabPane key="size" tab="尺寸大小" disabled>
