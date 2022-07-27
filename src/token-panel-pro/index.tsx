@@ -1,17 +1,20 @@
 import type { FC } from 'react';
-import React from 'react';
+import React, { useState } from 'react';
 import makeStyle from '../utils/makeStyle';
 import { Tabs } from 'antd';
 import classNames from 'classnames';
 import ColorTokenContent from './ColorTokenContent';
 import type { MutableTheme } from 'antd-token-previewer';
 import type { SelectedToken } from '../interface';
+import AliasPanel from './AliasPanel';
+import type { SeedToken } from 'antd/es/theme/interface';
 
 const { TabPane } = Tabs;
 
 const useStyle = makeStyle('TokenPanelPro', (token) => ({
   '.token-panel-pro': {
     height: '100%',
+    display: 'flex',
     [`.token-panel-pro-tabs${token.rootCls}-tabs`]: {
       height: '100%',
       overflow: 'auto',
@@ -30,6 +33,8 @@ export type TokenPanelProProps = {
   onTokenSelect?: (token: string, type: keyof SelectedToken) => void;
   infoFollowPrimary?: boolean;
   onInfoFollowPrimaryChange?: (value: boolean) => void;
+  aliasOpen?: boolean;
+  onAliasOpenChange?: (value: boolean) => void;
   activeTheme?: string;
   onActiveThemeChange?: (theme: string) => void;
 };
@@ -42,10 +47,13 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
   onTokenSelect,
   infoFollowPrimary,
   onInfoFollowPrimaryChange,
+  aliasOpen,
+  onAliasOpenChange,
   activeTheme,
   onActiveThemeChange,
 }) => {
   const [wrapSSR, hashId] = useStyle();
+  const [activeSeed, setActiveSeed] = useState<keyof SeedToken>('colorPrimary');
 
   return wrapSSR(
     <div
@@ -56,7 +64,7 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
         defaultActiveKey="color"
         tabBarGutter={32}
         tabBarStyle={{ padding: '0 16px', margin: 0 }}
-        style={{ height: '100%' }}
+        style={{ height: '100%', flex: '0 0 540px' }}
         className="token-panel-pro-tabs"
       >
         <TabPane key="color" tab="颜色">
@@ -66,6 +74,8 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
             onTokenSelect={onTokenSelect}
             infoFollowPrimary={infoFollowPrimary}
             onInfoFollowPrimaryChange={onInfoFollowPrimaryChange}
+            activeSeed={activeSeed}
+            onActiveSeedChange={(seed) => setActiveSeed(seed)}
             activeTheme={activeTheme}
             onActiveThemeChange={onActiveThemeChange}
           />
@@ -77,6 +87,13 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
           Others
         </TabPane>
       </Tabs>
+      <AliasPanel
+        open={aliasOpen}
+        onOpenChange={(value) => onAliasOpenChange?.(value)}
+        activeSeed={activeSeed}
+        themes={themes}
+        style={{ flex: aliasOpen ? '0 0 320px' : 'none', width: 0 }}
+      />
     </div>,
   );
 };

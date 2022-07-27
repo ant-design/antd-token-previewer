@@ -70,6 +70,7 @@ const ThemeEditor = () => {
     seed: ['colorPrimary'],
   });
   const [infoFollowPrimary, setInfoFollowPrimary] = useState<boolean>(true);
+  const [aliasOpen, setAliasOpen] = useState<boolean>(true);
   const [activeTheme, setActiveTheme] = useState<string>('default');
 
   const [themes, setThemes] = useState<MutableTheme[]>(
@@ -205,12 +206,13 @@ const ThemeEditor = () => {
     <div className={classNames(hashId, 'antd-theme-editor')}>
       <div
         style={{
-          flex: '0 0 912px',
+          flex: aliasOpen ? '0 0 912px' : `0 0 ${912 - 320 - 1}px`,
           height: '100%',
           backgroundColor: '#F7F8FA',
           backgroundImage:
             'linear-gradient(180deg, #FFFFFF 0%, rgba(246,247,249,0.00) 100%)',
           display: 'flex',
+          transition: 'all 0.3s',
         }}
       >
         <div className="antd-theme-editor-sidebar">
@@ -219,6 +221,8 @@ const ThemeEditor = () => {
           </div>
         </div>
         <TokenPanelPro
+          aliasOpen={aliasOpen}
+          onAliasOpenChange={(open) => setAliasOpen(open)}
           themes={themes}
           style={{ flex: 1 }}
           selectedTokens={selectedTokens}
