@@ -27,6 +27,7 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
     '.token-panel-pro-color-seeds': {
       height: '100%',
       flex: 1,
+      width: 0,
       borderInlineEnd: `1px solid ${token.colorSplit}`,
       display: 'flex',
       flexDirection: 'column',
