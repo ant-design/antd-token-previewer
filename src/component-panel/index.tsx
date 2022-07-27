@@ -261,6 +261,24 @@ const Index: FC<ComponentPanelProps> = ({
             TreeSelect: {
               zIndexPopup: 10,
             },
+            DatePicker: {
+              zIndexPopup: 10,
+            },
+            Dropdown: {
+              zIndexPopup: 10,
+            },
+            Mentions: {
+              zIndexPopup: 10,
+            },
+            Tooltip: {
+              zIndexPopup: 10,
+            },
+            Popover: {
+              zIndexPopup: 10,
+            },
+            Popconfirm: {
+              zIndexPopup: 10,
+            },
           },
         }}
       >
