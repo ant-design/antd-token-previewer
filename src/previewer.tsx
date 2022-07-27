@@ -250,6 +250,7 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({
         {showTheme && (
           <div>
             <ThemeSelect
+              showAddTheme
               enabledThemes={enabledThemes}
               shownThemes={shownThemes}
               themes={themes}
