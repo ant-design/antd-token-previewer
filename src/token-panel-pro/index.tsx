@@ -93,6 +93,8 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
         activeSeed={activeSeed}
         themes={themes}
         style={{ flex: aliasOpen ? '0 0 320px' : 'none', width: 0 }}
+        selectedTokens={selectedTokens}
+        onTokenSelect={onTokenSelect}
       />
     </div>,
   );

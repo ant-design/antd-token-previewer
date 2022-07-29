@@ -61,6 +61,10 @@ const useStyle = makeStyle('TokenPanelProAlias', (token) => ({
               borderRadius: 999,
             },
           },
+
+          '.token-panel-pro-token-picked': {
+            color: token.colorPrimary,
+          },
         },
       },
     },
@@ -130,12 +134,16 @@ const AliasPanel: FC<AliasPanelProps> = ({
 
   const shownAlias = useMemo(
     () =>
-      selectedTokens?.map?.length
-        ? selectedTokens?.map.reduce<string[]>((result, map) => {
-            result.push(...((mapRelatedAlias as any)[map] ?? []));
-            return result;
-          }, [])
-        : seedRelatedAlias[activeSeed],
+      (selectedTokens?.map?.length
+        ? Array.from(
+            new Set(
+              selectedTokens?.map.reduce<string[]>((result, map) => {
+                return result.concat(...((mapRelatedAlias as any)[map] ?? []));
+              }, []),
+            ),
+          )
+        : seedRelatedAlias[activeSeed]
+      )?.sort(),
     [selectedTokens, activeSeed],
   );
 
