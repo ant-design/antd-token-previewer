@@ -6,7 +6,7 @@ import { TokenPanelIcon } from './icons';
 import makeStyle from './utils/makeStyle';
 import classNames from 'classnames';
 import { theme } from 'antd';
-import type { MutableTheme, SelectedToken } from './interface';
+import type { MutableTheme, SelectedToken, Theme } from './interface';
 import type { ThemeConfig } from 'antd/es/config-provider/context';
 import {
   mapRelatedAlias,
@@ -48,17 +48,16 @@ const useStyle = makeStyle('ThemeEditor', (token) => ({
   },
 }));
 
-const defaultThemes = [
+const defaultThemes: Theme[] = [
   {
     name: '默认主题',
     key: 'default',
-    config: { token: { colorPrimary: '#1677FF' } },
+    config: {},
   },
   {
     name: '暗色主题',
     key: 'dark',
     config: {
-      token: { colorPrimary: '#1677FF' },
       algorithm: darkAlgorithm,
     },
   },
