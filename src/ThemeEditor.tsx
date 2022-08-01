@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from 'react';
+import type { FC } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import TokenPanelPro from './token-panel-pro';
 import ComponentDemoGroup from './component-panel/ComponentDemoGroup';
 import { antdComponents } from './component-panel';
@@ -63,44 +64,93 @@ const defaultThemes: Theme[] = [
   },
 ];
 
-const ThemeEditor = () => {
+export type ThemeEditorProps = {
+  simple?: boolean;
+  theme?: Theme;
+  onThemeChange?: (theme: Theme) => void;
+};
+
+const ThemeEditor: FC<ThemeEditorProps> = ({
+  simple,
+  theme: customTheme,
+  onThemeChange,
+}) => {
   const [wrapSSR, hashId] = useStyle();
   const [selectedTokens, setSelectedTokens] = useState<SelectedToken>({
     seed: ['colorPrimary'],
   });
   const [infoFollowPrimary, setInfoFollowPrimary] = useState<boolean>(true);
   const [aliasOpen, setAliasOpen] = useState<boolean>(true);
-  const [activeTheme, setActiveTheme] = useState<string>('default');
+  const [activeTheme, setActiveTheme] = useState<string>(
+    customTheme ? customTheme.key : 'default',
+  );
+
+  const handleThemeChange = (key: string, config: ThemeConfig) => {
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    setThemes((prev) =>
+      prev.map((prevTheme) => {
+        if (key === prevTheme.key) {
+          const newToken = { ...config.token };
+          if (infoFollowPrimary) {
+            newToken.colorInfo = getDesignToken(config).colorPrimary;
+          }
+          return {
+            ...prevTheme,
+            config: { ...config, token: newToken },
+          };
+        }
+        return prevTheme;
+      }),
+    );
+  };
+
+  const defaultMutableTheme = defaultThemes.map((themeItem) => ({
+    ...themeItem,
+    config: {
+      ...themeItem.config,
+      token: {
+        ...themeItem.config.token,
+        colorInfo: getDesignToken(themeItem.config).colorPrimary,
+      },
+    },
+    onThemeChange: (themeConfig: ThemeConfig) => {
+      handleThemeChange(themeItem.key, themeConfig);
+    },
+  }));
+
+  const handleCustomThemeChange = (config: ThemeConfig) => {
+    if (customTheme) {
+      const newToken = { ...config.token };
+      if (infoFollowPrimary) {
+        newToken.colorInfo = getDesignToken(config).colorPrimary;
+      }
+      onThemeChange?.({
+        ...customTheme,
+        config: { ...config, token: newToken },
+      });
+    }
+  };
+
+  const customMutableTheme = customTheme && {
+    ...customTheme,
+    config: {
+      ...customTheme.config,
+      token: {
+        ...customTheme.config.token,
+        colorInfo: getDesignToken(customTheme.config).colorPrimary,
+      },
+    },
+    onThemeChange: handleCustomThemeChange,
+  };
 
   const [themes, setThemes] = useState<MutableTheme[]>(
-    defaultThemes.map((themeItem) => ({
-      ...themeItem,
-      config: {
-        ...themeItem.config,
-        token: {
-          ...themeItem.config.token,
-          colorInfo: getDesignToken(themeItem.config).colorPrimary,
-        },
-      },
-      onThemeChange: (themeConfig: ThemeConfig) => {
-        setThemes((prev) =>
-          prev.map((prevTheme) => {
-            if (themeItem.key === prevTheme.key) {
-              const newToken = { ...themeConfig.token };
-              if (infoFollowPrimary) {
-                newToken.colorInfo = getDesignToken(themeConfig).colorPrimary;
-              }
-              return {
-                ...prevTheme,
-                config: { ...themeConfig, token: newToken },
-              };
-            }
-            return prevTheme;
-          }),
-        );
-      },
-    })),
+    customMutableTheme ? [customMutableTheme] : defaultMutableTheme,
   );
+
+  useEffect(() => {
+    setThemes(customMutableTheme ? [customMutableTheme] : defaultMutableTheme);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [customTheme, onThemeChange]);
 
   const handleTokenSelect = (token: string, type: keyof SelectedToken) => {
     setSelectedTokens((prev) => {
@@ -157,19 +207,6 @@ const ThemeEditor = () => {
   const followColorPrimary = () => {
     setThemes((prev) =>
       prev.map((prevTheme) => {
-        // const newDerivative = {
-        //   ...prevTheme.config.override?.derivative,
-        // };
-        // seedRelatedMap.colorInfo?.forEach((item) => {
-        //   delete newDerivative[item];
-        // })
-        // const newAlias = {
-        //   ...prevTheme.config.override?.alias,
-        // };
-        // seedRelatedAlias.colorInfo?.forEach((item) => {
-        //   delete newAlias[item];
-        // })
-
         return {
           ...prevTheme,
           config: {
@@ -178,11 +215,6 @@ const ThemeEditor = () => {
               ...prevTheme.config.token,
               colorInfo: getDesignToken(prevTheme.config).colorPrimary,
             },
-            // override: {
-            //   ...prevTheme.config.override,
-            //   derivative: newDerivative,
-            //   alias: newAlias,
-            // }
           },
         };
       }),
@@ -223,6 +255,7 @@ const ThemeEditor = () => {
           aliasOpen={aliasOpen}
           onAliasOpenChange={(open) => setAliasOpen(open)}
           themes={themes}
+          simple={simple}
           style={{ flex: 1 }}
           selectedTokens={selectedTokens}
           onTokenSelect={handleTokenSelect}

@@ -1,3 +1,3 @@
-# Controlled
+# Previewer Controlled
 
-<code src="../examples/controlled.tsx" />
+<code src="../examples/previewer-controlled.tsx" />

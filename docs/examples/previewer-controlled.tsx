@@ -3,7 +3,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import Previewer from 'antd-token-previewer';
+import { Previewer } from 'antd-token-previewer';
 import { ConfigProvider, message } from 'antd';
 import type { Theme } from 'antd-token-previewer';
 

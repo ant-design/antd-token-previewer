@@ -28,6 +28,7 @@ const useStyle = makeStyle('TokenPanelPro', (token) => ({
 export type TokenPanelProProps = {
   className?: string;
   style?: React.CSSProperties;
+  simple?: boolean;
   themes: MutableTheme[];
   selectedTokens?: SelectedToken;
   onTokenSelect?: (token: string, type: keyof SelectedToken) => void;
@@ -42,6 +43,7 @@ export type TokenPanelProProps = {
 const TokenPanelPro: FC<TokenPanelProProps> = ({
   className,
   style,
+  simple,
   themes,
   selectedTokens,
   onTokenSelect,
@@ -69,7 +71,7 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
       >
         <TabPane key="color" tab="颜色">
           <ColorTokenContent
-            themes={themes}
+            themes={simple ? [themes[0]] : themes}
             selectedTokens={selectedTokens}
             onTokenSelect={onTokenSelect}
             infoFollowPrimary={infoFollowPrimary}
@@ -91,7 +93,7 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
         open={aliasOpen}
         onOpenChange={(value) => onAliasOpenChange?.(value)}
         activeSeed={activeSeed}
-        themes={themes}
+        themes={simple ? [themes[0]] : themes}
         style={{ flex: aliasOpen ? '0 0 320px' : 'none', width: 0 }}
         selectedTokens={selectedTokens}
         onTokenSelect={onTokenSelect}

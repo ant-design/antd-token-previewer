@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import Previewer from 'antd-token-previewer';
+import { Previewer } from 'antd-token-previewer';
 import { convertTokenArrToConfig } from '../../src/utils/convertToken';
 import { ConfigProvider } from 'antd';
 
