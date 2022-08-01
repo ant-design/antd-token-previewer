@@ -255,7 +255,7 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
 
   const handleEnabledThemeChange = (enabledThemes: string[]) => {
     onActiveThemeChange?.(
-      enabledThemes.filter((theme) => theme !== activeTheme)[0],
+      enabledThemes.filter((theme) => theme !== activeTheme)[0] ?? activeTheme,
     );
   };
 
