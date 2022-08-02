@@ -222,7 +222,7 @@ const ColorSeedTokenPreview: FC<ColorSeedTokenProps> = ({
               borderRadius: 4,
               marginRight: 14,
               cursor: 'pointer',
-              boxShadow: 'inset 0 0 0 1px rgba(0,0,0,0.09)',
+              boxShadow: 'inset 0 0 0 1px rgba(0,0,0,0.04)',
             }}
           />
         </Dropdown>
