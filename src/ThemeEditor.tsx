@@ -73,18 +73,17 @@ const ThemeEditor: FC<ThemeEditorProps> = ({
   const [selectedTokens, setSelectedTokens] = useState<SelectedToken>({
     seed: ['colorPrimary'],
   });
-  const [infoFollowPrimary, setInfoFollowPrimary] = useState<boolean>(false);
   const [aliasOpen, setAliasOpen] = useState<boolean>(true);
   const [activeTheme, setActiveTheme] = useState<string>(
     customTheme ? customTheme.key : 'default',
   );
 
-  const themes = useControlledTheme({
-    theme: customTheme,
-    defaultTheme,
-    onChange: onThemeChange,
-    infoFollowPrimary,
-  });
+  const { themes, infoFollowPrimary, onInfoFollowPrimaryChange } =
+    useControlledTheme({
+      theme: customTheme,
+      defaultTheme,
+      onChange: onThemeChange,
+    });
 
   const handleTokenSelect = (token: string, type: keyof SelectedToken) => {
     setSelectedTokens((prev) => {
@@ -138,28 +137,6 @@ const ThemeEditor: FC<ThemeEditorProps> = ({
       : [];
   }, [computedSelectedTokens]);
 
-  const followColorPrimary = () => {
-    // if (customTheme) {
-    //   onThemeChange?.({...customTheme, config: getNewConfig(customTheme.config, true)})
-    // } else {
-    //   setThemes((prev) =>
-    //     prev.map((prevTheme) => {
-    //       return {
-    //         ...prevTheme,
-    //         config: getNewConfig(prevTheme.config, true),
-    //       };
-    //     }),
-    //   );
-    // }
-  };
-
-  const handleInfoFollowPrimaryChange = (checked: boolean) => {
-    setInfoFollowPrimary(checked);
-    // if (checked) {
-    //   followColorPrimary();
-    // }
-  };
-
   const memoizedActiveTheme = useMemo(
     () => themes.find((item) => item.key === activeTheme)!,
     [activeTheme, themes],
@@ -192,7 +169,7 @@ const ThemeEditor: FC<ThemeEditorProps> = ({
           selectedTokens={selectedTokens}
           onTokenSelect={handleTokenSelect}
           infoFollowPrimary={infoFollowPrimary}
-          onInfoFollowPrimaryChange={handleInfoFollowPrimaryChange}
+          onInfoFollowPrimaryChange={onInfoFollowPrimaryChange}
           activeTheme={activeTheme}
           onActiveThemeChange={(newActive) => setActiveTheme(newActive)}
         />

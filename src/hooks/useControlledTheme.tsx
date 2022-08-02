@@ -13,14 +13,16 @@ export type UseControlledTheme = (options: {
   theme?: Theme;
   defaultTheme: Theme;
   onChange?: (theme: Theme) => void;
-  infoFollowPrimary?: boolean;
-}) => MutableTheme[];
+}) => {
+  themes: MutableTheme[];
+  infoFollowPrimary: boolean;
+  onInfoFollowPrimaryChange: (value: boolean) => void;
+};
 
 const useControlledTheme: UseControlledTheme = ({
   theme: customTheme,
   defaultTheme,
   onChange,
-  infoFollowPrimary,
 }) => {
   const [theme, setTheme] = useState<Theme>(customTheme ?? defaultTheme);
   const [darkTheme, setDarkTheme] = useState<Theme>({
@@ -28,12 +30,13 @@ const useControlledTheme: UseControlledTheme = ({
     key: 'dark',
     config: { ...theme.config, algorithm: darkAlgorithm },
   });
+  const [infoFollowPrimary, setInfoFollowPrimary] = useState<boolean>(false);
   const darkThemeRef = useRef<Theme>(darkTheme);
   const darkThemeUpdatedRef = useRef<object>({});
 
-  const getNewTheme = (newTheme: Theme): Theme => {
+  const getNewTheme = (newTheme: Theme, force?: boolean): Theme => {
     const newToken = { ...newTheme.config.token };
-    if (infoFollowPrimary) {
+    if (infoFollowPrimary || force) {
       newToken.colorInfo = getDesignToken(newTheme.config).colorPrimary;
     }
     return { ...newTheme, config: { ...newTheme.config, token: newToken } };
@@ -76,26 +79,30 @@ const useControlledTheme: UseControlledTheme = ({
     }
   }, [customTheme]);
 
-  useEffect(() => {
-    if (infoFollowPrimary) {
-      setTheme(getNewTheme(theme));
-      setDarkTheme(getNewTheme(darkTheme));
+  const handleInfoFollowPrimaryChange = (value: boolean) => {
+    setInfoFollowPrimary(value);
+    if (value) {
+      setTheme(getNewTheme(theme, true));
+      setDarkTheme(getNewTheme(darkTheme, true));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [infoFollowPrimary]);
+  };
 
-  return [
-    {
-      ...theme,
-      onThemeChange: (config, path) =>
-        handleSetTheme({ ...theme, config }, path),
-    },
-    {
-      ...darkTheme,
-      onThemeChange: (config, path) =>
-        handleSetDarkTheme({ ...darkTheme, config }, path),
-    },
-  ];
+  return {
+    themes: [
+      {
+        ...theme,
+        onThemeChange: (config, path) =>
+          handleSetTheme({ ...theme, config }, path),
+      },
+      {
+        ...darkTheme,
+        onThemeChange: (config, path) =>
+          handleSetDarkTheme({ ...darkTheme, config }, path),
+      },
+    ],
+    infoFollowPrimary,
+    onInfoFollowPrimaryChange: handleInfoFollowPrimaryChange,
+  };
 };
 
 export default useControlledTheme;
