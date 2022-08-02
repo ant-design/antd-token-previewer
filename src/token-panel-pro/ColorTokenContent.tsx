@@ -183,13 +183,16 @@ const ColorSeedTokenPreview: FC<ColorSeedTokenProps> = ({
   );
 
   const debouncedOnChange = useDebouncyFn((newValue: number | string) => {
-    theme.onThemeChange?.({
-      ...theme.config,
-      token: {
-        ...theme.config.token,
-        [tokenName]: newValue,
+    theme.onThemeChange?.(
+      {
+        ...theme.config,
+        token: {
+          ...theme.config.token,
+          [tokenName]: newValue,
+        },
       },
-    });
+      ['token', tokenName],
+    );
   }, 500);
 
   const handleChange = (value: string) => {

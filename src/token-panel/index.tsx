@@ -191,16 +191,19 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
       tokenName: string,
       value: TokenValue,
     ) => {
-      theme.onThemeChange?.({
-        ...theme.config,
-        override: {
-          ...theme.config.override,
-          alias: {
-            ...theme.config.override?.alias,
-            [tokenName]: value,
+      theme.onThemeChange?.(
+        {
+          ...theme.config,
+          override: {
+            ...theme.config.override,
+            alias: {
+              ...theme.config.override?.alias,
+              [tokenName]: value,
+            },
           },
         },
-      });
+        ['override', 'alias', tokenName],
+      );
     };
 
     const handleSeedTokenChange = (
@@ -208,13 +211,16 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
       tokenName: string,
       value: TokenValue,
     ) => {
-      theme.onThemeChange?.({
-        ...theme.config,
-        token: {
-          ...theme.config.token,
-          [tokenName]: value,
+      theme.onThemeChange?.(
+        {
+          ...theme.config,
+          token: {
+            ...theme.config.token,
+            [tokenName]: value,
+          },
         },
-      });
+        ['token', tokenName],
+      );
     };
 
     return wrapSSR(

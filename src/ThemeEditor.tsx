@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import TokenPanelPro from './token-panel-pro';
 import ComponentDemoGroup from './component-panel/ComponentDemoGroup';
 import { antdComponents } from './component-panel';
@@ -16,6 +16,9 @@ import {
 } from './token-info/TokenRelation';
 import { getRelatedComponents } from './utils/statistic';
 import getDesignToken from './utils/getDesignToken';
+import getValueByPath from './utils/getValueByPath';
+import deepUpdateObj from './utils/deepUpdateObj';
+import useControlledTheme from './hooks/useControlledTheme';
 
 const { darkAlgorithm } = theme;
 
@@ -49,20 +52,11 @@ const useStyle = makeStyle('ThemeEditor', (token) => ({
   },
 }));
 
-const defaultThemes: Theme[] = [
-  {
-    name: '默认主题',
-    key: 'default',
-    config: {},
-  },
-  {
-    name: '暗色主题',
-    key: 'dark',
-    config: {
-      algorithm: darkAlgorithm,
-    },
-  },
-];
+const defaultTheme: Theme = {
+  name: '默认主题',
+  key: 'default',
+  config: {},
+};
 
 export type ThemeEditorProps = {
   simple?: boolean;
@@ -85,58 +79,12 @@ const ThemeEditor: FC<ThemeEditorProps> = ({
     customTheme ? customTheme.key : 'default',
   );
 
-  const handleThemeChange = (key: string, config: ThemeConfig) => {
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    setThemes((prev) =>
-      prev.map((prevTheme) => {
-        if (key === prevTheme.key) {
-          const newToken = { ...config.token };
-          if (infoFollowPrimary) {
-            newToken.colorInfo = getDesignToken(config).colorPrimary;
-          }
-          return {
-            ...prevTheme,
-            config: { ...config, token: newToken },
-          };
-        }
-        return prevTheme;
-      }),
-    );
-  };
-
-  const defaultMutableTheme = defaultThemes.map((themeItem) => ({
-    ...themeItem,
-    onThemeChange: (themeConfig: ThemeConfig) => {
-      handleThemeChange(themeItem.key, themeConfig);
-    },
-  }));
-
-  const handleCustomThemeChange = (config: ThemeConfig) => {
-    if (customTheme) {
-      const newToken = { ...config.token };
-      if (infoFollowPrimary) {
-        newToken.colorInfo = getDesignToken(config).colorPrimary;
-      }
-      onThemeChange?.({
-        ...customTheme,
-        config: { ...config, token: newToken },
-      });
-    }
-  };
-
-  const customMutableTheme = customTheme && {
-    ...customTheme,
-    onThemeChange: handleCustomThemeChange,
-  };
-
-  const [themes, setThemes] = useState<MutableTheme[]>(
-    customMutableTheme ? [customMutableTheme] : defaultMutableTheme,
-  );
-
-  useEffect(() => {
-    setThemes(customMutableTheme ? [customMutableTheme] : defaultMutableTheme);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [customTheme, onThemeChange]);
+  const themes = useControlledTheme({
+    theme: customTheme,
+    defaultTheme,
+    onChange: onThemeChange,
+    infoFollowPrimary,
+  });
 
   const handleTokenSelect = (token: string, type: keyof SelectedToken) => {
     setSelectedTokens((prev) => {
@@ -191,27 +139,25 @@ const ThemeEditor: FC<ThemeEditorProps> = ({
   }, [computedSelectedTokens]);
 
   const followColorPrimary = () => {
-    setThemes((prev) =>
-      prev.map((prevTheme) => {
-        return {
-          ...prevTheme,
-          config: {
-            ...prevTheme.config,
-            token: {
-              ...prevTheme.config.token,
-              colorInfo: getDesignToken(prevTheme.config).colorPrimary,
-            },
-          },
-        };
-      }),
-    );
+    // if (customTheme) {
+    //   onThemeChange?.({...customTheme, config: getNewConfig(customTheme.config, true)})
+    // } else {
+    //   setThemes((prev) =>
+    //     prev.map((prevTheme) => {
+    //       return {
+    //         ...prevTheme,
+    //         config: getNewConfig(prevTheme.config, true),
+    //       };
+    //     }),
+    //   );
+    // }
   };
 
   const handleInfoFollowPrimaryChange = (checked: boolean) => {
     setInfoFollowPrimary(checked);
-    if (checked) {
-      followColorPrimary();
-    }
+    // if (checked) {
+    //   followColorPrimary();
+    // }
   };
 
   const memoizedActiveTheme = useMemo(

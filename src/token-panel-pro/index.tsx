@@ -4,7 +4,7 @@ import makeStyle from '../utils/makeStyle';
 import { Tabs } from 'antd';
 import classNames from 'classnames';
 import ColorTokenContent from './ColorTokenContent';
-import type { MutableTheme } from 'antd-token-previewer';
+import type { MutableTheme, Theme } from 'antd-token-previewer';
 import type { SelectedToken } from '../interface';
 import AliasPanel from './AliasPanel';
 import type { SeedToken } from 'antd/es/theme/interface';
@@ -30,7 +30,7 @@ export type TokenPanelProProps = {
   className?: string;
   style?: React.CSSProperties;
   simple?: boolean;
-  themes: MutableTheme[];
+  themes: Theme[];
   selectedTokens?: SelectedToken;
   onTokenSelect?: (token: string, type: keyof SelectedToken) => void;
   infoFollowPrimary?: boolean;
