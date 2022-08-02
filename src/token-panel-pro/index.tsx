@@ -4,7 +4,7 @@ import makeStyle from '../utils/makeStyle';
 import { Tabs } from 'antd';
 import classNames from 'classnames';
 import ColorTokenContent from './ColorTokenContent';
-import type { MutableTheme, Theme } from 'antd-token-previewer';
+import type { Theme } from 'antd-token-previewer';
 import type { SelectedToken } from '../interface';
 import AliasPanel from './AliasPanel';
 import type { SeedToken } from 'antd/es/theme/interface';

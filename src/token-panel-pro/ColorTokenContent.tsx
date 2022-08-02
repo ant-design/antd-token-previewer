@@ -2,7 +2,6 @@ import type { FC } from 'react';
 import React, { useEffect, useState } from 'react';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
-import ThemeSelect from '../ThemeSelect';
 import { Pick } from '../icons';
 import type { SwitchProps } from 'antd';
 import { Button, Checkbox, Collapse, Dropdown, Switch, Tooltip } from 'antd';

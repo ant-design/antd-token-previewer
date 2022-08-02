@@ -1,26 +1,19 @@
 import type { FC } from 'react';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import TokenPanelPro from './token-panel-pro';
 import ComponentDemoGroup from './component-panel/ComponentDemoGroup';
 import { antdComponents } from './component-panel';
 import { TokenPanelIcon } from './icons';
 import makeStyle from './utils/makeStyle';
 import classNames from 'classnames';
-import { theme } from 'antd';
-import type { MutableTheme, SelectedToken, Theme } from './interface';
-import type { ThemeConfig } from 'antd/es/config-provider/context';
+import type { SelectedToken, Theme } from './interface';
 import {
   mapRelatedAlias,
   seedRelatedAlias,
   seedRelatedMap,
 } from './token-info/TokenRelation';
 import { getRelatedComponents } from './utils/statistic';
-import getDesignToken from './utils/getDesignToken';
-import getValueByPath from './utils/getValueByPath';
-import deepUpdateObj from './utils/deepUpdateObj';
 import useControlledTheme from './hooks/useControlledTheme';
-
-const { darkAlgorithm } = theme;
 
 const useStyle = makeStyle('ThemeEditor', (token) => ({
   '.antd-theme-editor': {
