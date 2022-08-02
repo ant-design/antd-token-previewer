@@ -79,7 +79,7 @@ const ThemeEditor: FC<ThemeEditorProps> = ({
   const [selectedTokens, setSelectedTokens] = useState<SelectedToken>({
     seed: ['colorPrimary'],
   });
-  const [infoFollowPrimary, setInfoFollowPrimary] = useState<boolean>(true);
+  const [infoFollowPrimary, setInfoFollowPrimary] = useState<boolean>(false);
   const [aliasOpen, setAliasOpen] = useState<boolean>(true);
   const [activeTheme, setActiveTheme] = useState<string>(
     customTheme ? customTheme.key : 'default',
@@ -106,13 +106,6 @@ const ThemeEditor: FC<ThemeEditorProps> = ({
 
   const defaultMutableTheme = defaultThemes.map((themeItem) => ({
     ...themeItem,
-    config: {
-      ...themeItem.config,
-      token: {
-        ...themeItem.config.token,
-        colorInfo: getDesignToken(themeItem.config).colorPrimary,
-      },
-    },
     onThemeChange: (themeConfig: ThemeConfig) => {
       handleThemeChange(themeItem.key, themeConfig);
     },
@@ -133,13 +126,6 @@ const ThemeEditor: FC<ThemeEditorProps> = ({
 
   const customMutableTheme = customTheme && {
     ...customTheme,
-    config: {
-      ...customTheme.config,
-      token: {
-        ...customTheme.config.token,
-        colorInfo: getDesignToken(customTheme.config).colorPrimary,
-      },
-    },
     onThemeChange: handleCustomThemeChange,
   };
 
