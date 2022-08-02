@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { ConfigProvider } from 'antd';
-import ThemeEditor from '../../src/ThemeEditor';
+import { ThemeEditor } from 'antd-token-previewer';
 import 'antd/es/style/reset.css';
 
 const Demo = () => {
@@ -13,7 +13,6 @@ const Demo = () => {
       <ConfigProvider
         theme={{
           hashed: true,
-          token: { colorPrimary: '#1677FF', radiusBase: 4 },
         }}
         prefixCls="editor"
       >

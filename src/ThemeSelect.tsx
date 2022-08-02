@@ -60,7 +60,7 @@ const useStyle = makeStyle('ThemeSelect', (token) => ({
       fontSize: token.fontSizeSM,
       position: 'relative',
       cursor: 'pointer',
-      transition: `all ${token.motionDurationMid}`,
+      // transition: `all ${token.motionDurationMid}`,
 
       '&:not(:last-child)': {
         marginInlineEnd: token.marginXS,

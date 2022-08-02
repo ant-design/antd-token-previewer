@@ -268,7 +268,7 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
             onEnabledThemeChange={handleEnabledThemeChange}
             onShownThemeChange={() => {}}
             enabledThemes={[activeTheme]}
-            shownThemes={['default', 'dark']}
+            shownThemes={themes.map((item) => item.key)}
             themes={themes}
           />
         </div>

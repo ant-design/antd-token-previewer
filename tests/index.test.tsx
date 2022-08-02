@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { render } from '@testing-library/react';
 import type { Theme } from 'antd-token-previewer';
-import Previewer from 'antd-token-previewer';
+import { Previewer } from 'antd-token-previewer';
 
 describe('previewer', () => {
   it('should not crash', () => {

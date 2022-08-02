@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import React from 'react';
+import React, { useMemo } from 'react';
 import tokenInfo from '../token-info/TokenInfo';
 import { getRelatedComponents } from '../utils/statistic';
 import { Tooltip } from 'antd';
@@ -11,6 +11,7 @@ import type { TokenName } from '../interface';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
 import type { TokenValue } from '../interface';
+import { mapRelatedAlias } from '../token-info/TokenRelation';
 
 const useStyle = makeStyle('TokenDetail', (token) => ({
   '.token-panel-token-detail': {
@@ -85,6 +86,13 @@ const TokenDetail: FC<TokenDetailProps> = ({
     );
   };
 
+  const relatedComponents = useMemo(() => {
+    return getRelatedComponents([
+      tokenName,
+      ...((mapRelatedAlias as any)[tokenName] ?? []),
+    ]);
+  }, [tokenName]);
+
   return wrapSSR(
     <div
       className={classNames(className, hashId, 'token-panel-token-detail')}
@@ -93,13 +101,13 @@ const TokenDetail: FC<TokenDetailProps> = ({
       <div className="token-panel-pro-token-collapse-map-collapse-token-description">
         {tokenInfo[tokenName]?.description}
       </div>
-      {getRelatedComponents(tokenName).length > 0 && (
+      {relatedComponents.length > 0 && (
         <Tooltip
           title={getRelatedComponents(tokenName).join(', ')}
           placement="topLeft"
         >
           <div className="token-panel-pro-token-collapse-map-collapse-token-usage-tag-container">
-            {getRelatedComponents(tokenName).map((item) => (
+            {relatedComponents.map((item) => (
               <span
                 key={item}
                 className="token-panel-pro-token-collapse-map-collapse-token-usage-tag"
