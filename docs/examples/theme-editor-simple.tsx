@@ -27,7 +27,12 @@ const Demo = () => {
   return (
     <React.StrictMode>
       <ConfigProvider theme={{ hashed: true }}>
-        <ThemeEditor simple theme={theme} onThemeChange={handleThemeChange} />
+        <ThemeEditor
+          simple
+          theme={theme}
+          onThemeChange={handleThemeChange}
+          style={{ height: '100vh' }}
+        />
       </ConfigProvider>
     </React.StrictMode>
   );

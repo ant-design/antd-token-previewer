@@ -16,7 +16,7 @@ const Demo = () => {
         }}
         prefixCls="editor"
       >
-        <ThemeEditor />
+        <ThemeEditor style={{ height: '100vh' }} />
       </ConfigProvider>
     </React.StrictMode>
   );

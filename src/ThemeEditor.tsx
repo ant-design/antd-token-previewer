@@ -18,7 +18,6 @@ import useControlledTheme from './hooks/useControlledTheme';
 const useStyle = makeStyle('ThemeEditor', (token) => ({
   '.antd-theme-editor': {
     backgroundColor: 'rgba(0, 0, 0, 0.04)',
-    height: '100vh',
     display: 'flex',
     '.antd-theme-editor-sidebar': {
       padding: 12,
@@ -55,12 +54,16 @@ export type ThemeEditorProps = {
   simple?: boolean;
   theme?: Theme;
   onThemeChange?: (theme: Theme) => void;
+  className?: string;
+  style?: React.CSSProperties;
 };
 
 const ThemeEditor: FC<ThemeEditorProps> = ({
   simple,
   theme: customTheme,
   onThemeChange,
+  className,
+  style,
 }) => {
   const [wrapSSR, hashId] = useStyle();
   const [selectedTokens, setSelectedTokens] = useState<SelectedToken>({
@@ -136,7 +139,10 @@ const ThemeEditor: FC<ThemeEditorProps> = ({
   );
 
   return wrapSSR(
-    <div className={classNames(hashId, 'antd-theme-editor')}>
+    <div
+      className={classNames(hashId, 'antd-theme-editor', className)}
+      style={style}
+    >
       <div
         style={{
           flex: aliasOpen ? '0 0 912px' : `0 0 ${912 - 320 - 1}px`,
