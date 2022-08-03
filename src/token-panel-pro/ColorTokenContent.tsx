@@ -110,6 +110,10 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
             justifyContent: 'space-between',
             padding: '0 8px',
             height: 44,
+
+            '&-value': {
+              fontFamily: 'Monaco,'.concat(token.fontFamily),
+            },
           },
         },
       },
@@ -248,7 +252,9 @@ const ColorSeedTokenPreview: FC<ColorSeedTokenProps> = ({
               boxShadow: 'inset 0 0 0 1px rgba(0,0,0,0.04)',
             }}
           />
-          <div style={{ fontFamily: 'Monaco' }}>{tokenValue}</div>
+          <div className="token-panel-pro-token-collapse-seed-block-sample-card-value">
+            {tokenValue}
+          </div>
         </div>
       </Dropdown>
     </div>
