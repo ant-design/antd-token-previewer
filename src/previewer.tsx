@@ -1,4 +1,3 @@
-import type { FC } from 'react';
 import React, {
   useCallback,
   useEffect,
@@ -19,12 +18,7 @@ import type { FilterMode } from './FilterPanel';
 import FilterPanel from './FilterPanel';
 import type { MutableTheme, PreviewerProps } from './interface';
 import type { TokenType } from './utils/classifyToken';
-import {
-  convertTokenArrToConfig,
-  convertTokenConfigToArr,
-} from './utils/convertToken';
-
-import getDesignToken from './utils/getDesignToken';
+import { convertTokenConfigToArr } from './utils/convertToken';
 
 import * as darkToken from './theme/dark';
 
@@ -95,7 +89,7 @@ const useStyle = makeStyle('layout', (token) => ({
   },
 }));
 
-const InternalPreviewer: React.FC<PreviewerProps> = ({
+const Previewer: React.FC<PreviewerProps> = ({
   onSave,
   showTheme,
   theme,
@@ -370,17 +364,5 @@ const InternalPreviewer: React.FC<PreviewerProps> = ({
     </Layout>,
   );
 };
-
-const Previewer: FC<PreviewerProps> & {
-  convertTokenArrToConfig: typeof convertTokenArrToConfig;
-  convertTokenConfigToArr: typeof convertTokenConfigToArr;
-  getDesignToken: typeof getDesignToken;
-} = (props) => {
-  return <InternalPreviewer {...props} />;
-};
-
-Previewer.convertTokenArrToConfig = convertTokenArrToConfig;
-Previewer.convertTokenConfigToArr = convertTokenConfigToArr;
-Previewer.getDesignToken = getDesignToken;
 
 export default Previewer;

@@ -4,3 +4,8 @@ export { default as Previewer } from './previewer';
 export type { MutableTheme, Theme, PreviewerProps } from './interface';
 export { default as ThemeEditor } from './ThemeEditor';
 export type { ThemeEditorProps } from './ThemeEditor';
+export {
+  convertTokenConfigToArr,
+  convertTokenArrToConfig,
+} from './utils/convertToken';
+export { default as getDesignToken } from './utils/getDesignToken';
