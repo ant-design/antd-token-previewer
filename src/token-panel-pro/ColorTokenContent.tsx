@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
 import { Pick } from '../icons';
@@ -248,7 +248,7 @@ const ColorSeedTokenPreview: FC<ColorSeedTokenProps> = ({
               boxShadow: 'inset 0 0 0 1px rgba(0,0,0,0.04)',
             }}
           />
-          <div>{tokenValue}</div>
+          <div style={{ fontFamily: 'Monaco' }}>{tokenValue}</div>
         </div>
       </Dropdown>
     </div>
