@@ -4,7 +4,15 @@ import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
 import { Pick } from '../icons';
 import type { SwitchProps } from 'antd';
-import { Button, Checkbox, Collapse, Dropdown, Switch, Tooltip } from 'antd';
+import {
+  Button,
+  Checkbox,
+  Collapse,
+  Dropdown,
+  Switch,
+  Tooltip,
+  Typography,
+} from 'antd';
 import { CaretRightOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import getDesignToken from '../utils/getDesignToken';
 import { getRelatedComponents } from '../utils/statistic';
@@ -88,9 +96,13 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
             color: token.colorTextSecondary,
             marginBottom: 2,
             fontSize: 12,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
           },
 
           '&-card': {
+            cursor: 'pointer',
             border: `1px solid ${token.colorBorderSecondary}`,
             borderRadius: 4,
             display: 'flex',
@@ -177,6 +189,7 @@ const ColorSeedTokenPreview: FC<ColorSeedTokenProps> = ({
   tokenName,
   disabled,
 }) => {
+  const tokenPath = ['token', tokenName];
   const [tokenValue, setTokenValue] = useState(
     getSeedValue(theme.config, tokenName),
   );
@@ -206,14 +219,25 @@ const ColorSeedTokenPreview: FC<ColorSeedTokenProps> = ({
   return (
     <div className="token-panel-pro-token-collapse-seed-block-sample">
       <div className="token-panel-pro-token-collapse-seed-block-sample-theme">
-        {theme.name}
+        <span>{theme.name}</span>
+        {theme.getCanReset?.(tokenPath) && (
+          <Typography.Link
+            style={{
+              fontSize: 12,
+              padding: 0,
+            }}
+            onClick={() => theme.onReset?.(tokenPath)}
+          >
+            重置
+          </Typography.Link>
+        )}
       </div>
-      <div className="token-panel-pro-token-collapse-seed-block-sample-card">
-        <Dropdown
-          disabled={disabled}
-          trigger={['click']}
-          overlay={<ColorPanel color={tokenValue} onChange={handleChange} />}
-        >
+      <Dropdown
+        disabled={disabled}
+        trigger={['click']}
+        overlay={<ColorPanel color={tokenValue} onChange={handleChange} />}
+      >
+        <div className="token-panel-pro-token-collapse-seed-block-sample-card">
           <div
             style={{
               backgroundColor: tokenValue,
@@ -221,13 +245,12 @@ const ColorSeedTokenPreview: FC<ColorSeedTokenProps> = ({
               height: 32,
               borderRadius: 4,
               marginRight: 14,
-              cursor: 'pointer',
               boxShadow: 'inset 0 0 0 1px rgba(0,0,0,0.04)',
             }}
           />
-        </Dropdown>
-        <div>{tokenValue}</div>
-      </div>
+          <div>{tokenValue}</div>
+        </div>
+      </Dropdown>
     </div>
   );
 };

@@ -67,6 +67,7 @@ const TokenDetail: FC<TokenDetailProps> = ({
   style,
 }) => {
   const [wrapSSR, hashId] = useStyle();
+  const tokenPath = [...path, tokenName];
 
   const handleTokenChange = (theme: MutableTheme) => (value: TokenValue) => {
     theme.onThemeChange?.(
@@ -113,9 +114,11 @@ const TokenDetail: FC<TokenDetailProps> = ({
             <div key={themeItem.key}>
               <TokenInput
                 theme={themeItem}
+                canReset={themeItem.getCanReset?.(tokenPath)}
+                onReset={() => themeItem.onReset?.(tokenPath)}
                 onChange={handleTokenChange(themeItem)}
                 value={
-                  getValueByPath(themeItem.config, [...path, tokenName]) ??
+                  getValueByPath(themeItem.config, tokenPath) ??
                   (getDesignToken(themeItem.config) as any)[tokenName]
                 }
               />

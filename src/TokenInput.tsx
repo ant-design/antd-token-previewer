@@ -78,6 +78,8 @@ type TokenInputProps = {
   onChange?: (value: string | number) => void;
   light?: boolean;
   readonly?: boolean;
+  onReset?: () => void;
+  canReset?: boolean;
 };
 
 const TokenInput: FC<TokenInputProps> = ({
@@ -86,10 +88,12 @@ const TokenInput: FC<TokenInputProps> = ({
   onChange,
   light,
   readonly,
+  onReset,
+  canReset: customCanReset,
 }) => {
   const valueRef = useRef<number | string>(value || '');
   const [tokenValue, setTokenValue] = useState<string | number>(value || '');
-  const canReset = valueRef.current !== tokenValue;
+  const canReset = customCanReset ?? valueRef.current !== tokenValue;
 
   const [wrapSSR, hashId] = useStyle();
 
@@ -110,12 +114,20 @@ const TokenInput: FC<TokenInputProps> = ({
     }
   };
 
+  const handleReset = () => {
+    if (onReset) {
+      onReset();
+    } else {
+      handleTokenChange(valueRef.current);
+    }
+  };
+
   const addonAfter = !readonly && (
     <span
       style={{
         display: 'flex',
         alignItems: 'center',
-        minWidth: 60,
+        minWidth: 80,
       }}
     >
       {canReset ? (
@@ -123,7 +135,7 @@ const TokenInput: FC<TokenInputProps> = ({
           style={{
             fontSize: 12,
           }}
-          onClick={() => handleTokenChange(valueRef.current)}
+          onClick={handleReset}
           type="link"
           size="small"
         >
