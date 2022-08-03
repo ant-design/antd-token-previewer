@@ -1,8 +1,9 @@
+import type { CSSProperties } from 'react';
 import React from 'react';
 import { Card } from 'antd';
 import type { ComponentDemo } from '../../interface';
 
-const gridStyle = {
+const gridStyle: CSSProperties = {
   width: '25%',
   textAlign: 'center',
 };
@@ -24,7 +25,7 @@ const Demo = () => (
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
   tokens: ['colorBorderSecondary'],
-  key: 'card',
+  key: 'cardGrid',
 };
 
 export default componentDemo;

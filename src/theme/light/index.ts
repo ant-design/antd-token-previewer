@@ -12,6 +12,7 @@ import { genAliasToken, genComponentToken } from '../token';
 
 // 全局 Alias Token
 export const aliasToken: Partial<GlobalToken> = genAliasToken({
+  borderMapToken: {},
   textMapToken,
   primaryPalettes,
   errorPalettes,
