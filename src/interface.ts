@@ -23,7 +23,7 @@ export interface PreviewerDemo {
 }
 
 export interface MutableTheme extends Theme {
-  onThemeChange?: (newTheme: ThemeConfig) => void;
+  onThemeChange?: (newTheme: ThemeConfig, path: string[]) => void;
 }
 
 export interface TokenEntity {

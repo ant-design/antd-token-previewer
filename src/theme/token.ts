@@ -96,7 +96,7 @@ const genAliasToken = ({
   // 暂时确认下来应该用 alpha
   controlItemBgHover: bgMapToken.colorFillTertiary,
 
-  colorBgFillTmp: bgMapToken.colorFill,
+  colorFillContent: bgMapToken.colorFill,
   controlItemBgActive: primaryPalettes['1'],
   controlItemBgActiveDisabled: bgMapToken.colorFill,
   // TODO: 需要在设计上确认暗色模式的交互逻辑。现在是hover以后就变暗，很怪

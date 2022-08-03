@@ -2,9 +2,9 @@ import type { FC } from 'react';
 import React, { useEffect, useState } from 'react';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
-import ThemeSelect from '../ThemeSelect';
 import { Pick } from '../icons';
-import { Button, Checkbox, Collapse, Dropdown, Tooltip } from 'antd';
+import type { SwitchProps } from 'antd';
+import { Button, Checkbox, Collapse, Dropdown, Switch, Tooltip } from 'antd';
 import { CaretRightOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import getDesignToken from '../utils/getDesignToken';
 import { getRelatedComponents } from '../utils/statistic';
@@ -182,13 +182,16 @@ const ColorSeedTokenPreview: FC<ColorSeedTokenProps> = ({
   );
 
   const debouncedOnChange = useDebouncyFn((newValue: number | string) => {
-    theme.onThemeChange?.({
-      ...theme.config,
-      token: {
-        ...theme.config.token,
-        [tokenName]: newValue,
+    theme.onThemeChange?.(
+      {
+        ...theme.config,
+        token: {
+          ...theme.config.token,
+          [tokenName]: newValue,
+        },
       },
-    });
+      ['token', tokenName],
+    );
   }, 500);
 
   const handleChange = (value: string) => {
@@ -219,6 +222,7 @@ const ColorSeedTokenPreview: FC<ColorSeedTokenProps> = ({
               borderRadius: 4,
               marginRight: 14,
               cursor: 'pointer',
+              boxShadow: 'inset 0 0 0 1px rgba(0,0,0,0.04)',
             }}
           />
         </Dropdown>
@@ -238,6 +242,7 @@ export type ColorTokenContentProps = {
   onActiveSeedChange?: (value: keyof SeedToken) => void;
   activeTheme?: string;
   onActiveThemeChange?: (theme: string) => void;
+  onNext?: () => void;
 };
 
 const ColorTokenContent: FC<ColorTokenContentProps> = ({
@@ -250,13 +255,12 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
   onActiveSeedChange,
   activeTheme = 'default',
   onActiveThemeChange,
+  onNext,
 }) => {
   const [wrapSSR, hashId] = useStyle();
 
-  const handleEnabledThemeChange = (enabledThemes: string[]) => {
-    onActiveThemeChange?.(
-      enabledThemes.filter((theme) => theme !== activeTheme)[0] ?? activeTheme,
-    );
+  const handleThemeChange: SwitchProps['onChange'] = (value) => {
+    onActiveThemeChange?.(value ? 'dark' : 'default');
   };
 
   return wrapSSR(
@@ -264,13 +268,15 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
       <div className="token-panel-pro-color-seeds">
         <div className="token-panel-pro-color-themes">
           <span style={{ marginRight: 12 }}>定制主题</span>
-          <ThemeSelect
-            onEnabledThemeChange={handleEnabledThemeChange}
-            onShownThemeChange={() => {}}
-            enabledThemes={[activeTheme]}
-            shownThemes={themes.map((item) => item.key)}
-            themes={themes}
-          />
+          {themes.length > 1 && (
+            <Switch
+              onChange={handleThemeChange}
+              checked={activeTheme === 'dark'}
+              unCheckedChildren="亮色"
+              checkedChildren="暗色"
+              style={{ marginLeft: 'auto' }}
+            />
+          )}
         </div>
         <Collapse
           className="token-panel-pro-token-collapse"
@@ -289,7 +295,7 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
             onTokenSelect?.(key as string, 'seed');
           }}
         >
-          {Object.entries(seedRelatedMap).map((tokenRelationship) => {
+          {Object.entries(seedRelatedMap).map((tokenRelationship, index) => {
             const [seedToken, mapTokens] = tokenRelationship as [
               keyof SeedToken,
               (keyof MapToken)[],
@@ -322,9 +328,6 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
                         <span className="token-panel-pro-token-collapse-seed-block-name-cn">
                           {tokenInfo[seedToken]?.name}
                         </span>
-                        {/*<span className="token-panel-pro-token-collapse-seed-block-name">
-                          {seedToken}
-                        </span>*/}
                         {seedToken === 'colorInfo' && (
                           <Checkbox
                             style={{ marginLeft: 12 }}
@@ -435,12 +438,15 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
                       ))}
                     </Collapse>
                   </div>
-                  <Button
-                    type="primary"
-                    style={{ borderRadius: 4, marginBottom: 12 }}
-                  >
-                    下一步
-                  </Button>
+                  {index < Object.keys(seedRelatedMap).length - 1 && (
+                    <Button
+                      type="primary"
+                      style={{ borderRadius: 4, marginBottom: 12 }}
+                      onClick={() => onNext?.()}
+                    >
+                      下一步
+                    </Button>
+                  )}
                 </div>
               </Panel>
             );

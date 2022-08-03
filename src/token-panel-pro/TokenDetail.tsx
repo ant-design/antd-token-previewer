@@ -12,6 +12,7 @@ import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
 import type { TokenValue } from '../interface';
 import { mapRelatedAlias } from '../token-info/TokenRelation';
+import deepUpdateObj from '../utils/deepUpdateObj';
 
 const useStyle = makeStyle('TokenDetail', (token) => ({
   '.token-panel-token-detail': {
@@ -50,19 +51,6 @@ const useStyle = makeStyle('TokenDetail', (token) => ({
   },
 }));
 
-const deepUpdateObj = (obj: any, path: string[], value: any): any => {
-  if (path.length === 0) {
-    return obj;
-  }
-  return {
-    ...obj,
-    [path[0]]:
-      path.length === 1
-        ? value
-        : deepUpdateObj(obj[path[0]] ?? {}, path.slice(1), value),
-  };
-};
-
 export type TokenDetailProps = {
   themes: MutableTheme[];
   path: string[];
@@ -83,6 +71,7 @@ const TokenDetail: FC<TokenDetailProps> = ({
   const handleTokenChange = (theme: MutableTheme) => (value: TokenValue) => {
     theme.onThemeChange?.(
       deepUpdateObj(theme.config, [...path, tokenName], value),
+      [...path, tokenName],
     );
   };
 

@@ -4,10 +4,11 @@ import makeStyle from '../utils/makeStyle';
 import { Tabs } from 'antd';
 import classNames from 'classnames';
 import ColorTokenContent from './ColorTokenContent';
-import type { MutableTheme } from 'antd-token-previewer';
+import type { Theme } from 'antd-token-previewer';
 import type { SelectedToken } from '../interface';
 import AliasPanel from './AliasPanel';
 import type { SeedToken } from 'antd/es/theme/interface';
+import { seedRelatedMap } from '../token-info/TokenRelation';
 
 const { TabPane } = Tabs;
 
@@ -29,7 +30,7 @@ export type TokenPanelProProps = {
   className?: string;
   style?: React.CSSProperties;
   simple?: boolean;
-  themes: MutableTheme[];
+  themes: Theme[];
   selectedTokens?: SelectedToken;
   onTokenSelect?: (token: string, type: keyof SelectedToken) => void;
   infoFollowPrimary?: boolean;
@@ -57,6 +58,16 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
   const [wrapSSR, hashId] = useStyle();
   const [activeSeed, setActiveSeed] = useState<keyof SeedToken>('colorPrimary');
 
+  const handleNext = () => {
+    const seeds = Object.keys(seedRelatedMap);
+    const currentIndex = seeds.indexOf(activeSeed);
+    if (currentIndex < seeds.length) {
+      const nextSeed = (seeds[currentIndex + 1] ?? '') as keyof SeedToken;
+      setActiveSeed(nextSeed);
+      onTokenSelect?.(nextSeed, 'seed');
+    }
+  };
+
   return wrapSSR(
     <div
       className={classNames(hashId, className, 'token-panel-pro')}
@@ -80,6 +91,7 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
             onActiveSeedChange={(seed) => setActiveSeed(seed)}
             activeTheme={activeTheme}
             onActiveThemeChange={onActiveThemeChange}
+            onNext={handleNext}
           />
         </TabPane>
         <TabPane key="size" tab="尺寸大小" disabled>
