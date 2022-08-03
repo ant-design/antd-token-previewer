@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
 import { Pick } from '../icons';
