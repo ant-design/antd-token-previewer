@@ -1,8 +1,10 @@
 import type { MapToken, SeedToken } from 'antd/es/theme/interface';
-import type { PureAliasToken } from '../hooks/useTokenLayer';
 import seedToken from 'antd/es/theme/themes/seed';
 import defaultMap from 'antd/es/theme/themes/default';
 import formatToken from 'antd/es/theme/util/alias';
+import type { AliasToken } from 'antd/es/theme/interface';
+
+export type PureAliasToken = Omit<AliasToken, keyof MapToken>;
 
 type SeedRelatedMap = {
   [key in keyof SeedToken]?: (keyof MapToken)[];

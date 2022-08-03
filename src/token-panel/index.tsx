@@ -22,7 +22,6 @@ import { SearchDropdown } from '../icons';
 import { getTokenItemId } from './token-item';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import getDesignToken from '../utils/getDesignToken';
-import seed from 'antd/es/theme/themes/seed';
 
 const { useToken } = antdTheme;
 
@@ -206,23 +205,6 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
       );
     };
 
-    const handleSeedTokenChange = (
-      theme: MutableTheme,
-      tokenName: string,
-      value: TokenValue,
-    ) => {
-      theme.onThemeChange?.(
-        {
-          ...theme.config,
-          token: {
-            ...theme.config.token,
-            [tokenName]: value,
-          },
-        },
-        ['token', tokenName],
-      );
-    };
-
     return wrapSSR(
       <div className={classNames('preview-panel-wrapper', hashId)}>
         <div className={classNames('preview-panel')}>
@@ -318,27 +300,6 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
               style={{ height: '100%', overflow: 'auto', padding: '0 16px' }}
             >
               <div>
-                <TokenCard
-                  title={TextMap.seed}
-                  icon={IconMap.seed}
-                  tokenArr={Object.keys(seed)}
-                  tokenPath={['token']}
-                  keyword={search}
-                  open={activeCards.includes('seed')}
-                  onOpenChange={(open) =>
-                    setActiveCards((prev) =>
-                      open
-                        ? [...prev, 'seed']
-                        : prev.filter((item) => item !== 'seed'),
-                    )
-                  }
-                  onTokenChange={handleSeedTokenChange}
-                  themes={themes}
-                  selectedTokens={selectedTokens}
-                  onTokenSelect={onTokenSelect}
-                  enableTokenSelect={enableTokenSelect}
-                  fallback={(config) => getDesignToken(config) as AliasToken} // TODO: fallback seed
-                />
                 {TOKEN_SORTS.filter(
                   (type) =>
                     type !== 'seed' &&
