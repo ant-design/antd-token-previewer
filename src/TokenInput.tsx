@@ -160,6 +160,7 @@ const TokenInput: FC<TokenInputProps> = ({
             trigger={['click']}
             overlay={
               <ColorPanel
+                alpha
                 color={String(tokenValue)}
                 onChange={(v: string) => {
                   handleTokenChange(v);

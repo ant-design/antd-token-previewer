@@ -7,7 +7,7 @@ const Demo = () => {
 
   return (
     <React.StrictMode>
-      <ColorPanel color={color} onChange={(v) => setColor(v)} />
+      <ColorPanel alpha color={color} onChange={(v) => setColor(v)} />
     </React.StrictMode>
   );
 };

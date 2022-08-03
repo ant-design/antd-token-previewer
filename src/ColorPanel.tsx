@@ -62,7 +62,7 @@ const useStyle = makeStyle('ColorPanel', (token) => ({
       display: 'flex',
       alignItems: 'center',
       '&-part': {
-        flex: '25%',
+        flex: 1,
         width: 0,
         display: 'flex',
         flexDirection: 'column',
@@ -144,11 +144,13 @@ type RgbaColor = tinycolor.ColorFormats.RGBA;
 export type RgbColorInputProps = {
   value?: RgbaColor;
   onChange?: (value: RgbaColor) => void;
+  alpha?: boolean;
 };
 
 const RgbColorInput: FC<RgbColorInputProps> = ({
   value: customValue,
   onChange,
+  alpha,
 }) => {
   const [value, setValue] = useMergedState<RgbaColor>(
     customValue ?? { r: 0, g: 0, b: 0, a: 1 },
@@ -193,17 +195,19 @@ const RgbColorInput: FC<RgbColorInputProps> = ({
           />
           <div className="color-panel-mode-title">B</div>
         </div>
-        <div className="color-panel-rgba-input-part">
-          <InputNumber
-            min={0}
-            max={1}
-            step={0.01}
-            size="small"
-            value={value.a}
-            onChange={(v) => setValue({ ...value, a: v })}
-          />
-          <div className="color-panel-mode-title">A</div>
-        </div>
+        {alpha && (
+          <div className="color-panel-rgba-input-part">
+            <InputNumber
+              min={0}
+              max={1}
+              step={0.01}
+              size="small"
+              value={value.a}
+              onChange={(v) => setValue({ ...value, a: v })}
+            />
+            <div className="color-panel-mode-title">A</div>
+          </div>
+        )}
       </ConfigProvider>
     </div>
   );
@@ -212,9 +216,10 @@ const RgbColorInput: FC<RgbColorInputProps> = ({
 export type ColorPanelProps = {
   color: string;
   onChange: (color: string) => void;
+  alpha?: boolean;
 };
 
-const colorModes = tuple('HEX', 'HEX8', 'RGBA');
+const colorModes = tuple('HEX', 'HEX8', 'RGB', 'RGBA');
 type ColorMode = typeof colorModes[number];
 
 const getColorStr = (color: any, mode: ColorMode) => {
@@ -224,12 +229,13 @@ const getColorStr = (color: any, mode: ColorMode) => {
     case 'HEX8':
       return tinycolor(color).toHex8String();
     case 'RGBA':
+    case 'RGB':
     default:
       return tinycolor(color).toRgbString();
   }
 };
 
-const ColorPanel: FC<ColorPanelProps> = ({ color, onChange }) => {
+const ColorPanel: FC<ColorPanelProps> = ({ color, onChange, alpha }) => {
   const { token } = useToken();
   const [wrapSSR, hashId] = useStyle();
   const [colorMode, setColorMode] = React.useState<ColorMode>('HEX');
@@ -261,7 +267,7 @@ const ColorPanel: FC<ColorPanelProps> = ({ color, onChange }) => {
 
   return wrapSSR(
     <div className={classNames(hashId, 'color-panel')}>
-      {colorMode === 'HEX' && (
+      {(colorMode === 'HEX' || colorMode === 'RGB') && (
         <HexColorPicker
           style={{ height: 160 }}
           color={tinycolor(color).toHex()}
@@ -289,7 +295,9 @@ const ColorPanel: FC<ColorPanelProps> = ({ color, onChange }) => {
           <Select
             value={colorMode}
             onChange={handleColorModeChange}
-            options={colorModes.map((item) => ({ value: item, key: item }))}
+            options={colorModes
+              .filter((item) => alpha || item === 'HEX' || item === 'RGB')
+              .map((item) => ({ value: item, key: item }))}
             size="small"
             bordered={false}
           />
@@ -307,8 +315,9 @@ const ColorPanel: FC<ColorPanelProps> = ({ color, onChange }) => {
             onChange={(v) => onChange?.(tinycolor(v).toHex8String())}
           />
         )}
-        {colorMode === 'RGBA' && (
+        {(colorMode === 'RGBA' || colorMode === 'RGB') && (
           <RgbColorInput
+            alpha={colorMode === 'RGBA'}
             value={tinycolor(color).toRgb()}
             onChange={(v) => onChange?.(tinycolor(v).toRgbString())}
           />
