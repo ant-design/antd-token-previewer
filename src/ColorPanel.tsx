@@ -1,5 +1,5 @@
 import tinycolor from 'tinycolor2';
-import { RgbaColorPicker, HexColorPicker } from 'react-colorful';
+import { HexColorPicker, RgbaColorPicker } from 'react-colorful';
 import type { FC } from 'react';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import type { InputProps } from 'antd';
@@ -8,7 +8,6 @@ import makeStyle from './utils/makeStyle';
 import classNames from 'classnames';
 import useMergedState from 'rc-util/es/hooks/useMergedState';
 import { tuple } from 'antd/es/_util/type';
-import { borderMapToken } from './theme/dark/mapToken';
 
 const { useToken } = theme;
 
@@ -222,6 +221,8 @@ const getColorStr = (color: any, mode: ColorMode) => {
   switch (mode) {
     case 'HEX':
       return tinycolor(color).toHexString();
+    case 'HEX8':
+      return tinycolor(color).toHex8String();
     case 'RGBA':
     default:
       return tinycolor(color).toRgbString();
