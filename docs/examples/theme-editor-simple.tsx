@@ -15,6 +15,7 @@ const Demo = () => {
     config: {
       token: {
         colorPrimary: '#1677FF',
+        radiusBase: 4,
       },
     },
   });
