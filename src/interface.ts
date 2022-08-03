@@ -24,6 +24,8 @@ export interface PreviewerDemo {
 
 export interface MutableTheme extends Theme {
   onThemeChange?: (newTheme: ThemeConfig, path: string[]) => void;
+  onReset?: (path: string[]) => void;
+  getCanReset?: (path: string[]) => boolean;
 }
 
 export interface TokenEntity {

@@ -4,10 +4,15 @@ import { theme as antTheme } from 'antd';
 import getValueByPath from '../utils/getValueByPath';
 import deepUpdateObj from '../utils/deepUpdateObj';
 import getDesignToken from '../utils/getDesignToken';
+import type { ThemeConfig } from 'antd/es/config-provider/context';
 
 const { darkAlgorithm } = antTheme;
 
-export type SetThemeState = (theme: Theme, modifiedPath: string[]) => void;
+export type SetThemeState = (
+  theme: Theme,
+  modifiedPath: string[],
+  updated?: boolean,
+) => void;
 
 export type UseControlledTheme = (options: {
   theme?: Theme;
@@ -31,6 +36,7 @@ const useControlledTheme: UseControlledTheme = ({
     config: { ...theme.config, algorithm: darkAlgorithm },
   });
   const [infoFollowPrimary, setInfoFollowPrimary] = useState<boolean>(false);
+  const themeRef = useRef<Theme>(theme);
   const darkThemeRef = useRef<Theme>(darkTheme);
   const darkThemeUpdatedRef = useRef<object>({});
 
@@ -50,11 +56,12 @@ const useControlledTheme: UseControlledTheme = ({
     }
 
     // Sync dark theme
-    const path = ['config', ...modifiedPath];
     if (
+      modifiedPath[0] === 'token' &&
       !getValueByPath(darkThemeRef.current?.config, modifiedPath) &&
       !getValueByPath(darkThemeUpdatedRef.current, modifiedPath)
     ) {
+      const path = ['config', ...modifiedPath];
       setDarkTheme(
         getNewTheme(
           deepUpdateObj({ ...darkTheme }, path, getValueByPath(newTheme, path)),
@@ -63,13 +70,54 @@ const useControlledTheme: UseControlledTheme = ({
     }
   };
 
-  const handleSetDarkTheme: SetThemeState = (newTheme, modifiedPath) => {
+  const handleResetTheme = (path: string[]) => {
+    let newConfig = { ...theme.config };
+    newConfig = deepUpdateObj(
+      newConfig,
+      path,
+      getValueByPath(themeRef.current?.config, path),
+    );
+    handleSetTheme({ ...theme, config: newConfig }, path);
+  };
+
+  const getCanReset =
+    (origin: ThemeConfig, current: ThemeConfig) => (path: string[]) => {
+      return getValueByPath(origin, path) !== getValueByPath(current, path);
+    };
+
+  const handleSetDarkTheme: SetThemeState = (
+    newTheme,
+    modifiedPath,
+    updated = true,
+  ) => {
     setDarkTheme(getNewTheme(newTheme));
     darkThemeUpdatedRef.current = deepUpdateObj(
       darkThemeUpdatedRef.current,
       modifiedPath,
-      true,
+      updated,
     );
+  };
+
+  const handleResetDarkTheme = (path: string[]) => {
+    let newConfig = { ...darkTheme.config };
+    // Follow default theme
+    if (
+      path[0] === 'token' &&
+      !getValueByPath(darkThemeRef.current?.config, path)
+    ) {
+      newConfig = deepUpdateObj(
+        newConfig,
+        path,
+        getValueByPath(theme.config, path),
+      );
+    } else {
+      newConfig = deepUpdateObj(
+        newConfig,
+        path,
+        getValueByPath(darkThemeRef.current?.config, path),
+      );
+    }
+    handleSetDarkTheme({ ...darkTheme, config: newConfig }, path, false);
   };
 
   // Controlled theme change
@@ -93,11 +141,16 @@ const useControlledTheme: UseControlledTheme = ({
         ...theme,
         onThemeChange: (config, path) =>
           handleSetTheme({ ...theme, config }, path),
+        onReset: handleResetTheme,
+        getCanReset: getCanReset(themeRef.current?.config, theme.config),
       },
       {
         ...darkTheme,
         onThemeChange: (config, path) =>
           handleSetDarkTheme({ ...darkTheme, config }, path),
+        onReset: handleResetDarkTheme,
+        getCanReset: (path) =>
+          getValueByPath(darkThemeUpdatedRef.current, path) ?? false,
       },
     ],
     infoFollowPrimary,
