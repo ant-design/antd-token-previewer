@@ -11,6 +11,7 @@ import {
   FontSizeOutlined,
   FormatPainterOutlined,
   BulbOutlined,
+  HighlightOutlined,
 } from '@ant-design/icons';
 import { Collapse, Space } from 'antd';
 import classNames from 'classnames';
@@ -58,6 +59,7 @@ export const IconMap: Record<TokenType, ReactNode> = {
   colorText: <FontColorsOutlined />,
   colorBg: <BgColorsOutlined />,
   colorSplit: <BorderHorizontalOutlined />,
+  colorFill: <HighlightOutlined />,
   colorCommon: <FormatPainterOutlined />,
   space: <ShapeLine />,
   font: <FontSizeOutlined />,
@@ -73,6 +75,7 @@ export const TextMap: Record<TokenType, string> = {
   colorCommon: 'Common Color 通用颜色',
   colorText: 'Text Color 文本颜色',
   colorBg: 'Background Color 背景颜色',
+  colorFill: 'Fill Color 填充颜色',
   colorSplit: 'Split Color 分割线颜色',
   space: 'Space 间距',
   font: 'Font 文本',
