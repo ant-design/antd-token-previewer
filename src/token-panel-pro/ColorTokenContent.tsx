@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
 import { Pick } from '../icons';
@@ -28,6 +28,7 @@ import type { SelectedToken } from '../interface';
 
 const { Panel } = Collapse;
 
+// @ts-ignore
 const useStyle = makeStyle('ColorTokenContent', (token) => ({
   '.token-panel-pro-color': {
     height: '100%',
@@ -69,8 +70,13 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
         },
 
       '.token-panel-pro-token-collapse-description': {
-        color: token.colorTextSecondary,
+        color: token.colorTextTertiary,
         marginBottom: 16,
+      },
+
+      '.token-panel-pro-token-collapse-subtitle': {
+        color: token.colorTextSecondary,
+        fontSize: 12,
       },
 
       '.token-panel-pro-token-collapse-seed-block': {
@@ -78,13 +84,17 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
         alignItems: 'center',
         justifyContent: 'flex-end',
 
+        '+ .token-panel-pro-token-collapse-seed-block': {
+          marginTop: 8,
+        },
+
         '&-name-cn': {
           fontWeight: token.fontWeightStrong,
           marginInlineEnd: 4,
         },
 
         '&-name': {
-          color: token.colorTextSecondary,
+          color: token.colorTextTertiary,
         },
 
         '&-sample': {
@@ -93,7 +103,7 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
           },
 
           '&-theme': {
-            color: token.colorTextSecondary,
+            color: token.colorTextTertiary,
             marginBottom: 2,
             fontSize: 12,
             display: 'flex',
@@ -175,6 +185,35 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
     '.token-panel-pro-token-picked': {
       color: token.colorPrimary,
     },
+
+    [`.token-panel-pro-grouped-map-collapse${token.rootCls}-collapse`]: {
+      borderRadius: 4,
+      [`> ${token.rootCls}-collapse-item`]: {
+        [`> ${token.rootCls}-collapse-header`]: {
+          padding: '6px 12px',
+          color: token.colorIcon,
+          fontSize: 12,
+          lineHeight: token.lineHeightSM,
+          [`${token.rootCls}-collapse-expand-icon`]: {
+            lineHeight: '20px',
+            height: 20,
+          },
+        },
+        [`> ${token.rootCls}-collapse-content > ${token.rootCls}-collapse-content-box`]:
+          {
+            padding: 0,
+
+            [`.token-panel-pro-token-collapse-map-collapse${token.rootCls}-collapse`]:
+              {
+                border: 'none',
+
+                [`${token.rootCls}-collapse-item:last-child`]: {
+                  borderBottom: 'none',
+                },
+              },
+          },
+      },
+    },
   },
 }));
 
@@ -249,7 +288,8 @@ const ColorSeedTokenPreview: FC<ColorSeedTokenProps> = ({
               height: 32,
               borderRadius: 4,
               marginRight: 14,
-              boxShadow: 'inset 0 0 0 1px rgba(0,0,0,0.04)',
+              boxShadow:
+                '0 2px 3px -1px rgba(0,0,0,0.20), inset 0 0 0 1px rgba(0,0,0,0.09)',
             }}
           />
           <div className="token-panel-pro-token-collapse-seed-block-sample-card-value">
@@ -261,17 +301,239 @@ const ColorSeedTokenPreview: FC<ColorSeedTokenProps> = ({
   );
 };
 
+type SeedCategory = {
+  title: string;
+  key: string;
+  description: string;
+  seedTokens: (keyof SeedToken)[];
+};
+
+const seedCategories: SeedCategory[] = [
+  {
+    title: '品牌色',
+    key: 'brandColor',
+    description:
+      '品牌色是体现产品特性和传播理念最直观的视觉元素之一。在你完成品牌主色的选取之后，我们会自动帮你生成一套完整的色板，并赋予它们有效的设计语义。',
+    seedTokens: ['colorPrimary'],
+  },
+  {
+    title: '成功色',
+    key: 'successColor',
+    description: 'TBD',
+    seedTokens: ['colorSuccess'],
+  },
+  {
+    title: '警戒色',
+    key: 'warningColor',
+    description: 'TBD',
+    seedTokens: ['colorWarning'],
+  },
+  {
+    title: '错误色',
+    key: 'errorColor',
+    description: 'TBD',
+    seedTokens: ['colorError'],
+  },
+  {
+    title: '信息色',
+    key: 'infoColor',
+    description: 'TBD',
+    seedTokens: ['colorInfo'],
+  },
+  {
+    title: '中性色',
+    key: 'neutralColor',
+    description:
+      '中性色主要被大量的应用在界面的文字、背景、边框和填充的 4 种场景。合理地选择中性色能够令页面信息具备良好的主次关系，助力阅读体验。',
+    seedTokens: ['colorTextBase', 'colorBgBase'],
+  },
+];
+
+export type MapTokenCollapseContentProps = {
+  mapTokens: (keyof MapToken)[];
+  themes: MutableTheme[];
+  selectedTokens?: SelectedToken;
+  onTokenSelect?: (token: string | string[], type: keyof SelectedToken) => void;
+};
+
+const MapTokenCollapseContent: FC<MapTokenCollapseContentProps> = ({
+  mapTokens,
+  themes,
+  onTokenSelect,
+  selectedTokens,
+}) => {
+  //
+  return (
+    <Collapse className="token-panel-pro-token-collapse-map-collapse">
+      {mapTokens.map((mapToken) => (
+        <Panel
+          header={
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div style={{ flex: 1 }}>
+                <span style={{ fontWeight: 500 }}>
+                  {tokenInfo[mapToken]?.name}
+                </span>
+                <span className="token-panel-pro-token-collapse-map-collapse-token">
+                  {mapToken}
+                </span>
+                <span className="token-panel-pro-token-collapse-map-collapse-count">
+                  {
+                    getRelatedComponents([
+                      mapToken,
+                      ...(mapRelatedAlias[mapToken] ?? []),
+                    ]).length
+                  }
+                </span>
+              </div>
+              <div className="token-panel-pro-token-collapse-map-collapse-preview">
+                {themes.map((themeItem) => (
+                  <div
+                    key={themeItem.key}
+                    style={{
+                      height: 56,
+                      width: 56,
+                      position: 'relative',
+                      borderInline: '1px solid #e8e8e8',
+                      background:
+                        'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAFpJREFUWAntljEKADAIA23p6v//qQ+wfUEcCu1yriEgp0FHRJSJcnehmmWm1Dv/lO4HIg1AAAKjTqm03ea88zMCCEDgO4HV5bS757f+7wRoAAIQ4B9gByAAgQ3pfiDmXmAeEwAAAABJRU5ErkJggg==) 0% 0% / 40px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        height: '100%',
+                        width: '100%',
+                        backgroundColor: (
+                          getDesignToken(themeItem.config) as any
+                        )[mapToken],
+                        transition: 'background-color 0.2s',
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
+              <div
+                style={{ flex: 'none', margin: 4 }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onTokenSelect?.(mapToken, 'map');
+                }}
+              >
+                <Pick
+                  className={classNames('token-panel-pro-token-pick', {
+                    'token-panel-pro-token-picked':
+                      selectedTokens?.map?.includes(mapToken),
+                  })}
+                />
+              </div>
+            </div>
+          }
+          key={mapToken}
+        >
+          <TokenDetail
+            style={{ margin: 8 }}
+            themes={themes}
+            path={['override', 'derivative']}
+            tokenName={mapToken}
+          />
+        </Panel>
+      ))}
+    </Collapse>
+  );
+};
+
+const mapGroupTitle: any = {
+  fill: '填充',
+  background: '背景',
+  text: '文本',
+  border: '描边',
+};
+
+export type MapTokenCollapseProps = {
+  mapTokens: (keyof MapToken)[];
+  themes: MutableTheme[];
+  selectedTokens?: SelectedToken;
+  onTokenSelect?: (token: string | string[], type: keyof SelectedToken) => void;
+  groupFn?: (token: keyof MapToken) => string;
+};
+
+const MapTokenCollapse: FC<MapTokenCollapseProps> = ({
+  mapTokens,
+  themes,
+  onTokenSelect,
+  selectedTokens,
+  groupFn,
+}) => {
+  const groupedTokens = useMemo(() => {
+    const grouped: Record<string, (keyof MapToken)[]> = {};
+    if (groupFn) {
+      mapTokens.forEach((token) => {
+        const key = groupFn(token) ?? 'default';
+        grouped[key] = [...(grouped[key] ?? []), token];
+      });
+    }
+    return grouped;
+  }, [mapTokens, groupFn]);
+
+  return groupFn ? (
+    <Collapse
+      className="token-panel-pro-grouped-map-collapse"
+      defaultActiveKey={Object.keys(groupedTokens)}
+      expandIconPosition="end"
+      expandIcon={({ isActive }) => (
+        <CaretRightOutlined
+          rotate={isActive ? 450 : 360}
+          style={{ fontSize: 12 }}
+        />
+      )}
+    >
+      {Object.keys(groupedTokens).map((key) => (
+        <Panel key={key} header={mapGroupTitle[key] ?? ''}>
+          <MapTokenCollapseContent
+            mapTokens={groupedTokens[key]}
+            themes={themes}
+            selectedTokens={selectedTokens}
+            onTokenSelect={onTokenSelect}
+          />
+        </Panel>
+      ))}
+    </Collapse>
+  ) : (
+    <MapTokenCollapseContent
+      mapTokens={mapTokens}
+      themes={themes}
+      selectedTokens={selectedTokens}
+      onTokenSelect={onTokenSelect}
+    />
+  );
+};
+
+const groupMapToken = (token: keyof MapToken): string => {
+  if (token.startsWith('colorFill')) {
+    return 'fill';
+  }
+  if (token.startsWith('colorBorder') || token.startsWith('colorSplit')) {
+    return 'border';
+  }
+  if (token.startsWith('colorBg')) {
+    return 'background';
+  }
+  if (token.startsWith('colorText')) {
+    return 'text';
+  }
+  return '';
+};
+
 export type ColorTokenContentProps = {
   themes: MutableTheme[];
   selectedTokens?: SelectedToken;
-  onTokenSelect?: (token: string, type: keyof SelectedToken) => void;
+  onTokenSelect?: (token: string | string[], type: keyof SelectedToken) => void;
   infoFollowPrimary?: boolean;
   onInfoFollowPrimaryChange?: (value: boolean) => void;
-  activeSeed: keyof SeedToken;
-  onActiveSeedChange?: (value: keyof SeedToken) => void;
+  activeSeeds: (keyof SeedToken)[];
+  onActiveSeedsChange?: (value: (keyof SeedToken)[]) => void;
   activeTheme?: string;
   onActiveThemeChange?: (theme: string) => void;
-  onNext?: () => void;
+  onNext?: (nextTokens: (keyof SeedToken)[]) => void;
 };
 
 const ColorTokenContent: FC<ColorTokenContentProps> = ({
@@ -280,8 +542,8 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
   onTokenSelect,
   infoFollowPrimary,
   onInfoFollowPrimaryChange,
-  activeSeed,
-  onActiveSeedChange,
+  activeSeeds,
+  onActiveSeedsChange,
   activeTheme = 'default',
   onActiveThemeChange,
   onNext,
@@ -291,6 +553,12 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
   const handleThemeChange: SwitchProps['onChange'] = (value) => {
     onActiveThemeChange?.(value ? 'dark' : 'default');
   };
+
+  const activeCategory = useMemo(() => {
+    return seedCategories.find(
+      ({ seedTokens }) => seedTokens.join('') === activeSeeds.join(''),
+    )?.key;
+  }, [activeSeeds]);
 
   return wrapSSR(
     <div className={classNames(hashId, 'token-panel-pro-color')}>
@@ -312,7 +580,7 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
           expandIconPosition="end"
           ghost
           accordion
-          activeKey={activeSeed}
+          activeKey={activeCategory}
           expandIcon={({ isActive }) => (
             <CaretRightOutlined
               rotate={isActive ? 450 : 360}
@@ -320,158 +588,101 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
             />
           )}
           onChange={(key) => {
-            onActiveSeedChange?.(key as keyof SeedToken);
-            onTokenSelect?.(key as string, 'seed');
+            const changedSeedTokens =
+              seedCategories.find(({ key: categoryKey }) => key === categoryKey)
+                ?.seedTokens || [];
+            onActiveSeedsChange?.(changedSeedTokens);
+            onTokenSelect?.(changedSeedTokens, 'seed');
           }}
         >
-          {Object.entries(seedRelatedMap).map((tokenRelationship, index) => {
-            const [seedToken, mapTokens] = tokenRelationship as [
-              keyof SeedToken,
-              (keyof MapToken)[],
-            ];
+          {seedCategories.map((category, index) => {
+            const mapTokens = category.seedTokens.reduce<(keyof MapToken)[]>(
+              (result, token) => {
+                return result.concat(seedRelatedMap[token] ?? []);
+              },
+              [],
+            );
 
             return (
               <Panel
                 header={
-                  <span style={{ fontWeight: 500 }}>
-                    {tokenInfo[seedToken]?.name}
-                  </span>
+                  <span style={{ fontWeight: 500 }}>{category.title}</span>
                 }
-                key={seedToken}
+                key={category.key}
               >
                 <div>
                   <div className="token-panel-pro-token-collapse-description">
-                    {tokenInfo[seedToken]?.description}
+                    {category.description}
                   </div>
-                  <div className="token-panel-pro-token-collapse-seed-block">
-                    <div style={{ marginRight: 'auto' }}>
-                      <div>
-                        <span style={{ fontSize: 12 }}>Seed Token</span>
-                        <Tooltip title="TBD">
-                          <QuestionCircleOutlined
-                            style={{ fontSize: 14, marginLeft: 8 }}
-                          />
-                        </Tooltip>
+                  {category.seedTokens.map((seedToken) => (
+                    <div
+                      key={seedToken}
+                      className="token-panel-pro-token-collapse-seed-block"
+                    >
+                      <div style={{ marginRight: 'auto' }}>
+                        <div className="token-panel-pro-token-collapse-subtitle">
+                          <span style={{ fontSize: 12 }}>Seed Token</span>
+                          <Tooltip title="TBD">
+                            <QuestionCircleOutlined
+                              style={{ fontSize: 14, marginLeft: 8 }}
+                            />
+                          </Tooltip>
+                        </div>
+                        <div>
+                          <span className="token-panel-pro-token-collapse-seed-block-name-cn">
+                            {tokenInfo[seedToken]?.name}
+                          </span>
+                          {seedToken === 'colorInfo' && (
+                            <Checkbox
+                              style={{ marginLeft: 12 }}
+                              checked={infoFollowPrimary}
+                              onChange={(e) =>
+                                onInfoFollowPrimaryChange?.(e.target.checked)
+                              }
+                            >
+                              跟随主色
+                            </Checkbox>
+                          )}
+                        </div>
                       </div>
-                      <div>
-                        <span className="token-panel-pro-token-collapse-seed-block-name-cn">
-                          {tokenInfo[seedToken]?.name}
-                        </span>
-                        {seedToken === 'colorInfo' && (
-                          <Checkbox
-                            style={{ marginLeft: 12 }}
-                            checked={infoFollowPrimary}
-                            onChange={(e) =>
-                              onInfoFollowPrimaryChange?.(e.target.checked)
-                            }
-                          >
-                            跟随主色
-                          </Checkbox>
-                        )}
-                      </div>
+                      {themes.map((themeItem) => (
+                        <ColorSeedTokenPreview
+                          key={themeItem.key}
+                          theme={themeItem}
+                          tokenName={seedToken}
+                          disabled={
+                            seedToken === 'colorInfo' && infoFollowPrimary
+                          }
+                        />
+                      ))}
                     </div>
-                    {themes.map((themeItem) => (
-                      <ColorSeedTokenPreview
-                        key={themeItem.key}
-                        theme={themeItem}
-                        tokenName={seedToken}
-                        disabled={
-                          seedToken === 'colorInfo' && infoFollowPrimary
-                        }
-                      />
-                    ))}
-                  </div>
+                  ))}
                   <div style={{ marginTop: 16, marginBottom: 24 }}>
-                    <div style={{ fontSize: 12, marginBottom: 10 }}>
+                    <div
+                      className="token-panel-pro-token-collapse-subtitle"
+                      style={{ marginBottom: 10 }}
+                    >
                       Map Token
                     </div>
-                    <Collapse className="token-panel-pro-token-collapse-map-collapse">
-                      {mapTokens.map((mapToken) => (
-                        <Panel
-                          header={
-                            <div
-                              style={{ display: 'flex', alignItems: 'center' }}
-                            >
-                              <div style={{ flex: 1 }}>
-                                <span style={{ fontWeight: 500 }}>
-                                  {tokenInfo[mapToken]?.name}
-                                </span>
-                                <span className="token-panel-pro-token-collapse-map-collapse-token">
-                                  {mapToken}
-                                </span>
-                                <span className="token-panel-pro-token-collapse-map-collapse-count">
-                                  {
-                                    getRelatedComponents([
-                                      mapToken,
-                                      ...(mapRelatedAlias[mapToken] ?? []),
-                                    ]).length
-                                  }
-                                </span>
-                              </div>
-                              <div className="token-panel-pro-token-collapse-map-collapse-preview">
-                                {themes.map((themeItem) => (
-                                  <div
-                                    key={themeItem.key}
-                                    style={{
-                                      height: 56,
-                                      width: 56,
-                                      position: 'relative',
-                                      borderInline: '1px solid #e8e8e8',
-                                      background:
-                                        'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAFpJREFUWAntljEKADAIA23p6v//qQ+wfUEcCu1yriEgp0FHRJSJcnehmmWm1Dv/lO4HIg1AAAKjTqm03ea88zMCCEDgO4HV5bS757f+7wRoAAIQ4B9gByAAgQ3pfiDmXmAeEwAAAABJRU5ErkJggg==) 0% 0% / 40px',
-                                    }}
-                                  >
-                                    <div
-                                      style={{
-                                        height: '100%',
-                                        width: '100%',
-                                        backgroundColor: (
-                                          getDesignToken(
-                                            themeItem.config,
-                                          ) as any
-                                        )[mapToken],
-                                        transition: 'background-color 0.2s',
-                                      }}
-                                    />
-                                  </div>
-                                ))}
-                              </div>
-                              <div
-                                style={{ flex: 'none', margin: 4 }}
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  onTokenSelect?.(mapToken, 'map');
-                                }}
-                              >
-                                <Pick
-                                  className={classNames(
-                                    'token-panel-pro-token-pick',
-                                    {
-                                      'token-panel-pro-token-picked':
-                                        selectedTokens?.map?.includes(mapToken),
-                                    },
-                                  )}
-                                />
-                              </div>
-                            </div>
-                          }
-                          key={mapToken}
-                        >
-                          <TokenDetail
-                            style={{ margin: 8 }}
-                            themes={themes}
-                            path={['override', 'derivative']}
-                            tokenName={mapToken}
-                          />
-                        </Panel>
-                      ))}
-                    </Collapse>
+                    <MapTokenCollapse
+                      mapTokens={mapTokens}
+                      themes={themes}
+                      selectedTokens={selectedTokens}
+                      onTokenSelect={onTokenSelect}
+                      groupFn={
+                        category.key === 'neutralColor'
+                          ? groupMapToken
+                          : undefined
+                      }
+                    />
                   </div>
-                  {index < Object.keys(seedRelatedMap).length - 1 && (
+                  {index < seedCategories.length - 1 && (
                     <Button
                       type="primary"
                       style={{ borderRadius: 4, marginBottom: 12 }}
-                      onClick={() => onNext?.()}
+                      onClick={() =>
+                        onNext?.(seedCategories[index + 1].seedTokens)
+                      }
                     >
                       下一步
                     </Button>

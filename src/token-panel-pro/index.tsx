@@ -3,12 +3,12 @@ import React, { useState } from 'react';
 import makeStyle from '../utils/makeStyle';
 import { Tabs } from 'antd';
 import classNames from 'classnames';
+import type { ColorTokenContentProps } from './ColorTokenContent';
 import ColorTokenContent from './ColorTokenContent';
 import type { Theme } from 'antd-token-previewer';
 import type { SelectedToken } from '../interface';
 import AliasPanel from './AliasPanel';
 import type { SeedToken } from 'antd/es/theme/interface';
-import { seedRelatedMap } from '../token-info/TokenRelation';
 
 const { TabPane } = Tabs;
 
@@ -32,7 +32,7 @@ export type TokenPanelProProps = {
   simple?: boolean;
   themes: Theme[];
   selectedTokens?: SelectedToken;
-  onTokenSelect?: (token: string, type: keyof SelectedToken) => void;
+  onTokenSelect?: (token: string | string[], type: keyof SelectedToken) => void;
   infoFollowPrimary?: boolean;
   onInfoFollowPrimaryChange?: (value: boolean) => void;
   aliasOpen?: boolean;
@@ -56,16 +56,13 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
   onActiveThemeChange,
 }) => {
   const [wrapSSR, hashId] = useStyle();
-  const [activeSeed, setActiveSeed] = useState<keyof SeedToken>('colorPrimary');
+  const [activeSeeds, setActiveSeeds] = useState<(keyof SeedToken)[]>([
+    'colorPrimary',
+  ]);
 
-  const handleNext = () => {
-    const seeds = Object.keys(seedRelatedMap);
-    const currentIndex = seeds.indexOf(activeSeed);
-    if (currentIndex < seeds.length) {
-      const nextSeed = (seeds[currentIndex + 1] ?? '') as keyof SeedToken;
-      setActiveSeed(nextSeed);
-      onTokenSelect?.(nextSeed, 'seed');
-    }
+  const handleNext: ColorTokenContentProps['onNext'] = (seeds) => {
+    setActiveSeeds(seeds);
+    onTokenSelect?.(seeds, 'seed');
   };
 
   return wrapSSR(
@@ -87,8 +84,8 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
             onTokenSelect={onTokenSelect}
             infoFollowPrimary={infoFollowPrimary}
             onInfoFollowPrimaryChange={onInfoFollowPrimaryChange}
-            activeSeed={activeSeed}
-            onActiveSeedChange={(seed) => setActiveSeed(seed)}
+            activeSeeds={activeSeeds}
+            onActiveSeedsChange={(seeds) => setActiveSeeds(seeds)}
             activeTheme={activeTheme}
             onActiveThemeChange={onActiveThemeChange}
             onNext={handleNext}
@@ -104,7 +101,7 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
       <AliasPanel
         open={aliasOpen}
         onOpenChange={(value) => onAliasOpenChange?.(value)}
-        activeSeed={activeSeed}
+        activeSeeds={activeSeeds}
         themes={simple ? [themes[0]] : themes}
         style={{ flex: aliasOpen ? '0 0 320px' : 'none', width: 0 }}
         selectedTokens={selectedTokens}

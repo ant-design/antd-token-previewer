@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import React, { useMemo, useState } from 'react';
+import type { TokenPanelProProps } from './token-panel-pro';
 import TokenPanelPro from './token-panel-pro';
 import ComponentDemoGroup from './component-panel/ComponentDemoGroup';
 import { antdComponents } from './component-panel';
@@ -81,19 +82,27 @@ const ThemeEditor: FC<ThemeEditorProps> = ({
       onChange: onThemeChange,
     });
 
-  const handleTokenSelect = (token: string, type: keyof SelectedToken) => {
+  const handleTokenSelect: TokenPanelProProps['onTokenSelect'] = (
+    token,
+    type,
+  ) => {
     setSelectedTokens((prev) => {
+      const tokens = typeof token === 'string' ? (token ? [token] : []) : token;
       if (type === 'seed') {
         return {
-          seed: token ? [token] : [],
+          seed: tokens,
         };
       }
-      const newSelectedTokens = {
-        ...prev,
-        [type]: prev[type]?.includes(token)
-          ? prev[type]?.filter((t) => t !== token)
-          : [...(prev[type] ?? []), token],
-      };
+
+      let newSelectedTokens = { ...prev };
+      tokens.forEach((newToken) => {
+        newSelectedTokens = {
+          ...prev,
+          [type]: prev[type]?.includes(newToken)
+            ? prev[type]?.filter((t) => t !== newToken)
+            : [...(prev[type] ?? []), newToken],
+        };
+      });
       if (type === 'map') {
         delete newSelectedTokens.alias;
       }

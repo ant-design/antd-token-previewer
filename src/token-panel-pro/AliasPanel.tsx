@@ -109,7 +109,7 @@ export type AliasPanelProps = {
   className?: string;
   style?: React.CSSProperties;
   themes: MutableTheme[];
-  activeSeed: keyof SeedToken;
+  activeSeeds: (keyof SeedToken)[];
   selectedTokens?: SelectedToken;
   onTokenSelect?: (token: string, type: keyof SelectedToken) => void;
   open?: boolean;
@@ -118,7 +118,7 @@ export type AliasPanelProps = {
 
 const AliasPanel: FC<AliasPanelProps> = ({
   className,
-  activeSeed,
+  activeSeeds,
   themes,
   style,
   selectedTokens,
@@ -142,9 +142,12 @@ const AliasPanel: FC<AliasPanelProps> = ({
               }, []),
             ),
           )
-        : seedRelatedAlias[activeSeed]
+        : activeSeeds.reduce<(keyof AliasToken)[]>(
+            (result, item) => result.concat(seedRelatedAlias[item] ?? []),
+            [],
+          )
       )?.sort(),
-    [selectedTokens, activeSeed],
+    [selectedTokens, activeSeeds],
   );
 
   return wrapSSR(
