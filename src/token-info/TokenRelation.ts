@@ -88,6 +88,9 @@ export const seedRelatedMap: SeedRelatedMap = {
     'colorFillSecondary',
     'colorFillTertiary',
     'colorFillQuaternary',
+    'colorBorder',
+    'colorBorderSecondary',
+    'colorSplit',
   ],
 };
 

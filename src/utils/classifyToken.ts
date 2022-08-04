@@ -10,6 +10,7 @@ export const TOKEN_SORTS = defineTokenType([
   'colorCommon',
   'colorText',
   'colorBg',
+  'colorFill',
   'colorSplit',
   'font',
   'radius',
@@ -45,6 +46,9 @@ export function getTypeOfToken(tokenName: string): TokenType {
       tokenName.startsWith('colorSplit')
     ) {
       return 'colorSplit';
+    }
+    if (tokenName.startsWith('colorFill')) {
+      return 'colorFill';
     }
     return 'colorCommon';
   }
