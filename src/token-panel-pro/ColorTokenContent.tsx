@@ -2,15 +2,13 @@ import type { FC } from 'react';
 import React, { useEffect, useMemo, useState } from 'react';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
-import { Pick } from '../icons';
-import type { SwitchProps } from 'antd';
+import { Light, Pick, DarkTheme } from '../icons';
 import {
   Button,
   Checkbox,
   Collapse,
   ConfigProvider,
   Dropdown,
-  Switch,
   Tooltip,
   Typography,
 } from 'antd';
@@ -27,6 +25,8 @@ import { useDebouncyFn } from 'use-debouncy';
 import type { ThemeConfig } from 'antd/es/config-provider/context';
 import type { SelectedToken } from '../interface';
 import getColorBgImg from '../utils/getColorBgImg';
+import type { IconSwitchProps } from '../IconSwitch';
+import IconSwitch from '../IconSwitch';
 
 const { Panel } = Collapse;
 
@@ -553,8 +553,8 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
 }) => {
   const [wrapSSR, hashId] = useStyle();
 
-  const handleThemeChange: SwitchProps['onChange'] = (value) => {
-    onActiveThemeChange?.(value ? 'dark' : 'default');
+  const handleThemeChange: IconSwitchProps['onChange'] = (value) => {
+    onActiveThemeChange?.(value ? themes[0].key : 'dark');
   };
 
   const activeCategory = useMemo(() => {
@@ -569,11 +569,11 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
         <div className="token-panel-pro-color-themes">
           <span style={{ marginRight: 12 }}>定制主题</span>
           {themes.length > 1 && (
-            <Switch
+            <IconSwitch
               onChange={handleThemeChange}
-              checked={activeTheme === 'dark'}
-              unCheckedChildren="亮色"
-              checkedChildren="暗色"
+              leftChecked={activeTheme !== 'dark'}
+              leftIcon={<Light />}
+              rightIcon={<DarkTheme />}
               style={{ marginLeft: 'auto' }}
             />
           )}
