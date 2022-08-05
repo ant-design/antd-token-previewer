@@ -170,6 +170,7 @@ const TokenInput: FC<TokenInputProps> = ({
           >
             <ColorPreview
               color={String(tokenValue)}
+              dark={theme?.key === 'dark'}
               style={{
                 cursor: 'pointer',
                 marginInlineEnd: 8,

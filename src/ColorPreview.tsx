@@ -2,9 +2,11 @@ import type { FC } from 'react';
 import React from 'react';
 import classNames from 'classnames';
 import makeStyle from './utils/makeStyle';
+import getColorBgImg from './utils/getColorBgImg';
 
 export type ColorPreviewProps = {
   color: string;
+  dark?: boolean;
   className?: string;
   style?: React.CSSProperties;
 };
@@ -31,19 +33,6 @@ const useStyle = makeStyle('ColorPreview', () => ({
       boxShadow:
         '0 2px 3px -1px rgba(0,0,0,0.20), inset 0 0 0 1px rgba(0,0,0,0.09)',
     },
-
-    '&::after': {
-      content: '""',
-      width: 18,
-      height: 18,
-      borderRadius: '50%',
-      top: 1,
-      insetInlineStart: 1,
-      position: 'absolute',
-      zIndex: 1,
-      background:
-        'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAFpJREFUWAntljEKADAIA23p6v//qQ+wfUEcCu1yriEgp0FHRJSJcnehmmWm1Dv/lO4HIg1AAAKjTqm03ea88zMCCEDgO4HV5bS757f+7wRoAAIQ4B9gByAAgQ3pfiDmXmAeEwAAAABJRU5ErkJggg==) 0% 0% / 20px',
-    },
   },
 }));
 
@@ -51,6 +40,7 @@ const ColorPreview: FC<ColorPreviewProps> = ({
   color,
   style,
   className,
+  dark,
   ...restProps
 }) => {
   const [warpSSR, hashId] = useStyle();
@@ -64,7 +54,21 @@ const ColorPreview: FC<ColorPreviewProps> = ({
         ['--antd-token-previewer-color-preview']: color,
         ...style,
       }}
-    />,
+    >
+      <div
+        style={{
+          content: '""',
+          width: 18,
+          height: 18,
+          borderRadius: '50%',
+          top: 1,
+          insetInlineStart: 1,
+          position: 'absolute',
+          zIndex: 1,
+          background: `${getColorBgImg(dark)} 0% 0% / 20px`,
+        }}
+      />
+    </div>,
   );
 };
 
