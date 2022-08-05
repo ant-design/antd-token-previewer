@@ -38,17 +38,20 @@ const AdditionInfo = ({
   visible,
   tokenName,
   style,
+  dark,
   ...rest
 }: {
   info: string | number;
   visible: boolean;
   tokenName: string;
+  dark?: boolean;
   style?: CSSProperties;
   className?: string;
 }) => {
   if (typeof info === 'string' && isColor(info)) {
     return (
       <ColorPreview
+        dark={dark}
         color={String(info)}
         style={{ display: visible ? 'block' : 'none', ...style }}
       />
@@ -274,6 +277,7 @@ export default ({
                     return (
                       <AdditionInfo
                         key={key}
+                        dark={key === 'dark'}
                         tokenName={tokenName}
                         info={
                           getValueByPath(config, [...tokenPath, tokenName]) ??

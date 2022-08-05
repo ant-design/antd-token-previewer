@@ -8,6 +8,7 @@ import {
   Button,
   Checkbox,
   Collapse,
+  ConfigProvider,
   Dropdown,
   Switch,
   Tooltip,
@@ -25,6 +26,7 @@ import ColorPanel from '../ColorPanel';
 import { useDebouncyFn } from 'use-debouncy';
 import type { ThemeConfig } from 'antd/es/config-provider/context';
 import type { SelectedToken } from '../interface';
+import getColorBgImg from '../utils/getColorBgImg';
 
 const { Panel } = Collapse;
 
@@ -394,8 +396,9 @@ const MapTokenCollapseContent: FC<MapTokenCollapseContentProps> = ({
                       width: 56,
                       position: 'relative',
                       borderInline: '1px solid #e8e8e8',
-                      background:
-                        'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAFpJREFUWAntljEKADAIA23p6v//qQ+wfUEcCu1yriEgp0FHRJSJcnehmmWm1Dv/lO4HIg1AAAKjTqm03ea88zMCCEDgO4HV5bS757f+7wRoAAIQ4B9gByAAgQ3pfiDmXmAeEwAAAABJRU5ErkJggg==) 0% 0% / 40px',
+                      background: `${getColorBgImg(
+                        themeItem.key === 'dark',
+                      )} 0% 0% / 40px`,
                     }}
                   >
                     <div
@@ -664,17 +667,25 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
                     >
                       Map Token
                     </div>
-                    <MapTokenCollapse
-                      mapTokens={mapTokens}
-                      themes={themes}
-                      selectedTokens={selectedTokens}
-                      onTokenSelect={onTokenSelect}
-                      groupFn={
-                        category.key === 'neutralColor'
-                          ? groupMapToken
-                          : undefined
-                      }
-                    />
+                    <ConfigProvider
+                      theme={{
+                        override: {
+                          derivative: { colorBorder: 'rgba(0,0,0,0.06)' },
+                        },
+                      }}
+                    >
+                      <MapTokenCollapse
+                        mapTokens={mapTokens}
+                        themes={themes}
+                        selectedTokens={selectedTokens}
+                        onTokenSelect={onTokenSelect}
+                        groupFn={
+                          category.key === 'neutralColor'
+                            ? groupMapToken
+                            : undefined
+                        }
+                      />
+                    </ConfigProvider>
                   </div>
                   {index < seedCategories.length - 1 && (
                     <Button
