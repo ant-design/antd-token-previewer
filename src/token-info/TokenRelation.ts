@@ -23,8 +23,26 @@ const tokenOrder: {
   [key in keyof AliasToken]?: number;
 } = {
   // example
-  // colorIcon: 2,
-  // colorIconHover: 1,
+  // 0-20 留给 text
+  colorTextHeading: 1,
+  colorTextLabel: 2,
+  colorTextDescription: 3,
+  colorTextDisabled: 4,
+  colorTextPlaceholder: 5,
+  colorIcon: 10,
+  colorIconHover: 11,
+  // 21-40 留给 border
+  colorBorderBg: 21,
+  controlTmpOutline: 22,
+  // 41-60 留给 fill
+  colorFillAlter: 41,
+  colorFillContent: 42,
+  colorFillContentHover: 43,
+
+  // 61-80 留给 bg
+  controlItemBgActive: 61,
+  controlItemBgActiveHover: 62,
+  controlItemBgHover: 63,
 };
 
 export function sortToken<T extends (keyof AliasToken)[]>(arr: T): T {

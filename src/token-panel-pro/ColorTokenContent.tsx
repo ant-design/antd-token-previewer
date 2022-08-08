@@ -351,7 +351,7 @@ const MapTokenCollapseContent: FC<MapTokenCollapseContentProps> = ({
                       borderInline: '1px solid #e8e8e8',
                       background: `${getColorBgImg(
                         themeItem.key === 'dark',
-                      )} 0% 0% / 40px`,
+                      )} 0% 0% / 20px`,
                     }}
                   >
                     <div
@@ -626,7 +626,7 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
                       <Tooltip
                         placement="topLeft"
                         arrowPointAtCenter
-                        title="梯度变量（Map Token） 是基于 Seed 派生的梯度变量，我们精心设计的梯度变量模型具有良好的设计语义，可保证在亮暗色模式切换时保证视觉梯度的一致性。"
+                        title="梯度变量（Map Token） 是基于 Seed 派生的梯度变量，我们精心设计的梯度变量模型具有良好的视觉设计语义，可在亮暗色模式切换时保证视觉梯度的一致性。"
                       >
                         <QuestionCircleOutlined
                           style={{ fontSize: 14, marginLeft: 8 }}
