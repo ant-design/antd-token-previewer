@@ -31,7 +31,7 @@ const useControlledTheme: UseControlledTheme = ({
 }) => {
   const [theme, setTheme] = useState<Theme>(customTheme ?? defaultTheme);
   const [darkTheme, setDarkTheme] = useState<Theme>({
-    name: '暗色主题',
+    name: '暗色模式',
     key: 'dark',
     config: { ...theme.config, algorithm: darkAlgorithm },
   });

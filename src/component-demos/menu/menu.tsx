@@ -31,7 +31,7 @@ const componentDemo: ComponentDemo = {
     'colorPrimary',
     'colorBgContainer',
     'colorFillAlter',
-    'colorBorderSecondary',
+    'colorSplit',
     'colorPrimaryHover',
   ],
   key: 'default',

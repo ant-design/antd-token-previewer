@@ -22,7 +22,7 @@ const Demo: React.FC = () => {
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,
-  tokens: ['colorBorderSecondary'],
+  tokens: ['colorSplit'],
   key: 'menuInLayout',
 };
 
