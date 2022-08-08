@@ -18,6 +18,28 @@ type MapRelatedAlias = {
   [key in keyof MapToken]?: (keyof PureAliasToken)[];
 };
 
+const tokenOrder: {
+  [key in keyof AliasToken]?: number;
+} = {
+  colorIcon: 2,
+  colorIconHover: 1,
+};
+
+export function sortToken<T extends (keyof AliasToken)[]>(arr: T): T {
+  return arr.sort((a, b) => {
+    if (tokenOrder[a] && !tokenOrder[b]) {
+      return -1;
+    }
+    if (!tokenOrder[a] && tokenOrder[b]) {
+      return 1;
+    }
+    if (tokenOrder[a] && tokenOrder[b]) {
+      return tokenOrder[a]! - tokenOrder[b]!;
+    }
+    return a.localeCompare(b);
+  });
+}
+
 export const seedRelatedMap: SeedRelatedMap = {
   colorPrimary: [
     'colorPrimaryBg',
@@ -137,7 +159,7 @@ const getSeedRelatedAlias = (): SeedRelatedAlias => {
       arr.push(...(mapRelatedAlias[mapKey] ?? []));
     });
     if (arr.length) {
-      (result as any)[key] = Array.from(new Set(arr)).sort();
+      (result as any)[key] = sortToken(Array.from(new Set(arr)));
     }
   });
   return result;
