@@ -18,6 +18,7 @@ type MapRelatedAlias = {
   [key in keyof MapToken]?: (keyof PureAliasToken)[];
 };
 
+// Alias Token 优先级排序，数字小的排在前面，在 map 中的优先级比不在 map 中的优先级高，都不在 map 中的按字母顺序排序
 const tokenOrder: {
   [key in keyof AliasToken]?: number;
 } = {
@@ -26,6 +27,9 @@ const tokenOrder: {
 };
 
 export function sortToken<T extends (keyof AliasToken)[]>(arr: T): T {
+  if (!arr) {
+    return arr;
+  }
   return arr.sort((a, b) => {
     if (tokenOrder[a] && !tokenOrder[b]) {
       return -1;
@@ -140,7 +144,7 @@ const getMapRelatedAlias = () => {
         mapRelatedAlias[mapKey].push(aliasKey);
       }
     });
-    mapRelatedAlias[mapKey] = mapRelatedAlias[mapKey]?.sort();
+    mapRelatedAlias[mapKey] = sortToken(mapRelatedAlias[mapKey]);
   });
 
   return mapRelatedAlias;
