@@ -22,8 +22,9 @@ type MapRelatedAlias = {
 const tokenOrder: {
   [key in keyof AliasToken]?: number;
 } = {
-  colorIcon: 2,
-  colorIconHover: 1,
+  // example
+  // colorIcon: 2,
+  // colorIconHover: 1,
 };
 
 export function sortToken<T extends (keyof AliasToken)[]>(arr: T): T {
