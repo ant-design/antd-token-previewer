@@ -38,6 +38,14 @@ const useStyle = makeStyle('TokenPanelProAlias', (token) => ({
         fontWeight: token.fontWeightStrong,
       },
     },
+
+    '.token-panel-pro-color-alias-description': {
+      color: token.colorTextTertiary,
+      fontSize: token.fontSize,
+      lineHeight: token.lineHeight,
+      padding: '0 16px 12px',
+    },
+
     [`.token-panel-pro-alias-collapse${token.rootCls}-collapse`]: {
       [`> ${token.rootCls}-collapse-item > ${token.rootCls}-collapse-content > ${token.rootCls}-collapse-content-box`]:
         {
@@ -114,6 +122,7 @@ export type AliasPanelProps = {
   onTokenSelect?: (token: string, type: keyof SelectedToken) => void;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
+  description?: string;
 };
 
 const AliasPanel: FC<AliasPanelProps> = ({
@@ -125,6 +134,7 @@ const AliasPanel: FC<AliasPanelProps> = ({
   onTokenSelect,
   open: customOpen,
   onOpenChange,
+  description,
 }) => {
   const [wrapSSR, hashId] = useStyle();
   const [open, setOpen] = useMergedState(customOpen ?? true, {
@@ -134,7 +144,7 @@ const AliasPanel: FC<AliasPanelProps> = ({
 
   const shownAlias = useMemo(
     () =>
-      (selectedTokens?.map?.length
+      selectedTokens?.map?.length
         ? Array.from(
             new Set(
               selectedTokens?.map.reduce<string[]>((result, map) => {
@@ -145,8 +155,7 @@ const AliasPanel: FC<AliasPanelProps> = ({
         : activeSeeds.reduce<(keyof AliasToken)[]>(
             (result, item) => result.concat(seedRelatedAlias[item] ?? []),
             [],
-          )
-      )?.sort(),
+          ),
     [selectedTokens, activeSeeds],
   );
 
@@ -161,7 +170,11 @@ const AliasPanel: FC<AliasPanelProps> = ({
             <span className="token-panel-pro-color-alias-title-text">
               Alias Token
             </span>
-            <Tooltip title="TBD">
+            <Tooltip
+              placement="topLeft"
+              arrowPointAtCenter
+              title="别名变量（Alias Token）是 Map Token 的别名。Alias Token 用于批量控制某些共性组件的样式。"
+            >
               <QuestionCircleOutlined style={{ fontSize: 14, marginLeft: 4 }} />
             </Tooltip>
             <Button
@@ -171,6 +184,11 @@ const AliasPanel: FC<AliasPanelProps> = ({
               onClick={() => setOpen(false)}
             />
           </div>
+          {description && (
+            <div className="token-panel-pro-color-alias-description">
+              {description}
+            </div>
+          )}
           <div style={{ flex: 1, overflow: 'auto' }}>
             <Collapse
               className="token-panel-pro-alias-collapse"

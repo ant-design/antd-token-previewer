@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import React, { useEffect, useMemo, useState } from 'react';
 import makeStyle from '../utils/makeStyle';
 import classNames from 'classnames';
-import { Light, Pick, DarkTheme } from '../icons';
+import { DarkTheme, Light, Pick } from '../icons';
 import {
   Button,
   Checkbox,
@@ -27,6 +27,7 @@ import type { SelectedToken } from '../interface';
 import getColorBgImg from '../utils/getColorBgImg';
 import type { IconSwitchProps } from '../IconSwitch';
 import IconSwitch from '../IconSwitch';
+import { seedCategories } from './index';
 
 const { Panel } = Collapse;
 
@@ -303,54 +304,6 @@ const ColorSeedTokenPreview: FC<ColorSeedTokenProps> = ({
   );
 };
 
-type SeedCategory = {
-  title: string;
-  key: string;
-  description: string;
-  seedTokens: (keyof SeedToken)[];
-};
-
-const seedCategories: SeedCategory[] = [
-  {
-    title: '品牌色',
-    key: 'brandColor',
-    description:
-      '品牌色是体现产品特性和传播理念最直观的视觉元素之一。在你完成品牌主色的选取之后，我们会自动帮你生成一套完整的色板，并赋予它们有效的设计语义。',
-    seedTokens: ['colorPrimary'],
-  },
-  {
-    title: '成功色',
-    key: 'successColor',
-    description: 'TBD',
-    seedTokens: ['colorSuccess'],
-  },
-  {
-    title: '警戒色',
-    key: 'warningColor',
-    description: 'TBD',
-    seedTokens: ['colorWarning'],
-  },
-  {
-    title: '错误色',
-    key: 'errorColor',
-    description: 'TBD',
-    seedTokens: ['colorError'],
-  },
-  {
-    title: '信息色',
-    key: 'infoColor',
-    description: 'TBD',
-    seedTokens: ['colorInfo'],
-  },
-  {
-    title: '中性色',
-    key: 'neutralColor',
-    description:
-      '中性色主要被大量的应用在界面的文字、背景、边框和填充的 4 种场景。合理地选择中性色能够令页面信息具备良好的主次关系，助力阅读体验。',
-    seedTokens: ['colorTextBase', 'colorBgBase'],
-  },
-];
-
 export type MapTokenCollapseContentProps = {
   mapTokens: (keyof MapToken)[];
   themes: MutableTheme[];
@@ -625,7 +578,11 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
                       <div style={{ marginRight: 'auto' }}>
                         <div className="token-panel-pro-token-collapse-subtitle">
                           <span style={{ fontSize: 12 }}>Seed Token</span>
-                          <Tooltip title="TBD">
+                          <Tooltip
+                            placement="topLeft"
+                            arrowPointAtCenter
+                            title="基础变量（Seed Token）意味着所有设计意图的起源。在 Ant Design 中，我们会基于 Seed Token 自动派生一套具有设计语义的梯度变量（Map Token）。"
+                          >
                             <QuestionCircleOutlined
                               style={{ fontSize: 14, marginLeft: 8 }}
                             />
@@ -665,7 +622,16 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
                       className="token-panel-pro-token-collapse-subtitle"
                       style={{ marginBottom: 10 }}
                     >
-                      Map Token
+                      <span>Map Token</span>
+                      <Tooltip
+                        placement="topLeft"
+                        arrowPointAtCenter
+                        title="梯度变量（Map Token） 是基于 Seed 派生的梯度变量，我们精心设计的梯度变量模型具有良好的设计语义，可保证在亮暗色模式切换时保证视觉梯度的一致性。"
+                      >
+                        <QuestionCircleOutlined
+                          style={{ fontSize: 14, marginLeft: 8 }}
+                        />
+                      </Tooltip>
                     </div>
                     <ConfigProvider
                       theme={{
