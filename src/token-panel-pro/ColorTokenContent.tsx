@@ -9,6 +9,7 @@ import {
   Collapse,
   ConfigProvider,
   Dropdown,
+  Switch,
   Tooltip,
   Typography,
 } from 'antd';
@@ -137,6 +138,18 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
           backgroundColor: '#fff',
 
           [`> ${token.rootCls}-collapse-item`]: {
+            '&:not(:first-child)': {
+              [`> ${token.rootCls}-collapse-header`]: {
+                [`> ${token.rootCls}-collapse-header-text`]: {
+                  '.token-panel-pro-token-collapse-map-collapse-preview': {
+                    '.token-panel-pro-token-collapse-map-collapse-preview-color':
+                      {
+                        marginTop: -1,
+                      },
+                  },
+                },
+              },
+            },
             [`> ${token.rootCls}-collapse-header`]: {
               padding: { value: '0 12px 0 16px', _skip_check_: true },
 
@@ -156,6 +169,13 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
                 '.token-panel-pro-token-collapse-map-collapse-preview': {
                   display: 'flex',
                   flex: 'none',
+                  '.token-panel-pro-token-collapse-map-collapse-preview-color':
+                    {
+                      height: 56,
+                      width: 56,
+                      position: 'relative',
+                      borderInline: '1px solid #e8e8e8',
+                    },
                   '> *': {
                     marginInlineEnd: 8,
                   },
@@ -344,14 +364,11 @@ const MapTokenCollapseContent: FC<MapTokenCollapseContentProps> = ({
                 {themes.map((themeItem) => (
                   <div
                     key={themeItem.key}
+                    className="token-panel-pro-token-collapse-map-collapse-preview-color"
                     style={{
-                      height: 56,
-                      width: 56,
-                      position: 'relative',
-                      borderInline: '1px solid #e8e8e8',
                       background: `${getColorBgImg(
                         themeItem.key === 'dark',
-                      )} 0% 0% / 20px`,
+                      )} 0% 0% / 28px`,
                     }}
                   >
                     <div
@@ -410,6 +427,7 @@ export type MapTokenCollapseProps = {
   selectedTokens?: SelectedToken;
   onTokenSelect?: (token: string | string[], type: keyof SelectedToken) => void;
   groupFn?: (token: keyof MapToken) => string;
+  groups?: string[];
 };
 
 const MapTokenCollapse: FC<MapTokenCollapseProps> = ({
@@ -418,6 +436,7 @@ const MapTokenCollapse: FC<MapTokenCollapseProps> = ({
   onTokenSelect,
   selectedTokens,
   groupFn,
+  groups,
 }) => {
   const groupedTokens = useMemo(() => {
     const grouped: Record<string, (keyof MapToken)[]> = {};
@@ -442,7 +461,7 @@ const MapTokenCollapse: FC<MapTokenCollapseProps> = ({
         />
       )}
     >
-      {Object.keys(groupedTokens).map((key) => (
+      {(groups ?? Object.keys(groupedTokens)).map((key) => (
         <Panel key={key} header={mapGroupTitle[key] ?? ''}>
           <MapTokenCollapseContent
             mapTokens={groupedTokens[key]}
@@ -505,6 +524,7 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
   onNext,
 }) => {
   const [wrapSSR, hashId] = useStyle();
+  const [grouped, setGrouped] = useState<boolean>(true);
 
   const handleThemeChange: IconSwitchProps['onChange'] = (value) => {
     onActiveThemeChange?.(value ? themes[0].key : 'dark');
@@ -620,7 +640,11 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
                   <div style={{ marginTop: 16, marginBottom: 24 }}>
                     <div
                       className="token-panel-pro-token-collapse-subtitle"
-                      style={{ marginBottom: 10 }}
+                      style={{
+                        marginBottom: 10,
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
                     >
                       <span>Map Token</span>
                       <Tooltip
@@ -632,6 +656,22 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
                           style={{ fontSize: 14, marginLeft: 8 }}
                         />
                       </Tooltip>
+                      {category.key === 'neutralColor' && (
+                        <div
+                          style={{
+                            marginLeft: 'auto',
+                            display: 'flex',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <label style={{ marginRight: 4 }}>分组显示</label>
+                          <Switch
+                            checked={grouped}
+                            onChange={(v) => setGrouped(v)}
+                            size="small"
+                          />
+                        </div>
+                      )}
                     </div>
                     <ConfigProvider
                       theme={{
@@ -646,10 +686,11 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
                         selectedTokens={selectedTokens}
                         onTokenSelect={onTokenSelect}
                         groupFn={
-                          category.key === 'neutralColor'
+                          category.key === 'neutralColor' && grouped
                             ? groupMapToken
                             : undefined
                         }
+                        groups={category?.mapTokenGroups}
                       />
                     </ConfigProvider>
                   </div>
