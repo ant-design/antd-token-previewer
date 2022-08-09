@@ -41,8 +41,8 @@ const useStyle = makeStyle('TokenPanelProAlias', (token) => ({
 
     '.token-panel-pro-color-alias-description': {
       color: token.colorTextTertiary,
-      fontSize: token.fontSize,
-      lineHeight: token.lineHeight,
+      fontSize: token.fontSizeSM,
+      lineHeight: token.lineHeightSM,
       padding: '0 16px 12px',
     },
 
