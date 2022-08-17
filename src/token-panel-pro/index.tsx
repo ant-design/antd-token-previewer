@@ -1,14 +1,14 @@
+import { Tabs } from 'antd';
+import type { Theme } from 'antd-token-previewer';
+import type { SeedToken } from 'antd/es/theme/interface';
+import classNames from 'classnames';
 import type { FC } from 'react';
 import React, { useMemo, useState } from 'react';
+import type { SelectedToken } from '../interface';
 import makeStyle from '../utils/makeStyle';
-import { Tabs } from 'antd';
-import classNames from 'classnames';
+import AliasPanel from './AliasPanel';
 import type { ColorTokenContentProps } from './ColorTokenContent';
 import ColorTokenContent from './ColorTokenContent';
-import type { Theme } from 'antd-token-previewer';
-import type { SelectedToken } from '../interface';
-import AliasPanel from './AliasPanel';
-import type { SeedToken } from 'antd/es/theme/interface';
 
 const { TabPane } = Tabs;
 
@@ -74,6 +74,9 @@ const useStyle = makeStyle('TokenPanelPro', (token) => ({
       overflow: 'auto',
       [`${token.rootCls}-tabs-content`]: {
         height: '100%',
+        [`${token.rootCls}-tabs-tabpane`]: {
+          height: '100%',
+        },
       },
     },
   },
