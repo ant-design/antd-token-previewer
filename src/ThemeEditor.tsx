@@ -131,7 +131,7 @@ const ThemeEditor: FC<ThemeEditorProps> = ({
     >
       <div
         style={{
-          flex: aliasOpen ? '0 0 912px' : `0 0 ${912 - 320 - 1}px`,
+          flex: aliasOpen ? '0 0 860px' : `0 0 ${860 - 320}px`,
           height: '100%',
           backgroundColor: '#F7F8FA',
           backgroundImage:
