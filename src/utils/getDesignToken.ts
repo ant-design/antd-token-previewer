@@ -1,12 +1,18 @@
 import type { ThemeConfig } from 'antd/es/config-provider/context';
-import type { GlobalToken } from 'antd/es/theme/interface';
-import seed from 'antd/es/theme/themes/seed';
+import type { GlobalToken, MapToken } from 'antd/es/theme/interface';
 import defaultMap from 'antd/es/theme/themes/default';
+import seed from 'antd/es/theme/themes/seed';
 import formatToken from 'antd/es/theme/util/alias';
 
 export default function getDesignToken(config: ThemeConfig = {}): GlobalToken {
   const seedToken = { ...seed, ...config.token };
   const mapFn = config.algorithm ?? defaultMap;
-  const mapToken = { ...mapFn(seedToken), ...config.override };
-  return formatToken(mapToken);
+  const mapToken = Array.isArray(mapFn)
+    ? mapFn.reduce<MapToken>(
+        (result, fn) => fn(seedToken, result),
+        seedToken as MapToken,
+      )
+    : mapFn(seedToken);
+  const mergedMapToken = { ...mapToken, ...config.override };
+  return formatToken(mergedMapToken);
 }

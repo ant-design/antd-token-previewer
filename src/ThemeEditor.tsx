@@ -1,47 +1,24 @@
+import classNames from 'classnames';
 import type { FC } from 'react';
 import React, { useMemo, useState } from 'react';
-import type { TokenPanelProProps } from './token-panel-pro';
-import TokenPanelPro from './token-panel-pro';
-import ComponentDemoGroup from './component-panel/ComponentDemoGroup';
 import { antdComponents } from './component-panel';
-import { TokenPanelIcon } from './icons';
-import makeStyle from './utils/makeStyle';
-import classNames from 'classnames';
+import ComponentDemoGroup from './component-panel/ComponentDemoGroup';
+import useControlledTheme from './hooks/useControlledTheme';
 import type { SelectedToken, Theme } from './interface';
 import {
   mapRelatedAlias,
   seedRelatedAlias,
   seedRelatedMap,
 } from './token-info/TokenRelation';
+import type { TokenPanelProProps } from './token-panel-pro';
+import TokenPanelPro from './token-panel-pro';
+import makeStyle from './utils/makeStyle';
 import { getRelatedComponents } from './utils/statistic';
-import useControlledTheme from './hooks/useControlledTheme';
 
-const useStyle = makeStyle('ThemeEditor', (token) => ({
+const useStyle = makeStyle('ThemeEditor', () => ({
   '.antd-theme-editor': {
     backgroundColor: 'rgba(0, 0, 0, 0.04)',
     display: 'flex',
-    '.antd-theme-editor-sidebar': {
-      padding: 12,
-      width: 52,
-      flex: '0 0 52px',
-      borderRight: '1px solid rgba(0, 0, 0, 0.04)',
-      boxSizing: 'border-box',
-
-      '&-icon-wrapper': {
-        width: 28,
-        height: 28,
-        borderRadius: 4,
-        backgroundColor: token.colorPrimaryBg,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-
-        '> svg': {
-          fontSize: 20,
-          color: token.colorPrimary,
-        },
-      },
-    },
   },
 }));
 
@@ -163,11 +140,6 @@ const ThemeEditor: FC<ThemeEditorProps> = ({
           transition: 'all 0.3s',
         }}
       >
-        <div className="antd-theme-editor-sidebar">
-          <div className="antd-theme-editor-sidebar-icon-wrapper">
-            <TokenPanelIcon />
-          </div>
-        </div>
         <TokenPanelPro
           aliasOpen={aliasOpen}
           onAliasOpenChange={(open) => setAliasOpen(open)}
