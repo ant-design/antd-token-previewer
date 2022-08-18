@@ -1,8 +1,4 @@
-import type { FC } from 'react';
-import React, { useEffect, useMemo, useState } from 'react';
-import makeStyle from '../utils/makeStyle';
-import classNames from 'classnames';
-import { DarkTheme, Light, Pick } from '../icons';
+import { CaretRightOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import {
   Button,
   Checkbox,
@@ -13,22 +9,26 @@ import {
   Tooltip,
   Typography,
 } from 'antd';
-import { CaretRightOutlined, QuestionCircleOutlined } from '@ant-design/icons';
-import getDesignToken from '../utils/getDesignToken';
-import { getRelatedComponents } from '../utils/statistic';
-import type { MapToken, SeedToken } from 'antd/es/theme/interface';
-import tokenInfo from '../token-info/TokenInfo';
-import { mapRelatedAlias, seedRelatedMap } from '../token-info/TokenRelation';
-import TokenDetail from './TokenDetail';
 import type { MutableTheme } from 'antd-token-previewer';
-import ColorPanel from '../ColorPanel';
-import { useDebouncyFn } from 'use-debouncy';
 import type { ThemeConfig } from 'antd/es/config-provider/context';
-import type { SelectedToken } from '../interface';
-import getColorBgImg from '../utils/getColorBgImg';
+import type { MapToken, SeedToken } from 'antd/es/theme/interface';
+import classNames from 'classnames';
+import type { FC } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useDebouncyFn } from 'use-debouncy';
+import ColorPanel from '../ColorPanel';
+import { DarkTheme, Light, Pick } from '../icons';
 import type { IconSwitchProps } from '../IconSwitch';
 import IconSwitch from '../IconSwitch';
+import type { SelectedToken } from '../interface';
+import tokenInfo from '../token-info/TokenInfo';
+import { mapRelatedAlias, seedRelatedMap } from '../token-info/TokenRelation';
+import getColorBgImg from '../utils/getColorBgImg';
+import getDesignToken from '../utils/getDesignToken';
+import makeStyle from '../utils/makeStyle';
+import { getRelatedComponents } from '../utils/statistic';
 import { seedCategories } from './index';
+import TokenDetail from './TokenDetail';
 
 const { Panel } = Collapse;
 
@@ -41,7 +41,7 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
       height: '100%',
       flex: 1,
       width: 0,
-      borderInlineEnd: `1px solid ${token.colorSplit}`,
+      borderInlineEnd: `1px solid ${token.colorBorderSecondary}`,
       display: 'flex',
       flexDirection: 'column',
       boxSizing: 'border-box',

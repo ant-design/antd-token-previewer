@@ -69,6 +69,7 @@ const useStyle = makeStyle('TokenPanelPro', (token) => ({
   '.token-panel-pro': {
     height: '100%',
     display: 'flex',
+    borderInlineEnd: `1px solid ${token.colorBorderSecondary}`,
     [`.token-panel-pro-tabs${token.rootCls}-tabs`]: {
       height: '100%',
       overflow: 'auto',
