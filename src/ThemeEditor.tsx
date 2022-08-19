@@ -1,3 +1,4 @@
+import type { DerivativeFunc } from '@ant-design/cssinjs';
 import classNames from 'classnames';
 import type { FC } from 'react';
 import React, { useMemo, useState } from 'react';
@@ -34,6 +35,7 @@ export type ThemeEditorProps = {
   onThemeChange?: (theme: Theme) => void;
   className?: string;
   style?: React.CSSProperties;
+  darkAlgorithm?: DerivativeFunc<any, any>;
 };
 
 const ThemeEditor: FC<ThemeEditorProps> = ({
@@ -42,6 +44,7 @@ const ThemeEditor: FC<ThemeEditorProps> = ({
   onThemeChange,
   className,
   style,
+  darkAlgorithm,
 }) => {
   const [wrapSSR, hashId] = useStyle();
   const [selectedTokens, setSelectedTokens] = useState<SelectedToken>({
@@ -57,6 +60,7 @@ const ThemeEditor: FC<ThemeEditorProps> = ({
       theme: customTheme,
       defaultTheme,
       onChange: onThemeChange,
+      darkAlgorithm,
     });
 
   const handleTokenSelect: TokenPanelProProps['onTokenSelect'] = (

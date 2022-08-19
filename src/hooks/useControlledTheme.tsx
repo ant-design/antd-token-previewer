@@ -1,12 +1,13 @@
-import type { MutableTheme, Theme } from '../interface';
-import { useEffect, useRef, useState } from 'react';
+import type { DerivativeFunc } from '@ant-design/cssinjs';
 import { theme as antTheme } from 'antd';
-import getValueByPath from '../utils/getValueByPath';
+import type { ThemeConfig } from 'antd/es/config-provider/context';
+import { useEffect, useRef, useState } from 'react';
+import type { MutableTheme, Theme } from '../interface';
 import deepUpdateObj from '../utils/deepUpdateObj';
 import getDesignToken from '../utils/getDesignToken';
-import type { ThemeConfig } from 'antd/es/config-provider/context';
+import getValueByPath from '../utils/getValueByPath';
 
-const { darkAlgorithm } = antTheme;
+const { darkAlgorithm: defaultDark } = antTheme;
 
 export type SetThemeState = (
   theme: Theme,
@@ -18,6 +19,7 @@ export type UseControlledTheme = (options: {
   theme?: Theme;
   defaultTheme: Theme;
   onChange?: (theme: Theme) => void;
+  darkAlgorithm?: DerivativeFunc<any, any>;
 }) => {
   themes: MutableTheme[];
   infoFollowPrimary: boolean;
@@ -28,6 +30,7 @@ const useControlledTheme: UseControlledTheme = ({
   theme: customTheme,
   defaultTheme,
   onChange,
+  darkAlgorithm = defaultDark,
 }) => {
   const [theme, setTheme] = useState<Theme>(customTheme ?? defaultTheme);
   const [darkTheme, setDarkTheme] = useState<Theme>({
