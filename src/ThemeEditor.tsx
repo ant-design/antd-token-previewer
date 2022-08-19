@@ -1,4 +1,4 @@
-import { DerivativeFunc } from '@ant-design/cssinjs';
+import type { DerivativeFunc } from '@ant-design/cssinjs';
 import classNames from 'classnames';
 import type { FC } from 'react';
 import React, { useMemo, useState } from 'react';
