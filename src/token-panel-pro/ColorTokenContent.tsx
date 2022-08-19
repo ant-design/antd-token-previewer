@@ -66,7 +66,7 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
         boxShadow:
           '0 6px 16px -8px rgba(0,0,0,0.08), 0 9px 28px 0 rgba(0,0,0,0.05), 0 12px 48px -8px rgba(0,0,0,0.03), inset 0 0 0 2px #1677FF',
         transition: 'box-shadow 0.2s ease-in-out',
-        borderRadius: 4,
+        borderRadius: 8,
       },
       [`> ${token.rootCls}-collapse-item > ${token.rootCls}-collapse-content > ${token.rootCls}-collapse-content-box`]:
         {
