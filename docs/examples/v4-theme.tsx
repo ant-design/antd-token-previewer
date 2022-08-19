@@ -12,10 +12,11 @@ const { defaultAlgorithmV4, darkAlgorithmV4 } = antdTheme;
 
 const Demo = () => {
   const [theme, setTheme] = React.useState<Theme>({
-    name: '秘制猪蹄',
+    name: 'antd 4.x',
     key: 'secret theme',
     config: {
       token: {
+        colorPrimary: '#1890ff',
         radiusBase: 2,
       },
       algorithm: defaultAlgorithmV4,
