@@ -1,11 +1,11 @@
-export { default as TokenPanel } from './token-panel';
-export type { TokenPreviewProps, TokenPanelRef } from './token-panel';
+export type { MutableTheme, PreviewerProps, Theme } from './interface';
 export { default as Previewer } from './previewer';
-export type { MutableTheme, Theme, PreviewerProps } from './interface';
 export { default as ThemeEditor } from './ThemeEditor';
-export type { ThemeEditorProps } from './ThemeEditor';
+export type { ThemeEditorProps, ThemeEditorRef } from './ThemeEditor';
+export { default as TokenPanel } from './token-panel';
+export type { TokenPanelRef, TokenPreviewProps } from './token-panel';
 export {
-  convertTokenConfigToArr,
   convertTokenArrToConfig,
+  convertTokenConfigToArr,
 } from './utils/convertToken';
 export { default as getDesignToken } from './utils/getDesignToken';

@@ -1,5 +1,5 @@
-import React from 'react';
 import { Slider, theme } from 'antd';
+import React from 'react';
 import type { ComponentDemo } from '../../interface';
 
 const Demo = () => {
@@ -23,7 +23,7 @@ const componentDemo: ComponentDemo = {
     'colorPrimaryBorderHover',
     'colorPrimaryBorder',
   ],
-  key: 'default',
+  key: 'sliderInBg',
 };
 
 export default componentDemo;

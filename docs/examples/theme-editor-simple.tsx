@@ -2,11 +2,11 @@
  * iframe: 800
  */
 
-import React from 'react';
+import { ConfigProvider } from 'antd';
 import type { Theme } from 'antd-token-previewer';
 import { ThemeEditor } from 'antd-token-previewer';
 import 'antd/es/style/reset.css';
-import { ConfigProvider } from 'antd';
+import React from 'react';
 
 const Demo = () => {
   const [theme, setTheme] = React.useState<Theme>({

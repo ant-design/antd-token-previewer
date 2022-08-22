@@ -1,8 +1,10 @@
 import type { DerivativeFunc } from '@ant-design/cssinjs';
 import { theme as antTheme } from 'antd';
 import type { ThemeConfig } from 'antd/es/config-provider/context';
+import type { AliasToken, SeedToken } from 'antd/es/theme';
+import type { MapToken } from 'antd/es/theme/interface';
 import { useEffect, useRef, useState } from 'react';
-import type { MutableTheme, Theme } from '../interface';
+import type { MutableTheme, Theme, TokenValue } from '../interface';
 import deepUpdateObj from '../utils/deepUpdateObj';
 import getDesignToken from '../utils/getDesignToken';
 import getValueByPath from '../utils/getValueByPath';
@@ -15,6 +17,27 @@ export type SetThemeState = (
   updated?: boolean,
 ) => void;
 
+export type ThemeDiff = {
+  seed?: {
+    [key in keyof SeedToken]?: {
+      before: TokenValue;
+      after: TokenValue;
+    };
+  };
+  map?: {
+    [key in keyof MapToken]?: {
+      before: TokenValue;
+      after: TokenValue;
+    };
+  };
+  alias?: {
+    [key in keyof AliasToken]?: {
+      before: TokenValue;
+      after: TokenValue;
+    };
+  };
+};
+
 export type UseControlledTheme = (options: {
   theme?: Theme;
   defaultTheme: Theme;
@@ -24,6 +47,8 @@ export type UseControlledTheme = (options: {
   themes: MutableTheme[];
   infoFollowPrimary: boolean;
   onInfoFollowPrimaryChange: (value: boolean) => void;
+  getDiff: () => ThemeDiff;
+  updateRef: () => void;
 };
 
 const useControlledTheme: UseControlledTheme = ({
@@ -42,6 +67,9 @@ const useControlledTheme: UseControlledTheme = ({
   const themeRef = useRef<Theme>(theme);
   const darkThemeRef = useRef<Theme>(darkTheme);
   const darkThemeUpdatedRef = useRef<object>({});
+  const [, setRenderHolder] = useState(0);
+
+  const forceUpdate = () => setRenderHolder((prev) => prev + 1);
 
   const getNewTheme = (newTheme: Theme, force?: boolean): Theme => {
     const newToken = { ...newTheme.config.token };
@@ -138,6 +166,54 @@ const useControlledTheme: UseControlledTheme = ({
     }
   };
 
+  const isThemeDifferent = getCanReset(themeRef.current?.config, theme.config);
+
+  const getDiffByPath = (path: string[]) => {
+    const diff = Object.keys(getValueByPath(theme.config, path) ?? {}).reduce<
+      ThemeDiff[keyof ThemeDiff]
+    >((result, token) => {
+      let newResult = result;
+      if (isThemeDifferent([...path, token])) {
+        if (!newResult) {
+          newResult = {};
+        } else {
+          newResult = { ...result };
+        }
+        newResult[token as keyof SeedToken] = {
+          before: getValueByPath(themeRef.current?.config, [...path, token]),
+          after: getValueByPath(theme.config, [...path, token]),
+        };
+      }
+      return newResult;
+    }, undefined);
+
+    return Object.keys(
+      getValueByPath(themeRef.current.config, path) ?? {},
+    ).reduce<ThemeDiff[keyof ThemeDiff]>((result, token) => {
+      let newResult = result;
+      if (isThemeDifferent([...path, token])) {
+        if (!newResult) {
+          newResult = {};
+        } else if (newResult[token as keyof SeedToken] !== undefined) {
+          return newResult;
+        } else {
+          newResult = { ...result };
+        }
+        newResult[token as keyof SeedToken] = {
+          before: getValueByPath(themeRef.current?.config, [...path, token]),
+          after: getValueByPath(theme.config, [...path, token]),
+        };
+      }
+      return newResult;
+    }, diff);
+  };
+
+  const getDiff = (): ThemeDiff => ({
+    seed: getDiffByPath(['token']),
+    map: getDiffByPath(['override', 'derivative']),
+    alias: getDiffByPath(['override', 'alias']),
+  });
+
   return {
     themes: [
       {
@@ -158,6 +234,11 @@ const useControlledTheme: UseControlledTheme = ({
     ],
     infoFollowPrimary,
     onInfoFollowPrimaryChange: handleInfoFollowPrimaryChange,
+    getDiff,
+    updateRef: () => {
+      themeRef.current = theme;
+      forceUpdate();
+    },
   };
 };
 
