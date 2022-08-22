@@ -1,5 +1,5 @@
-import React from 'react';
 import { Pagination, Space } from 'antd';
+import React from 'react';
 import type { ComponentDemo } from '../../interface';
 
 const Demo: React.FC = () => (
@@ -16,7 +16,7 @@ const componentDemo: ComponentDemo = {
     'colorPrimaryHover',
     'colorBgContainer',
   ],
-  key: 'default',
+  key: 'outline',
 };
 
 export default componentDemo;

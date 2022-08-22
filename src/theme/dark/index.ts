@@ -1,15 +1,14 @@
+import { genAliasToken, genComponentToken } from '../token';
 import {
-  textMapToken,
-  primaryPalettes,
-  errorPalettes,
-  successPalettes,
-  warningPalettes,
   bgMapToken,
   borderMapToken,
+  errorPalettes,
+  primaryPalettes,
+  successPalettes,
+  textMapToken,
+  warningPalettes,
 } from './mapToken';
-import { genComponentToken, genAliasToken } from '../token';
 
-console.log(bgMapToken);
 // 全局 Alias Token
 export const aliasToken = genAliasToken({
   textMapToken,

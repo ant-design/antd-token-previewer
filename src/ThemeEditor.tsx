@@ -1,10 +1,14 @@
 import type { DerivativeFunc } from '@ant-design/cssinjs';
 import classNames from 'classnames';
-import type { FC } from 'react';
-import React, { useMemo, useState } from 'react';
+import React, {
+  forwardRef,
+  useImperativeHandle,
+  useMemo,
+  useState,
+} from 'react';
 import { antdComponents } from './component-panel';
 import ComponentDemoGroup from './component-panel/ComponentDemoGroup';
-import useControlledTheme from './hooks/useControlledTheme';
+import useControlledTheme, { ThemeDiff } from './hooks/useControlledTheme';
 import type { SelectedToken, Theme } from './interface';
 import {
   mapRelatedAlias,
@@ -29,6 +33,11 @@ const defaultTheme: Theme = {
   config: {},
 };
 
+export type ThemeEditorRef = {
+  getDiff: () => ThemeDiff;
+  updateRef: () => void;
+};
+
 export type ThemeEditorProps = {
   simple?: boolean;
   theme?: Theme;
@@ -38,136 +47,152 @@ export type ThemeEditorProps = {
   darkAlgorithm?: DerivativeFunc<any, any>;
 };
 
-const ThemeEditor: FC<ThemeEditorProps> = ({
-  simple,
-  theme: customTheme,
-  onThemeChange,
-  className,
-  style,
-  darkAlgorithm,
-}) => {
-  const [wrapSSR, hashId] = useStyle();
-  const [selectedTokens, setSelectedTokens] = useState<SelectedToken>({
-    seed: ['colorPrimary'],
-  });
-  const [aliasOpen, setAliasOpen] = useState<boolean>(true);
-  const [activeTheme, setActiveTheme] = useState<string>(
-    customTheme ? customTheme.key : 'default',
-  );
+const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
+  (
+    {
+      simple,
+      theme: customTheme,
+      onThemeChange,
+      className,
+      style,
+      darkAlgorithm,
+    },
+    ref,
+  ) => {
+    const [wrapSSR, hashId] = useStyle();
+    const [selectedTokens, setSelectedTokens] = useState<SelectedToken>({
+      seed: ['colorPrimary'],
+    });
+    const [aliasOpen, setAliasOpen] = useState<boolean>(true);
+    const [activeTheme, setActiveTheme] = useState<string>(
+      customTheme ? customTheme.key : 'default',
+    );
 
-  const { themes, infoFollowPrimary, onInfoFollowPrimaryChange } =
-    useControlledTheme({
+    const {
+      themes,
+      infoFollowPrimary,
+      onInfoFollowPrimaryChange,
+      getDiff,
+      updateRef,
+    } = useControlledTheme({
       theme: customTheme,
       defaultTheme,
       onChange: onThemeChange,
       darkAlgorithm,
     });
 
-  const handleTokenSelect: TokenPanelProProps['onTokenSelect'] = (
-    token,
-    type,
-  ) => {
-    setSelectedTokens((prev) => {
-      const tokens = typeof token === 'string' ? (token ? [token] : []) : token;
-      if (type === 'seed') {
-        return {
-          seed: tokens,
-        };
-      }
+    useImperativeHandle(ref, () => ({
+      getDiff,
+      updateRef,
+    }));
 
-      let newSelectedTokens = { ...prev };
-      tokens.forEach((newToken) => {
-        newSelectedTokens = {
-          ...prev,
-          [type]: prev[type]?.includes(newToken)
-            ? prev[type]?.filter((t) => t !== newToken)
-            : [...(prev[type] ?? []), newToken],
-        };
+    const handleTokenSelect: TokenPanelProProps['onTokenSelect'] = (
+      token,
+      type,
+    ) => {
+      setSelectedTokens((prev) => {
+        const tokens =
+          typeof token === 'string' ? (token ? [token] : []) : token;
+        if (type === 'seed') {
+          return {
+            seed: tokens,
+          };
+        }
+
+        let newSelectedTokens = { ...prev };
+        tokens.forEach((newToken) => {
+          newSelectedTokens = {
+            ...prev,
+            [type]: prev[type]?.includes(newToken)
+              ? prev[type]?.filter((t) => t !== newToken)
+              : [...(prev[type] ?? []), newToken],
+          };
+        });
+        if (type === 'map') {
+          delete newSelectedTokens.alias;
+        }
+        return newSelectedTokens;
       });
-      if (type === 'map') {
-        delete newSelectedTokens.alias;
+    };
+
+    const computedSelectedTokens = useMemo(() => {
+      if (
+        selectedTokens.seed?.length &&
+        !selectedTokens.map?.length &&
+        !selectedTokens.alias?.length
+      ) {
+        return [
+          ...selectedTokens.seed,
+          ...((seedRelatedMap as any)[selectedTokens.seed[0]] ?? []),
+          ...((seedRelatedAlias as any)[selectedTokens.seed[0]] ?? []),
+        ];
       }
-      return newSelectedTokens;
-    });
-  };
+      if (selectedTokens.map?.length && !selectedTokens.alias?.length) {
+        return [
+          ...selectedTokens.map,
+          ...selectedTokens.map.reduce((result, item) => {
+            return result.concat((mapRelatedAlias as any)[item]);
+          }, []),
+        ];
+      }
+      if (selectedTokens.alias?.length) {
+        return [...selectedTokens.alias];
+      }
+      return [];
+    }, [selectedTokens]);
 
-  const computedSelectedTokens = useMemo(() => {
-    if (
-      selectedTokens.seed?.length &&
-      !selectedTokens.map?.length &&
-      !selectedTokens.alias?.length
-    ) {
-      return [
-        ...selectedTokens.seed,
-        ...((seedRelatedMap as any)[selectedTokens.seed[0]] ?? []),
-        ...((seedRelatedAlias as any)[selectedTokens.seed[0]] ?? []),
-      ];
-    }
-    if (selectedTokens.map?.length && !selectedTokens.alias?.length) {
-      return [
-        ...selectedTokens.map,
-        ...selectedTokens.map.reduce((result, item) => {
-          return result.concat((mapRelatedAlias as any)[item]);
-        }, []),
-      ];
-    }
-    if (selectedTokens.alias?.length) {
-      return [...selectedTokens.alias];
-    }
-    return [];
-  }, [selectedTokens]);
+    const relatedComponents = useMemo(() => {
+      return computedSelectedTokens
+        ? getRelatedComponents(computedSelectedTokens)
+        : [];
+    }, [computedSelectedTokens]);
 
-  const relatedComponents = useMemo(() => {
-    return computedSelectedTokens
-      ? getRelatedComponents(computedSelectedTokens)
-      : [];
-  }, [computedSelectedTokens]);
+    const memoizedActiveTheme = useMemo(
+      () => themes.find((item) => item.key === activeTheme)!,
+      [activeTheme, themes],
+    );
 
-  const memoizedActiveTheme = useMemo(
-    () => themes.find((item) => item.key === activeTheme)!,
-    [activeTheme, themes],
-  );
-
-  return wrapSSR(
-    <div
-      className={classNames(hashId, 'antd-theme-editor', className)}
-      style={style}
-    >
+    return wrapSSR(
       <div
-        style={{
-          flex: aliasOpen ? '0 0 860px' : `0 0 ${860 - 320}px`,
-          height: '100%',
-          backgroundColor: '#F7F8FA',
-          backgroundImage:
-            'linear-gradient(180deg, #FFFFFF 0%, rgba(246,247,249,0.00) 100%)',
-          display: 'flex',
-          transition: 'all 0.3s',
-        }}
+        className={classNames(hashId, 'antd-theme-editor', className)}
+        style={style}
       >
-        <TokenPanelPro
-          aliasOpen={aliasOpen}
-          onAliasOpenChange={(open) => setAliasOpen(open)}
-          themes={themes}
-          simple={simple}
-          style={{ flex: 1 }}
-          selectedTokens={selectedTokens}
-          onTokenSelect={handleTokenSelect}
-          infoFollowPrimary={infoFollowPrimary}
-          onInfoFollowPrimaryChange={onInfoFollowPrimaryChange}
-          activeTheme={activeTheme}
-          onActiveThemeChange={(newActive) => setActiveTheme(newActive)}
-        />
-      </div>
-      <div style={{ flex: 1, overflow: 'auto', height: '100%' }}>
-        <ComponentDemoGroup
-          selectedTokens={computedSelectedTokens}
-          themes={[memoizedActiveTheme]}
-          components={antdComponents}
-          activeComponents={relatedComponents}
-        />
-      </div>
-    </div>,
-  );
-};
+        <div
+          style={{
+            flex: aliasOpen ? '0 0 860px' : `0 0 ${860 - 320}px`,
+            height: '100%',
+            backgroundColor: '#F7F8FA',
+            backgroundImage:
+              'linear-gradient(180deg, #FFFFFF 0%, rgba(246,247,249,0.00) 100%)',
+            display: 'flex',
+            transition: 'all 0.3s',
+          }}
+        >
+          <TokenPanelPro
+            aliasOpen={aliasOpen}
+            onAliasOpenChange={(open) => setAliasOpen(open)}
+            themes={themes}
+            simple={simple}
+            style={{ flex: 1 }}
+            selectedTokens={selectedTokens}
+            onTokenSelect={handleTokenSelect}
+            infoFollowPrimary={infoFollowPrimary}
+            onInfoFollowPrimaryChange={onInfoFollowPrimaryChange}
+            activeTheme={activeTheme}
+            onActiveThemeChange={(newActive) => setActiveTheme(newActive)}
+          />
+        </div>
+        <div style={{ flex: 1, overflow: 'auto', height: '100%' }}>
+          <ComponentDemoGroup
+            selectedTokens={computedSelectedTokens}
+            themes={[memoizedActiveTheme]}
+            components={antdComponents}
+            activeComponents={relatedComponents}
+          />
+        </div>
+      </div>,
+    );
+  },
+);
 
 export default ThemeEditor;
