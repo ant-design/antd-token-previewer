@@ -67,7 +67,7 @@ describe('ThemeEditor', () => {
             name: 'Theme',
             key: 'theme',
             config: {
-              token: { colorPrimary: '#fffff0', colorSuccess: '#000ffe' },
+              token: { colorPrimary: '#fffff0' },
               override: {
                 derivative: { colorError: '#eeeee0' },
                 alias: { colorBorder: '#ddddd0' },
@@ -81,7 +81,7 @@ describe('ThemeEditor', () => {
         map: { colorError: { before: '#eeeeee', after: '#eeeee0' } },
         seed: {
           colorPrimary: { before: '#ffffff', after: '#fffff0' },
-          colorSuccess: { before: '#000fff', after: '#000ffe' },
+          colorSuccess: { before: '#000fff', after: undefined },
         },
       });
     });

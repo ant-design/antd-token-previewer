@@ -169,7 +169,7 @@ const useControlledTheme: UseControlledTheme = ({
   const isThemeDifferent = getCanReset(themeRef.current?.config, theme.config);
 
   const getDiffByPath = (path: string[]) => {
-    return Object.keys(getValueByPath(theme.config, path) ?? {}).reduce<
+    const diff = Object.keys(getValueByPath(theme.config, path) ?? {}).reduce<
       ThemeDiff[keyof ThemeDiff]
     >((result, token) => {
       let newResult = result;
@@ -186,18 +186,33 @@ const useControlledTheme: UseControlledTheme = ({
       }
       return newResult;
     }, undefined);
+
+    return Object.keys(
+      getValueByPath(themeRef.current.config, path) ?? {},
+    ).reduce<ThemeDiff[keyof ThemeDiff]>((result, token) => {
+      let newResult = result;
+      if (isThemeDifferent([...path, token])) {
+        if (!newResult) {
+          newResult = {};
+        } else if (newResult[token as keyof SeedToken] !== undefined) {
+          return newResult;
+        } else {
+          newResult = { ...result };
+        }
+        newResult[token as keyof SeedToken] = {
+          before: getValueByPath(themeRef.current?.config, [...path, token]),
+          after: getValueByPath(theme.config, [...path, token]),
+        };
+      }
+      return newResult;
+    }, diff);
   };
 
-  const getDiff = (): ThemeDiff => {
-    const seedDiff = getDiffByPath(['token']);
-    const mapDiff = getDiffByPath(['override', 'derivative']);
-    const aliasDiff = getDiffByPath(['override', 'alias']);
-    return {
-      seed: seedDiff,
-      map: mapDiff,
-      alias: aliasDiff,
-    };
-  };
+  const getDiff = (): ThemeDiff => ({
+    seed: getDiffByPath(['token']),
+    map: getDiffByPath(['override', 'derivative']),
+    alias: getDiffByPath(['override', 'alias']),
+  });
 
   return {
     themes: [
