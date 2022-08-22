@@ -22,7 +22,13 @@ describe('ThemeEditor', () => {
         );
       };
       const { rerender } = render(
-        <Demo theme={{ name: 'Theme', key: 'theme', config: {} }} />,
+        <Demo
+          theme={{
+            name: 'Theme',
+            key: 'theme',
+            config: { token: { colorSuccess: '#000000' } },
+          }}
+        />,
       );
       rerender(
         <Demo
@@ -30,7 +36,7 @@ describe('ThemeEditor', () => {
             name: 'Theme',
             key: 'theme',
             config: {
-              token: { colorPrimary: '#ffffff' },
+              token: { colorPrimary: '#ffffff', colorSuccess: '#000fff' },
               override: {
                 derivative: { colorError: '#eeeeee' },
                 alias: { colorBorder: '#dddddd' },
@@ -42,7 +48,10 @@ describe('ThemeEditor', () => {
       expect(ref.current?.getDiff()).toMatchObject({
         alias: { colorBorder: { before: undefined, after: '#dddddd' } },
         map: { colorError: { before: undefined, after: '#eeeeee' } },
-        seed: { colorPrimary: { before: undefined, after: '#ffffff' } },
+        seed: {
+          colorPrimary: { before: undefined, after: '#ffffff' },
+          colorSuccess: { before: '#000000', after: '#000fff' },
+        },
       });
       act(() => {
         ref.current?.updateRef();
@@ -58,7 +67,7 @@ describe('ThemeEditor', () => {
             name: 'Theme',
             key: 'theme',
             config: {
-              token: { colorPrimary: '#fffff0' },
+              token: { colorPrimary: '#fffff0', colorSuccess: '#000ffe' },
               override: {
                 derivative: { colorError: '#eeeee0' },
                 alias: { colorBorder: '#ddddd0' },
@@ -70,7 +79,10 @@ describe('ThemeEditor', () => {
       expect(ref.current?.getDiff()).toMatchObject({
         alias: { colorBorder: { before: '#dddddd', after: '#ddddd0' } },
         map: { colorError: { before: '#eeeeee', after: '#eeeee0' } },
-        seed: { colorPrimary: { before: '#ffffff', after: '#fffff0' } },
+        seed: {
+          colorPrimary: { before: '#ffffff', after: '#fffff0' },
+          colorSuccess: { before: '#000fff', after: '#000ffe' },
+        },
       });
     });
   });
