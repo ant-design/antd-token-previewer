@@ -1,6 +1,4 @@
-import type { FC } from 'react';
-import React, { useMemo, useState } from 'react';
-import classNames from 'classnames';
+import { BuildOutlined, CarOutlined } from '@ant-design/icons';
 import {
   ConfigProvider,
   Drawer,
@@ -9,7 +7,11 @@ import {
   theme as antdTheme,
   Tooltip,
 } from 'antd';
-import makeStyle from '../utils/makeStyle';
+import { OverrideToken } from 'antd/es/theme/interface';
+import classNames from 'classnames';
+import type { FC } from 'react';
+import React, { useMemo } from 'react';
+import ComponentDemos from '../component-demos';
 import type {
   AliasToken,
   ComponentDemo,
@@ -17,13 +19,11 @@ import type {
   TokenName,
   TokenValue,
 } from '../interface';
-import getDesignToken from '../utils/getDesignToken';
-import ComponentCard from './ComponentCard';
-import ComponentDemos from '../component-demos';
 import TokenCard from '../token-panel/token-card';
-import { BuildOutlined, CarOutlined } from '@ant-design/icons';
-import type { ThemeConfig } from 'antd/es/config-provider/context';
+import getDesignToken from '../utils/getDesignToken';
+import makeStyle from '../utils/makeStyle';
 import { getComponentToken } from '../utils/statistic';
+import ComponentCard from './ComponentCard';
 
 const { defaultAlgorithm } = antdTheme;
 
@@ -140,7 +140,6 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
   theme,
 }) => {
   const [, hashId] = useStyle();
-  const [config, setConfig] = useState<ThemeConfig>({});
 
   const { component: componentToken, global: aliasTokenNames } =
     getComponentToken(component) || { global: [] };
@@ -155,28 +154,50 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
   }, [aliasTokenNames]);
 
   const handleComponentTokenChange = (token: string, value: TokenValue) => {
-    setConfig((prev) => ({
-      ...prev,
-      override: {
-        ...prev.override,
-        [component]: {
-          [token]: value,
+    theme.onThemeChange?.(
+      {
+        ...theme.config,
+        override: {
+          [component]: {
+            [token]: value,
+          },
         },
       },
-    }));
+      ['override', component, token],
+    );
+    // setConfig((prev) => ({
+    //   ...prev,
+    //   override: {
+    //     ...prev.override,
+    //     [component]: {
+    //       [token]: value,
+    //     },
+    //   },
+    // }));
   };
 
   const handleAliasTokenChange = (token: string, value: TokenValue) => {
-    setConfig((prev) => ({
-      ...prev,
-      override: {
-        ...prev.override,
-        alias: {
-          ...prev.override?.alias,
-          [token]: value,
+    theme.onThemeChange?.(
+      {
+        ...theme.config,
+        override: {
+          [component]: {
+            [token]: value,
+          },
         },
       },
-    }));
+      ['override', component, token],
+    );
+    // setConfig((prev) => ({
+    //   ...prev,
+    //   override: {
+    //     ...prev.override,
+    //     alias: {
+    //       ...prev.override?.alias,
+    //       [token]: value,
+    //     },
+    //   },
+    // }));
   };
 
   return (
@@ -196,7 +217,15 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
     >
       <div style={{ display: 'flex', height: '100%' }}>
         <ConfigProvider theme={theme.config}>
-          <ConfigProvider theme={config}>
+          <ConfigProvider
+            theme={{
+              override: {
+                alias: theme.config.override?.[
+                  component as keyof OverrideToken
+                ] as any,
+              },
+            }}
+          >
             <ComponentFullDemos demos={ComponentDemos[component]} />
           </ConfigProvider>
         </ConfigProvider>
@@ -234,7 +263,7 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
             defaultOpen
             title="Alias Token"
             tokenArr={aliasTokenData}
-            tokenPath={['override', 'alias']}
+            tokenPath={['override', component]}
             fallback={(themeConfig) =>
               getDesignToken(themeConfig) as AliasToken
             }

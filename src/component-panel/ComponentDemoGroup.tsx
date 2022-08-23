@@ -1,16 +1,17 @@
+import { ConfigProvider, Tooltip } from 'antd';
+import { OverrideToken } from 'antd/es/theme/interface';
+import classNames from 'classnames';
+import type { FC } from 'react';
+import React from 'react';
+import ComponentDemos from '../component-demos';
 import type {
   AliasToken,
   ComponentDemo,
   MutableTheme,
   TokenName,
 } from '../interface';
-import type { FC } from 'react';
-import React from 'react';
-import ComponentDemos from '../component-demos';
-import ComponentCard, { getComponentDemoId } from './ComponentCard';
-import { ConfigProvider, Tooltip } from 'antd';
 import makeStyle from '../utils/makeStyle';
-import classNames from 'classnames';
+import ComponentCard, { getComponentDemoId } from './ComponentCard';
 
 const useStyle = makeStyle('ComponentDemoGroup', (token) => ({
   '.previewer-component-demo-group': {
@@ -79,7 +80,17 @@ const ComponentDemoBlock: FC<ComponentDemoBlockProps> = ({
         drawer
         theme={theme}
       >
-        <ConfigProvider componentSize={size} componentDisabled={disabled}>
+        <ConfigProvider
+          componentSize={size}
+          componentDisabled={disabled}
+          theme={{
+            override: {
+              alias: theme.config.override?.[
+                component as keyof OverrideToken
+              ] as any,
+            },
+          }}
+        >
           {demos.some((item) => item.active)
             ? demos.map((demo) => (
                 <div
