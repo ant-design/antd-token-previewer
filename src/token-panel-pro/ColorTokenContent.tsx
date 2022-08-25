@@ -6,6 +6,7 @@ import {
   ConfigProvider,
   Dropdown,
   Switch,
+  theme as antdTheme,
   Tooltip,
   Typography,
 } from 'antd';
@@ -31,8 +32,8 @@ import { seedCategories } from './index';
 import TokenDetail from './TokenDetail';
 
 const { Panel } = Collapse;
+const { darkAlgorithm } = antdTheme;
 
-// @ts-ignore
 const useStyle = makeStyle('ColorTokenContent', (token) => ({
   '.token-panel-pro-color': {
     height: '100%',
@@ -541,15 +542,17 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
       <div className="token-panel-pro-color-seeds">
         <div className="token-panel-pro-color-themes">
           <span style={{ marginRight: 12 }}>定制主题</span>
-          {themes.length > 1 && (
-            <IconSwitch
-              onChange={handleThemeChange}
-              leftChecked={activeTheme !== 'dark'}
-              leftIcon={<Light />}
-              rightIcon={<DarkTheme />}
-              style={{ marginLeft: 'auto' }}
-            />
-          )}
+          <IconSwitch
+            onChange={handleThemeChange}
+            leftChecked={
+              themes.length === 1
+                ? themes[0].config.algorithm !== darkAlgorithm
+                : activeTheme !== 'dark'
+            }
+            leftIcon={<Light />}
+            rightIcon={<DarkTheme />}
+            style={{ marginLeft: 'auto' }}
+          />
         </div>
         <Collapse
           className="token-panel-pro-token-collapse"

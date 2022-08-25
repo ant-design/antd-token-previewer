@@ -74,6 +74,7 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
       onInfoFollowPrimaryChange,
       getDiff,
       updateRef,
+      switchDark,
     } = useControlledTheme({
       theme: customTheme,
       defaultTheme,
@@ -152,6 +153,16 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
       [activeTheme, themes],
     );
 
+    const handleActiveThemeChange: TokenPanelProProps['onActiveThemeChange'] = (
+      newActive,
+    ) => {
+      if (simple) {
+        switchDark();
+      } else {
+        setActiveTheme(newActive);
+      }
+    };
+
     return wrapSSR(
       <div
         className={classNames(hashId, 'antd-theme-editor', className)}
@@ -179,7 +190,7 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
             infoFollowPrimary={infoFollowPrimary}
             onInfoFollowPrimaryChange={onInfoFollowPrimaryChange}
             activeTheme={activeTheme}
-            onActiveThemeChange={(newActive) => setActiveTheme(newActive)}
+            onActiveThemeChange={handleActiveThemeChange}
           />
         </div>
         <div style={{ flex: 1, overflow: 'auto', height: '100%' }}>
