@@ -34,7 +34,6 @@ import TokenDetail from './TokenDetail';
 const { Panel } = Collapse;
 const { darkAlgorithm } = antdTheme;
 
-// @ts-ignore
 const useStyle = makeStyle('ColorTokenContent', (token) => ({
   '.token-panel-pro-color': {
     height: '100%',
