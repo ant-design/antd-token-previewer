@@ -9,7 +9,7 @@ import deepUpdateObj from '../utils/deepUpdateObj';
 import getDesignToken from '../utils/getDesignToken';
 import getValueByPath from '../utils/getValueByPath';
 
-const { darkAlgorithm: defaultDark } = antTheme;
+const { darkAlgorithm: defaultDark, defaultAlgorithm } = antTheme;
 
 export type SetThemeState = (
   theme: Theme,
@@ -49,6 +49,7 @@ export type UseControlledTheme = (options: {
   onInfoFollowPrimaryChange: (value: boolean) => void;
   getDiff: () => ThemeDiff;
   updateRef: () => void;
+  switchDark: () => void;
 };
 
 const useControlledTheme: UseControlledTheme = ({
@@ -214,6 +215,15 @@ const useControlledTheme: UseControlledTheme = ({
     alias: getDiffByPath(['override', 'alias']),
   });
 
+  const switchDark = () => {
+    handleSetTheme(
+      theme.config.algorithm === darkAlgorithm
+        ? { ...theme, config: { ...theme.config, algorithm: defaultAlgorithm } }
+        : { ...theme, config: { ...theme.config, algorithm: darkAlgorithm } },
+      ['config', 'algorithm'],
+    );
+  };
+
   return {
     themes: [
       {
@@ -239,6 +249,7 @@ const useControlledTheme: UseControlledTheme = ({
       themeRef.current = theme;
       forceUpdate();
     },
+    switchDark,
   };
 };
 
