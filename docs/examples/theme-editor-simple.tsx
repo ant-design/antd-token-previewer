@@ -10,21 +10,6 @@ import React, { useEffect } from 'react';
 
 const ANT_DESIGN_V5_CUSTOM_THEME_PRO = 'ant-design-v5-custom-theme-pro';
 
-const getCode = (theme: Theme) => {
-  const { config } = theme;
-  return `
-import { ConfigProvider, Button } from 'antd';
-
-const App = () => (
-  <ConfigProvider theme={${JSON.stringify(config, null, 2)}}>
-    <Button>Button</Button>
-  </ConfigProvider>
-);
-
-export default App;
-`;
-};
-
 const Demo = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const [modalApi, modalContextHolder] = Modal.useModal();
