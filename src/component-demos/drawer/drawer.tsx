@@ -22,7 +22,7 @@ const Demo: React.FC = () => {
         title="Basic Drawer"
         placement="right"
         onClose={onClose}
-        visible={visible}
+        open={visible}
       >
         <p>Some contents...</p>
         <p>Some contents...</p>

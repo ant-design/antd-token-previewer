@@ -202,7 +202,7 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
 
   return (
     <Drawer
-      visible={visible}
+      open={visible}
       title={
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <span>{`${component} 组件 Token`}</span>
