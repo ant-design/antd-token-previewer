@@ -1,5 +1,5 @@
+import { Button, Modal } from 'antd';
 import React, { useState } from 'react';
-import { Modal, Button } from 'antd';
 import type { ComponentDemo } from '../../interface';
 
 const Demo = () => {
@@ -20,7 +20,7 @@ const Demo = () => {
       </Button>
       <Modal
         title="Basic Modal"
-        visible={isModalVisible}
+        open={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
       >
