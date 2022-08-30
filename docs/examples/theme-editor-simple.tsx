@@ -107,7 +107,7 @@ const Demo = () => {
           simple
           theme={theme}
           onThemeChange={handleThemeChange}
-          style={{ height: '100vh' }}
+          style={{ height: 'calc(100vh - 56px)' }}
         />
       </ConfigProvider>
     </React.StrictMode>

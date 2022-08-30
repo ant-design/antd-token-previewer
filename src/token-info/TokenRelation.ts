@@ -1,8 +1,7 @@
-import type { MapToken, SeedToken } from 'antd/es/theme/interface';
-import seedToken from 'antd/es/theme/themes/seed';
+import type { AliasToken, MapToken, SeedToken } from 'antd/es/theme/interface';
 import defaultMap from 'antd/es/theme/themes/default';
+import seedToken from 'antd/es/theme/themes/seed';
 import formatToken from 'antd/es/theme/util/alias';
-import type { AliasToken } from 'antd/es/theme/interface';
 
 export type PureAliasToken = Omit<AliasToken, keyof MapToken>;
 
@@ -134,6 +133,8 @@ export const seedRelatedMap: SeedRelatedMap = {
     'colorBgContainer',
     'colorBgElevated',
     'colorBgLayout',
+    'colorBgSpotlight',
+    'colorBgMask',
     'colorBorder',
     'colorBorderSecondary',
     'colorSplit',
@@ -175,9 +176,7 @@ const getSeedRelatedAlias = (): SeedRelatedAlias => {
   const result: SeedRelatedAlias = {};
   Object.keys(seedToken).forEach((key) => {
     const seedKey = key as keyof SeedToken;
-    const arr = ['colorTextBg', 'colorBgBase'].includes(seedKey)
-      ? []
-      : mapRelatedAlias[seedKey] || [];
+    const arr = mapRelatedAlias[seedKey] || [];
     seedRelatedMap[seedKey]?.forEach((mapKey) => {
       arr.push(...(mapRelatedAlias[mapKey] ?? []));
     });

@@ -554,135 +554,136 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
             style={{ marginLeft: 'auto' }}
           />
         </div>
-        <Collapse
-          className="token-panel-pro-token-collapse"
-          expandIconPosition="end"
-          ghost
-          accordion
-          activeKey={activeCategory}
-          expandIcon={({ isActive }) => (
-            <CaretRightOutlined
-              rotate={isActive ? 450 : 360}
-              style={{ fontSize: 12 }}
-            />
-          )}
-          onChange={(key) => {
-            const changedSeedTokens =
-              seedCategories.find(({ key: categoryKey }) => key === categoryKey)
-                ?.seedTokens || [];
-            onActiveSeedsChange?.(changedSeedTokens);
-            onTokenSelect?.(changedSeedTokens, 'seed');
+        <ConfigProvider
+          theme={{
+            override: {
+              derivative: { colorBorder: '#f0f0f0' },
+            },
           }}
         >
-          {seedCategories.map((category, index) => {
-            const mapTokens = category.seedTokens.reduce<(keyof MapToken)[]>(
-              (result, token) => {
-                return result.concat(seedRelatedMap[token] ?? []);
-              },
-              [],
-            );
+          <Collapse
+            className="token-panel-pro-token-collapse"
+            expandIconPosition="end"
+            ghost
+            accordion
+            activeKey={activeCategory}
+            expandIcon={({ isActive }) => (
+              <CaretRightOutlined
+                rotate={isActive ? 450 : 360}
+                style={{ fontSize: 12 }}
+              />
+            )}
+            onChange={(key) => {
+              const changedSeedTokens =
+                seedCategories.find(
+                  ({ key: categoryKey }) => key === categoryKey,
+                )?.seedTokens || [];
+              onActiveSeedsChange?.(changedSeedTokens);
+              onTokenSelect?.(changedSeedTokens, 'seed');
+            }}
+          >
+            {seedCategories.map((category, index) => {
+              const mapTokens = category.seedTokens.reduce<(keyof MapToken)[]>(
+                (result, token) => {
+                  return result.concat(seedRelatedMap[token] ?? []);
+                },
+                [],
+              );
 
-            return (
-              <Panel
-                header={
-                  <span style={{ fontWeight: 500 }}>{category.title}</span>
-                }
-                key={category.key}
-              >
-                <div>
-                  <div className="token-panel-pro-token-collapse-description">
-                    {category.description}
-                  </div>
-                  {category.seedTokens.map((seedToken) => (
-                    <div
-                      key={seedToken}
-                      className="token-panel-pro-token-collapse-seed-block"
-                    >
-                      <div style={{ marginRight: 'auto' }}>
-                        <div className="token-panel-pro-token-collapse-subtitle">
-                          <span style={{ fontSize: 12 }}>Seed Token</span>
-                          <Tooltip
-                            placement="topLeft"
-                            arrowPointAtCenter
-                            title="基础变量（Seed Token）意味着所有设计意图的起源。在 Ant Design 中，我们会基于 Seed Token 自动派生一套具有设计语义的梯度变量（Map Token）。"
-                          >
-                            <QuestionCircleOutlined
-                              style={{ fontSize: 14, marginLeft: 8 }}
-                            />
-                          </Tooltip>
-                        </div>
-                        <div>
-                          <span className="token-panel-pro-token-collapse-seed-block-name-cn">
-                            {tokenInfo[seedToken]?.name}
-                          </span>
-                          {seedToken === 'colorInfo' && (
-                            <Checkbox
-                              style={{ marginLeft: 12 }}
-                              checked={infoFollowPrimary}
-                              onChange={(e) =>
-                                onInfoFollowPrimaryChange?.(e.target.checked)
-                              }
-                            >
-                              跟随主色
-                            </Checkbox>
-                          )}
-                        </div>
-                      </div>
-                      {themes.map((themeItem) => (
-                        <ColorSeedTokenPreview
-                          key={themeItem.key}
-                          theme={themeItem}
-                          tokenName={seedToken}
-                          disabled={
-                            seedToken === 'colorInfo' && infoFollowPrimary
-                          }
-                        />
-                      ))}
+              return (
+                <Panel
+                  header={
+                    <span style={{ fontWeight: 500 }}>{category.title}</span>
+                  }
+                  key={category.key}
+                >
+                  <div>
+                    <div className="token-panel-pro-token-collapse-description">
+                      {category.description}
                     </div>
-                  ))}
-                  <div style={{ marginTop: 16, marginBottom: 24 }}>
-                    <div
-                      className="token-panel-pro-token-collapse-subtitle"
-                      style={{
-                        marginBottom: 10,
-                        display: 'flex',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <span>Map Token</span>
-                      <Tooltip
-                        placement="topLeft"
-                        arrowPointAtCenter
-                        title="梯度变量（Map Token） 是基于 Seed 派生的梯度变量，我们精心设计的梯度变量模型具有良好的视觉设计语义，可在亮暗色模式切换时保证视觉梯度的一致性。"
+                    {category.seedTokens.map((seedToken) => (
+                      <div
+                        key={seedToken}
+                        className="token-panel-pro-token-collapse-seed-block"
                       >
-                        <QuestionCircleOutlined
-                          style={{ fontSize: 14, marginLeft: 8 }}
-                        />
-                      </Tooltip>
-                      {category.key === 'neutralColor' && (
-                        <div
-                          style={{
-                            marginLeft: 'auto',
-                            display: 'flex',
-                            alignItems: 'center',
-                          }}
-                        >
-                          <label style={{ marginRight: 4 }}>分组显示</label>
-                          <Switch
-                            checked={grouped}
-                            onChange={(v) => setGrouped(v)}
-                            size="small"
-                          />
+                        <div style={{ marginRight: 'auto' }}>
+                          <div className="token-panel-pro-token-collapse-subtitle">
+                            <span style={{ fontSize: 12 }}>Seed Token</span>
+                            <Tooltip
+                              placement="topLeft"
+                              arrowPointAtCenter
+                              title="基础变量（Seed Token）意味着所有设计意图的起源。在 Ant Design 中，我们会基于 Seed Token 自动派生一套具有设计语义的梯度变量（Map Token）。"
+                            >
+                              <QuestionCircleOutlined
+                                style={{ fontSize: 14, marginLeft: 8 }}
+                              />
+                            </Tooltip>
+                          </div>
+                          <div>
+                            <span className="token-panel-pro-token-collapse-seed-block-name-cn">
+                              {tokenInfo[seedToken]?.name}
+                            </span>
+                            {seedToken === 'colorInfo' && (
+                              <Checkbox
+                                style={{ marginLeft: 12 }}
+                                checked={infoFollowPrimary}
+                                onChange={(e) =>
+                                  onInfoFollowPrimaryChange?.(e.target.checked)
+                                }
+                              >
+                                跟随主色
+                              </Checkbox>
+                            )}
+                          </div>
                         </div>
-                      )}
-                    </div>
-                    <ConfigProvider
-                      theme={{
-                        override: {
-                          derivative: { colorBorder: 'rgba(0,0,0,0.06)' },
-                        },
-                      }}
-                    >
+                        {themes.map((themeItem) => (
+                          <ColorSeedTokenPreview
+                            key={themeItem.key}
+                            theme={themeItem}
+                            tokenName={seedToken}
+                            disabled={
+                              seedToken === 'colorInfo' && infoFollowPrimary
+                            }
+                          />
+                        ))}
+                      </div>
+                    ))}
+                    <div style={{ marginTop: 16, marginBottom: 24 }}>
+                      <div
+                        className="token-panel-pro-token-collapse-subtitle"
+                        style={{
+                          marginBottom: 10,
+                          display: 'flex',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <span>Map Token</span>
+                        <Tooltip
+                          placement="topLeft"
+                          arrowPointAtCenter
+                          title="梯度变量（Map Token） 是基于 Seed 派生的梯度变量，我们精心设计的梯度变量模型具有良好的视觉设计语义，可在亮暗色模式切换时保证视觉梯度的一致性。"
+                        >
+                          <QuestionCircleOutlined
+                            style={{ fontSize: 14, marginLeft: 8 }}
+                          />
+                        </Tooltip>
+                        {category.key === 'neutralColor' && (
+                          <div
+                            style={{
+                              marginLeft: 'auto',
+                              display: 'flex',
+                              alignItems: 'center',
+                            }}
+                          >
+                            <label style={{ marginRight: 4 }}>分组显示</label>
+                            <Switch
+                              checked={grouped}
+                              onChange={(v) => setGrouped(v)}
+                              size="small"
+                            />
+                          </div>
+                        )}
+                      </div>
                       <MapTokenCollapse
                         mapTokens={mapTokens}
                         themes={themes}
@@ -695,24 +696,24 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
                         }
                         groups={category?.mapTokenGroups}
                       />
-                    </ConfigProvider>
+                    </div>
+                    {index < seedCategories.length - 1 && (
+                      <Button
+                        type="primary"
+                        style={{ borderRadius: 4, marginBottom: 12 }}
+                        onClick={() =>
+                          onNext?.(seedCategories[index + 1].seedTokens)
+                        }
+                      >
+                        下一步
+                      </Button>
+                    )}
                   </div>
-                  {index < seedCategories.length - 1 && (
-                    <Button
-                      type="primary"
-                      style={{ borderRadius: 4, marginBottom: 12 }}
-                      onClick={() =>
-                        onNext?.(seedCategories[index + 1].seedTokens)
-                      }
-                    >
-                      下一步
-                    </Button>
-                  )}
-                </div>
-              </Panel>
-            );
-          })}
-        </Collapse>
+                </Panel>
+              );
+            })}
+          </Collapse>
+        </ConfigProvider>
       </div>
     </div>,
   );
