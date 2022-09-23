@@ -80,7 +80,7 @@ const useControlledTheme: UseControlledTheme = ({
     return { ...newTheme, config: { ...newTheme.config, token: newToken } };
   };
 
-  const handleSetTheme: SetThemeState = (newTheme, modifiedPath) => {
+  const handleSetTheme: SetThemeState = (newTheme) => {
     if (customTheme) {
       onChange?.(getNewTheme(newTheme));
     } else {
@@ -88,18 +88,18 @@ const useControlledTheme: UseControlledTheme = ({
     }
 
     // Sync dark theme
-    if (
-      modifiedPath[0] === 'token' &&
-      !getValueByPath(darkThemeRef.current?.config, modifiedPath) &&
-      !getValueByPath(darkThemeUpdatedRef.current, modifiedPath)
-    ) {
-      const path = ['config', ...modifiedPath];
-      setDarkTheme(
-        getNewTheme(
-          deepUpdateObj({ ...darkTheme }, path, getValueByPath(newTheme, path)),
-        ),
-      );
-    }
+    // if (
+    //   modifiedPath[0] === 'token' &&
+    //   !getValueByPath(darkThemeRef.current?.config, modifiedPath) &&
+    //   !getValueByPath(darkThemeUpdatedRef.current, modifiedPath)
+    // ) {
+    //   const path = ['config', ...modifiedPath];
+    //   setDarkTheme(
+    //     getNewTheme(
+    //       deepUpdateObj({ ...darkTheme }, path, getValueByPath(newTheme, path)),
+    //     ),
+    //   );
+    // }
   };
 
   const handleResetTheme = (path: string[]) => {
@@ -211,8 +211,8 @@ const useControlledTheme: UseControlledTheme = ({
 
   const getDiff = (): ThemeDiff => ({
     seed: getDiffByPath(['token']),
-    map: getDiffByPath(['override', 'derivative']),
-    alias: getDiffByPath(['override', 'alias']),
+    map: getDiffByPath(['token']),
+    alias: getDiffByPath(['token']),
   });
 
   const switchDark = () => {

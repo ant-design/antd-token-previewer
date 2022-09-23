@@ -1,12 +1,11 @@
-import type { GlobalToken } from 'antd/es/theme/interface';
-import type { OverrideToken } from 'antd/es/theme/interface';
+import type { GlobalToken, OverrideToken } from 'antd/es/theme/interface';
 import type {
-  SuccessPalettes,
-  PrimaryPalettes,
-  ErrorPalettes,
-  WarningPalettes,
-  TextMapToken,
   BgMapToken,
+  ErrorPalettes,
+  PrimaryPalettes,
+  SuccessPalettes,
+  TextMapToken,
+  WarningPalettes,
 } from './IPalettes';
 
 interface BorderMapToken {}
@@ -111,25 +110,12 @@ const genComponentToken = ({
     colorBgTextHover: bgMapToken.colorFillQuaternary,
     colorBgTextActive: bgMapToken.colorFillTertiary,
   },
-  // TODO: Segmented 样式逻辑设计的不统一
-  Segmented: {
-    bgColor: 'rgba(0,0,0,0.25)',
-    bgColorHover: 'rgba(0,0,0,0.45)',
-    bgColorSelected: bgMapToken.colorFillSecondary,
-  },
   Skeleton: {
     color: bgMapToken.colorFillSecondary,
     colorGradientEnd: textMapToken.colorTextQuaternary,
   },
-  Rate: { defaultColor: bgMapToken.colorFillSecondary },
-  Avatar: {
-    bgColor: textMapToken.colorTextQuaternary,
-    groupBorderColor: bgMapToken.colorBgLayout,
-  },
   Table: {
     // TODO: 激活样式该不该用实色？还是不透明的用法？
-    headerSortActiveBgColor: bgMapToken.colorFillTertiary,
-    headerHoverBgColor: bgMapToken.colorFillSecondary,
   },
   Tooltip: {
     colorBgDefault: bgMapToken.colorBgSpotlight,

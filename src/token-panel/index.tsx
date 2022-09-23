@@ -1,6 +1,7 @@
 import { CheckOutlined } from '@ant-design/icons';
 import { Dropdown, Input, Menu, Switch, theme as antdTheme } from 'antd';
 import classNames from 'classnames';
+import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import React, {
   forwardRef,
   useEffect,
@@ -9,19 +10,18 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { SearchDropdown } from '../icons';
+import type { AliasToken, MutableTheme, TokenValue } from '../interface';
 import type { TokenType } from '../utils/classifyToken';
 import {
   classifyToken,
   getTypeOfToken,
   TOKEN_SORTS,
 } from '../utils/classifyToken';
+import getDesignToken from '../utils/getDesignToken';
 import makeStyle from '../utils/makeStyle';
 import TokenCard, { IconMap, TextMap } from './token-card';
-import type { AliasToken, MutableTheme, TokenValue } from '../interface';
-import { SearchDropdown } from '../icons';
 import { getTokenItemId } from './token-item';
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import getDesignToken from '../utils/getDesignToken';
 
 const { useToken } = antdTheme;
 
@@ -193,15 +193,12 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
       theme.onThemeChange?.(
         {
           ...theme.config,
-          override: {
-            ...theme.config.override,
-            alias: {
-              ...theme.config.override?.alias,
-              [tokenName]: value,
-            },
+          token: {
+            ...theme.config.token,
+            [tokenName]: value,
           },
         },
-        ['override', 'alias', tokenName],
+        ['token', tokenName],
       );
     };
 
@@ -314,7 +311,7 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
                     title={TextMap[key]}
                     icon={IconMap[key]}
                     key={key}
-                    tokenPath={['override', 'alias']}
+                    tokenPath={['token']}
                     tokenArr={groupedToken[key]}
                     keyword={search}
                     hideUseless={!showAll}

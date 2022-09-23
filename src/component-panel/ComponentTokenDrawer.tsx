@@ -89,11 +89,8 @@ const ComponentFullDemos: FC<ComponentFullDemosProps> = ({ demos }) => {
         >
           <ConfigProvider
             theme={{
-              override: {
+              components: {
                 Select: {
-                  zIndexPopup: 1010,
-                },
-                TreeSelect: {
                   zIndexPopup: 1010,
                 },
                 DatePicker: {
@@ -157,47 +154,28 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
     theme.onThemeChange?.(
       {
         ...theme.config,
-        override: {
+        components: {
           [component]: {
             [token]: value,
           },
         },
       },
-      ['override', component, token],
+      ['components', component, token],
     );
-    // setConfig((prev) => ({
-    //   ...prev,
-    //   override: {
-    //     ...prev.override,
-    //     [component]: {
-    //       [token]: value,
-    //     },
-    //   },
-    // }));
   };
 
   const handleAliasTokenChange = (token: string, value: TokenValue) => {
     theme.onThemeChange?.(
       {
         ...theme.config,
-        override: {
+        components: {
           [component]: {
             [token]: value,
           },
         },
       },
-      ['override', component, token],
+      ['components', component, token],
     );
-    // setConfig((prev) => ({
-    //   ...prev,
-    //   override: {
-    //     ...prev.override,
-    //     alias: {
-    //       ...prev.override?.alias,
-    //       [token]: value,
-    //     },
-    //   },
-    // }));
   };
 
   return (
@@ -219,10 +197,10 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
         <ConfigProvider theme={theme.config}>
           <ConfigProvider
             theme={{
-              override: {
-                alias: theme.config.override?.[
+              token: {
+                ...(theme.config.components?.[
                   component as keyof OverrideToken
-                ] as any,
+                ] as any),
               },
             }}
           >
@@ -239,7 +217,7 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
             defaultOpen
             title="Component Token"
             tokenArr={componentTokenData}
-            tokenPath={['override', component]}
+            tokenPath={['components', component]}
             themes={[theme]}
             fallback={() => componentToken}
             onTokenChange={(_, tokenName, value) =>
@@ -263,7 +241,7 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
             defaultOpen
             title="Alias Token"
             tokenArr={aliasTokenData}
-            tokenPath={['override', component]}
+            tokenPath={['components', component]}
             fallback={(themeConfig) =>
               getDesignToken(themeConfig) as AliasToken
             }

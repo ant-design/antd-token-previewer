@@ -137,7 +137,6 @@ export const seedRelatedMap: SeedRelatedMap = {
     'colorBgMask',
     'colorBorder',
     'colorBorderSecondary',
-    'colorSplit',
     'colorFill',
     'colorFillSecondary',
     'colorFillTertiary',
@@ -149,13 +148,17 @@ const getMapRelatedAlias = () => {
   const mapRelatedAlias: any = {};
   const mapFn = defaultMap;
   const mapToken = mapFn({ ...seedToken });
-  const aliasToken = formatToken(mapToken);
+  const aliasToken = formatToken({ ...mapToken, override: {} });
   Object.keys(mapToken).forEach((mapKey) => {
     delete (aliasToken as any)[mapKey];
   });
 
   Object.keys(mapToken).forEach((mapKey) => {
-    const newAlias = formatToken({ ...mapToken, [mapKey]: 'changed' });
+    const newAlias = formatToken({
+      ...mapToken,
+      [mapKey]: 'changed',
+      override: {},
+    });
     Object.keys(aliasToken).forEach((aliasKey) => {
       if ((aliasToken as any)[aliasKey] !== (newAlias as any)[aliasKey]) {
         if (!mapRelatedAlias[mapKey]) {

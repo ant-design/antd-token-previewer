@@ -3,7 +3,7 @@ import type { TokenEntity } from '../interface';
 import isColor from './isColor';
 
 function obj2Arr(
-  obj: Record<string, string | number>,
+  obj: Record<string, string | number | boolean>,
   src: string,
 ): TokenEntity[] {
   return Object.entries(obj).map(([key, value]) => ({
@@ -18,8 +18,8 @@ function obj2Arr(
 
 export function convertTokenConfigToArr(config: ThemeConfig): TokenEntity[] {
   return [
-    ...obj2Arr(config.token ?? {}, 'seed'),
-    ...Object.entries(config.override ?? {}).reduce<TokenEntity[]>(
+    ...obj2Arr((config.token ?? {}) as any, 'seed'),
+    ...Object.entries(config.components ?? {}).reduce<TokenEntity[]>(
       (result, [key, value]) => {
         return result.concat(obj2Arr(value as any, key));
       },
@@ -37,13 +37,13 @@ export function convertTokenArrToConfig(arr: TokenEntity[]): ThemeConfig {
       }
       (config.token as any)[item.token] = item.value;
     } else {
-      if (!config.override) {
-        config.override = {};
+      if (!config.components) {
+        config.components = {};
       }
-      if (!(config.override as any)[item.source]) {
-        (config.override as any)[item.source] = {};
+      if (!(config.components as any)[item.source]) {
+        (config.components as any)[item.source] = {};
       }
-      ((config.override as any)[item.source] as any)[item.token] = item.value;
+      ((config.components as any)[item.source] as any)[item.token] = item.value;
     }
   });
   return config;

@@ -36,10 +36,11 @@ describe('ThemeEditor', () => {
             name: 'Theme',
             key: 'theme',
             config: {
-              token: { colorPrimary: '#ffffff', colorSuccess: '#000fff' },
-              override: {
-                derivative: { colorError: '#eeeeee' },
-                alias: { colorBorder: '#dddddd' },
+              token: {
+                colorPrimary: '#ffffff',
+                colorSuccess: '#000fff',
+                colorError: '#eeeeee',
+                colorBorder: '#dddddd',
               },
             },
           }}
@@ -67,10 +68,10 @@ describe('ThemeEditor', () => {
             name: 'Theme',
             key: 'theme',
             config: {
-              token: { colorPrimary: '#fffff0' },
-              override: {
-                derivative: { colorError: '#eeeee0' },
-                alias: { colorBorder: '#ddddd0' },
+              token: {
+                colorPrimary: '#fffff0',
+                colorError: '#eeeee0',
+                colorBorder: '#ddddd0',
               },
             },
           }}

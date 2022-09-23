@@ -1,15 +1,15 @@
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import { Breadcrumb, ConfigProvider, Segmented, Switch } from 'antd';
 import classNames from 'classnames';
 import type { CSSProperties, FC } from 'react';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import ComponentTree from './ComponentTree';
-import makeStyle from '../utils/makeStyle';
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
-import { getComponentDemoId } from './ComponentCard';
-import { Breadcrumb, ConfigProvider, Segmented, Switch } from 'antd';
-import type { Theme, TokenName } from '../interface';
-import ComponentDemoGroup from './ComponentDemoGroup';
 import type { FilterMode } from '../FilterPanel';
+import type { Theme, TokenName } from '../interface';
+import makeStyle from '../utils/makeStyle';
 import { getRelatedComponents } from '../utils/statistic';
+import { getComponentDemoId } from './ComponentCard';
+import ComponentDemoGroup from './ComponentDemoGroup';
+import ComponentTree from './ComponentTree';
 
 const BREADCRUMB_HEIGHT = 40;
 
@@ -254,11 +254,8 @@ const Index: FC<ComponentPanelProps> = ({
     () => (
       <ConfigProvider
         theme={{
-          override: {
+          components: {
             Select: {
-              zIndexPopup: 10,
-            },
-            TreeSelect: {
               zIndexPopup: 10,
             },
             DatePicker: {

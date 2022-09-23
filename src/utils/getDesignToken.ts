@@ -13,6 +13,10 @@ export default function getDesignToken(config: ThemeConfig = {}): GlobalToken {
         seedToken as MapToken,
       )
     : mapFn(seedToken);
-  const mergedMapToken = { ...mapToken, ...config.override };
+  const mergedMapToken = {
+    ...mapToken,
+    ...config.components,
+    override: config.token ?? {},
+  };
   return formatToken(mergedMapToken);
 }
