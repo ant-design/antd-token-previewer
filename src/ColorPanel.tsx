@@ -1,13 +1,13 @@
-import tinycolor from 'tinycolor2';
-import { HexColorPicker, RgbaColorPicker } from 'react-colorful';
-import type { FC } from 'react';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
 import type { InputProps } from 'antd';
 import { ConfigProvider, Input, InputNumber, Select, theme } from 'antd';
-import makeStyle from './utils/makeStyle';
+import { tuple } from 'antd/es/_util/type';
 import classNames from 'classnames';
 import useMergedState from 'rc-util/es/hooks/useMergedState';
-import { tuple } from 'antd/es/_util/type';
+import type { FC } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { HexColorPicker, RgbaColorPicker } from 'react-colorful';
+import tinycolor from 'tinycolor2';
+import makeStyle from './utils/makeStyle';
 
 const { useToken } = theme;
 
@@ -163,7 +163,7 @@ const RgbColorInput: FC<RgbColorInputProps> = ({
   return (
     <div className="color-panel-rgba-input">
       <ConfigProvider
-        theme={{ override: { InputNumber: { handleWidth: 12 } } }}
+        theme={{ components: { InputNumber: { handleWidth: 12 } } }}
       >
         <div className="color-panel-rgba-input-part">
           <InputNumber
@@ -300,6 +300,7 @@ const ColorPanel: FC<ColorPanelProps> = ({ color, onChange, alpha }) => {
               .map((item) => ({ value: item, key: item }))}
             size="small"
             bordered={false}
+            dropdownMatchSelectWidth={false}
           />
         </div>
         {colorMode === 'HEX' && (

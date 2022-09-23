@@ -1,10 +1,9 @@
 import { fireEvent, render } from '@testing-library/react';
+import { theme } from 'antd';
+import tokenStatistic from 'antd/es/version/token';
 import React from 'react';
 import type { ComponentPanelProps } from '../src/component-panel';
-import ComponentPanel from '../src/component-panel';
-import tokenStatistic from 'antd/es/version/token';
-import { antdComponents } from '../src/component-panel';
-import { theme } from 'antd';
+import ComponentPanel, { antdComponents } from '../src/component-panel';
 
 const { useToken } = theme;
 
@@ -16,7 +15,7 @@ describe('ComponentPanel', () => {
       {
         name: '默认主题',
         key: 'default',
-        config: { override: { alias: token } },
+        config: { token: token },
       },
     ];
 

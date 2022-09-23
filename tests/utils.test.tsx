@@ -27,10 +27,8 @@ describe('Utils', () => {
           },
         ],
         config: {
-          override: {
-            alias: {
-              colorBgElevated: '#f5f5',
-            },
+          token: {
+            colorBgElevated: '#f5f5',
           },
         },
       },
@@ -46,7 +44,7 @@ describe('Utils', () => {
           },
         ],
         config: {
-          override: {
+          components: {
             Button: {
               colorBgTextHover: 'rgba(0, 0, 0, 0.01)',
             },
@@ -89,13 +87,9 @@ describe('Utils', () => {
     const themeConfig: ThemeConfig = {
       token: {
         colorPrimary: '#f5f5',
+        colorLink: '#66ccff',
       },
       algorithm: darkAlgorithm,
-      override: {
-        alias: {
-          colorLink: '#66ccff',
-        },
-      },
     };
     let tokenFromHook;
 

@@ -406,7 +406,7 @@ const MapTokenCollapseContent: FC<MapTokenCollapseContentProps> = ({
           <TokenDetail
             style={{ margin: 8 }}
             themes={themes}
-            path={['override', 'derivative']}
+            path={['token']}
             tokenName={mapToken}
           />
         </Panel>
@@ -556,8 +556,8 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
         </div>
         <ConfigProvider
           theme={{
-            override: {
-              derivative: { colorBorder: '#f0f0f0' },
+            token: {
+              colorBorder: '#f0f0f0',
             },
           }}
         >

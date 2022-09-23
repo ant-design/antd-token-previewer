@@ -84,10 +84,10 @@ const ComponentDemoBlock: FC<ComponentDemoBlockProps> = ({
           componentSize={size}
           componentDisabled={disabled}
           theme={{
-            override: {
-              alias: theme.config.override?.[
+            token: {
+              ...(theme.config.components?.[
                 component as keyof OverrideToken
-              ] as any,
+              ] as any),
             },
           }}
         >

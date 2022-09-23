@@ -1,22 +1,22 @@
-import type { FC } from 'react';
-import React, { useMemo } from 'react';
-import type { MutableTheme } from 'antd-token-previewer';
-import type { SeedToken } from 'antd/es/theme/interface';
-import { Button, Collapse, Empty, Tooltip } from 'antd';
 import {
   CaretRightOutlined,
   QuestionCircleOutlined,
   RightOutlined,
   ShrinkOutlined,
 } from '@ant-design/icons';
-import { getRelatedComponents } from '../utils/statistic';
-import { Pick } from '../icons';
+import { Button, Collapse, Empty, Tooltip } from 'antd';
+import type { MutableTheme } from 'antd-token-previewer';
+import type { SeedToken } from 'antd/es/theme/interface';
 import classNames from 'classnames';
-import TokenDetail from './TokenDetail';
+import useMergedState from 'rc-util/es/hooks/useMergedState';
+import type { FC } from 'react';
+import React, { useMemo } from 'react';
+import { Pick } from '../icons';
 import type { AliasToken, SelectedToken } from '../interface';
 import { mapRelatedAlias, seedRelatedAlias } from '../token-info/TokenRelation';
 import makeStyle from '../utils/makeStyle';
-import useMergedState from 'rc-util/es/hooks/useMergedState';
+import { getRelatedComponents } from '../utils/statistic';
+import TokenDetail from './TokenDetail';
 
 const { Panel } = Collapse;
 
@@ -229,7 +229,7 @@ const AliasPanel: FC<AliasPanelProps> = ({
                   <TokenDetail
                     style={{ paddingBottom: 10 }}
                     themes={themes}
-                    path={['override', 'alias']}
+                    path={['token']}
                     tokenName={aliasToken as keyof AliasToken}
                   />
                 </Panel>

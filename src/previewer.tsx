@@ -1,3 +1,5 @@
+import { Button, Layout, message, theme as antdTheme } from 'antd';
+import classNames from 'classnames';
 import React, {
   useCallback,
   useEffect,
@@ -5,22 +7,18 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Button, Layout, message, theme as antdTheme } from 'antd';
-import classNames from 'classnames';
 import ComponentPanel from './component-panel';
-import type { ThemeSelectProps } from './ThemeSelect';
-import ThemeSelect from './ThemeSelect';
-import { Arrow, CompactTheme, DarkTheme } from './icons';
-import makeStyle from './utils/makeStyle';
-import type { TokenPanelRef } from './token-panel';
-import TokenPanel from './token-panel';
 import type { FilterMode } from './FilterPanel';
 import FilterPanel from './FilterPanel';
+import { Arrow, CompactTheme, DarkTheme } from './icons';
 import type { MutableTheme, PreviewerProps } from './interface';
+import type { ThemeSelectProps } from './ThemeSelect';
+import ThemeSelect from './ThemeSelect';
+import type { TokenPanelRef } from './token-panel';
+import TokenPanel from './token-panel';
 import type { TokenType } from './utils/classifyToken';
 import { convertTokenConfigToArr } from './utils/convertToken';
-
-import * as darkToken from './theme/dark';
+import makeStyle from './utils/makeStyle';
 
 const { darkAlgorithm } = antdTheme;
 
@@ -119,10 +117,6 @@ const Previewer: React.FC<PreviewerProps> = ({
         key: 'dark',
         config: {
           algorithm: darkAlgorithm,
-          override: {
-            ...darkToken.componentToken,
-            alias: { ...darkToken.aliasToken },
-          },
         },
         icon: <DarkTheme style={{ fontSize: 16 }} />,
         closable: true,
