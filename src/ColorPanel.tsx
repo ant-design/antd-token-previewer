@@ -171,7 +171,7 @@ const RgbColorInput: FC<RgbColorInputProps> = ({
             max={255}
             size="small"
             value={value.r}
-            onChange={(v) => setValue({ ...value, r: v })}
+            onChange={(v) => setValue({ ...value, r: v ?? 0 })}
           />
           <div className="color-panel-mode-title">R</div>
         </div>
@@ -181,7 +181,7 @@ const RgbColorInput: FC<RgbColorInputProps> = ({
             max={255}
             size="small"
             value={value.g}
-            onChange={(v) => setValue({ ...value, g: v })}
+            onChange={(v) => setValue({ ...value, g: v ?? 0 })}
           />
           <div className="color-panel-mode-title">G</div>
         </div>
@@ -191,7 +191,7 @@ const RgbColorInput: FC<RgbColorInputProps> = ({
             max={255}
             size="small"
             value={value.b}
-            onChange={(v) => setValue({ ...value, b: v })}
+            onChange={(v) => setValue({ ...value, b: v ?? 0 })}
           />
           <div className="color-panel-mode-title">B</div>
         </div>
@@ -203,7 +203,7 @@ const RgbColorInput: FC<RgbColorInputProps> = ({
               step={0.01}
               size="small"
               value={value.a}
-              onChange={(v) => setValue({ ...value, a: v })}
+              onChange={(v) => setValue({ ...value, a: v ?? 0 })}
             />
             <div className="color-panel-mode-title">A</div>
           </div>
