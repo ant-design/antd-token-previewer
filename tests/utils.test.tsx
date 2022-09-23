@@ -23,7 +23,7 @@ describe('Utils', () => {
             value: '#f5f5',
             type: 'color',
             description: 'colorBgElevated',
-            source: 'alias',
+            source: 'seed',
           },
         ],
         config: {
