@@ -31,7 +31,11 @@ export function convertTokenConfigToArr(config: ThemeConfig): TokenEntity[] {
 export function convertTokenArrToConfig(arr: TokenEntity[]): ThemeConfig {
   const config: ThemeConfig = {};
   arr.forEach((item) => {
-    if (item.source === 'seed') {
+    if (
+      item.source === 'seed' ||
+      item.source === 'derivative' ||
+      item.source === 'alias'
+    ) {
       if (!config.token) {
         config.token = {};
       }

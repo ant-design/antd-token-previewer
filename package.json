@@ -21,6 +21,9 @@
   "bugs": {
     "url": "https://github.com/ant-design/antd-token-previewer/issues"
   },
+  "sideEffects": [
+    "*.css"
+  ],
   "license": "MIT",
   "scripts": {
     "start": "dumi dev",
