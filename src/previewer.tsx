@@ -20,6 +20,8 @@ import type { TokenType } from './utils/classifyToken';
 import { convertTokenConfigToArr } from './utils/convertToken';
 import makeStyle from './utils/makeStyle';
 
+import { compactTheme } from './theme/compact';
+
 const { darkAlgorithm } = antdTheme;
 
 const { Header, Sider, Content } = Layout;
@@ -124,7 +126,7 @@ const Previewer: React.FC<PreviewerProps> = ({
       {
         name: '紧凑主题',
         key: 'compact',
-        config: {},
+        config: compactTheme(),
         icon: <CompactTheme style={{ fontSize: 16 }} />,
         closable: true,
       },
@@ -144,10 +146,10 @@ const Previewer: React.FC<PreviewerProps> = ({
   );
 
   const [shownThemes, setShownThemes] = useState<string[]>(
-    showTheme && !theme ? ['default', 'dark'] : [themes[0].key],
+    showTheme && !theme ? ['default', 'compact'] : [themes[0].key],
   );
   const [enabledThemes, setEnabledThemes] = useState<string[]>(
-    showTheme && !theme ? ['default', 'dark'] : [themes[0].key],
+    showTheme && !theme ? ['default', 'compact'] : [themes[0].key],
   );
 
   useEffect(() => {
