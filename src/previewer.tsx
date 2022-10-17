@@ -146,10 +146,10 @@ const Previewer: React.FC<PreviewerProps> = ({
   );
 
   const [shownThemes, setShownThemes] = useState<string[]>(
-    showTheme && !theme ? ['default', 'compact'] : [themes[0].key],
+    showTheme && !theme ? ['compact'] : [themes[0].key],
   );
   const [enabledThemes, setEnabledThemes] = useState<string[]>(
-    showTheme && !theme ? ['default', 'compact'] : [themes[0].key],
+    showTheme && !theme ? ['compact'] : [themes[0].key],
   );
 
   useEffect(() => {

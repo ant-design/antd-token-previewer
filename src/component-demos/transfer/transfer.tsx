@@ -17,6 +17,7 @@ const Demo = () => {
       dataSource={mockData}
       titles={['Source', 'Target']}
       targetKeys={targetKeys}
+      showSearch
       selectedKeys={selectedKeys}
       onChange={(nextTargetKeys) => {
         setTargetKeys(nextTargetKeys);

@@ -5,7 +5,7 @@ import type { ComponentDemo } from '../../interface';
 const { Step } = Steps;
 
 const Demo: React.FC = () => (
-  <Steps current={1}>
+  <Steps current={1} size={'small'}>
     <Step title="Finished" description="This is a description." />
     <Step
       title="In Progress"

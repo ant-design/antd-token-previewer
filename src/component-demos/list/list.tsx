@@ -12,6 +12,7 @@ const Demo = () => (
   <List
     itemLayout="horizontal"
     dataSource={data}
+    size={'large'}
     renderItem={(item) => (
       <List.Item>
         <List.Item.Meta

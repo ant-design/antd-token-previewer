@@ -7,6 +7,7 @@ const Demo: React.FC = () => (
     <Pagination showQuickJumper defaultCurrent={2} total={500} />
 
     <Pagination simple />
+    <Pagination size={'small'} />
   </Space>
 );
 
