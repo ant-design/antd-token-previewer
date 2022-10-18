@@ -16,10 +16,6 @@ export interface ComponentDemo {
   demo: ReactElement;
   key: string;
 }
-export interface PreviewerDemo {
-  default: ReactElement;
-  optional?: ComponentDemo[];
-}
 
 export interface MutableTheme extends Theme {
   onThemeChange?: (newTheme: ThemeConfig, path: string[]) => void;

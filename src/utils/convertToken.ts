@@ -1,22 +1,46 @@
 import type { ThemeConfig } from 'antd/es/config-provider/context';
-import type { TokenEntity } from '../interface';
+import type { TokenEntity, TokenValue } from '../interface';
+import { tokenMeta } from '../meta';
+import type { TokenMetaMap } from '../meta/interface';
 import isColor from './isColor';
 
+export interface KitchenToken {
+  id: string;
+  name: string;
+  searchKey: string;
+  groupName: string;
+  sort: number;
+  type: 'token';
+  content: {
+    type: string;
+    value: string | number | boolean;
+    token: string;
+    description: string;
+    source: string;
+  };
+}
+
 function obj2Arr(
-  obj: Record<string, string | number | boolean>,
-  src: string,
-): TokenEntity[] {
+  obj: Record<string, TokenValue>,
+  meta: TokenMetaMap,
+): KitchenToken[] {
   return Object.entries(obj).map(([key, value]) => ({
-    name: key,
-    token: key,
-    value,
-    type: typeof value === 'string' && isColor(value) ? 'color' : typeof value,
-    description: key,
-    source: src,
+    id: key,
+    name: tokenMeta[key].name,
+    searchKey: '',
+    groupName: '',
+    sort: 0,
+    type: 'token',
+    content: {
+      type: isColor(value) ? 'color' : 'number',
+    },
   }));
 }
 
-export function convertTokenConfigToArr(config: ThemeConfig): TokenEntity[] {
+export function convertTokenConfigToArr(
+  config: ThemeConfig,
+  meta: TokenMetaMap,
+): KitchenToken[] {
   return [
     ...obj2Arr((config.token ?? {}) as any, 'seed'),
     ...Object.entries(config.components ?? {}).reduce<TokenEntity[]>(
@@ -26,29 +50,4 @@ export function convertTokenConfigToArr(config: ThemeConfig): TokenEntity[] {
       [],
     ),
   ];
-}
-
-export function convertTokenArrToConfig(arr: TokenEntity[]): ThemeConfig {
-  const config: ThemeConfig = {};
-  arr.forEach((item) => {
-    if (
-      item.source === 'seed' ||
-      item.source === 'derivative' ||
-      item.source === 'alias'
-    ) {
-      if (!config.token) {
-        config.token = {};
-      }
-      (config.token as any)[item.token] = item.value;
-    } else {
-      if (!config.components) {
-        config.components = {};
-      }
-      if (!(config.components as any)[item.source]) {
-        (config.components as any)[item.source] = {};
-      }
-      ((config.components as any)[item.source] as any)[item.token] = item.value;
-    }
-  });
-  return config;
 }
