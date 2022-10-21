@@ -155,32 +155,26 @@ const useControlledTheme: UseControlledTheme = ({
   const isThemeDifferent = getCanReset(themeRef.current?.config, theme.config);
 
   const getDiffByPath = (path: string[]) => {
-    const diff = Object.keys(getValueByPath(theme.config, path) ?? {}).reduce<
-      ThemeDiff[keyof ThemeDiff]
-    >((result, token) => {
+    const diff = Object.keys(
+      getValueByPath(theme.config, path) ?? {},
+    ).reduce<ThemeDiff>((result, token) => {
       let newResult = result;
       if (isThemeDifferent([...path, token])) {
-        if (!newResult) {
-          newResult = {};
-        } else {
-          newResult = { ...result };
-        }
+        newResult = { ...result };
         newResult[token as keyof SeedToken] = {
           before: getValueByPath(themeRef.current?.config, [...path, token]),
           after: getValueByPath(theme.config, [...path, token]),
         };
       }
       return newResult;
-    }, undefined);
+    }, {});
 
     return Object.keys(
       getValueByPath(themeRef.current.config, path) ?? {},
-    ).reduce<ThemeDiff[keyof ThemeDiff]>((result, token) => {
+    ).reduce<ThemeDiff>((result, token) => {
       let newResult = result;
       if (isThemeDifferent([...path, token])) {
-        if (!newResult) {
-          newResult = {};
-        } else if (newResult[token as keyof SeedToken] !== undefined) {
+        if (newResult[token as keyof SeedToken] !== undefined) {
           return newResult;
         } else {
           newResult = { ...result };
@@ -194,7 +188,7 @@ const useControlledTheme: UseControlledTheme = ({
     }, diff);
   };
 
-  const getDiff = (): ThemeDiff => getDiffByPath(['token']);
+  const getDiff = (): ThemeDiff | undefined => getDiffByPath(['token']);
 
   const switchDark = () => {
     handleSetTheme(
