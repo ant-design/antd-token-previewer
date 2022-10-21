@@ -17,7 +17,6 @@ import ThemeSelect from './ThemeSelect';
 import type { TokenPanelRef } from './token-panel';
 import TokenPanel from './token-panel';
 import type { TokenType } from './utils/classifyToken';
-import { convertTokenConfigToArr } from './utils/convertToken';
 import makeStyle from './utils/makeStyle';
 
 const { darkAlgorithm } = antdTheme;
@@ -269,12 +268,7 @@ const Previewer: React.FC<PreviewerProps> = ({
         <Button
           type="primary"
           style={{ marginLeft: 'auto' }}
-          onClick={() =>
-            onSave?.(
-              convertTokenConfigToArr(themes[0].config),
-              themes[0].config,
-            )
-          }
+          onClick={() => onSave?.(themes[0].config)}
         >
           保存
         </Button>

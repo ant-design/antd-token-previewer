@@ -23,17 +23,8 @@ export interface MutableTheme extends Theme {
   getCanReset?: (path: string[]) => boolean;
 }
 
-export interface TokenEntity {
-  name: string;
-  token: string;
-  value: string | number | boolean;
-  type: string;
-  description: string;
-  source: string;
-}
-
 export type PreviewerProps = {
-  onSave?: (tokenList: TokenEntity[], themeConfig: ThemeConfig) => void;
+  onSave?: (themeConfig: ThemeConfig) => void;
   showTheme?: boolean;
   theme?: Theme;
   onThemeChange?: (config: ThemeConfig) => void;
