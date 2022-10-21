@@ -1,6 +1,4 @@
 import type { ThemeConfig } from 'antd/es/config-provider/context';
-import type { TokenEntity, TokenValue } from '../interface';
-import { tokenMeta } from '../meta';
 import type { TokenMetaMap } from '../meta/interface';
 import isColor from './isColor';
 
@@ -21,18 +19,24 @@ export interface KitchenToken {
 }
 
 function obj2Arr(
-  obj: Record<string, TokenValue>,
+  obj: Record<string, string | number | boolean>,
   meta: TokenMetaMap,
+  options?: { source?: string },
 ): KitchenToken[] {
   return Object.entries(obj).map(([key, value]) => ({
     id: key,
-    name: tokenMeta[key].name,
+    name: meta[key]?.name || key,
     searchKey: '',
     groupName: '',
     sort: 0,
     type: 'token',
     content: {
-      type: isColor(value) ? 'color' : 'number',
+      type:
+        typeof value === 'string' && isColor(value) ? 'color' : typeof value,
+      value,
+      token: key,
+      description: meta[key]?.desc || '',
+      source: options?.source ?? meta[key]?.source ?? 'seed',
     },
   }));
 }
@@ -42,10 +46,10 @@ export function convertTokenConfigToArr(
   meta: TokenMetaMap,
 ): KitchenToken[] {
   return [
-    ...obj2Arr((config.token ?? {}) as any, 'seed'),
-    ...Object.entries(config.components ?? {}).reduce<TokenEntity[]>(
+    ...obj2Arr((config.token ?? {}) as any, meta),
+    ...Object.entries(config.components ?? {}).reduce<KitchenToken[]>(
       (result, [key, value]) => {
-        return result.concat(obj2Arr(value as any, key));
+        return result.concat(obj2Arr(value as any, meta, { source: key }));
       },
       [],
     ),

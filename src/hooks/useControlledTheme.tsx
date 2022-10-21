@@ -2,7 +2,6 @@ import type { DerivativeFunc } from '@ant-design/cssinjs';
 import { theme as antTheme } from 'antd';
 import type { ThemeConfig } from 'antd/es/config-provider/context';
 import type { AliasToken, SeedToken } from 'antd/es/theme';
-import type { MapToken } from 'antd/es/theme/interface';
 import { useEffect, useRef, useState } from 'react';
 import type { MutableTheme, Theme, TokenValue } from '../interface';
 import deepUpdateObj from '../utils/deepUpdateObj';
@@ -18,23 +17,9 @@ export type SetThemeState = (
 ) => void;
 
 export type ThemeDiff = {
-  seed?: {
-    [key in keyof SeedToken]?: {
-      before: TokenValue;
-      after: TokenValue;
-    };
-  };
-  map?: {
-    [key in keyof MapToken]?: {
-      before: TokenValue;
-      after: TokenValue;
-    };
-  };
-  alias?: {
-    [key in keyof AliasToken]?: {
-      before: TokenValue;
-      after: TokenValue;
-    };
+  [key in keyof AliasToken]?: {
+    before: TokenValue;
+    after: TokenValue;
   };
 };
 
@@ -209,11 +194,7 @@ const useControlledTheme: UseControlledTheme = ({
     }, diff);
   };
 
-  const getDiff = (): ThemeDiff => ({
-    seed: getDiffByPath(['token']),
-    map: getDiffByPath(['token']),
-    alias: getDiffByPath(['token']),
-  });
+  const getDiff = (): ThemeDiff => getDiffByPath(['token']);
 
   const switchDark = () => {
     handleSetTheme(

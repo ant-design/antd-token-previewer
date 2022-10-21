@@ -22,7 +22,7 @@ import { DarkTheme, Light, Pick } from '../icons';
 import type { IconSwitchProps } from '../IconSwitch';
 import IconSwitch from '../IconSwitch';
 import type { SelectedToken } from '../interface';
-import tokenInfo from '../token-info/TokenInfo';
+import { tokenMeta } from '../meta';
 import { mapRelatedAlias, seedRelatedMap } from '../token-info/TokenRelation';
 import getColorBgImg from '../utils/getColorBgImg';
 import getDesignToken from '../utils/getDesignToken';
@@ -347,7 +347,7 @@ const MapTokenCollapseContent: FC<MapTokenCollapseContentProps> = ({
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <div style={{ flex: 1 }}>
                 <span style={{ fontWeight: 500 }}>
-                  {tokenInfo[mapToken]?.name}
+                  {tokenMeta[mapToken]?.name}
                 </span>
                 <span className="token-panel-pro-token-collapse-map-collapse-token">
                   {mapToken}
@@ -621,7 +621,7 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
                           </div>
                           <div>
                             <span className="token-panel-pro-token-collapse-seed-block-name-cn">
-                              {tokenInfo[seedToken]?.name}
+                              {tokenMeta[seedToken]?.name}
                             </span>
                             {seedToken === 'colorInfo' && (
                               <Checkbox
