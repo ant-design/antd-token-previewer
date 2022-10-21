@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import type { FC } from 'react';
 import React, { useMemo, useState } from 'react';
 import type { SelectedToken } from '../interface';
+import { tokenCategory } from '../meta';
 import makeStyle from '../utils/makeStyle';
 import AliasPanel from './AliasPanel';
 import type { ColorTokenContentProps } from './ColorTokenContent';
@@ -113,9 +114,7 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
   onActiveThemeChange,
 }) => {
   const [wrapSSR, hashId] = useStyle();
-  const [activeSeeds, setActiveSeeds] = useState<(keyof SeedToken)[]>([
-    'colorPrimary',
-  ]);
+  const [activeSeeds, setActiveSeeds] = useState<string[]>(['colorPrimary']);
 
   const handleNext: ColorTokenContentProps['onNext'] = (seeds) => {
     setActiveSeeds(seeds);
@@ -123,8 +122,8 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
   };
 
   const activeCategory = useMemo(() => {
-    return seedCategories.find(
-      ({ seedTokens }) => seedTokens.join('') === activeSeeds.join(''),
+    return tokenCategory[0].groups.find(
+      ({ seedToken }) => seedToken.join('') === activeSeeds.join(''),
     );
   }, [activeSeeds]);
 

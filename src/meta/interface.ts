@@ -18,7 +18,9 @@ export interface TokenMeta {
 export type TokenMetaMap = Record<string, TokenMeta>;
 
 // 二级分类，如品牌色、中性色等
-export type TokenGroup = {
+export type TokenGroup<T> = {
+  key: string;
+
   // Group name
   name: string;
   nameEn: string;
@@ -28,11 +30,17 @@ export type TokenGroup = {
   descEn: string;
 
   // Seed token
-  token: string | string[];
+  seedToken: T[];
+  mapToken?: T[];
+  aliasToken?: T[];
+
+  // Extra
+  mapTokenGroups?: string[];
+  aliasTokenDescription?: string;
 };
 
 // 一级分类，如颜色、尺寸等
-export type TokenCategory = {
+export type TokenCategory<T> = {
   // Category name
   name: string;
   nameEn: string;
@@ -41,7 +49,7 @@ export type TokenCategory = {
   desc: string;
   descEn: string;
 
-  groups: TokenGroup[];
+  groups: TokenGroup<T>[];
 };
 
-export type TokenTree = TokenCategory[];
+export type TokenTree<T extends string = string> = TokenCategory<T>[];

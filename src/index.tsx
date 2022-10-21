@@ -1,4 +1,5 @@
 export type { MutableTheme, PreviewerProps, Theme } from './interface';
+export * from './meta';
 export { default as Previewer } from './previewer';
 export { default as ThemeEditor } from './ThemeEditor';
 export type { ThemeEditorProps, ThemeEditorRef } from './ThemeEditor';
