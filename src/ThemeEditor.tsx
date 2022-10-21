@@ -8,13 +8,14 @@ import React, {
 } from 'react';
 import { antdComponents } from './component-panel';
 import ComponentDemoGroup from './component-panel/ComponentDemoGroup';
-import useControlledTheme, { ThemeDiff } from './hooks/useControlledTheme';
+import type { ThemeDiff } from './hooks/useControlledTheme';
+import useControlledTheme from './hooks/useControlledTheme';
 import type { SelectedToken, Theme } from './interface';
 import {
   mapRelatedAlias,
   seedRelatedAlias,
   seedRelatedMap,
-} from './token-info/TokenRelation';
+} from './meta/TokenRelation';
 import type { TokenPanelProProps } from './token-panel-pro';
 import TokenPanelPro from './token-panel-pro';
 import makeStyle from './utils/makeStyle';

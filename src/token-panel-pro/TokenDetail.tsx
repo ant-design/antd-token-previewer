@@ -1,18 +1,17 @@
+import { Tooltip } from 'antd';
+import type { MutableTheme } from 'antd-token-previewer';
+import classNames from 'classnames';
 import type { FC } from 'react';
 import React, { useMemo } from 'react';
-import tokenInfo from '../token-info/TokenInfo';
-import { getRelatedComponents } from '../utils/statistic';
-import { Tooltip } from 'antd';
+import type { TokenName, TokenValue } from '../interface';
+import { tokenMeta } from '../meta';
+import { mapRelatedAlias } from '../meta/TokenRelation';
 import TokenInput from '../TokenInput';
-import getValueByPath from '../utils/getValueByPath';
-import getDesignToken from '../utils/getDesignToken';
-import type { MutableTheme } from 'antd-token-previewer';
-import type { TokenName } from '../interface';
-import makeStyle from '../utils/makeStyle';
-import classNames from 'classnames';
-import type { TokenValue } from '../interface';
-import { mapRelatedAlias } from '../token-info/TokenRelation';
 import deepUpdateObj from '../utils/deepUpdateObj';
+import getDesignToken from '../utils/getDesignToken';
+import getValueByPath from '../utils/getValueByPath';
+import makeStyle from '../utils/makeStyle';
+import { getRelatedComponents } from '../utils/statistic';
 
 const useStyle = makeStyle('TokenDetail', (token) => ({
   '.token-panel-token-detail': {
@@ -89,7 +88,7 @@ const TokenDetail: FC<TokenDetailProps> = ({
       style={style}
     >
       <div className="token-panel-pro-token-collapse-map-collapse-token-description">
-        {tokenInfo[tokenName]?.description}
+        {tokenMeta[tokenName]?.desc}
       </div>
       {relatedComponents.length > 0 && (
         <Tooltip

@@ -2,7 +2,6 @@ import type { DerivativeFunc } from '@ant-design/cssinjs';
 import { theme as antTheme } from 'antd';
 import type { ThemeConfig } from 'antd/es/config-provider/context';
 import type { AliasToken, SeedToken } from 'antd/es/theme';
-import type { MapToken } from 'antd/es/theme/interface';
 import { useEffect, useRef, useState } from 'react';
 import type { MutableTheme, Theme, TokenValue } from '../interface';
 import deepUpdateObj from '../utils/deepUpdateObj';
@@ -18,23 +17,9 @@ export type SetThemeState = (
 ) => void;
 
 export type ThemeDiff = {
-  seed?: {
-    [key in keyof SeedToken]?: {
-      before: TokenValue;
-      after: TokenValue;
-    };
-  };
-  map?: {
-    [key in keyof MapToken]?: {
-      before: TokenValue;
-      after: TokenValue;
-    };
-  };
-  alias?: {
-    [key in keyof AliasToken]?: {
-      before: TokenValue;
-      after: TokenValue;
-    };
+  [key in keyof AliasToken]?: {
+    before: TokenValue;
+    after: TokenValue;
   };
 };
 
@@ -170,32 +155,26 @@ const useControlledTheme: UseControlledTheme = ({
   const isThemeDifferent = getCanReset(themeRef.current?.config, theme.config);
 
   const getDiffByPath = (path: string[]) => {
-    const diff = Object.keys(getValueByPath(theme.config, path) ?? {}).reduce<
-      ThemeDiff[keyof ThemeDiff]
-    >((result, token) => {
+    const diff = Object.keys(
+      getValueByPath(theme.config, path) ?? {},
+    ).reduce<ThemeDiff>((result, token) => {
       let newResult = result;
       if (isThemeDifferent([...path, token])) {
-        if (!newResult) {
-          newResult = {};
-        } else {
-          newResult = { ...result };
-        }
+        newResult = { ...result };
         newResult[token as keyof SeedToken] = {
           before: getValueByPath(themeRef.current?.config, [...path, token]),
           after: getValueByPath(theme.config, [...path, token]),
         };
       }
       return newResult;
-    }, undefined);
+    }, {});
 
     return Object.keys(
       getValueByPath(themeRef.current.config, path) ?? {},
-    ).reduce<ThemeDiff[keyof ThemeDiff]>((result, token) => {
+    ).reduce<ThemeDiff>((result, token) => {
       let newResult = result;
       if (isThemeDifferent([...path, token])) {
-        if (!newResult) {
-          newResult = {};
-        } else if (newResult[token as keyof SeedToken] !== undefined) {
+        if (newResult[token as keyof SeedToken] !== undefined) {
           return newResult;
         } else {
           newResult = { ...result };
@@ -209,11 +188,7 @@ const useControlledTheme: UseControlledTheme = ({
     }, diff);
   };
 
-  const getDiff = (): ThemeDiff => ({
-    seed: getDiffByPath(['token']),
-    map: getDiffByPath(['token']),
-    alias: getDiffByPath(['token']),
-  });
+  const getDiff = (): ThemeDiff => getDiffByPath(['token']);
 
   const switchDark = () => {
     handleSetTheme(

@@ -3,61 +3,72 @@ import { ConfigProvider, theme } from 'antd';
 import { getDesignToken } from 'antd-token-previewer';
 import type { ThemeConfig } from 'antd/es/config-provider/context';
 import React from 'react';
-import type { TokenEntity } from '../src/interface';
-import {
-  convertTokenArrToConfig,
-  convertTokenConfigToArr,
-} from '../src/utils/convertToken';
+import { tokenMeta } from '../src/meta';
+import type { KitchenToken } from '../src/utils/convertToken';
+import { convertTokenConfigToArr } from '../src/utils/convertToken';
 import getValueByPath from '../src/utils/getValueByPath';
 
 const { useToken, darkAlgorithm } = theme;
 
 describe('Utils', () => {
   describe('convertToken', () => {
-    const tokenPair: { arr: TokenEntity[]; config: ThemeConfig }[] = [
+    const tokenPair: { arr: KitchenToken[]; config: ThemeConfig }[] = [
       {
         arr: [
           {
-            name: 'colorBgElevated',
-            token: 'colorBgElevated',
-            value: '#f5f5',
-            type: 'color',
-            description: 'colorBgElevated',
-            source: 'seed',
+            id: 'colorBgElevated',
+            name: '浮层容器背景色',
+            searchKey: '',
+            groupName: '',
+            sort: 0,
+            type: 'token',
+            content: {
+              type: 'color',
+              value: '#fff',
+              token: 'colorBgElevated',
+              description:
+                '浮层容器背景色，在暗色模式下的该颜色会比 colorBgContainer 要亮一些。例如：模态框、弹出框、菜单等。',
+              source: 'map',
+            },
           },
         ],
         config: {
           token: {
-            colorBgElevated: '#f5f5',
+            colorBgElevated: '#fff',
           },
         },
       },
       {
         arr: [
           {
-            name: 'colorBgTextHover',
-            token: 'colorBgTextHover',
-            value: 'rgba(0, 0, 0, 0.01)',
-            type: 'color',
-            description: 'colorBgTextHover',
-            source: 'Button',
+            id: 'colorPrimary',
+            name: '品牌主色',
+            searchKey: '',
+            groupName: '',
+            sort: 0,
+            type: 'token',
+            content: {
+              type: 'color',
+              value: 'rgba(0, 0, 0, 0.01)',
+              token: 'colorPrimary',
+              description:
+                '品牌色是体现产品特性和传播理念最直观的视觉元素之一。在你完成品牌主色的选取之后，我们会自动帮你生成一套完整的色板，并赋予它们有效的设计语义。',
+              source: 'Button',
+            },
           },
         ],
         config: {
           components: {
             Button: {
-              colorBgTextHover: 'rgba(0, 0, 0, 0.01)',
+              colorPrimary: 'rgba(0, 0, 0, 0.01)',
             },
           },
         },
       },
     ];
     tokenPair.forEach(({ arr, config }, index) => {
-      it(`convertTokenArrToConfig ${index + 1}`, () => {
-        expect(convertTokenArrToConfig(arr)).toStrictEqual(config);
-      });
       it(`convertTokenConfigToArr ${index + 1}`, () => {
-        expect(convertTokenConfigToArr(config)).toStrictEqual(arr);
+        expect(convertTokenConfigToArr(config, tokenMeta)).toStrictEqual(arr);
       });
     });
   });
