@@ -13,7 +13,7 @@ import type { FC } from 'react';
 import React, { useMemo } from 'react';
 import { Pick } from '../icons';
 import type { AliasToken, SelectedToken } from '../interface';
-import { mapRelatedAlias, seedRelatedAlias } from '../token-info/TokenRelation';
+import { mapRelatedAlias, seedRelatedAlias } from '../meta/TokenRelation';
 import makeStyle from '../utils/makeStyle';
 import { getRelatedComponents } from '../utils/statistic';
 import TokenDetail from './TokenDetail';

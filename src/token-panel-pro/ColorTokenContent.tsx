@@ -23,7 +23,7 @@ import type { IconSwitchProps } from '../IconSwitch';
 import IconSwitch from '../IconSwitch';
 import type { SelectedToken } from '../interface';
 import { tokenMeta } from '../meta';
-import { mapRelatedAlias, seedRelatedMap } from '../token-info/TokenRelation';
+import { mapRelatedAlias, seedRelatedMap } from '../meta/TokenRelation';
 import getColorBgImg from '../utils/getColorBgImg';
 import getDesignToken from '../utils/getDesignToken';
 import makeStyle from '../utils/makeStyle';

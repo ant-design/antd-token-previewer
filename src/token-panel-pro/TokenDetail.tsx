@@ -5,7 +5,7 @@ import type { FC } from 'react';
 import React, { useMemo } from 'react';
 import type { TokenName, TokenValue } from '../interface';
 import { tokenMeta } from '../meta';
-import { mapRelatedAlias } from '../token-info/TokenRelation';
+import { mapRelatedAlias } from '../meta/TokenRelation';
 import TokenInput from '../TokenInput';
 import deepUpdateObj from '../utils/deepUpdateObj';
 import getDesignToken from '../utils/getDesignToken';
