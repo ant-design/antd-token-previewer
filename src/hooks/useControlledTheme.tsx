@@ -188,7 +188,7 @@ const useControlledTheme: UseControlledTheme = ({
     }, diff);
   };
 
-  const getDiff = (): ThemeDiff | undefined => getDiffByPath(['token']);
+  const getDiff = (): ThemeDiff => getDiffByPath(['token']);
 
   const switchDark = () => {
     handleSetTheme(
