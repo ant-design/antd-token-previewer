@@ -47,21 +47,15 @@ describe('ThemeEditor', () => {
         />,
       );
       expect(ref.current?.getDiff()).toMatchObject({
-        alias: { colorBorder: { before: undefined, after: '#dddddd' } },
-        map: { colorError: { before: undefined, after: '#eeeeee' } },
-        seed: {
-          colorPrimary: { before: undefined, after: '#ffffff' },
-          colorSuccess: { before: '#000000', after: '#000fff' },
-        },
+        colorBorder: { before: undefined, after: '#dddddd' },
+        colorError: { before: undefined, after: '#eeeeee' },
+        colorPrimary: { before: undefined, after: '#ffffff' },
+        colorSuccess: { before: '#000000', after: '#000fff' },
       });
       act(() => {
         ref.current?.updateRef();
       });
-      expect(ref.current?.getDiff()).toMatchObject({
-        alias: undefined,
-        map: undefined,
-        seed: undefined,
-      });
+      expect(ref.current?.getDiff()).toMatchObject({});
       rerender(
         <Demo
           theme={{
@@ -78,12 +72,10 @@ describe('ThemeEditor', () => {
         />,
       );
       expect(ref.current?.getDiff()).toMatchObject({
-        alias: { colorBorder: { before: '#dddddd', after: '#ddddd0' } },
-        map: { colorError: { before: '#eeeeee', after: '#eeeee0' } },
-        seed: {
-          colorPrimary: { before: '#ffffff', after: '#fffff0' },
-          colorSuccess: { before: '#000fff', after: undefined },
-        },
+        colorBorder: { before: '#dddddd', after: '#ddddd0' },
+        colorError: { before: '#eeeeee', after: '#eeeee0' },
+        colorPrimary: { before: '#ffffff', after: '#fffff0' },
+        colorSuccess: { before: '#000fff', after: undefined },
       });
     });
   });
