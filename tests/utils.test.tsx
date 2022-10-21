@@ -3,7 +3,7 @@ import { ConfigProvider, theme } from 'antd';
 import { getDesignToken } from 'antd-token-previewer';
 import type { ThemeConfig } from 'antd/es/config-provider/context';
 import React from 'react';
-import { tokenMeta } from '../src/meta';
+import { tokenCategory, tokenMeta } from '../src/meta';
 import type { KitchenToken } from '../src/utils/convertToken';
 import { convertTokenConfigToArr } from '../src/utils/convertToken';
 import getValueByPath from '../src/utils/getValueByPath';
@@ -18,8 +18,8 @@ describe('Utils', () => {
           {
             id: 'colorBgElevated',
             name: '浮层容器背景色',
-            searchKey: '',
-            groupName: '',
+            searchKey: '颜色/Color/中性色/Neutral Color',
+            groupName: '颜色/中性色',
             sort: 0,
             type: 'token',
             content: {
@@ -43,8 +43,8 @@ describe('Utils', () => {
           {
             id: 'colorPrimary',
             name: '品牌主色',
-            searchKey: '',
-            groupName: '',
+            searchKey: '颜色/Color/品牌色/Brand Color',
+            groupName: '颜色/品牌色',
             sort: 0,
             type: 'token',
             content: {
@@ -68,7 +68,9 @@ describe('Utils', () => {
     ];
     tokenPair.forEach(({ arr, config }, index) => {
       it(`convertTokenConfigToArr ${index + 1}`, () => {
-        expect(convertTokenConfigToArr(config, tokenMeta)).toStrictEqual(arr);
+        expect(
+          convertTokenConfigToArr(config, tokenMeta, tokenCategory),
+        ).toStrictEqual(arr);
       });
     });
   });

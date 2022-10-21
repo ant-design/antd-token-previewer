@@ -12,7 +12,7 @@ import {
 } from 'antd';
 import type { MutableTheme } from 'antd-token-previewer';
 import type { ThemeConfig } from 'antd/es/config-provider/context';
-import type { MapToken, SeedToken } from 'antd/es/theme/interface';
+import type { SeedToken } from 'antd/es/theme/interface';
 import classNames from 'classnames';
 import type { FC } from 'react';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -22,8 +22,8 @@ import { DarkTheme, Light, Pick } from '../icons';
 import type { IconSwitchProps } from '../IconSwitch';
 import IconSwitch from '../IconSwitch';
 import type { SelectedToken } from '../interface';
-import { tokenMeta } from '../meta';
-import { mapRelatedAlias, seedRelatedMap } from '../meta/TokenRelation';
+import { tokenCategory, tokenMeta } from '../meta';
+import { mapRelatedAlias } from '../meta/TokenRelation';
 import getColorBgImg from '../utils/getColorBgImg';
 import getDesignToken from '../utils/getDesignToken';
 import makeStyle from '../utils/makeStyle';
@@ -243,12 +243,13 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
 
 export type ColorSeedTokenProps = {
   theme: MutableTheme;
-  tokenName: keyof SeedToken;
+  tokenName: string;
   disabled?: boolean;
 };
 
-const getSeedValue = (config: ThemeConfig, token: keyof SeedToken) => {
-  return (config.token?.[token] ?? getDesignToken(config)[token]) as string;
+const getSeedValue = (config: ThemeConfig, token: string) => {
+  // @ts-ignore
+  return config.token?.[token] ?? getDesignToken(config)[token];
 };
 
 const ColorSeedTokenPreview: FC<ColorSeedTokenProps> = ({
@@ -326,7 +327,7 @@ const ColorSeedTokenPreview: FC<ColorSeedTokenProps> = ({
 };
 
 export type MapTokenCollapseContentProps = {
-  mapTokens: (keyof MapToken)[];
+  mapTokens: string[];
   themes: MutableTheme[];
   selectedTokens?: SelectedToken;
   onTokenSelect?: (token: string | string[], type: keyof SelectedToken) => void;
@@ -347,7 +348,7 @@ const MapTokenCollapseContent: FC<MapTokenCollapseContentProps> = ({
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <div style={{ flex: 1 }}>
                 <span style={{ fontWeight: 500 }}>
-                  {tokenMeta[mapToken]?.name}
+                  {(tokenMeta as any)[mapToken]?.name}
                 </span>
                 <span className="token-panel-pro-token-collapse-map-collapse-token">
                   {mapToken}
@@ -356,7 +357,7 @@ const MapTokenCollapseContent: FC<MapTokenCollapseContentProps> = ({
                   {
                     getRelatedComponents([
                       mapToken,
-                      ...(mapRelatedAlias[mapToken] ?? []),
+                      ...((mapRelatedAlias as any)[mapToken] ?? []),
                     ]).length
                   }
                 </span>
@@ -423,11 +424,11 @@ const mapGroupTitle: any = {
 };
 
 export type MapTokenCollapseProps = {
-  mapTokens: (keyof MapToken)[];
+  mapTokens: string[];
   themes: MutableTheme[];
   selectedTokens?: SelectedToken;
   onTokenSelect?: (token: string | string[], type: keyof SelectedToken) => void;
-  groupFn?: (token: keyof MapToken) => string;
+  groupFn?: (token: string) => string;
   groups?: string[];
 };
 
@@ -440,7 +441,7 @@ const MapTokenCollapse: FC<MapTokenCollapseProps> = ({
   groups,
 }) => {
   const groupedTokens = useMemo(() => {
-    const grouped: Record<string, (keyof MapToken)[]> = {};
+    const grouped: Record<string, string[]> = {};
     if (groupFn) {
       mapTokens.forEach((token) => {
         const key = groupFn(token) ?? 'default';
@@ -483,7 +484,7 @@ const MapTokenCollapse: FC<MapTokenCollapseProps> = ({
   );
 };
 
-const groupMapToken = (token: keyof MapToken): string => {
+const groupMapToken = (token: string): string => {
   if (token.startsWith('colorFill')) {
     return 'fill';
   }
@@ -505,8 +506,8 @@ export type ColorTokenContentProps = {
   onTokenSelect?: (token: string | string[], type: keyof SelectedToken) => void;
   infoFollowPrimary?: boolean;
   onInfoFollowPrimaryChange?: (value: boolean) => void;
-  activeSeeds: (keyof SeedToken)[];
-  onActiveSeedsChange?: (value: (keyof SeedToken)[]) => void;
+  activeSeeds: string[];
+  onActiveSeedsChange?: (value: string[]) => void;
   activeTheme?: string;
   onActiveThemeChange?: (theme: string) => void;
   onNext?: (nextTokens: (keyof SeedToken)[]) => void;
@@ -532,8 +533,8 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
   };
 
   const activeCategory = useMemo(() => {
-    return seedCategories.find(
-      ({ seedTokens }) => seedTokens.join('') === activeSeeds.join(''),
+    return tokenCategory[0].groups.find(
+      ({ seedToken }) => seedToken.join('') === activeSeeds.join(''),
     )?.key;
   }, [activeSeeds]);
 
@@ -575,33 +576,26 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
             )}
             onChange={(key) => {
               const changedSeedTokens =
-                seedCategories.find(
+                tokenCategory[0].groups.find(
                   ({ key: categoryKey }) => key === categoryKey,
-                )?.seedTokens || [];
+                )?.seedToken || [];
               onActiveSeedsChange?.(changedSeedTokens);
               onTokenSelect?.(changedSeedTokens, 'seed');
             }}
           >
-            {seedCategories.map((category, index) => {
-              const mapTokens = category.seedTokens.reduce<(keyof MapToken)[]>(
-                (result, token) => {
-                  return result.concat(seedRelatedMap[token] ?? []);
-                },
-                [],
-              );
+            {tokenCategory[0].groups.map((group, index) => {
+              const mapTokens = group.mapToken;
 
               return (
                 <Panel
-                  header={
-                    <span style={{ fontWeight: 500 }}>{category.title}</span>
-                  }
-                  key={category.key}
+                  header={<span style={{ fontWeight: 500 }}>{group.name}</span>}
+                  key={group.key}
                 >
                   <div>
                     <div className="token-panel-pro-token-collapse-description">
-                      {category.description}
+                      {group.desc}
                     </div>
-                    {category.seedTokens.map((seedToken) => (
+                    {group.seedToken.map((seedToken) => (
                       <div
                         key={seedToken}
                         className="token-panel-pro-token-collapse-seed-block"
@@ -667,7 +661,7 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
                             style={{ fontSize: 14, marginLeft: 8 }}
                           />
                         </Tooltip>
-                        {category.key === 'neutralColor' && (
+                        {group.mapTokenGroups && (
                           <div
                             style={{
                               marginLeft: 'auto',
@@ -685,16 +679,16 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
                         )}
                       </div>
                       <MapTokenCollapse
-                        mapTokens={mapTokens}
+                        mapTokens={mapTokens ?? []}
                         themes={themes}
                         selectedTokens={selectedTokens}
                         onTokenSelect={onTokenSelect}
                         groupFn={
-                          category.key === 'neutralColor' && grouped
+                          group.mapTokenGroups && grouped
                             ? groupMapToken
                             : undefined
                         }
-                        groups={category?.mapTokenGroups}
+                        groups={group?.mapTokenGroups}
                       />
                     </div>
                     {index < seedCategories.length - 1 && (

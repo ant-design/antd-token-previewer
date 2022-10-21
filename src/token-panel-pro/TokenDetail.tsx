@@ -3,7 +3,7 @@ import type { MutableTheme } from 'antd-token-previewer';
 import classNames from 'classnames';
 import type { FC } from 'react';
 import React, { useMemo } from 'react';
-import type { TokenName, TokenValue } from '../interface';
+import type { TokenValue } from '../interface';
 import { tokenMeta } from '../meta';
 import { mapRelatedAlias } from '../meta/TokenRelation';
 import TokenInput from '../TokenInput';
@@ -53,7 +53,7 @@ const useStyle = makeStyle('TokenDetail', (token) => ({
 export type TokenDetailProps = {
   themes: MutableTheme[];
   path: string[];
-  tokenName: TokenName;
+  tokenName: string;
   className?: string;
   style?: React.CSSProperties;
 };
@@ -88,7 +88,7 @@ const TokenDetail: FC<TokenDetailProps> = ({
       style={style}
     >
       <div className="token-panel-pro-token-collapse-map-collapse-token-description">
-        {tokenMeta[tokenName]?.desc}
+        {(tokenMeta as any)[tokenName]?.desc}
       </div>
       {relatedComponents.length > 0 && (
         <Tooltip

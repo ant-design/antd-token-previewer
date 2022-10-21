@@ -6,7 +6,6 @@ import {
 } from '@ant-design/icons';
 import { Button, Collapse, Empty, Tooltip } from 'antd';
 import type { MutableTheme } from 'antd-token-previewer';
-import type { SeedToken } from 'antd/es/theme/interface';
 import classNames from 'classnames';
 import useMergedState from 'rc-util/es/hooks/useMergedState';
 import type { FC } from 'react';
@@ -117,7 +116,7 @@ export type AliasPanelProps = {
   className?: string;
   style?: React.CSSProperties;
   themes: MutableTheme[];
-  activeSeeds: (keyof SeedToken)[];
+  activeSeeds: string[];
   selectedTokens?: SelectedToken;
   onTokenSelect?: (token: string, type: keyof SelectedToken) => void;
   open?: boolean;
@@ -153,7 +152,8 @@ const AliasPanel: FC<AliasPanelProps> = ({
             ),
           )
         : activeSeeds.reduce<(keyof AliasToken)[]>(
-            (result, item) => result.concat(seedRelatedAlias[item] ?? []),
+            (result, item) =>
+              result.concat((seedRelatedAlias as any)[item] ?? []),
             [],
           ),
     [selectedTokens, activeSeeds],
