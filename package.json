@@ -63,7 +63,7 @@
     "cross-env": "^7.0.2",
     "dumi": "^1.1.0",
     "eslint": "^7.0.0",
-    "father": "^2.13.4",
+    "father": "^4.1.0",
     "father-build": "^1.18.6",
     "gh-pages": "^4.0.0",
     "husky": "^8.0.0",
