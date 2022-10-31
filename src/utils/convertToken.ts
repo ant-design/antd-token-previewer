@@ -1,6 +1,5 @@
 import type { ThemeConfig } from 'antd/es/config-provider/context';
 import type { TokenMetaMap, TokenTree } from '../meta/interface';
-import isColor from './isColor';
 
 export interface KitchenToken {
   id: string;
@@ -52,8 +51,7 @@ function obj2Arr(
       sort: 0,
       type: 'token',
       content: {
-        type:
-          typeof value === 'string' && isColor(value) ? 'color' : typeof value,
+        type: meta[key]?.type || '',
         value,
         token: key,
         description: meta[key]?.desc || '',

@@ -11,7 +11,7 @@ const tokenMeta: AntdTokenMeta = {
     nameEn: 'Brand Color',
     desc: '品牌色是体现产品特性和传播理念最直观的视觉元素之一。在你完成品牌主色的选取之后，我们会自动帮你生成一套完整的色板，并赋予它们有效的设计语义。',
     descEn: '',
-    type: 'color',
+    type: 'Color',
     source: 'seed',
   },
   colorPrimaryBg: {
@@ -19,7 +19,7 @@ const tokenMeta: AntdTokenMeta = {
     nameEn: '',
     desc: '主色的浅色背景颜色，一般用于视觉层级较弱的选中状态。',
     descEn: '',
-    type: 'color',
+    type: 'Color',
     source: 'map',
   },
   colorPrimaryBgHover: {
@@ -27,7 +27,7 @@ const tokenMeta: AntdTokenMeta = {
     nameEn: '',
     desc: '与主色的浅色背景颜色',
     descEn: '',
-    type: 'color',
+    type: 'Color',
     source: 'map',
   },
   colorPrimaryBorder: {
@@ -35,7 +35,7 @@ const tokenMeta: AntdTokenMeta = {
     nameEn: '',
     desc: '主色描边的场景',
     descEn: '',
-    type: 'color',
+    type: 'Color',
     source: 'map',
   },
   colorPrimaryTextHover: {
@@ -43,7 +43,7 @@ const tokenMeta: AntdTokenMeta = {
     nameEn: '',
     desc: '',
     descEn: '',
-    type: 'color',
+    type: 'Color',
     source: 'map',
   },
   colorPrimaryTextActive: {
@@ -51,7 +51,7 @@ const tokenMeta: AntdTokenMeta = {
     nameEn: '',
     desc: '',
     descEn: '',
-    type: 'color',
+    type: 'Color',
     source: 'map',
   },
   colorPrimaryText: {
@@ -59,7 +59,7 @@ const tokenMeta: AntdTokenMeta = {
     nameEn: '',
     desc: '',
     descEn: '',
-    type: 'color',
+    type: 'Color',
     source: 'map',
   },
   colorPrimaryBorderHover: {
@@ -67,7 +67,7 @@ const tokenMeta: AntdTokenMeta = {
     nameEn: '',
     desc: '',
     descEn: '',
-    type: 'color',
+    type: 'Color',
     source: 'map',
   },
   colorPrimaryHover: {
@@ -75,7 +75,7 @@ const tokenMeta: AntdTokenMeta = {
     nameEn: '',
     desc: '',
     descEn: '',
-    type: 'color',
+    type: 'Color',
     source: 'map',
   },
   colorPrimaryActive: {
@@ -83,7 +83,7 @@ const tokenMeta: AntdTokenMeta = {
     nameEn: '',
     desc: '',
     descEn: '',
-    type: 'color',
+    type: 'Color',
     source: 'map',
   },
   colorSuccess: {
@@ -91,7 +91,7 @@ const tokenMeta: AntdTokenMeta = {
     nameEn: '',
     desc: '',
     descEn: '',
-    type: 'color',
+    type: 'Color',
     source: 'seed',
   },
   colorWarning: {
@@ -99,7 +99,7 @@ const tokenMeta: AntdTokenMeta = {
     nameEn: '',
     desc: '',
     descEn: '',
-    type: 'color',
+    type: 'Color',
     source: 'seed',
   },
   colorError: {
@@ -107,7 +107,7 @@ const tokenMeta: AntdTokenMeta = {
     nameEn: '',
     desc: '',
     descEn: '',
-    type: 'color',
+    type: 'Color',
     source: 'seed',
   },
   colorInfo: {
@@ -115,7 +115,7 @@ const tokenMeta: AntdTokenMeta = {
     nameEn: '',
     desc: '',
     descEn: '',
-    type: 'color',
+    type: 'Color',
     source: 'seed',
   },
   colorTextBase: {
@@ -123,7 +123,7 @@ const tokenMeta: AntdTokenMeta = {
     nameEn: '',
     desc: '',
     descEn: '',
-    type: 'color',
+    type: 'Color',
     source: 'seed',
   },
   colorBgBase: {
@@ -131,7 +131,7 @@ const tokenMeta: AntdTokenMeta = {
     nameEn: '',
     desc: '',
     descEn: '',
-    type: 'color',
+    type: 'Color',
     source: 'seed',
   },
 
@@ -142,7 +142,7 @@ const tokenMeta: AntdTokenMeta = {
     nameEn: '',
     desc: '最深的文本色。为了符合W3C标准，默认的文本颜色使用了该色，同时这个颜色也是最深的中性色。',
     descEn: '',
-    type: 'color',
+    type: 'Color',
     source: 'map',
   },
   colorTextSecondary: {
@@ -150,7 +150,7 @@ const tokenMeta: AntdTokenMeta = {
     nameEn: '',
     desc: '作为第梯度的文本色，一般用在不那么需要强化文本颜色的场景，例如 Label 文本、Menu 的文本选中态等场景。',
     descEn: '',
-    type: 'color',
+    type: 'Color',
     source: 'map',
   },
   colorTextTertiary: {
@@ -158,7 +158,7 @@ const tokenMeta: AntdTokenMeta = {
     nameEn: '',
     desc: '第三级文本色一般用于描述性文本，例如表单的中的补充说明文本、列表的描述性文本等场景。',
     descEn: '',
-    type: 'color',
+    type: 'Color',
     source: 'map',
   },
   colorTextQuaternary: {
@@ -166,7 +166,7 @@ const tokenMeta: AntdTokenMeta = {
     nameEn: '',
     desc: '第四级文本色是最浅的文本色，例如表单的输入提示文本、禁用色文本等。',
     descEn: '',
-    type: 'color',
+    type: 'Color',
     source: 'map',
   },
 
@@ -175,7 +175,7 @@ const tokenMeta: AntdTokenMeta = {
     nameEn: '',
     desc: '默认使用的边框颜色。',
     descEn: '',
-    type: 'color',
+    type: 'Color',
     source: 'map',
   },
   colorBorderSecondary: {
@@ -183,7 +183,7 @@ const tokenMeta: AntdTokenMeta = {
     nameEn: '',
     desc: '比默认使用的边框色要浅一级，此颜色和 colorSplit 的颜色一致。使用的是实色。',
     descEn: '',
-    type: 'color',
+    type: 'Color',
     source: 'map',
   },
   colorSplit: {
@@ -191,7 +191,7 @@ const tokenMeta: AntdTokenMeta = {
     nameEn: '',
     desc: '用于作为分割线的颜色，此颜色和 colorBorderSecondary 的颜色一致，但是用的是透明色。',
     descEn: '',
-    type: 'color',
+    type: 'Color',
     source: 'alias',
   },
 
@@ -200,7 +200,7 @@ const tokenMeta: AntdTokenMeta = {
     nameEn: '',
     desc: '该色用于页面整体布局的背景色，只有布局组件才会使用该色，其余的使用场景理论上都是错误的。',
     descEn: '',
-    type: 'color',
+    type: 'Color',
     source: 'map',
   },
   colorBgContainer: {
@@ -208,7 +208,7 @@ const tokenMeta: AntdTokenMeta = {
     nameEn: '',
     desc: '组件的容器背景色，例如：默认按钮、输入框等。务必不要将其与 colorBgElevated 混淆。',
     descEn: '',
-    type: 'color',
+    type: 'Color',
     source: 'map',
   },
   colorBgElevated: {
@@ -216,7 +216,7 @@ const tokenMeta: AntdTokenMeta = {
     nameEn: '',
     desc: '浮层容器背景色，在暗色模式下的该颜色会比 colorBgContainer 要亮一些。例如：模态框、弹出框、菜单等。',
     descEn: '',
-    type: 'color',
+    type: 'Color',
     source: 'map',
   },
 
@@ -225,7 +225,7 @@ const tokenMeta: AntdTokenMeta = {
     nameEn: '',
     desc: '最深的填充色，用于拉开与二、三级填充色的区分度，目前只用在 Slider 的 hover 效果。',
     descEn: '',
-    type: 'color',
+    type: 'Color',
     source: 'map',
   },
   colorFillSecondary: {
@@ -233,7 +233,7 @@ const tokenMeta: AntdTokenMeta = {
     nameEn: '',
     desc: '二级填充色可以较为明显地勾勒出元素形体，如 Rate、Skeleton 等。也可以作为三级填充色的 Hover 状态，如 Table 等。',
     descEn: '',
-    type: 'color',
+    type: 'Color',
     source: 'map',
   },
   colorFillTertiary: {
@@ -241,7 +241,7 @@ const tokenMeta: AntdTokenMeta = {
     nameEn: '',
     desc: '三级填充色用于勾勒出元素形体的场景，如 Slider、Segmented 等。如无强调需求的情况下，建议使用三级填色作为默认填色。',
     descEn: '',
-    type: 'color',
+    type: 'Color',
     source: 'map',
   },
   colorFillQuaternary: {
@@ -249,7 +249,7 @@ const tokenMeta: AntdTokenMeta = {
     nameEn: '',
     desc: '最弱一级的填充色，适用于不易引起注意的色块，例如斑马纹、区分边界的色块等。',
     descEn: '',
-    type: 'color',
+    type: 'Color',
     source: 'map',
   },
 
@@ -258,7 +258,7 @@ const tokenMeta: AntdTokenMeta = {
     nameEn: '',
     desc: '用于控件类组件中的单项的激活态选中样式。',
     descEn: '',
-    type: 'color',
+    type: 'Color',
     source: 'alias',
   },
   controlItemBgActiveHover: {
@@ -266,7 +266,7 @@ const tokenMeta: AntdTokenMeta = {
     nameEn: '',
     desc: '用于控件类组件中的单项的激活态选中样式。',
     descEn: '',
-    type: 'color',
+    type: 'Color',
     source: 'alias',
   },
 };
