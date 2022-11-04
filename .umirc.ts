@@ -9,5 +9,6 @@ export default defineConfig({
   exportStatic: {},
   base: '/antd-token-previewer',
   publicPath: '/antd-token-previewer/',
+  extraBabelPresets: ['@emotion/babel-preset-css-prop'],
   hash: true,
 });
