@@ -19,6 +19,8 @@ const useStyle = makeStyle('ColorPanel', (token) => ({
     border: '1px solid rgba(0, 0, 0, 0.06)',
     boxShadow: token.boxShadow,
     width: 224,
+    boxSizing: 'border-box',
+
     '.color-panel-mode': {
       display: 'flex',
       alignItems: 'center',
