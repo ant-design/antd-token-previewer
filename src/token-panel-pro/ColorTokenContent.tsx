@@ -12,7 +12,6 @@ import {
 } from 'antd';
 import type { MutableTheme } from 'antd-token-previewer';
 import type { ThemeConfig } from 'antd/es/config-provider/context';
-import type { SeedToken } from 'antd/es/theme/interface';
 import classNames from 'classnames';
 import type { FC } from 'react';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -28,7 +27,6 @@ import getColorBgImg from '../utils/getColorBgImg';
 import getDesignToken from '../utils/getDesignToken';
 import makeStyle from '../utils/makeStyle';
 import { getRelatedComponents } from '../utils/statistic';
-import { seedCategories } from './index';
 import TokenDetail from './TokenDetail';
 
 const { Panel } = Collapse;
@@ -510,7 +508,7 @@ export type ColorTokenContentProps = {
   onActiveSeedsChange?: (value: string[]) => void;
   activeTheme?: string;
   onActiveThemeChange?: (theme: string) => void;
-  onNext?: (nextTokens: (keyof SeedToken)[]) => void;
+  onNext?: (nextTokens: string[]) => void;
 };
 
 const ColorTokenContent: FC<ColorTokenContentProps> = ({
@@ -691,12 +689,12 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
                         groups={group?.mapTokenGroups}
                       />
                     </div>
-                    {index < seedCategories.length - 1 && (
+                    {index < tokenCategory[0].groups.length - 1 && (
                       <Button
                         type="primary"
                         style={{ borderRadius: 4, marginBottom: 12 }}
                         onClick={() =>
-                          onNext?.(seedCategories[index + 1].seedTokens)
+                          onNext?.(tokenCategory[0].groups[index + 1].seedToken)
                         }
                       >
                         下一步

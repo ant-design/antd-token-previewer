@@ -87,7 +87,7 @@ const useStyle = makeStyle('AliasTokenPreview', (token) => ({
       },
       '.preview-panel-search': {
         backgroundColor: 'rgba(0, 0, 0, 2%)',
-        borderRadius: token.radiusLG,
+        borderRadius: token.borderRadiusLG,
 
         [`${token.rootCls}-input-group-addon`]: {
           backgroundColor: 'inherit',

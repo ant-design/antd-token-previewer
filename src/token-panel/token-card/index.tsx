@@ -1,30 +1,30 @@
 import {
   AlignLeftOutlined,
   BgColorsOutlined,
+  BorderHorizontalOutlined,
+  BulbOutlined,
   CaretRightOutlined,
+  ControlOutlined,
   FileUnknownOutlined,
   FontColorsOutlined,
-  RadiusSettingOutlined,
-  TabletOutlined,
-  ControlOutlined,
-  BorderHorizontalOutlined,
   FontSizeOutlined,
   FormatPainterOutlined,
-  BulbOutlined,
   HighlightOutlined,
+  RadiusSettingOutlined,
+  TabletOutlined,
 } from '@ant-design/icons';
 import { Collapse, Space } from 'antd';
+import type { ThemeConfig } from 'antd/es/config-provider/context';
 import classNames from 'classnames';
+import useMergedState from 'rc-util/es/hooks/useMergedState';
 import type { ReactNode } from 'react';
 import React from 'react';
-import makeStyle from '../../utils/makeStyle';
-import TokenItem from '../token-item';
-import type { MutableTheme, TokenValue } from '../../interface';
 import { Motion, ShapeLine } from '../../icons';
+import type { MutableTheme, TokenValue } from '../../interface';
 import type { TokenType } from '../../utils/classifyToken';
-import useMergedState from 'rc-util/es/hooks/useMergedState';
-import type { ThemeConfig } from 'antd/es/config-provider/context';
+import makeStyle from '../../utils/makeStyle';
 import { getRelatedComponents } from '../../utils/statistic';
+import TokenItem from '../token-item';
 
 const { Panel } = Collapse;
 
@@ -91,7 +91,7 @@ const useStyle = makeStyle('TokenCard', (token) => ({
   '.token-card': {
     width: '100%',
     height: 'auto',
-    borderRadius: token.radiusLG,
+    borderRadius: token.borderRadiusLG,
     border: `1px solid rgba(0,0,0,0.09)`,
     marginBottom: token.marginSM,
 
@@ -108,7 +108,7 @@ const useStyle = makeStyle('TokenCard', (token) => ({
   [`.token-card ${token.rootCls}-input-group >${token.rootCls}-input:not(:first-child):not(:last-child)`]:
     {
       background: 'white',
-      borderRadius: token.radiusLG,
+      borderRadius: token.borderRadiusLG,
     },
 }));
 

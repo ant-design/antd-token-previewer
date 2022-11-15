@@ -74,6 +74,7 @@ const category: TokenTree<keyof AliasToken> = [
         ),
         aliasTokenDescription:
           '你可以利用 Alias Token 来精准控制部分组件的效果。例如 Input 、InputNumber、Select 等Control 类组件都共享了相同的 controlXX token 。只需修改值，即可实现不改变 Button 的情况下，修改 Control 类组件的效果。',
+        mapTokenGroups: ['text', 'border', 'fill', 'background'],
       },
     ],
   },
