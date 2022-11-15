@@ -1,13 +1,13 @@
+import { Button, Dropdown, Input, InputNumber } from 'antd';
+import classNames from 'classnames';
 import type { FC } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
-import type { MutableTheme } from './interface';
-import { Button, Dropdown, Input, InputNumber } from 'antd';
-import ColorPreview from './ColorPreview';
-import makeStyle from './utils/makeStyle';
-import classNames from 'classnames';
-import isColor from './utils/isColor';
 import { useDebouncyFn } from 'use-debouncy';
 import ColorPanel from './ColorPanel';
+import ColorPreview from './ColorPreview';
+import type { MutableTheme } from './interface';
+import isColor from './utils/isColor';
+import makeStyle from './utils/makeStyle';
 
 const useStyle = makeStyle('TokenInput', (token) => ({
   '.previewer-token-input': {
@@ -45,7 +45,7 @@ const useStyle = makeStyle('TokenInput', (token) => ({
     [`${token.rootCls}-input-group-wrapper ${token.rootCls}-input, ${token.rootCls}-input-number-group-wrapper ${token.rootCls}-input-number`]:
       {
         background: 'white',
-        borderRadius: `${token.radiusLG}px !important`,
+        borderRadius: `${token.borderRadiusLG}px !important`,
         whiteSpace: 'nowrap',
         textOverflow: 'ellipsis',
       },

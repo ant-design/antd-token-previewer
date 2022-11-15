@@ -23,7 +23,7 @@ describe('Utils', () => {
             sort: 0,
             type: 'token',
             content: {
-              type: 'color',
+              type: 'Color',
               value: '#fff',
               token: 'colorBgElevated',
               description:
@@ -48,7 +48,7 @@ describe('Utils', () => {
             sort: 0,
             type: 'token',
             content: {
-              type: 'color',
+              type: 'Color',
               value: 'rgba(0, 0, 0, 0.01)',
               token: 'colorPrimary',
               description:
