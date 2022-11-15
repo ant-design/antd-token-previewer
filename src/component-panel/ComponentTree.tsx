@@ -1,10 +1,10 @@
-import type { FC } from 'react';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { SearchOutlined } from '@ant-design/icons';
 import { Badge, Input, Tree } from 'antd';
 import classNames from 'classnames';
-import makeStyle from '../utils/makeStyle';
+import type { FC } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import type { FilterMode } from '../FilterPanel';
-import { SearchOutlined } from '@ant-design/icons';
+import makeStyle from '../utils/makeStyle';
 import { getRelatedComponents } from '../utils/statistic';
 
 const { DirectoryTree } = Tree;
@@ -23,7 +23,7 @@ const useStyle = makeStyle('ComponentTree', (token) => ({
       margin: '0 8px 12px',
       width: 'calc(100% - 16px)',
       backgroundColor: 'rgba(0, 0, 0, 2%)',
-      borderRadius: token.radiusLG,
+      borderRadius: token.borderRadiusLG,
       height: 24,
       input: {
         fontSize: 12,

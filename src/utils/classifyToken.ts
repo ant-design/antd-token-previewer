@@ -1,5 +1,5 @@
-import type { TokenValue } from '../interface';
 import type { GlobalToken } from 'antd/es/theme/interface';
+import type { TokenValue } from '../interface';
 
 function defineTokenType<T extends string>(types: T[]) {
   return types;
@@ -64,7 +64,7 @@ export function getTypeOfToken(tokenName: string): TokenType {
   if (tokenName.startsWith('motion')) {
     return 'motion';
   }
-  if (tokenName.startsWith('radius')) {
+  if (tokenName.startsWith('borderRadius')) {
     return 'radius';
   }
   if (tokenName.startsWith('control')) {
