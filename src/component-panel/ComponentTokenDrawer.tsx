@@ -86,35 +86,7 @@ const ComponentFullDemos: FC<ComponentFullDemosProps> = ({ demos }) => {
             </Tooltip>
           }
         >
-          <ConfigProvider
-            theme={{
-              components: {
-                Select: {
-                  zIndexPopup: 1010,
-                },
-                DatePicker: {
-                  zIndexPopup: 1010,
-                },
-                Dropdown: {
-                  zIndexPopup: 1010,
-                },
-                Mentions: {
-                  zIndexPopup: 1010,
-                },
-                Tooltip: {
-                  zIndexPopup: 1010,
-                },
-                Popover: {
-                  zIndexPopup: 1010,
-                },
-                Popconfirm: {
-                  zIndexPopup: 1010,
-                },
-              },
-            }}
-          >
-            {demo.demo}
-          </ConfigProvider>
+          {demo.demo}
         </ComponentCard>
       ))}
     </div>

@@ -80,11 +80,7 @@ const ComponentDemoBlock: FC<ComponentDemoBlockProps> = ({
         drawer
         theme={theme}
       >
-        <ConfigProvider
-          componentSize={size}
-          componentDisabled={disabled}
-          theme={theme.config}
-        >
+        <ConfigProvider componentSize={size} componentDisabled={disabled}>
           {demos.some((item) => item.active)
             ? demos.map((demo) => (
                 <div
