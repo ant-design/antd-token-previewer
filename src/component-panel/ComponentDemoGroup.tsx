@@ -1,5 +1,4 @@
 import { ConfigProvider, Tooltip } from 'antd';
-import { OverrideToken } from 'antd/es/theme/interface';
 import classNames from 'classnames';
 import type { FC } from 'react';
 import React from 'react';
@@ -83,13 +82,7 @@ const ComponentDemoBlock: FC<ComponentDemoBlockProps> = ({
         <ConfigProvider
           componentSize={size}
           componentDisabled={disabled}
-          theme={{
-            token: {
-              ...(theme.config.components?.[
-                component as keyof OverrideToken
-              ] as any),
-            },
-          }}
+          theme={theme.config}
         >
           {demos.some((item) => item.active)
             ? demos.map((demo) => (

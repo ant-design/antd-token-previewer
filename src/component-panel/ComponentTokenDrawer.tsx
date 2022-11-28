@@ -7,7 +7,6 @@ import {
   theme as antdTheme,
   Tooltip,
 } from 'antd';
-import { OverrideToken } from 'antd/es/theme/interface';
 import classNames from 'classnames';
 import type { FC } from 'react';
 import React, { useMemo } from 'react';
@@ -155,21 +154,9 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
       {
         ...theme.config,
         components: {
+          ...theme.config.components,
           [component]: {
-            [token]: value,
-          },
-        },
-      },
-      ['components', component, token],
-    );
-  };
-
-  const handleAliasTokenChange = (token: string, value: TokenValue) => {
-    theme.onThemeChange?.(
-      {
-        ...theme.config,
-        components: {
-          [component]: {
+            ...(theme.config.components as any)?.[component],
             [token]: value,
           },
         },
@@ -195,15 +182,7 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
     >
       <div style={{ display: 'flex', height: '100%' }}>
         <ConfigProvider theme={theme.config}>
-          <ConfigProvider
-            theme={{
-              token: {
-                ...(theme.config.components?.[
-                  component as keyof OverrideToken
-                ] as any),
-              },
-            }}
-          >
+          <ConfigProvider theme={theme.config}>
             <ComponentFullDemos demos={ComponentDemos[component]} />
           </ConfigProvider>
         </ConfigProvider>
@@ -246,7 +225,7 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
               getDesignToken(themeConfig) as AliasToken
             }
             onTokenChange={(_, tokenName, value) =>
-              handleAliasTokenChange(tokenName, value)
+              handleComponentTokenChange(tokenName, value)
             }
             placeholder={
               <Empty
