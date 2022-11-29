@@ -16,6 +16,7 @@ const Demo = () => (
       onCancel={cancel}
       okText="Yes"
       cancelText="No"
+      placement={'topLeft'}
     />
     <a href="#">Delete</a>
   </div>

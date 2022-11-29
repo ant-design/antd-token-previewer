@@ -17,8 +17,9 @@ const Demo = () => (
       width: '100%',
     }}
     options={options}
+    listHeight={200}
     placeholder="Please select"
-    defaultValue={['a10', 'c12']}
+    defaultValue={['a10', 'c12', 'e14']}
     onChange={handleChange}
   />
 );

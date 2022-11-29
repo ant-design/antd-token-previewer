@@ -17,7 +17,7 @@ const Demo: React.FC = () => {
         onClick={onClick}
         style={{ width: 256 }}
         defaultSelectedKeys={['1']}
-        defaultOpenKeys={['sub1']}
+        defaultOpenKeys={['sub1', 'sub2']}
         mode="inline"
         items={items}
       />

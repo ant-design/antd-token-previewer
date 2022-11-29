@@ -6,13 +6,14 @@ import type { ComponentDemo } from '../../interface';
 
 const Demo = () => (
   <Space>
+    <Button type="primary">Primary Button</Button>
     <Tooltip title="search">
       <Button type="primary" shape="circle" icon={<SearchOutlined />} />
     </Tooltip>
     <Button type="primary" shape="circle">
       A
     </Button>
-    <Button type="primary" icon={<SearchOutlined />}>
+    <Button type="primary" ghost icon={<SearchOutlined />}>
       Search
     </Button>
   </Space>

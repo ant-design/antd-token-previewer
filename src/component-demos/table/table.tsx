@@ -64,7 +64,9 @@ const data = [
     tags: ['cool', 'teacher'],
   },
 ];
-const Demo = () => <Table columns={columns} dataSource={data} />;
+const Demo = () => (
+  <Table columns={columns} dataSource={data} pagination={false} />
+);
 
 const componentDemo: ComponentDemo = {
   demo: <Demo />,

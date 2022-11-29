@@ -1,12 +1,21 @@
 import React from 'react';
-import { Radio } from 'antd';
+import { Radio, Space } from 'antd';
 import type { ComponentDemo } from '../../interface';
 
 const Demo = () => (
-  <div>
-    <Radio.Button>1</Radio.Button>
-    <Radio.Button checked>Button</Radio.Button>
-  </div>
+  <Space>
+    <Radio.Group defaultValue={'a'} buttonStyle="solid">
+      <Radio.Button value={'a'} checked>
+        Hangzhou
+      </Radio.Button>
+      <Radio.Button value={'b'}>Shanghai</Radio.Button>
+    </Radio.Group>
+
+    <div>
+      <Radio.Button>Apple</Radio.Button>
+      <Radio.Button checked>Orange</Radio.Button>
+    </div>
+  </Space>
 );
 
 const componentDemo: ComponentDemo = {
