@@ -1,8 +1,6 @@
-import React from 'react';
-import { Dropdown, Typography } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
-
-import menu from './menu';
+import { Dropdown, Typography } from 'antd';
+import React from 'react';
 
 import type { ComponentDemo } from '../../interface';
 

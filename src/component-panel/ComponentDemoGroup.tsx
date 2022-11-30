@@ -11,7 +11,6 @@ import type {
 } from '../interface';
 import makeStyle from '../utils/makeStyle';
 import ComponentCard, { getComponentDemoId } from './ComponentCard';
-import { Primary } from 'antd-token-previewer';
 
 const useStyle = makeStyle('ComponentDemoGroup', (token) => ({
   '.previewer-component-demo-group': {
@@ -80,11 +79,7 @@ const ComponentDemoBlock: FC<ComponentDemoBlockProps> = ({
         drawer
         theme={theme}
       >
-        <ConfigProvider
-          componentSize={size}
-          componentDisabled={disabled}
-          theme={theme.config}
-        >
+        <ConfigProvider componentSize={size} componentDisabled={disabled}>
           {demos.some((item) => item.active)
             ? demos.map((demo) => (
                 <div

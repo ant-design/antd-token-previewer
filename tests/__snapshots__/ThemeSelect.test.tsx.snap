@@ -139,6 +139,7 @@ exports[`ThemeSelect should show selected themes correctly 1`] = `
       </span>
     </span>
     <button
+      ant-click-animating-without-extra-node="false"
       class="ant-btn ant-btn-circle ant-btn-primary ant-btn-icon-only ant-dropdown-trigger previewer-theme-select-add-btn"
       type="button"
     >
