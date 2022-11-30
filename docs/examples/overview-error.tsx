@@ -1,7 +1,3 @@
-/**
- * iframe: 800
- */
-
 import React from 'react';
 import { Error } from 'antd-token-previewer';
 

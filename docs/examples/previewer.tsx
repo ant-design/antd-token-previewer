@@ -1,7 +1,3 @@
-/**
- * iframe: 800
- */
-
 import { ConfigProvider } from 'antd';
 import { Previewer } from 'antd-token-previewer';
 import React from 'react';

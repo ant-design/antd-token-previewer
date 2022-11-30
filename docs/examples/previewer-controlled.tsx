@@ -1,7 +1,3 @@
-/**
- * iframe: 800
- */
-
 import React, { useEffect, useState } from 'react';
 import { Previewer } from 'antd-token-previewer';
 import { ConfigProvider, message } from 'antd';
