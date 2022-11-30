@@ -64,7 +64,7 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
     const [selectedTokens, setSelectedTokens] = useState<SelectedToken>({
       seed: ['colorPrimary'],
     });
-    const [aliasOpen, setAliasOpen] = useState<boolean>(true);
+    const [aliasOpen, setAliasOpen] = useState<boolean>(false);
     const [activeTheme, setActiveTheme] = useState<string>(
       customTheme ? customTheme.key : 'default',
     );

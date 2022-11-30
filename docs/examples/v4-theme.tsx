@@ -1,7 +1,3 @@
-/**
- * iframe: 800
- */
-
 import { ConfigProvider, theme as antdTheme } from 'antd';
 import type { Theme } from 'antd-token-previewer';
 import { ThemeEditor } from 'antd-token-previewer';
