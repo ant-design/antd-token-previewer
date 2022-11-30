@@ -31,9 +31,8 @@ coverage/
 .doc
 
 # umi
-.umi
-.umi-production
-.umi-test
 .dumi/tmp
+.dumi/tmp-production
+.dumi/tmp-test
 .env.local
 pnpm-lock.yaml
