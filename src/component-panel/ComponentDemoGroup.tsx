@@ -11,7 +11,6 @@ import type {
 } from '../interface';
 import makeStyle from '../utils/makeStyle';
 import ComponentCard, { getComponentDemoId } from './ComponentCard';
-import { Primary } from 'antd-token-previewer';
 
 const useStyle = makeStyle('ComponentDemoGroup', (token) => ({
   '.previewer-component-demo-group': {
