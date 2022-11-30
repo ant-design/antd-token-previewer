@@ -1,14 +1,13 @@
 import React from 'react';
-import { message } from 'antd';
+import { Typography } from 'antd';
 import type { ComponentDemo } from '../../interface';
 
-const { _InternalPanelDoNotUseOrYouWillBeFired } = message;
+const { Text } = Typography;
 
 const Demo = () => (
-  <_InternalPanelDoNotUseOrYouWillBeFired
-    type={'warning'}
-    content={'这是一条警告消息，会主动消失'}
-  />
+  <div>
+    <Text type={'warning'}>Warning Title</Text>
+  </div>
 );
 
 const componentDemo: ComponentDemo = {

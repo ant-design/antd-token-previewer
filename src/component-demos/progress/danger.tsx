@@ -1,15 +1,16 @@
+import { Flexbox } from '@arvinxu/layout-kit';
 import { Progress } from 'antd';
 import React from 'react';
 import type { ComponentDemo } from '../../interface';
 
 const Demo: React.FC = () => (
-  <>
-    <Progress percent={30} status="exception" />
+  <Flexbox gap={12}>
+    <Flexbox horizontal gap={24}>
+      <Progress percent={70} status="exception" type={'dashboard'} />
+      <Progress percent={80} status="exception" type={'circle'} />
+    </Flexbox>
     <Progress percent={50} status="exception" />
-    <Progress percent={70} status="exception" type={'dashboard'} />
-    <Progress percent={80} status="exception" type={'circle'} />
-    <Progress steps={8} status="exception" percent={30} />
-  </>
+  </Flexbox>
 );
 
 const componentDemo: ComponentDemo = {

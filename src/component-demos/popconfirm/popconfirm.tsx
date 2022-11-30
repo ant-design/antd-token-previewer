@@ -18,7 +18,6 @@ const Demo = () => (
       cancelText="No"
       placement={'topLeft'}
     />
-    <a href="#">Delete</a>
   </div>
 );
 

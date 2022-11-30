@@ -13,9 +13,9 @@ const Demo = () => (
     <Button type="text" danger>
       text
     </Button>
-    <Button ghost danger>
-      ghost
-    </Button>
+    {/*<Button ghost danger>*/}
+    {/*  ghost*/}
+    {/*</Button>*/}
     <Button type="link" danger>
       link
     </Button>

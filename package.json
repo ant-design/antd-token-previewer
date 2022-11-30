@@ -40,6 +40,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@arvinxu/layout-kit": "^1",
     "@ant-design/colors": "^6.0.0",
     "@ant-design/cssinjs": "^0.0.0-alpha.34",
     "@ant-design/icons": "^4.7.0",
