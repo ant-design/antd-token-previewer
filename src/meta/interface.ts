@@ -29,10 +29,16 @@ export type TokenGroup<T> = {
   desc: string;
   descEn: string;
 
+  // Type
+  type?: string;
+
   // Seed token
-  seedToken: T[];
+  seedToken?: T[];
   mapToken?: T[];
   aliasToken?: T[];
+
+  // Children Group
+  groups?: TokenGroup<T>[];
 
   // Extra
   mapTokenGroups?: string[];

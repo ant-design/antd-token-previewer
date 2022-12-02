@@ -21,13 +21,14 @@ import { DarkTheme, Light, Pick } from '../icons';
 import type { IconSwitchProps } from '../IconSwitch';
 import IconSwitch from '../IconSwitch';
 import type { SelectedToken } from '../interface';
-import { tokenCategory, tokenMeta } from '../meta';
+import type { TokenCategory, TokenGroup } from '../meta/interface';
+import tokenMeta from '../meta/token-meta.json';
 import { mapRelatedAlias } from '../meta/TokenRelation';
-import getColorBgImg from '../utils/getColorBgImg';
 import getDesignToken from '../utils/getDesignToken';
 import makeStyle from '../utils/makeStyle';
 import { getRelatedComponents } from '../utils/statistic';
 import TokenDetail from './TokenDetail';
+import TokenPreview from './TokenPreview';
 
 const { Panel } = Collapse;
 const { darkAlgorithm } = antdTheme;
@@ -325,10 +326,11 @@ const ColorSeedTokenPreview: FC<ColorSeedTokenProps> = ({
 };
 
 export type MapTokenCollapseContentProps = {
-  mapTokens: string[];
+  mapTokens?: string[];
   themes: MutableTheme[];
   selectedTokens?: SelectedToken;
   onTokenSelect?: (token: string | string[], type: keyof SelectedToken) => void;
+  type?: string;
 };
 
 const MapTokenCollapseContent: FC<MapTokenCollapseContentProps> = ({
@@ -336,11 +338,12 @@ const MapTokenCollapseContent: FC<MapTokenCollapseContentProps> = ({
   themes,
   onTokenSelect,
   selectedTokens,
+  type,
 }) => {
   //
   return (
     <Collapse className="token-panel-pro-token-collapse-map-collapse">
-      {mapTokens.map((mapToken) => (
+      {mapTokens?.map((mapToken) => (
         <Panel
           header={
             <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -365,21 +368,11 @@ const MapTokenCollapseContent: FC<MapTokenCollapseContentProps> = ({
                   <div
                     key={themeItem.key}
                     className="token-panel-pro-token-collapse-map-collapse-preview-color"
-                    style={{
-                      background: `${getColorBgImg(
-                        themeItem.key === 'dark',
-                      )} 0% 0% / 28px`,
-                    }}
                   >
-                    <div
-                      style={{
-                        height: '100%',
-                        width: '100%',
-                        backgroundColor: (
-                          getDesignToken(themeItem.config) as any
-                        )[mapToken],
-                        transition: 'background-color 0.2s',
-                      }}
+                    <TokenPreview
+                      theme={themeItem.config}
+                      tokenName={mapToken}
+                      type={type}
                     />
                   </div>
                 ))}
@@ -422,62 +415,94 @@ const mapGroupTitle: any = {
 };
 
 export type MapTokenCollapseProps = {
-  mapTokens: string[];
   themes: MutableTheme[];
+  group: TokenGroup<string>;
   selectedTokens?: SelectedToken;
   onTokenSelect?: (token: string | string[], type: keyof SelectedToken) => void;
   groupFn?: (token: string) => string;
-  groups?: string[];
 };
 
 const MapTokenCollapse: FC<MapTokenCollapseProps> = ({
-  mapTokens,
   themes,
   onTokenSelect,
   selectedTokens,
   groupFn,
-  groups,
+  group,
 }) => {
   const groupedTokens = useMemo(() => {
     const grouped: Record<string, string[]> = {};
     if (groupFn) {
-      mapTokens.forEach((token) => {
+      group.mapToken?.forEach((token) => {
         const key = groupFn(token) ?? 'default';
         grouped[key] = [...(grouped[key] ?? []), token];
       });
     }
     return grouped;
-  }, [mapTokens, groupFn]);
+  }, [group, groupFn]);
 
-  return groupFn ? (
-    <Collapse
-      className="token-panel-pro-grouped-map-collapse"
-      defaultActiveKey={Object.keys(groupedTokens)}
-      expandIconPosition="end"
-      expandIcon={({ isActive }) => (
-        <CaretRightOutlined
-          rotate={isActive ? 450 : 360}
-          style={{ fontSize: 12 }}
-        />
-      )}
-    >
-      {(groups ?? Object.keys(groupedTokens)).map((key) => (
-        <Panel key={key} header={mapGroupTitle[key] ?? ''}>
-          <MapTokenCollapseContent
-            mapTokens={groupedTokens[key]}
-            themes={themes}
-            selectedTokens={selectedTokens}
-            onTokenSelect={onTokenSelect}
+  if (groupFn) {
+    return (
+      <Collapse
+        className="token-panel-pro-grouped-map-collapse"
+        defaultActiveKey={Object.keys(groupedTokens)}
+        expandIconPosition="end"
+        expandIcon={({ isActive }) => (
+          <CaretRightOutlined
+            rotate={isActive ? 450 : 360}
+            style={{ fontSize: 12 }}
           />
-        </Panel>
-      ))}
-    </Collapse>
-  ) : (
+        )}
+      >
+        {(group.mapTokenGroups ?? Object.keys(groupedTokens)).map((key) => (
+          <Panel key={key} header={mapGroupTitle[key] ?? ''}>
+            <MapTokenCollapseContent
+              mapTokens={groupedTokens[key]}
+              themes={themes}
+              selectedTokens={selectedTokens}
+              onTokenSelect={onTokenSelect}
+              type={group.type}
+            />
+          </Panel>
+        ))}
+      </Collapse>
+    );
+  }
+
+  if (group.groups) {
+    return (
+      <Collapse
+        className="token-panel-pro-grouped-map-collapse"
+        defaultActiveKey={group.groups.map((item) => item.key)}
+        expandIconPosition="end"
+        expandIcon={({ isActive }) => (
+          <CaretRightOutlined
+            rotate={isActive ? 450 : 360}
+            style={{ fontSize: 12 }}
+          />
+        )}
+      >
+        {group.groups.map((item) => (
+          <Panel key={item.key} header={item.name}>
+            <MapTokenCollapseContent
+              mapTokens={item.mapToken}
+              themes={themes}
+              selectedTokens={selectedTokens}
+              onTokenSelect={onTokenSelect}
+              type={item.type}
+            />
+          </Panel>
+        ))}
+      </Collapse>
+    );
+  }
+
+  return (
     <MapTokenCollapseContent
-      mapTokens={mapTokens}
+      mapTokens={group.mapToken ?? []}
       themes={themes}
       selectedTokens={selectedTokens}
       onTokenSelect={onTokenSelect}
+      type={group.type}
     />
   );
 };
@@ -499,29 +524,29 @@ const groupMapToken = (token: string): string => {
 };
 
 export type ColorTokenContentProps = {
+  category: TokenCategory<string>;
   themes: MutableTheme[];
   selectedTokens?: SelectedToken;
   onTokenSelect?: (token: string | string[], type: keyof SelectedToken) => void;
   infoFollowPrimary?: boolean;
   onInfoFollowPrimaryChange?: (value: boolean) => void;
-  activeSeeds: string[];
-  onActiveSeedsChange?: (value: string[]) => void;
+  activeGroup: string;
+  onActiveGroupChange: (value: string) => void;
   activeTheme?: string;
   onActiveThemeChange?: (theme: string) => void;
-  onNext?: (nextTokens: string[]) => void;
 };
 
-const ColorTokenContent: FC<ColorTokenContentProps> = ({
+const TokenContent: FC<ColorTokenContentProps> = ({
+  category,
   themes,
   selectedTokens,
   onTokenSelect,
   infoFollowPrimary,
   onInfoFollowPrimaryChange,
-  activeSeeds,
-  onActiveSeedsChange,
+  activeGroup,
+  onActiveGroupChange,
   activeTheme = 'default',
   onActiveThemeChange,
-  onNext,
 }) => {
   const [wrapSSR, hashId] = useStyle();
   const [grouped, setGrouped] = useState<boolean>(true);
@@ -529,12 +554,6 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
   const handleThemeChange: IconSwitchProps['onChange'] = (value) => {
     onActiveThemeChange?.(value ? themes[0].key : 'dark');
   };
-
-  const activeCategory = useMemo(() => {
-    return tokenCategory[0].groups.find(
-      ({ seedToken }) => seedToken.join('') === activeSeeds.join(''),
-    )?.key;
-  }, [activeSeeds]);
 
   return wrapSSR(
     <div className={classNames(hashId, 'token-panel-pro-color')}>
@@ -565,7 +584,7 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
             expandIconPosition="end"
             ghost
             accordion
-            activeKey={activeCategory}
+            activeKey={activeGroup}
             expandIcon={({ isActive }) => (
               <CaretRightOutlined
                 rotate={isActive ? 450 : 360}
@@ -573,17 +592,10 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
               />
             )}
             onChange={(key) => {
-              const changedSeedTokens =
-                tokenCategory[0].groups.find(
-                  ({ key: categoryKey }) => key === categoryKey,
-                )?.seedToken || [];
-              onActiveSeedsChange?.(changedSeedTokens);
-              onTokenSelect?.(changedSeedTokens, 'seed');
+              onActiveGroupChange(key as string);
             }}
           >
-            {tokenCategory[0].groups.map((group, index) => {
-              const mapTokens = group.mapToken;
-
+            {category.groups.map((group, index) => {
               return (
                 <Panel
                   header={<span style={{ fontWeight: 500 }}>{group.name}</span>}
@@ -593,7 +605,7 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
                     <div className="token-panel-pro-token-collapse-description">
                       {group.desc}
                     </div>
-                    {group.seedToken.map((seedToken) => (
+                    {group.seedToken?.map((seedToken) => (
                       <div
                         key={seedToken}
                         className="token-panel-pro-token-collapse-seed-block"
@@ -613,7 +625,7 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
                           </div>
                           <div>
                             <span className="token-panel-pro-token-collapse-seed-block-name-cn">
-                              {tokenMeta[seedToken]?.name}
+                              {(tokenMeta as any)[seedToken]?.name}
                             </span>
                             {seedToken === 'colorInfo' && (
                               <Checkbox
@@ -677,7 +689,7 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
                         )}
                       </div>
                       <MapTokenCollapse
-                        mapTokens={mapTokens ?? []}
+                        group={group}
                         themes={themes}
                         selectedTokens={selectedTokens}
                         onTokenSelect={onTokenSelect}
@@ -686,15 +698,14 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
                             ? groupMapToken
                             : undefined
                         }
-                        groups={group?.mapTokenGroups}
                       />
                     </div>
-                    {index < tokenCategory[0].groups.length - 1 && (
+                    {index < category.groups.length - 1 && (
                       <Button
                         type="primary"
                         style={{ borderRadius: 4, marginBottom: 12 }}
                         onClick={() =>
-                          onNext?.(tokenCategory[0].groups[index + 1].seedToken)
+                          onActiveGroupChange(category.groups[index + 1]?.key)
                         }
                       >
                         下一步
@@ -711,4 +722,4 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
   );
 };
 
-export default ColorTokenContent;
+export default TokenContent;
