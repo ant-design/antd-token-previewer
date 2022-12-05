@@ -200,15 +200,6 @@ const category: TokenTree<keyof AliasToken> = [
     descEn: '',
     groups: [
       {
-        key: 'boxShadow',
-        type: 'BoxShadow',
-        name: '阴影',
-        nameEn: 'Shadow',
-        desc: '',
-        descEn: '',
-        mapToken: ['boxShadow', 'boxShadowSecondary'],
-      },
-      {
         key: 'borderRadius',
         type: 'BorderRadius',
         name: '圆角',
@@ -222,6 +213,32 @@ const category: TokenTree<keyof AliasToken> = [
           'borderRadiusLG',
           'borderRadiusXS',
         ],
+      },
+      {
+        key: 'boxShadow',
+        type: 'BoxShadow',
+        name: '阴影',
+        nameEn: 'Shadow',
+        desc: '',
+        descEn: '',
+        mapToken: ['boxShadow', 'boxShadowSecondary'],
+      },
+    ],
+  },
+  {
+    name: '其他',
+    nameEn: 'Others',
+    desc: '',
+    descEn: '',
+    groups: [
+      {
+        key: 'other',
+        type: 'other',
+        name: '其他',
+        nameEn: 'Others',
+        desc: '',
+        descEn: '',
+        seedToken: ['wireframe'],
       },
     ],
   },

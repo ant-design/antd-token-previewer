@@ -42,6 +42,7 @@ const TokenPreview: FC<TokenPreviewProps> = ({ theme, tokenName, type }) => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          overflow: 'hidden',
           background: `${getColorBgImg(false)} 0% 0% / 28px`,
           fontSize: (getDesignToken(theme) as any)[tokenName],
           fontWeight: 700,
@@ -166,7 +167,7 @@ const TokenPreview: FC<TokenPreviewProps> = ({ theme, tokenName, type }) => {
             height: '100%',
             overflow: 'hidden',
             transform: 'translate(30%, 30%)',
-            border: '2px solid black',
+            border: '2px solid rgba(0,0,0,0.45)',
             background: '#fff',
             borderRadius: (getDesignToken(theme) as any)[tokenName],
           }}

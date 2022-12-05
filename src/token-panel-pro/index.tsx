@@ -93,6 +93,7 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
           label: category.name,
           children: (
             <TokenContent
+              simple={simple}
               category={category}
               themes={simple ? [themes[0]] : themes}
               selectedTokens={selectedTokens}
