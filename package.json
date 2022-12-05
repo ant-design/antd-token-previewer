@@ -28,6 +28,7 @@
   "scripts": {
     "start": "dumi dev",
     "docs:build": "dumi build",
+    "docs:preview": "PREVIEW=1 dumi build",
     "docs:deploy": "gh-pages -d .doc",
     "compile": "father build",
     "gh-pages": "npm run docs:build && npm run docs:deploy",

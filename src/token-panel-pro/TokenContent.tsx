@@ -5,6 +5,7 @@ import {
   Collapse,
   ConfigProvider,
   Dropdown,
+  Popover,
   Switch,
   theme as antdTheme,
   Tooltip,
@@ -21,13 +22,15 @@ import { DarkTheme, Light, Pick } from '../icons';
 import type { IconSwitchProps } from '../IconSwitch';
 import IconSwitch from '../IconSwitch';
 import type { SelectedToken } from '../interface';
-import { tokenCategory, tokenMeta } from '../meta';
+import type { TokenCategory, TokenGroup } from '../meta/interface';
+import tokenMeta from '../meta/token-meta.json';
 import { mapRelatedAlias } from '../meta/TokenRelation';
-import getColorBgImg from '../utils/getColorBgImg';
 import getDesignToken from '../utils/getDesignToken';
 import makeStyle from '../utils/makeStyle';
 import { getRelatedComponents } from '../utils/statistic';
+import InputNumberPlus from './InputNumberPlus';
 import TokenDetail from './TokenDetail';
+import TokenPreview from './TokenPreview';
 
 const { Panel } = Collapse;
 const { darkAlgorithm } = antdTheme;
@@ -121,8 +124,7 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            padding: '0 8px',
-            height: 44,
+            padding: '4px 8px',
 
             '&-value': {
               fontFamily: 'Monaco,'.concat(token.fontFamily),
@@ -239,10 +241,11 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
   },
 }));
 
-export type ColorSeedTokenProps = {
+export type SeedTokenProps = {
   theme: MutableTheme;
   tokenName: string;
   disabled?: boolean;
+  simple?: boolean;
 };
 
 const getSeedValue = (config: ThemeConfig, token: string) => {
@@ -250,10 +253,30 @@ const getSeedValue = (config: ThemeConfig, token: string) => {
   return config.token?.[token] ?? getDesignToken(config)[token];
 };
 
-const ColorSeedTokenPreview: FC<ColorSeedTokenProps> = ({
+const seedRange: Record<string, { min: number; max: number }> = {
+  borderRadius: {
+    min: 0,
+    max: 16,
+  },
+  fontSize: {
+    min: 12,
+    max: 32,
+  },
+  sizeStep: {
+    min: 0,
+    max: 16,
+  },
+  sizeUnit: {
+    min: 0,
+    max: 16,
+  },
+};
+
+const SeedTokenPreview: FC<SeedTokenProps> = ({
   theme,
   tokenName,
   disabled,
+  simple,
 }) => {
   const tokenPath = ['token', tokenName];
   const [tokenValue, setTokenValue] = useState(
@@ -273,7 +296,7 @@ const ColorSeedTokenPreview: FC<ColorSeedTokenProps> = ({
     );
   }, 500);
 
-  const handleChange = (value: string) => {
+  const handleChange = (value: any) => {
     setTokenValue(value);
     debouncedOnChange(value);
   };
@@ -285,7 +308,7 @@ const ColorSeedTokenPreview: FC<ColorSeedTokenProps> = ({
   return (
     <div className="token-panel-pro-token-collapse-seed-block-sample">
       <div className="token-panel-pro-token-collapse-seed-block-sample-theme">
-        <span>{theme.name}</span>
+        <span>{simple ? '\u00A0' : theme.name}</span>
         {theme.getCanReset?.(tokenPath) && (
           <Typography.Link
             style={{
@@ -298,37 +321,66 @@ const ColorSeedTokenPreview: FC<ColorSeedTokenProps> = ({
           </Typography.Link>
         )}
       </div>
-      <Dropdown
-        disabled={disabled}
-        trigger={['click']}
-        overlay={<ColorPanel color={tokenValue} onChange={handleChange} />}
-      >
-        <div className="token-panel-pro-token-collapse-seed-block-sample-card">
-          <div
-            style={{
-              backgroundColor: tokenValue,
-              width: 48,
-              height: 32,
-              borderRadius: 4,
-              marginRight: 14,
-              boxShadow:
-                '0 2px 3px -1px rgba(0,0,0,0.20), inset 0 0 0 1px rgba(0,0,0,0.09)',
-            }}
-          />
-          <div className="token-panel-pro-token-collapse-seed-block-sample-card-value">
-            {tokenValue}
+      {tokenName.startsWith('color') && (
+        <Dropdown
+          disabled={disabled}
+          trigger={['click']}
+          overlay={<ColorPanel color={tokenValue} onChange={handleChange} />}
+        >
+          <div className="token-panel-pro-token-collapse-seed-block-sample-card">
+            <div
+              style={{
+                backgroundColor: tokenValue,
+                width: 48,
+                height: 32,
+                borderRadius: 4,
+                marginRight: 14,
+                boxShadow:
+                  '0 2px 3px -1px rgba(0,0,0,0.20), inset 0 0 0 1px rgba(0,0,0,0.09)',
+              }}
+            />
+            <div className="token-panel-pro-token-collapse-seed-block-sample-card-value">
+              {tokenValue}
+            </div>
           </div>
-        </div>
-      </Dropdown>
+        </Dropdown>
+      )}
+      {['fontSize', 'sizeUnit', 'sizeStep', 'borderRadius'].includes(
+        tokenName,
+      ) && (
+        <Popover
+          trigger="click"
+          placement="bottomRight"
+          overlayStyle={{ width: 220 }}
+          content={
+            <InputNumberPlus
+              value={tokenValue}
+              onChange={handleChange}
+              min={seedRange[tokenName].min}
+              max={seedRange[tokenName].max}
+            />
+          }
+        >
+          <div className="token-panel-pro-token-collapse-seed-block-sample-card">
+            <div className="token-panel-pro-token-collapse-seed-block-sample-card-value">
+              {tokenValue}
+            </div>
+          </div>
+        </Popover>
+      )}
+      {tokenName === 'wireframe' && (
+        <Switch checked={tokenValue} onChange={handleChange} />
+      )}
     </div>
   );
 };
 
 export type MapTokenCollapseContentProps = {
-  mapTokens: string[];
+  mapTokens?: string[];
   themes: MutableTheme[];
   selectedTokens?: SelectedToken;
   onTokenSelect?: (token: string | string[], type: keyof SelectedToken) => void;
+  type?: string;
 };
 
 const MapTokenCollapseContent: FC<MapTokenCollapseContentProps> = ({
@@ -336,11 +388,12 @@ const MapTokenCollapseContent: FC<MapTokenCollapseContentProps> = ({
   themes,
   onTokenSelect,
   selectedTokens,
+  type,
 }) => {
   //
   return (
     <Collapse className="token-panel-pro-token-collapse-map-collapse">
-      {mapTokens.map((mapToken) => (
+      {mapTokens?.map((mapToken) => (
         <Panel
           header={
             <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -365,21 +418,11 @@ const MapTokenCollapseContent: FC<MapTokenCollapseContentProps> = ({
                   <div
                     key={themeItem.key}
                     className="token-panel-pro-token-collapse-map-collapse-preview-color"
-                    style={{
-                      background: `${getColorBgImg(
-                        themeItem.key === 'dark',
-                      )} 0% 0% / 28px`,
-                    }}
                   >
-                    <div
-                      style={{
-                        height: '100%',
-                        width: '100%',
-                        backgroundColor: (
-                          getDesignToken(themeItem.config) as any
-                        )[mapToken],
-                        transition: 'background-color 0.2s',
-                      }}
+                    <TokenPreview
+                      theme={themeItem.config}
+                      tokenName={mapToken}
+                      type={type}
                     />
                   </div>
                 ))}
@@ -422,62 +465,94 @@ const mapGroupTitle: any = {
 };
 
 export type MapTokenCollapseProps = {
-  mapTokens: string[];
   themes: MutableTheme[];
+  group: TokenGroup<string>;
   selectedTokens?: SelectedToken;
   onTokenSelect?: (token: string | string[], type: keyof SelectedToken) => void;
   groupFn?: (token: string) => string;
-  groups?: string[];
 };
 
 const MapTokenCollapse: FC<MapTokenCollapseProps> = ({
-  mapTokens,
   themes,
   onTokenSelect,
   selectedTokens,
   groupFn,
-  groups,
+  group,
 }) => {
   const groupedTokens = useMemo(() => {
     const grouped: Record<string, string[]> = {};
     if (groupFn) {
-      mapTokens.forEach((token) => {
+      group.mapToken?.forEach((token) => {
         const key = groupFn(token) ?? 'default';
         grouped[key] = [...(grouped[key] ?? []), token];
       });
     }
     return grouped;
-  }, [mapTokens, groupFn]);
+  }, [group, groupFn]);
 
-  return groupFn ? (
-    <Collapse
-      className="token-panel-pro-grouped-map-collapse"
-      defaultActiveKey={Object.keys(groupedTokens)}
-      expandIconPosition="end"
-      expandIcon={({ isActive }) => (
-        <CaretRightOutlined
-          rotate={isActive ? 450 : 360}
-          style={{ fontSize: 12 }}
-        />
-      )}
-    >
-      {(groups ?? Object.keys(groupedTokens)).map((key) => (
-        <Panel key={key} header={mapGroupTitle[key] ?? ''}>
-          <MapTokenCollapseContent
-            mapTokens={groupedTokens[key]}
-            themes={themes}
-            selectedTokens={selectedTokens}
-            onTokenSelect={onTokenSelect}
+  if (groupFn) {
+    return (
+      <Collapse
+        className="token-panel-pro-grouped-map-collapse"
+        defaultActiveKey={Object.keys(groupedTokens)}
+        expandIconPosition="end"
+        expandIcon={({ isActive }) => (
+          <CaretRightOutlined
+            rotate={isActive ? 450 : 360}
+            style={{ fontSize: 12 }}
           />
-        </Panel>
-      ))}
-    </Collapse>
-  ) : (
+        )}
+      >
+        {(group.mapTokenGroups ?? Object.keys(groupedTokens)).map((key) => (
+          <Panel key={key} header={mapGroupTitle[key] ?? ''}>
+            <MapTokenCollapseContent
+              mapTokens={groupedTokens[key]}
+              themes={themes}
+              selectedTokens={selectedTokens}
+              onTokenSelect={onTokenSelect}
+              type={group.type}
+            />
+          </Panel>
+        ))}
+      </Collapse>
+    );
+  }
+
+  if (group.groups) {
+    return (
+      <Collapse
+        className="token-panel-pro-grouped-map-collapse"
+        defaultActiveKey={group.groups.map((item) => item.key)}
+        expandIconPosition="end"
+        expandIcon={({ isActive }) => (
+          <CaretRightOutlined
+            rotate={isActive ? 450 : 360}
+            style={{ fontSize: 12 }}
+          />
+        )}
+      >
+        {group.groups.map((item) => (
+          <Panel key={item.key} header={item.name}>
+            <MapTokenCollapseContent
+              mapTokens={item.mapToken}
+              themes={themes}
+              selectedTokens={selectedTokens}
+              onTokenSelect={onTokenSelect}
+              type={item.type}
+            />
+          </Panel>
+        ))}
+      </Collapse>
+    );
+  }
+
+  return (
     <MapTokenCollapseContent
-      mapTokens={mapTokens}
+      mapTokens={group.mapToken ?? []}
       themes={themes}
       selectedTokens={selectedTokens}
       onTokenSelect={onTokenSelect}
+      type={group.type}
     />
   );
 };
@@ -499,29 +574,31 @@ const groupMapToken = (token: string): string => {
 };
 
 export type ColorTokenContentProps = {
+  category: TokenCategory<string>;
   themes: MutableTheme[];
   selectedTokens?: SelectedToken;
   onTokenSelect?: (token: string | string[], type: keyof SelectedToken) => void;
   infoFollowPrimary?: boolean;
   onInfoFollowPrimaryChange?: (value: boolean) => void;
-  activeSeeds: string[];
-  onActiveSeedsChange?: (value: string[]) => void;
+  activeGroup: string;
+  onActiveGroupChange: (value: string) => void;
   activeTheme?: string;
   onActiveThemeChange?: (theme: string) => void;
-  onNext?: (nextTokens: string[]) => void;
+  simple?: boolean;
 };
 
-const ColorTokenContent: FC<ColorTokenContentProps> = ({
+const TokenContent: FC<ColorTokenContentProps> = ({
+  category,
   themes,
   selectedTokens,
   onTokenSelect,
   infoFollowPrimary,
   onInfoFollowPrimaryChange,
-  activeSeeds,
-  onActiveSeedsChange,
+  activeGroup,
+  onActiveGroupChange,
   activeTheme = 'default',
   onActiveThemeChange,
-  onNext,
+  simple,
 }) => {
   const [wrapSSR, hashId] = useStyle();
   const [grouped, setGrouped] = useState<boolean>(true);
@@ -529,12 +606,6 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
   const handleThemeChange: IconSwitchProps['onChange'] = (value) => {
     onActiveThemeChange?.(value ? themes[0].key : 'dark');
   };
-
-  const activeCategory = useMemo(() => {
-    return tokenCategory[0].groups.find(
-      ({ seedToken }) => seedToken.join('') === activeSeeds.join(''),
-    )?.key;
-  }, [activeSeeds]);
 
   return wrapSSR(
     <div className={classNames(hashId, 'token-panel-pro-color')}>
@@ -565,7 +636,7 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
             expandIconPosition="end"
             ghost
             accordion
-            activeKey={activeCategory}
+            activeKey={activeGroup}
             expandIcon={({ isActive }) => (
               <CaretRightOutlined
                 rotate={isActive ? 450 : 360}
@@ -573,17 +644,10 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
               />
             )}
             onChange={(key) => {
-              const changedSeedTokens =
-                tokenCategory[0].groups.find(
-                  ({ key: categoryKey }) => key === categoryKey,
-                )?.seedToken || [];
-              onActiveSeedsChange?.(changedSeedTokens);
-              onTokenSelect?.(changedSeedTokens, 'seed');
+              onActiveGroupChange(key as string);
             }}
           >
-            {tokenCategory[0].groups.map((group, index) => {
-              const mapTokens = group.mapToken;
-
+            {category.groups.map((group, index) => {
               return (
                 <Panel
                   header={<span style={{ fontWeight: 500 }}>{group.name}</span>}
@@ -593,7 +657,7 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
                     <div className="token-panel-pro-token-collapse-description">
                       {group.desc}
                     </div>
-                    {group.seedToken.map((seedToken) => (
+                    {group.seedToken?.map((seedToken) => (
                       <div
                         key={seedToken}
                         className="token-panel-pro-token-collapse-seed-block"
@@ -613,7 +677,7 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
                           </div>
                           <div>
                             <span className="token-panel-pro-token-collapse-seed-block-name-cn">
-                              {tokenMeta[seedToken]?.name}
+                              {(tokenMeta as any)[seedToken]?.name}
                             </span>
                             {seedToken === 'colorInfo' && (
                               <Checkbox
@@ -629,7 +693,8 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
                           </div>
                         </div>
                         {themes.map((themeItem) => (
-                          <ColorSeedTokenPreview
+                          <SeedTokenPreview
+                            simple={simple}
                             key={themeItem.key}
                             theme={themeItem}
                             tokenName={seedToken}
@@ -640,61 +705,62 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
                         ))}
                       </div>
                     ))}
-                    <div style={{ marginTop: 16, marginBottom: 24 }}>
-                      <div
-                        className="token-panel-pro-token-collapse-subtitle"
-                        style={{
-                          marginBottom: 10,
-                          display: 'flex',
-                          alignItems: 'center',
-                        }}
-                      >
-                        <span>Map Token</span>
-                        <Tooltip
-                          placement="topLeft"
-                          arrowPointAtCenter
-                          title="梯度变量（Map Token） 是基于 Seed 派生的梯度变量，我们精心设计的梯度变量模型具有良好的视觉设计语义，可在亮暗色模式切换时保证视觉梯度的一致性。"
+                    {(group.mapToken || group.groups) && (
+                      <div style={{ marginTop: 16, marginBottom: 24 }}>
+                        <div
+                          className="token-panel-pro-token-collapse-subtitle"
+                          style={{
+                            marginBottom: 10,
+                            display: 'flex',
+                            alignItems: 'center',
+                          }}
                         >
-                          <QuestionCircleOutlined
-                            style={{ fontSize: 14, marginLeft: 8 }}
-                          />
-                        </Tooltip>
-                        {group.mapTokenGroups && (
-                          <div
-                            style={{
-                              marginLeft: 'auto',
-                              display: 'flex',
-                              alignItems: 'center',
-                            }}
+                          <span>Map Token</span>
+                          <Tooltip
+                            placement="topLeft"
+                            arrowPointAtCenter
+                            title="梯度变量（Map Token） 是基于 Seed 派生的梯度变量，我们精心设计的梯度变量模型具有良好的视觉设计语义，可在亮暗色模式切换时保证视觉梯度的一致性。"
                           >
-                            <label style={{ marginRight: 4 }}>分组显示</label>
-                            <Switch
-                              checked={grouped}
-                              onChange={(v) => setGrouped(v)}
-                              size="small"
+                            <QuestionCircleOutlined
+                              style={{ fontSize: 14, marginLeft: 8 }}
                             />
-                          </div>
-                        )}
+                          </Tooltip>
+                          {group.mapTokenGroups && (
+                            <div
+                              style={{
+                                marginLeft: 'auto',
+                                display: 'flex',
+                                alignItems: 'center',
+                              }}
+                            >
+                              <label style={{ marginRight: 4 }}>分组显示</label>
+                              <Switch
+                                checked={grouped}
+                                onChange={(v) => setGrouped(v)}
+                                size="small"
+                              />
+                            </div>
+                          )}
+                        </div>
+                        <MapTokenCollapse
+                          group={group}
+                          themes={themes}
+                          selectedTokens={selectedTokens}
+                          onTokenSelect={onTokenSelect}
+                          groupFn={
+                            group.mapTokenGroups && grouped
+                              ? groupMapToken
+                              : undefined
+                          }
+                        />
                       </div>
-                      <MapTokenCollapse
-                        mapTokens={mapTokens ?? []}
-                        themes={themes}
-                        selectedTokens={selectedTokens}
-                        onTokenSelect={onTokenSelect}
-                        groupFn={
-                          group.mapTokenGroups && grouped
-                            ? groupMapToken
-                            : undefined
-                        }
-                        groups={group?.mapTokenGroups}
-                      />
-                    </div>
-                    {index < tokenCategory[0].groups.length - 1 && (
+                    )}
+                    {index < category.groups.length - 1 && (
                       <Button
                         type="primary"
                         style={{ borderRadius: 4, marginBottom: 12 }}
                         onClick={() =>
-                          onNext?.(tokenCategory[0].groups[index + 1].seedToken)
+                          onActiveGroupChange(category.groups[index + 1]?.key)
                         }
                       >
                         下一步
@@ -711,4 +777,4 @@ const ColorTokenContent: FC<ColorTokenContentProps> = ({
   );
 };
 
-export default ColorTokenContent;
+export default TokenContent;

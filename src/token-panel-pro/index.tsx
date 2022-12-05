@@ -2,15 +2,13 @@ import { Tabs } from 'antd';
 import type { Theme } from 'antd-token-previewer';
 import classNames from 'classnames';
 import type { FC } from 'react';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import type { SelectedToken } from '../interface';
 import { tokenCategory } from '../meta';
+import type { TokenGroup } from '../meta/interface';
 import makeStyle from '../utils/makeStyle';
 import AliasPanel from './AliasPanel';
-import type { ColorTokenContentProps } from './ColorTokenContent';
-import ColorTokenContent from './ColorTokenContent';
-
-const { TabPane } = Tabs;
+import TokenContent from './TokenContent';
 
 const useStyle = makeStyle('TokenPanelPro', (token) => ({
   '.token-panel-pro': {
@@ -60,18 +58,22 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
   onActiveThemeChange,
 }) => {
   const [wrapSSR, hashId] = useStyle();
-  const [activeSeeds, setActiveSeeds] = useState<string[]>(['colorPrimary']);
-
-  const handleNext: ColorTokenContentProps['onNext'] = (seeds) => {
-    setActiveSeeds(seeds);
-    onTokenSelect?.(seeds, 'seed');
-  };
+  const [activeGroup, setActiveGroup] = useState<string>('brandColor');
 
   const activeCategory = useMemo(() => {
-    return tokenCategory[0].groups.find(
-      ({ seedToken }) => seedToken.join('') === activeSeeds.join(''),
+    return tokenCategory.reduce<TokenGroup<string> | undefined>(
+      (result, category) => {
+        return (
+          result ?? category.groups.find((group) => group.key === activeGroup)
+        );
+      },
+      undefined,
     );
-  }, [activeSeeds]);
+  }, [activeGroup]);
+
+  useEffect(() => {
+    onTokenSelect?.(activeCategory?.seedToken ?? [], 'seed');
+  }, [activeCategory]);
 
   return wrapSSR(
     <div
@@ -84,33 +86,37 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
         tabBarStyle={{ padding: '0 16px', margin: 0 }}
         style={{ height: '100%', flex: '0 0 540px' }}
         className="token-panel-pro-tabs"
-      >
-        <TabPane key="color" tab="颜色">
-          <ColorTokenContent
-            themes={simple ? [themes[0]] : themes}
-            selectedTokens={selectedTokens}
-            onTokenSelect={onTokenSelect}
-            infoFollowPrimary={infoFollowPrimary}
-            onInfoFollowPrimaryChange={onInfoFollowPrimaryChange}
-            activeSeeds={activeSeeds}
-            onActiveSeedsChange={(seeds) => setActiveSeeds(seeds)}
-            activeTheme={activeTheme}
-            onActiveThemeChange={onActiveThemeChange}
-            onNext={handleNext}
-          />
-        </TabPane>
-        <TabPane key="size" tab="尺寸大小" disabled>
-          Size
-        </TabPane>
-        <TabPane key="others" tab="其他" disabled>
-          Others
-        </TabPane>
-      </Tabs>
+        onChange={(key) => {
+          setActiveGroup(
+            tokenCategory.find((category) => category.nameEn === key)?.groups[0]
+              .key ?? '',
+          );
+        }}
+        items={tokenCategory.map((category) => ({
+          key: category.nameEn,
+          label: category.name,
+          children: (
+            <TokenContent
+              simple={simple}
+              category={category}
+              themes={simple ? [themes[0]] : themes}
+              selectedTokens={selectedTokens}
+              onTokenSelect={onTokenSelect}
+              infoFollowPrimary={infoFollowPrimary}
+              onInfoFollowPrimaryChange={onInfoFollowPrimaryChange}
+              activeGroup={activeGroup}
+              onActiveGroupChange={setActiveGroup}
+              activeTheme={activeTheme}
+              onActiveThemeChange={onActiveThemeChange}
+            />
+          ),
+        }))}
+      />
       <AliasPanel
         open={aliasOpen}
         description={activeCategory?.aliasTokenDescription}
         onOpenChange={(value) => onAliasOpenChange?.(value)}
-        activeSeeds={activeSeeds}
+        activeSeeds={activeCategory?.seedToken}
         themes={simple ? [themes[0]] : themes}
         style={{ flex: aliasOpen ? '0 0 320px' : 'none', width: 0 }}
         selectedTokens={selectedTokens}

@@ -116,7 +116,7 @@ export type AliasPanelProps = {
   className?: string;
   style?: React.CSSProperties;
   themes: MutableTheme[];
-  activeSeeds: string[];
+  activeSeeds?: string[];
   selectedTokens?: SelectedToken;
   onTokenSelect?: (token: string, type: keyof SelectedToken) => void;
   open?: boolean;
@@ -151,7 +151,7 @@ const AliasPanel: FC<AliasPanelProps> = ({
               }, []),
             ),
           )
-        : activeSeeds.reduce<(keyof AliasToken)[]>(
+        : activeSeeds?.reduce<(keyof AliasToken)[]>(
             (result, item) =>
               result.concat((seedRelatedAlias as any)[item] ?? []),
             [],

@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import type { FC } from 'react';
 import React, { useMemo } from 'react';
 import type { TokenValue } from '../interface';
-import { tokenMeta } from '../meta';
+import tokenMeta from '../meta/token-meta.json';
 import { mapRelatedAlias } from '../meta/TokenRelation';
 import TokenInput from '../TokenInput';
 import deepUpdateObj from '../utils/deepUpdateObj';
