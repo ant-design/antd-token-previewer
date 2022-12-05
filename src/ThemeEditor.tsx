@@ -1,5 +1,4 @@
 import type { DerivativeFunc } from '@ant-design/cssinjs';
-import { Spin } from 'antd';
 import classNames from 'classnames';
 import React, {
   forwardRef,
@@ -8,7 +7,6 @@ import React, {
   useState,
 } from 'react';
 import { antdComponents } from './component-panel';
-import ComponentDemoGroup from './component-panel/ComponentDemoGroup';
 import type { ThemeDiff } from './hooks/useControlledTheme';
 import useControlledTheme from './hooks/useControlledTheme';
 import type { SelectedToken, Theme } from './interface';
@@ -19,6 +17,7 @@ import {
 } from './meta/TokenRelation';
 import type { TokenPanelProProps } from './token-panel-pro';
 import TokenPanelPro from './token-panel-pro';
+import ComponentDemoPro from './token-panel-pro/ComponentDemoPro';
 import makeStyle from './utils/makeStyle';
 import { getRelatedComponents } from './utils/statistic';
 
@@ -207,14 +206,13 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
           />
         </div>
         <div style={{ flex: 1, overflow: 'auto', height: '100%' }}>
-          <Spin spinning={loading}>
-            <ComponentDemoGroup
-              selectedTokens={computedSelectedTokens}
-              themes={[memoizedActiveTheme]}
-              components={antdComponents}
-              activeComponents={relatedComponents}
-            />
-          </Spin>
+          <ComponentDemoPro
+            themes={[memoizedActiveTheme]}
+            components={antdComponents}
+            loading={loading}
+            activeComponents={relatedComponents}
+            selectedTokens={computedSelectedTokens}
+          />
         </div>
       </div>,
     );
