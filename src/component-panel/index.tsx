@@ -1,5 +1,5 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
-import { Breadcrumb, ConfigProvider, Segmented, Switch } from 'antd';
+import { Breadcrumb, Segmented, Switch } from 'antd';
 import classNames from 'classnames';
 import type { CSSProperties, FC } from 'react';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
@@ -252,45 +252,17 @@ const Index: FC<ComponentPanelProps> = ({
 
   const demoGroup = useMemo(
     () => (
-      <ConfigProvider
-        theme={{
-          components: {
-            Select: {
-              zIndexPopup: 10,
-            },
-            DatePicker: {
-              zIndexPopup: 10,
-            },
-            Dropdown: {
-              zIndexPopup: 10,
-            },
-            Mentions: {
-              zIndexPopup: 10,
-            },
-            Tooltip: {
-              zIndexPopup: 10,
-            },
-            Popover: {
-              zIndexPopup: 10,
-            },
-            Popconfirm: {
-              zIndexPopup: 10,
-            },
-          },
-        }}
-      >
-        <ComponentDemoGroup
-          themes={themes}
-          components={antdComponents}
-          size={componentSize}
-          disabled={componentDisabled}
-          activeComponents={
-            filterMode === 'highlight' ? undefined : relatedComponents
-          }
-          selectedTokens={selectedTokens}
-          onTokenClick={onTokenClick}
-        />
-      </ConfigProvider>
+      <ComponentDemoGroup
+        themes={themes}
+        components={antdComponents}
+        size={componentSize}
+        disabled={componentDisabled}
+        activeComponents={
+          filterMode === 'highlight' ? undefined : relatedComponents
+        }
+        selectedTokens={selectedTokens}
+        onTokenClick={onTokenClick}
+      />
     ),
     [
       themes,
@@ -317,7 +289,6 @@ const Index: FC<ComponentPanelProps> = ({
           components={antdComponents}
           onSelect={(component) => {
             if (component.startsWith('type-')) {
-              console.log((antdComponents as any)[component.split('-')[1]][0]);
               scrollToComponent(
                 (antdComponents as any)[component.split('-')[1]][0],
               );

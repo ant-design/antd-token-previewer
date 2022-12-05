@@ -2,7 +2,7 @@ import { Tabs } from 'antd';
 import type { Theme } from 'antd-token-previewer';
 import classNames from 'classnames';
 import type { FC } from 'react';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import type { SelectedToken } from '../interface';
 import { tokenCategory } from '../meta';
 import type { TokenGroup } from '../meta/interface';
@@ -70,6 +70,10 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
       undefined,
     );
   }, [activeGroup]);
+
+  useEffect(() => {
+    onTokenSelect?.(activeCategory?.seedToken ?? [], 'seed');
+  }, [activeCategory]);
 
   return wrapSSR(
     <div

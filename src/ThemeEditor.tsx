@@ -1,4 +1,5 @@
 import type { DerivativeFunc } from '@ant-design/cssinjs';
+import { Spin } from 'antd';
 import classNames from 'classnames';
 import React, {
   forwardRef,
@@ -69,6 +70,9 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
       customTheme ? customTheme.key : 'default',
     );
 
+    const [loading, setLoading] = useState<boolean>(false);
+    const loadingRef = React.useRef<object>();
+
     const {
       themes,
       infoFollowPrimary,
@@ -92,29 +96,37 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
       token,
       type,
     ) => {
-      setSelectedTokens((prev) => {
-        const tokens =
-          typeof token === 'string' ? (token ? [token] : []) : token;
-        if (type === 'seed') {
-          return {
-            seed: tokens,
-          };
-        }
+      setLoading(true);
+      const currentLoading = {};
+      loadingRef.current = currentLoading;
+      setTimeout(() => {
+        if (loadingRef.current === currentLoading) {
+          setSelectedTokens((prev) => {
+            const tokens =
+              typeof token === 'string' ? (token ? [token] : []) : token;
+            if (type === 'seed') {
+              return {
+                seed: tokens,
+              };
+            }
 
-        let newSelectedTokens = { ...prev };
-        tokens.forEach((newToken) => {
-          newSelectedTokens = {
-            ...prev,
-            [type]: prev[type]?.includes(newToken)
-              ? prev[type]?.filter((t) => t !== newToken)
-              : [...(prev[type] ?? []), newToken],
-          };
-        });
-        if (type === 'map') {
-          delete newSelectedTokens.alias;
+            let newSelectedTokens = { ...prev };
+            tokens.forEach((newToken) => {
+              newSelectedTokens = {
+                ...prev,
+                [type]: prev[type]?.includes(newToken)
+                  ? prev[type]?.filter((t) => t !== newToken)
+                  : [...(prev[type] ?? []), newToken],
+              };
+            });
+            if (type === 'map') {
+              delete newSelectedTokens.alias;
+            }
+            return newSelectedTokens;
+          });
+          setLoading(false);
         }
-        return newSelectedTokens;
-      });
+      }, 800);
     };
 
     const computedSelectedTokens = useMemo(() => {
@@ -195,12 +207,14 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
           />
         </div>
         <div style={{ flex: 1, overflow: 'auto', height: '100%' }}>
-          <ComponentDemoGroup
-            selectedTokens={computedSelectedTokens}
-            themes={[memoizedActiveTheme]}
-            components={antdComponents}
-            activeComponents={relatedComponents}
-          />
+          <Spin spinning={loading}>
+            <ComponentDemoGroup
+              selectedTokens={computedSelectedTokens}
+              themes={[memoizedActiveTheme]}
+              components={antdComponents}
+              activeComponents={relatedComponents}
+            />
+          </Spin>
         </div>
       </div>,
     );
