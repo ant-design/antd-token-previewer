@@ -7,7 +7,6 @@ import React, {
   useState,
 } from 'react';
 import { antdComponents } from './component-panel';
-import type { ThemeDiff } from './hooks/useControlledTheme';
 import useControlledTheme from './hooks/useControlledTheme';
 import type { SelectedToken, Theme } from './interface';
 import {
@@ -35,7 +34,6 @@ const defaultTheme: Theme = {
 };
 
 export type ThemeEditorRef = {
-  getDiff: () => ThemeDiff;
   updateRef: () => void;
 };
 
@@ -63,21 +61,15 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
     });
     const [aliasOpen, setAliasOpen] = useState<boolean>(false);
 
-    const {
-      theme,
-      infoFollowPrimary,
-      onInfoFollowPrimaryChange,
-      getDiff,
-      updateRef,
-    } = useControlledTheme({
-      theme: customTheme,
-      defaultTheme,
-      onChange: onThemeChange,
-      darkAlgorithm,
-    });
+    const { theme, infoFollowPrimary, onInfoFollowPrimaryChange, updateRef } =
+      useControlledTheme({
+        theme: customTheme,
+        defaultTheme,
+        onChange: onThemeChange,
+        darkAlgorithm,
+      });
 
     useImperativeHandle(ref, () => ({
-      getDiff,
       updateRef,
     }));
 
