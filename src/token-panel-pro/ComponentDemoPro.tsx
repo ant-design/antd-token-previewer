@@ -40,7 +40,7 @@ const ComponentDemoPro: FC<ComponentDemoProProps> = ({
 
   return (
     <div style={{ ...style, background: colorBgLayout }}>
-      <div style={{ margin: 'auto', width: 960 }}>
+      <div style={{ margin: 'auto', maxWidth: 960 }}>
         <Segmented
           options={[
             { value: 'overview', label: '概览' },
