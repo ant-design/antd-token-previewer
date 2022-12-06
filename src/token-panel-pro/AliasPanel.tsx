@@ -115,7 +115,7 @@ const useStyle = makeStyle('TokenPanelProAlias', (token) => ({
 export type AliasPanelProps = {
   className?: string;
   style?: React.CSSProperties;
-  themes: MutableTheme[];
+  theme: MutableTheme;
   activeSeeds?: string[];
   selectedTokens?: SelectedToken;
   onTokenSelect?: (token: string, type: keyof SelectedToken) => void;
@@ -127,7 +127,7 @@ export type AliasPanelProps = {
 const AliasPanel: FC<AliasPanelProps> = ({
   className,
   activeSeeds,
-  themes,
+  theme,
   style,
   selectedTokens,
   onTokenSelect,
@@ -228,7 +228,7 @@ const AliasPanel: FC<AliasPanelProps> = ({
                 >
                   <TokenDetail
                     style={{ paddingBottom: 10 }}
-                    themes={themes}
+                    themes={[theme]}
                     path={['token']}
                     tokenName={aliasToken as keyof AliasToken}
                   />

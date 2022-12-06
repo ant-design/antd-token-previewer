@@ -3,7 +3,7 @@ import { ConfigProvider, Input, InputNumber, Select, theme } from 'antd';
 import { tuple } from 'antd/es/_util/type';
 import classNames from 'classnames';
 import useMergedState from 'rc-util/es/hooks/useMergedState';
-import type { FC } from 'react';
+import type { CSSProperties, FC } from 'react';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { HexColorPicker, RgbaColorPicker } from 'react-colorful';
 import tinycolor from 'tinycolor2';
@@ -219,6 +219,7 @@ export type ColorPanelProps = {
   color: string;
   onChange: (color: string) => void;
   alpha?: boolean;
+  style?: CSSProperties;
 };
 
 const colorModes = tuple('HEX', 'HEX8', 'RGB', 'RGBA');
@@ -237,7 +238,7 @@ const getColorStr = (color: any, mode: ColorMode) => {
   }
 };
 
-const ColorPanel: FC<ColorPanelProps> = ({ color, onChange, alpha }) => {
+const ColorPanel: FC<ColorPanelProps> = ({ color, onChange, alpha, style }) => {
   const { token } = useToken();
   const [wrapSSR, hashId] = useStyle();
   const [colorMode, setColorMode] = React.useState<ColorMode>('HEX');
@@ -268,7 +269,7 @@ const ColorPanel: FC<ColorPanelProps> = ({ color, onChange, alpha }) => {
   };
 
   return wrapSSR(
-    <div className={classNames(hashId, 'color-panel')}>
+    <div className={classNames(hashId, 'color-panel')} style={style}>
       {(colorMode === 'HEX' || colorMode === 'RGB') && (
         <HexColorPicker
           style={{ height: 160 }}

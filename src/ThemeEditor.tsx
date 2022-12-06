@@ -7,7 +7,6 @@ import React, {
   useState,
 } from 'react';
 import { antdComponents } from './component-panel';
-import type { ThemeDiff } from './hooks/useControlledTheme';
 import useControlledTheme from './hooks/useControlledTheme';
 import type { SelectedToken, Theme } from './interface';
 import {
@@ -21,9 +20,9 @@ import ComponentDemoPro from './token-panel-pro/ComponentDemoPro';
 import makeStyle from './utils/makeStyle';
 import { getRelatedComponents } from './utils/statistic';
 
-const useStyle = makeStyle('ThemeEditor', () => ({
+const useStyle = makeStyle('ThemeEditor', (token) => ({
   '.antd-theme-editor': {
-    backgroundColor: 'rgba(0, 0, 0, 0.04)',
+    backgroundColor: token.colorBgLayout,
     display: 'flex',
   },
 }));
@@ -35,11 +34,14 @@ const defaultTheme: Theme = {
 };
 
 export type ThemeEditorRef = {
-  getDiff: () => ThemeDiff;
   updateRef: () => void;
 };
 
 export type ThemeEditorProps = {
+  /**
+   * @deprecated
+   * @default true
+   */
   simple?: boolean;
   theme?: Theme;
   onThemeChange?: (theme: Theme) => void;
@@ -50,14 +52,7 @@ export type ThemeEditorProps = {
 
 const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
   (
-    {
-      simple,
-      theme: customTheme,
-      onThemeChange,
-      className,
-      style,
-      darkAlgorithm,
-    },
+    { theme: customTheme, onThemeChange, className, style, darkAlgorithm },
     ref,
   ) => {
     const [wrapSSR, hashId] = useStyle();
@@ -65,29 +60,16 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
       seed: ['colorPrimary'],
     });
     const [aliasOpen, setAliasOpen] = useState<boolean>(false);
-    const [activeTheme, setActiveTheme] = useState<string>(
-      customTheme ? customTheme.key : 'default',
-    );
 
-    const [loading, setLoading] = useState<boolean>(false);
-    const loadingRef = React.useRef<object>();
-
-    const {
-      themes,
-      infoFollowPrimary,
-      onInfoFollowPrimaryChange,
-      getDiff,
-      updateRef,
-      switchDark,
-    } = useControlledTheme({
-      theme: customTheme,
-      defaultTheme,
-      onChange: onThemeChange,
-      darkAlgorithm,
-    });
+    const { theme, infoFollowPrimary, onInfoFollowPrimaryChange, updateRef } =
+      useControlledTheme({
+        theme: customTheme,
+        defaultTheme,
+        onChange: onThemeChange,
+        darkAlgorithm,
+      });
 
     useImperativeHandle(ref, () => ({
-      getDiff,
       updateRef,
     }));
 
@@ -95,37 +77,29 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
       token,
       type,
     ) => {
-      setLoading(true);
-      const currentLoading = {};
-      loadingRef.current = currentLoading;
-      setTimeout(() => {
-        if (loadingRef.current === currentLoading) {
-          setSelectedTokens((prev) => {
-            const tokens =
-              typeof token === 'string' ? (token ? [token] : []) : token;
-            if (type === 'seed') {
-              return {
-                seed: tokens,
-              };
-            }
-
-            let newSelectedTokens = { ...prev };
-            tokens.forEach((newToken) => {
-              newSelectedTokens = {
-                ...prev,
-                [type]: prev[type]?.includes(newToken)
-                  ? prev[type]?.filter((t) => t !== newToken)
-                  : [...(prev[type] ?? []), newToken],
-              };
-            });
-            if (type === 'map') {
-              delete newSelectedTokens.alias;
-            }
-            return newSelectedTokens;
-          });
-          setLoading(false);
+      setSelectedTokens((prev) => {
+        const tokens =
+          typeof token === 'string' ? (token ? [token] : []) : token;
+        if (type === 'seed') {
+          return {
+            seed: tokens,
+          };
         }
-      }, 800);
+
+        let newSelectedTokens = { ...prev };
+        tokens.forEach((newToken) => {
+          newSelectedTokens = {
+            ...prev,
+            [type]: prev[type]?.includes(newToken)
+              ? prev[type]?.filter((t) => t !== newToken)
+              : [...(prev[type] ?? []), newToken],
+          };
+        });
+        if (type === 'map') {
+          delete newSelectedTokens.alias;
+        }
+        return newSelectedTokens;
+      });
     };
 
     const computedSelectedTokens = useMemo(() => {
@@ -160,21 +134,6 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
         : [];
     }, [computedSelectedTokens]);
 
-    const memoizedActiveTheme = useMemo(
-      () => themes.find((item) => item.key === activeTheme)!,
-      [activeTheme, themes],
-    );
-
-    const handleActiveThemeChange: TokenPanelProProps['onActiveThemeChange'] = (
-      newActive,
-    ) => {
-      if (simple) {
-        switchDark();
-      } else {
-        setActiveTheme(newActive);
-      }
-    };
-
     return wrapSSR(
       <div
         className={classNames(hashId, 'antd-theme-editor', className)}
@@ -194,26 +153,21 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
           <TokenPanelPro
             aliasOpen={aliasOpen}
             onAliasOpenChange={(open) => setAliasOpen(open)}
-            themes={themes}
-            simple={simple}
+            theme={theme}
             style={{ flex: 1 }}
             selectedTokens={selectedTokens}
             onTokenSelect={handleTokenSelect}
             infoFollowPrimary={infoFollowPrimary}
             onInfoFollowPrimaryChange={onInfoFollowPrimaryChange}
-            activeTheme={activeTheme}
-            onActiveThemeChange={handleActiveThemeChange}
           />
         </div>
-        <div style={{ flex: 1, overflow: 'auto', height: '100%' }}>
-          <ComponentDemoPro
-            themes={[memoizedActiveTheme]}
-            components={antdComponents}
-            loading={loading}
-            activeComponents={relatedComponents}
-            selectedTokens={computedSelectedTokens}
-          />
-        </div>
+        <ComponentDemoPro
+          theme={theme}
+          components={antdComponents}
+          activeComponents={relatedComponents}
+          selectedTokens={computedSelectedTokens}
+          style={{ flex: 1, overflow: 'auto', height: '100%' }}
+        />
       </div>,
     );
   },

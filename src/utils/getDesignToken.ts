@@ -10,7 +10,7 @@ export default function getDesignToken(config: ThemeConfig = {}): GlobalToken {
   const mapToken = Array.isArray(mapFn)
     ? mapFn.reduce<MapToken>(
         (result, fn) => fn(seedToken, result),
-        seedToken as MapToken,
+        undefined as any,
       )
     : mapFn(seedToken);
   const mergedMapToken = {

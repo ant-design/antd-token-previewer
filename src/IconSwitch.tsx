@@ -1,5 +1,5 @@
-import React from 'react';
 import classNames from 'classnames';
+import React from 'react';
 import makeStyle from './utils/makeStyle';
 
 const useStyle = makeStyle('IconSwitch', () => {
@@ -45,9 +45,10 @@ const useStyle = makeStyle('IconSwitch', () => {
         lineHeight: '32px',
         textAlign: 'center',
         transition: 'all 0.3s',
+        fontSize: 16,
 
         '.anticon': {
-          fontSize: 18,
+          fontSize: 14,
         },
 
         '&:first-child': {

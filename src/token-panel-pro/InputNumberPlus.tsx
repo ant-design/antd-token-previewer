@@ -16,7 +16,7 @@ const InputNumberPlus: FC<InputNumberPlusProps> = ({
   max,
 }) => {
   return (
-    <div style={{ display: 'flex' }}>
+    <div style={{ display: 'flex', width: 200 }}>
       <Slider
         style={{ flex: '0 0 120px', marginRight: 12 }}
         value={value}
