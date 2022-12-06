@@ -31,8 +31,7 @@ const useStyle = makeStyle('TokenPanelPro', (token) => ({
 export type TokenPanelProProps = {
   className?: string;
   style?: React.CSSProperties;
-  simple?: boolean;
-  themes: Theme[];
+  theme: Theme;
   selectedTokens?: SelectedToken;
   onTokenSelect?: (token: string | string[], type: keyof SelectedToken) => void;
   infoFollowPrimary?: boolean;
@@ -40,22 +39,18 @@ export type TokenPanelProProps = {
   aliasOpen?: boolean;
   onAliasOpenChange?: (value: boolean) => void;
   activeTheme?: string;
-  onActiveThemeChange?: (theme: string) => void;
 };
 
 const TokenPanelPro: FC<TokenPanelProProps> = ({
   className,
   style,
-  simple,
-  themes,
+  theme,
   selectedTokens,
   onTokenSelect,
   infoFollowPrimary,
   onInfoFollowPrimaryChange,
   aliasOpen,
   onAliasOpenChange,
-  activeTheme,
-  onActiveThemeChange,
 }) => {
   const [wrapSSR, hashId] = useStyle();
   const [activeGroup, setActiveGroup] = useState<string>('brandColor');
@@ -97,17 +92,14 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
           label: category.name,
           children: (
             <TokenContent
-              simple={simple}
               category={category}
-              themes={simple ? [themes[0]] : themes}
+              theme={theme}
               selectedTokens={selectedTokens}
               onTokenSelect={onTokenSelect}
               infoFollowPrimary={infoFollowPrimary}
               onInfoFollowPrimaryChange={onInfoFollowPrimaryChange}
               activeGroup={activeGroup}
               onActiveGroupChange={setActiveGroup}
-              activeTheme={activeTheme}
-              onActiveThemeChange={onActiveThemeChange}
             />
           ),
         }))}
@@ -117,7 +109,7 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
         description={activeCategory?.aliasTokenDescription}
         onOpenChange={(value) => onAliasOpenChange?.(value)}
         activeSeeds={activeCategory?.seedToken}
-        themes={simple ? [themes[0]] : themes}
+        theme={theme}
         style={{ flex: aliasOpen ? '0 0 320px' : 'none', width: 0 }}
         selectedTokens={selectedTokens}
         onTokenSelect={onTokenSelect}

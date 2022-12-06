@@ -1,4 +1,4 @@
-import { ConfigProvider, Segmented, Spin } from 'antd';
+import { ConfigProvider, Segmented, theme as antdTheme } from 'antd';
 import type { MutableTheme } from 'antd-token-previewer';
 import type { FC } from 'react';
 import React from 'react';
@@ -7,20 +7,23 @@ import { Error, Primary, Success, Warning } from '../overviews';
 
 export type ComponentDemoProProps = {
   selectedTokens?: string[];
-  themes: MutableTheme[];
+  theme: MutableTheme;
   components: Record<string, string[]>;
   activeComponents?: string[];
-  loading?: boolean;
+  style?: React.CSSProperties;
 };
 
 const ComponentDemoPro: FC<ComponentDemoProProps> = ({
   selectedTokens,
-  themes,
+  theme,
   components,
   activeComponents,
-  loading,
+  style,
 }) => {
   const [mode, setMode] = React.useState<'overview' | 'component'>('overview');
+  const {
+    token: { colorBgLayout },
+  } = antdTheme.useToken();
 
   const overviewDemo = React.useMemo(() => {
     if (selectedTokens?.includes('colorError')) {
@@ -36,30 +39,36 @@ const ComponentDemoPro: FC<ComponentDemoProProps> = ({
   }, [selectedTokens]);
 
   return (
-    <Spin spinning={loading}>
-      <Segmented
-        options={[
-          { value: 'overview', label: '概览' },
-          { value: 'component', label: '组件' },
-        ]}
-        value={mode}
-        onChange={setMode as any}
-        style={{ margin: '12px 0 0 12px' }}
-      />
-      {mode === 'overview' ? (
-        <ConfigProvider theme={themes[0].config}>
-          <div style={{ margin: 12 }}>{overviewDemo}</div>
-        </ConfigProvider>
-      ) : (
-        <ComponentDemoGroup
-          selectedTokens={selectedTokens}
-          themes={themes}
-          components={components}
-          activeComponents={activeComponents}
+    <div style={{ ...style, background: colorBgLayout }}>
+      <div style={{ margin: 'auto', width: 960 }}>
+        <Segmented
+          options={[
+            { value: 'overview', label: '概览' },
+            { value: 'component', label: '组件' },
+          ]}
+          value={mode}
+          onChange={setMode as any}
+          style={{ margin: '12px 0 0 12px' }}
         />
-      )}
-    </Spin>
+        {mode === 'overview' ? (
+          <div style={{ margin: 12, maxWidth: 'fit-content' }}>
+            {overviewDemo}
+          </div>
+        ) : (
+          <ComponentDemoGroup
+            selectedTokens={selectedTokens}
+            themes={[theme]}
+            components={components}
+            activeComponents={activeComponents}
+          />
+        )}
+      </div>
+    </div>
   );
 };
 
-export default ComponentDemoPro;
+export default (props: ComponentDemoProProps) => (
+  <ConfigProvider theme={props.theme.config}>
+    <ComponentDemoPro {...props} />
+  </ConfigProvider>
+);

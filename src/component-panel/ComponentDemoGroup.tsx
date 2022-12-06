@@ -3,12 +3,7 @@ import classNames from 'classnames';
 import type { FC } from 'react';
 import React from 'react';
 import ComponentDemos from '../component-demos';
-import type {
-  AliasToken,
-  ComponentDemo,
-  MutableTheme,
-  TokenName,
-} from '../interface';
+import type { ComponentDemo, MutableTheme, TokenName } from '../interface';
 import makeStyle from '../utils/makeStyle';
 import ComponentCard, { getComponentDemoId } from './ComponentCard';
 
@@ -158,13 +153,6 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
       {Object.entries(components)
         .reduce<string[]>((result, [, group]) => result.concat(group), [])
         .map((item) => {
-          if (
-            activeComponents &&
-            activeComponents.length !== 0 &&
-            !activeComponents.includes(item)
-          ) {
-            return null;
-          }
           const componentDemos = ComponentDemos[item];
           if (!componentDemos) {
             return null;
@@ -176,10 +164,11 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
                 ((!selectedTokens || selectedTokens.length === 0) &&
                   index === 0) ||
                 selectedTokens?.some((token) =>
-                  demo.tokens?.includes(token as keyof AliasToken),
+                  demo.tokens?.includes(token as any),
                 ),
             };
           });
+
           return (
             <div
               className={classNames('previewer-component-demo-group', hashId)}
@@ -194,18 +183,29 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
                     : 'none',
               }}
             >
-              {themes.map((theme) => (
-                <ConfigProvider key={theme.key} theme={theme.config}>
-                  <ComponentDemoBlock
-                    component={item}
-                    onTokenClick={onTokenClick}
-                    demos={demos}
-                    disabled={disabled}
-                    size={size}
-                    theme={theme}
-                  />
-                </ConfigProvider>
-              ))}
+              {themes.length > 1 ? (
+                themes.map((theme) => (
+                  <ConfigProvider key={theme.key} theme={theme.config}>
+                    <ComponentDemoBlock
+                      component={item}
+                      onTokenClick={onTokenClick}
+                      demos={demos}
+                      disabled={disabled}
+                      size={size}
+                      theme={theme}
+                    />
+                  </ConfigProvider>
+                ))
+              ) : (
+                <ComponentDemoBlock
+                  component={item}
+                  onTokenClick={onTokenClick}
+                  demos={demos}
+                  disabled={disabled}
+                  size={size}
+                  theme={themes[0]}
+                />
+              )}
             </div>
           );
         })}
