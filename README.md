@@ -6,7 +6,10 @@ https://ant-design.github.io/antd-token-previewer/
 
 ## Install
 
-TODO
+
+```
+npm i ant-token-previewer
+```
 
 ## Usage
 
