@@ -31,14 +31,14 @@ const useStyle = makeStyle('TokenInput', (token) => ({
     [`${token.rootCls}-input-group-wrapper, ${token.rootCls}-input-number-group-wrapper`]:
       {
         padding: 0,
-        height: token.controlHeightSM,
+        height: 24,
         width: '100%',
 
         input: {
           fontSize: token.fontSizeSM,
           lineHeight: token.lineHeightSM,
           padding: `2px ${token.paddingXS}px`,
-          height: token.controlHeightSM,
+          height: 24,
         },
       },
 
@@ -80,6 +80,7 @@ type TokenInputProps = {
   readonly?: boolean;
   onReset?: () => void;
   canReset?: boolean;
+  hideTheme?: boolean;
 };
 
 const TokenInput: FC<TokenInputProps> = ({
@@ -90,6 +91,7 @@ const TokenInput: FC<TokenInputProps> = ({
   readonly,
   onReset,
   canReset: customCanReset,
+  hideTheme,
 }) => {
   const valueRef = useRef<number | string>(value || '');
   const [tokenValue, setTokenValue] = useState<string | number>(value || '');
@@ -127,10 +129,10 @@ const TokenInput: FC<TokenInputProps> = ({
       style={{
         display: 'flex',
         alignItems: 'center',
-        minWidth: 80,
+        minWidth: hideTheme ? '' : 80,
       }}
     >
-      {canReset ? (
+      {canReset || hideTheme ? (
         <Button
           style={{
             fontSize: 12,
@@ -138,6 +140,7 @@ const TokenInput: FC<TokenInputProps> = ({
           onClick={handleReset}
           type="link"
           size="small"
+          disabled={!canReset}
         >
           重置
         </Button>

@@ -112,6 +112,7 @@ const TokenDetail: FC<TokenDetailProps> = ({
           return (
             <div key={themeItem.key}>
               <TokenInput
+                hideTheme={themes.length === 1}
                 theme={themeItem}
                 canReset={themeItem.getCanReset?.(tokenPath)}
                 onReset={() => themeItem.onReset?.(tokenPath)}

@@ -29,9 +29,7 @@ import IconSwitch from '../IconSwitch';
 import type { SelectedToken } from '../interface';
 import type { TokenCategory, TokenGroup } from '../meta/interface';
 import tokenMeta from '../meta/token-meta.json';
-import { mapRelatedAlias } from '../meta/TokenRelation';
 import makeStyle from '../utils/makeStyle';
-import { getRelatedComponents } from '../utils/statistic';
 import InputNumberPlus from './InputNumberPlus';
 import TokenDetail from './TokenDetail';
 import TokenPreview from './TokenPreview';
@@ -117,9 +115,7 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
             color: token.colorTextTertiary,
             marginBottom: 2,
             fontSize: 12,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
+            textAlign: 'end',
           },
 
           '&-card': {
@@ -199,12 +195,14 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
 
     '.token-panel-pro-token-collapse-map-collapse-count': {
       color: token.colorTextSecondary,
-      display: 'inline-block',
+      // display: 'inline-block',
       fontSize: 12,
       lineHeight: '16px',
       padding: '0 6px',
       backgroundColor: token.colorFillAlter,
       borderRadius: 999,
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
     },
 
     '.token-panel-pro-token-pick': {
@@ -308,6 +306,8 @@ const SeedTokenPreview: FC<SeedTokenProps> = ({
     setTokenValue(getSeedValue(theme.config, tokenName));
   }, [theme.config, tokenName]);
 
+  const showReset = theme.getCanReset?.(tokenPath);
+
   return (
     <div className="token-panel-pro-token-collapse-seed-block-sample">
       <div className="token-panel-pro-token-collapse-seed-block-sample-theme">
@@ -315,8 +315,9 @@ const SeedTokenPreview: FC<SeedTokenProps> = ({
           style={{
             fontSize: 12,
             padding: 0,
+            opacity: showReset ? 1 : 0,
+            pointerEvents: showReset ? 'auto' : 'none',
           }}
-          disabled={!theme.getCanReset?.(tokenPath)}
           onClick={() => theme.onReset?.(tokenPath)}
         >
           重置
@@ -395,20 +396,28 @@ const MapTokenCollapseContent: FC<MapTokenCollapseContentProps> = ({
         <Panel
           header={
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              <div style={{ flex: 1 }}>
-                <span style={{ fontWeight: 500 }}>
+              <div
+                style={{
+                  flex: 1,
+                  whiteSpace: 'nowrap',
+                  width: 0,
+                  overflow: 'hidden',
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginRight: 8,
+                }}
+              >
+                <span style={{ fontWeight: 500, flex: 'none' }}>
                   {(tokenMeta as any)[mapToken]?.name}
                 </span>
-                <span className="token-panel-pro-token-collapse-map-collapse-token">
+                <span
+                  className="token-panel-pro-token-collapse-map-collapse-token"
+                  style={{ flex: 'none' }}
+                >
                   {mapToken}
                 </span>
                 <span className="token-panel-pro-token-collapse-map-collapse-count">
-                  {
-                    getRelatedComponents([
-                      mapToken,
-                      ...((mapRelatedAlias as any)[mapToken] ?? []),
-                    ]).length
-                  }
+                  {(getDesignToken(theme.config) as any)[mapToken]}
                 </span>
               </div>
               <div className="token-panel-pro-token-collapse-map-collapse-preview">
@@ -687,7 +696,7 @@ const TokenContent: FC<ColorTokenContentProps> = ({
                             <Tooltip
                               placement="topLeft"
                               arrowPointAtCenter
-                              title="基础变量（Seed Token）意味着所有设计意图的起源。在 Ant Design 中，我们会基于 Seed Token 自动派生一套具有设计语义的梯度变量（Map Token）。"
+                              title={(tokenMeta as any)[seedToken]?.desc}
                             >
                               <QuestionCircleOutlined
                                 style={{ fontSize: 14, marginLeft: 8 }}
