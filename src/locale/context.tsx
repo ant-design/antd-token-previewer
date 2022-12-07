@@ -1,6 +1,6 @@
 import React from 'react';
-import { zhCN } from './index';
 import type { Locale } from './interface';
+import zhCN from './zh-CN';
 
 export const LocaleContext = React.createContext<Locale>(zhCN);
 
