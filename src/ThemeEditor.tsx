@@ -9,6 +9,8 @@ import React, {
 import { antdComponents } from './component-panel';
 import useControlledTheme from './hooks/useControlledTheme';
 import type { SelectedToken, Theme } from './interface';
+import type { Locale } from './locale';
+import { LocaleContext, zhCN } from './locale';
 import {
   mapRelatedAlias,
   seedRelatedAlias,
@@ -48,11 +50,19 @@ export type ThemeEditorProps = {
   className?: string;
   style?: React.CSSProperties;
   darkAlgorithm?: DerivativeFunc<any, any>;
+  locale?: Locale;
 };
 
 const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
   (
-    { theme: customTheme, onThemeChange, className, style, darkAlgorithm },
+    {
+      theme: customTheme,
+      onThemeChange,
+      className,
+      style,
+      darkAlgorithm,
+      locale = zhCN,
+    },
     ref,
   ) => {
     const [wrapSSR, hashId] = useStyle();
@@ -135,40 +145,42 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
     }, [computedSelectedTokens]);
 
     return wrapSSR(
-      <div
-        className={classNames(hashId, 'antd-theme-editor', className)}
-        style={style}
-      >
+      <LocaleContext.Provider value={locale}>
         <div
-          style={{
-            flex: aliasOpen ? '0 0 860px' : `0 0 ${860 - 320}px`,
-            height: '100%',
-            backgroundColor: '#F7F8FA',
-            backgroundImage:
-              'linear-gradient(180deg, #FFFFFF 0%, rgba(246,247,249,0.00) 100%)',
-            display: 'flex',
-            transition: 'all 0.3s',
-          }}
+          className={classNames(hashId, 'antd-theme-editor', className)}
+          style={style}
         >
-          <TokenPanelPro
-            aliasOpen={aliasOpen}
-            onAliasOpenChange={(open) => setAliasOpen(open)}
+          <div
+            style={{
+              flex: aliasOpen ? '0 0 860px' : `0 0 ${860 - 320}px`,
+              height: '100%',
+              backgroundColor: '#F7F8FA',
+              backgroundImage:
+                'linear-gradient(180deg, #FFFFFF 0%, rgba(246,247,249,0.00) 100%)',
+              display: 'flex',
+              transition: 'all 0.3s',
+            }}
+          >
+            <TokenPanelPro
+              aliasOpen={aliasOpen}
+              onAliasOpenChange={(open) => setAliasOpen(open)}
+              theme={theme}
+              style={{ flex: 1 }}
+              selectedTokens={selectedTokens}
+              onTokenSelect={handleTokenSelect}
+              infoFollowPrimary={infoFollowPrimary}
+              onInfoFollowPrimaryChange={onInfoFollowPrimaryChange}
+            />
+          </div>
+          <ComponentDemoPro
             theme={theme}
-            style={{ flex: 1 }}
-            selectedTokens={selectedTokens}
-            onTokenSelect={handleTokenSelect}
-            infoFollowPrimary={infoFollowPrimary}
-            onInfoFollowPrimaryChange={onInfoFollowPrimaryChange}
+            components={antdComponents}
+            activeComponents={relatedComponents}
+            selectedTokens={computedSelectedTokens}
+            style={{ flex: 1, overflow: 'auto', height: '100%' }}
           />
         </div>
-        <ComponentDemoPro
-          theme={theme}
-          components={antdComponents}
-          activeComponents={relatedComponents}
-          selectedTokens={computedSelectedTokens}
-          style={{ flex: 1, overflow: 'auto', height: '100%' }}
-        />
-      </div>,
+      </LocaleContext.Provider>,
     );
   },
 );

@@ -4,6 +4,7 @@ import type { FC } from 'react';
 import React from 'react';
 import ComponentDemos from '../component-demos';
 import type { ComponentDemo, MutableTheme, TokenName } from '../interface';
+import { useLocale } from '../locale';
 import makeStyle from '../utils/makeStyle';
 import ComponentCard, { getComponentDemoId } from './ComponentCard';
 
@@ -64,6 +65,7 @@ const ComponentDemoBlock: FC<ComponentDemoBlockProps> = ({
   theme,
 }) => {
   const [, hashId] = useDemoStyle();
+  const locale = useLocale();
 
   return (
     <div className={classNames('previewer-component-demo-group-item', hashId)}>
@@ -85,7 +87,8 @@ const ComponentDemoBlock: FC<ComponentDemoBlockProps> = ({
                     <div className="previewer-component-demo-group-item-relative-token">
                       <Tooltip title={demo.tokens.join(', ')}>
                         <span>
-                          关联 token: {demo.tokens.slice(0, 2).join(', ')}
+                          {locale.demo.relatedTokens}:{' '}
+                          {demo.tokens.slice(0, 2).join(', ')}
                           {demo.tokens.length > 2 ? '...' : ''}
                         </span>
                       </Tooltip>

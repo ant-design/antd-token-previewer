@@ -18,6 +18,7 @@ import type {
   TokenName,
   TokenValue,
 } from '../interface';
+import { useLocale } from '../locale';
 import TokenCard from '../token-panel/token-card';
 import getDesignToken from '../utils/getDesignToken';
 import makeStyle from '../utils/makeStyle';
@@ -68,6 +69,7 @@ const useComponentFullDemosStyle = makeStyle('ComponentFullDemos', (token) => ({
 
 const ComponentFullDemos: FC<ComponentFullDemosProps> = ({ demos }) => {
   const [, hashId] = useComponentFullDemosStyle();
+  const locale = useLocale();
 
   return (
     <div
@@ -80,7 +82,7 @@ const ComponentFullDemos: FC<ComponentFullDemosProps> = ({ demos }) => {
           title={
             <Tooltip title={demo.tokens?.join(', ')}>
               <span>
-                关联 token: {demo.tokens?.join(', ')}
+                {locale.demo.relatedTokens}: {demo.tokens?.join(', ')}
                 {(demo.tokens?.length || 0) > 2 ? '...' : ''}
               </span>
             </Tooltip>

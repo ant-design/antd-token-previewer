@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import type { FC } from 'react';
 import React, { useEffect, useMemo, useState } from 'react';
 import type { SelectedToken } from '../interface';
+import { useLocale } from '../locale';
 import { tokenCategory } from '../meta';
 import type { TokenGroup } from '../meta/interface';
 import makeStyle from '../utils/makeStyle';
@@ -54,6 +55,7 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
 }) => {
   const [wrapSSR, hashId] = useStyle();
   const [activeGroup, setActiveGroup] = useState<string>('brandColor');
+  const locale = useLocale();
 
   const activeCategory = useMemo(() => {
     return tokenCategory.reduce<TokenGroup<string> | undefined>(
@@ -89,7 +91,7 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
         }}
         items={tokenCategory.map((category) => ({
           key: category.nameEn,
-          label: category.name,
+          label: locale._lang === 'zh-CN' ? category.name : category.nameEn,
           children: (
             <TokenContent
               category={category}

@@ -1393,7 +1393,7 @@
   },
   "colorInfo": {
     "name": "信息色",
-    "nameEn": "",
+    "nameEn": "Info Color",
     "desc": "用于表示操作信息的 Token 序列，如 Alert 、Tag、 Progress 等组件都有用到该组梯度变量。",
     "descEn": "Used to represent the operation information of the Token sequence, such as Alert, Tag, Progress, and other components use these map tokens.",
     "type": "string",
@@ -1449,7 +1449,7 @@
   },
   "fontSize": {
     "name": "默认字号",
-    "nameEn": "",
+    "nameEn": "Font Size",
     "desc": "设计系统中使用最广泛的字体大小，文本梯度也将基于该字号进行派生。",
     "descEn": "",
     "type": "number",
@@ -1496,8 +1496,8 @@
     "source": "seed"
   },
   "wireframe": {
-    "name": "线框化",
-    "nameEn": "",
+    "name": "线框风格",
+    "nameEn": "Wireframe Style",
     "desc": "用于将组件的视觉效果变为线框化，如果需要使用 V4 的效果，需要开启配置项",
     "descEn": "",
     "type": "boolean",

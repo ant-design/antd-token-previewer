@@ -1,10 +1,11 @@
 import { Tooltip } from 'antd';
 import type { MutableTheme } from 'antd-token-previewer';
+import tokenMeta from 'antd/lib/version/token-meta.json';
 import classNames from 'classnames';
 import type { FC } from 'react';
 import React, { useMemo } from 'react';
 import type { TokenValue } from '../interface';
-import tokenMeta from '../meta/token-meta.json';
+import { useLocale } from '../locale';
 import { mapRelatedAlias } from '../meta/TokenRelation';
 import TokenInput from '../TokenInput';
 import deepUpdateObj from '../utils/deepUpdateObj';
@@ -67,6 +68,7 @@ const TokenDetail: FC<TokenDetailProps> = ({
 }) => {
   const [wrapSSR, hashId] = useStyle();
   const tokenPath = [...path, tokenName];
+  const locale = useLocale();
 
   const handleTokenChange = (theme: MutableTheme) => (value: TokenValue) => {
     theme.onThemeChange?.(
@@ -88,7 +90,11 @@ const TokenDetail: FC<TokenDetailProps> = ({
       style={style}
     >
       <div className="token-panel-pro-token-collapse-map-collapse-token-description">
-        {(tokenMeta as any)[tokenName]?.desc}
+        {
+          (tokenMeta as any)[tokenName]?.[
+            locale._lang === 'zh-CN' ? 'desc' : 'descEn'
+          ]
+        }
       </div>
       {relatedComponents.length > 0 && (
         <Tooltip
