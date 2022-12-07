@@ -126,33 +126,7 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
   const [wrapSSR, hashId] = useStyle();
 
   return wrapSSR(
-    <ConfigProvider
-      theme={{
-        components: {
-          Select: {
-            zIndexPopup: 10,
-          },
-          DatePicker: {
-            zIndexPopup: 10,
-          },
-          Dropdown: {
-            zIndexPopup: 10,
-          },
-          Mentions: {
-            zIndexPopup: 10,
-          },
-          Tooltip: {
-            zIndexPopup: 10,
-          },
-          Popover: {
-            zIndexPopup: 10,
-          },
-          Popconfirm: {
-            zIndexPopup: 10,
-          },
-        },
-      }}
-    >
+    <>
       {Object.entries(components)
         .reduce<string[]>((result, [, group]) => result.concat(group), [])
         .map((item) => {
@@ -212,7 +186,7 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
             </div>
           );
         })}
-    </ConfigProvider>,
+    </>,
   );
 };
 

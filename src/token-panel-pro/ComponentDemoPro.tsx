@@ -52,18 +52,47 @@ const ComponentDemoPro: FC<ComponentDemoProProps> = ({
           onChange={setMode as any}
           style={{ margin: '12px 0 0 12px' }}
         />
-        {mode === 'overview' ? (
-          <div style={{ margin: 12, maxWidth: 'fit-content' }}>
-            {overviewDemo}
-          </div>
-        ) : (
-          <ComponentDemoGroup
-            selectedTokens={selectedTokens}
-            themes={[theme]}
-            components={components}
-            activeComponents={activeComponents}
-          />
-        )}
+
+        <ConfigProvider
+          theme={{
+            components: {
+              Select: {
+                zIndexPopup: 10,
+              },
+              DatePicker: {
+                zIndexPopup: 10,
+              },
+              Dropdown: {
+                zIndexPopup: 10,
+              },
+              Mentions: {
+                zIndexPopup: 10,
+              },
+              Tooltip: {
+                zIndexPopup: 10,
+              },
+              Popover: {
+                zIndexPopup: 10,
+              },
+              Popconfirm: {
+                zIndexPopup: 10,
+              },
+            },
+          }}
+        >
+          {mode === 'overview' ? (
+            <div style={{ margin: 12, maxWidth: 'fit-content' }}>
+              {overviewDemo}
+            </div>
+          ) : (
+            <ComponentDemoGroup
+              selectedTokens={selectedTokens}
+              themes={[theme]}
+              components={components}
+              activeComponents={activeComponents}
+            />
+          )}
+        </ConfigProvider>
       </div>
     </div>
   );
