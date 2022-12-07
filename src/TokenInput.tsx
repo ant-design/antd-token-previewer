@@ -6,6 +6,7 @@ import { useDebouncyFn } from 'use-debouncy';
 import ColorPanel from './ColorPanel';
 import ColorPreview from './ColorPreview';
 import type { MutableTheme } from './interface';
+import { useLocale } from './locale';
 import isColor from './utils/isColor';
 import makeStyle from './utils/makeStyle';
 
@@ -96,6 +97,7 @@ const TokenInput: FC<TokenInputProps> = ({
   const valueRef = useRef<number | string>(value || '');
   const [tokenValue, setTokenValue] = useState<string | number>(value || '');
   const canReset = customCanReset ?? valueRef.current !== tokenValue;
+  const locale = useLocale();
 
   const [wrapSSR, hashId] = useStyle();
 
@@ -142,7 +144,7 @@ const TokenInput: FC<TokenInputProps> = ({
           size="small"
           disabled={!canReset}
         >
-          重置
+          {locale.reset}
         </Button>
       ) : (
         <span style={{ padding: '0 8px' }}>{theme?.name}</span>

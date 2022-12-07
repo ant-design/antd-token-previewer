@@ -3,6 +3,7 @@ import type { MutableTheme } from 'antd-token-previewer';
 import type { FC } from 'react';
 import React from 'react';
 import ComponentDemoGroup from '../component-panel/ComponentDemoGroup';
+import { useLocale } from '../locale';
 import { Error, Primary, Success, Warning } from '../overviews';
 
 export type ComponentDemoProProps = {
@@ -24,6 +25,7 @@ const ComponentDemoPro: FC<ComponentDemoProProps> = ({
   const {
     token: { colorBgLayout },
   } = antdTheme.useToken();
+  const locale = useLocale();
 
   const overviewDemo = React.useMemo(() => {
     if (selectedTokens?.includes('colorError')) {
@@ -43,8 +45,8 @@ const ComponentDemoPro: FC<ComponentDemoProProps> = ({
       <div style={{ margin: 'auto', maxWidth: 960 }}>
         <Segmented
           options={[
-            { value: 'overview', label: '概览' },
-            { value: 'component', label: '组件' },
+            { value: 'overview', label: locale.demo.overview },
+            { value: 'component', label: locale.demo.components },
           ]}
           value={mode}
           onChange={setMode as any}

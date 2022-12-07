@@ -14,9 +14,9 @@ import {
   Typography,
 } from 'antd';
 import type { MutableTheme } from 'antd-token-previewer';
-import { getDesignToken } from 'antd-token-previewer';
 import type { ThemeConfig } from 'antd/es/config-provider/context';
 import seed from 'antd/es/theme/themes/seed';
+import tokenMeta from 'antd/lib/version/token-meta.json';
 import classNames from 'classnames';
 import type { FC } from 'react';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -27,8 +27,9 @@ import { themeMap } from '../hooks/useControlledTheme';
 import { CompactTheme, DarkTheme, Light, Pick } from '../icons';
 import IconSwitch from '../IconSwitch';
 import type { SelectedToken } from '../interface';
+import { useLocale } from '../locale';
 import type { TokenCategory, TokenGroup } from '../meta/interface';
-import tokenMeta from '../meta/token-meta.json';
+import getDesignToken from '../utils/getDesignToken';
 import makeStyle from '../utils/makeStyle';
 import InputNumberPlus from './InputNumberPlus';
 import TokenDetail from './TokenDetail';
@@ -283,6 +284,7 @@ const SeedTokenPreview: FC<SeedTokenProps> = ({
   const [tokenValue, setTokenValue] = useState(
     getSeedValue(theme.config, tokenName),
   );
+  const locale = useLocale();
 
   const debouncedOnChange = useDebouncyFn((newValue: number | string) => {
     theme.onThemeChange?.(
@@ -320,7 +322,7 @@ const SeedTokenPreview: FC<SeedTokenProps> = ({
           }}
           onClick={() => theme.onReset?.(tokenPath)}
         >
-          重置
+          {locale.reset}
         </Typography.Link>
       </div>
       {tokenName.startsWith('color') && (
@@ -389,7 +391,8 @@ const MapTokenCollapseContent: FC<MapTokenCollapseContentProps> = ({
   selectedTokens,
   type,
 }) => {
-  //
+  const locale = useLocale();
+
   return (
     <Collapse className="token-panel-pro-token-collapse-map-collapse">
       {mapTokens?.map((mapToken) => (
@@ -407,9 +410,11 @@ const MapTokenCollapseContent: FC<MapTokenCollapseContentProps> = ({
                   marginRight: 8,
                 }}
               >
-                <span style={{ fontWeight: 500, flex: 'none' }}>
-                  {(tokenMeta as any)[mapToken]?.name}
-                </span>
+                {locale._lang === 'zh-CN' && (
+                  <span style={{ fontWeight: 500, flex: 'none' }}>
+                    {(tokenMeta as any)[mapToken]?.name}
+                  </span>
+                )}
                 <span
                   className="token-panel-pro-token-collapse-map-collapse-token"
                   style={{ flex: 'none' }}
@@ -459,13 +464,6 @@ const MapTokenCollapseContent: FC<MapTokenCollapseContentProps> = ({
   );
 };
 
-const mapGroupTitle: any = {
-  fill: '填充',
-  background: '背景',
-  text: '文本',
-  border: '描边',
-};
-
 export type MapTokenCollapseProps = {
   theme: MutableTheme;
   group: TokenGroup<string>;
@@ -481,6 +479,8 @@ const MapTokenCollapse: FC<MapTokenCollapseProps> = ({
   groupFn,
   group,
 }) => {
+  const locale = useLocale();
+
   const groupedTokens = useMemo(() => {
     const grouped: Record<string, string[]> = {};
     if (groupFn) {
@@ -506,7 +506,7 @@ const MapTokenCollapse: FC<MapTokenCollapseProps> = ({
         )}
       >
         {(group.mapTokenGroups ?? Object.keys(groupedTokens)).map((key) => (
-          <Panel key={key} header={mapGroupTitle[key] ?? ''}>
+          <Panel key={key} header={(locale as any)[key] ?? ''}>
             <MapTokenCollapseContent
               mapTokens={groupedTokens[key]}
               theme={theme}
@@ -598,6 +598,7 @@ const TokenContent: FC<ColorTokenContentProps> = ({
 }) => {
   const [wrapSSR, hashId] = useStyle();
   const [grouped, setGrouped] = useState<boolean>(true);
+  const locale = useLocale();
 
   const switchAlgorithm = (themeStr: 'dark' | 'compact') => () => {
     let newAlgorithm = theme.config.algorithm;
@@ -632,7 +633,9 @@ const TokenContent: FC<ColorTokenContentProps> = ({
     <div className={classNames(hashId, 'token-panel-pro-color')}>
       <div className="token-panel-pro-color-seeds">
         <div className="token-panel-pro-color-themes">
-          <span style={{ marginRight: 12 }}>{category.name}</span>
+          <span style={{ marginRight: 12 }}>
+            {locale._lang === 'zh-CN' ? category.name : category.nameEn}
+          </span>
           {category.nameEn === 'Color' && (
             <IconSwitch
               onChange={switchAlgorithm('dark')}
@@ -678,12 +681,16 @@ const TokenContent: FC<ColorTokenContentProps> = ({
             {category.groups.map((group, index) => {
               return (
                 <Panel
-                  header={<span style={{ fontWeight: 500 }}>{group.name}</span>}
+                  header={
+                    <span style={{ fontWeight: 500 }}>
+                      {locale._lang === 'zh-CN' ? group.name : group.nameEn}
+                    </span>
+                  }
                   key={group.key}
                 >
                   <div>
                     <div className="token-panel-pro-token-collapse-description">
-                      {group.desc}
+                      {locale._lang === 'zh-CN' ? group.desc : group.descEn}
                     </div>
                     {group.seedToken?.map((seedToken) => (
                       <div
@@ -696,7 +703,11 @@ const TokenContent: FC<ColorTokenContentProps> = ({
                             <Tooltip
                               placement="topLeft"
                               arrowPointAtCenter
-                              title={(tokenMeta as any)[seedToken]?.desc}
+                              title={
+                                locale._lang === 'zh-CN'
+                                  ? (tokenMeta as any)[seedToken]?.desc
+                                  : (tokenMeta as any)[seedToken]?.descEn
+                              }
                             >
                               <QuestionCircleOutlined
                                 style={{ fontSize: 14, marginLeft: 8 }}
@@ -705,7 +716,9 @@ const TokenContent: FC<ColorTokenContentProps> = ({
                           </div>
                           <div>
                             <span className="token-panel-pro-token-collapse-seed-block-name-cn">
-                              {(tokenMeta as any)[seedToken]?.name}
+                              {locale._lang === 'zh-CN'
+                                ? (tokenMeta as any)[seedToken]?.name
+                                : (tokenMeta as any)[seedToken]?.nameEn}
                             </span>
                             {seedToken === 'colorInfo' && (
                               <Checkbox
@@ -715,7 +728,7 @@ const TokenContent: FC<ColorTokenContentProps> = ({
                                   onInfoFollowPrimaryChange?.(e.target.checked)
                                 }
                               >
-                                跟随主色
+                                {locale.followPrimary}
                               </Checkbox>
                             )}
                           </div>
@@ -757,7 +770,9 @@ const TokenContent: FC<ColorTokenContentProps> = ({
                                 alignItems: 'center',
                               }}
                             >
-                              <label style={{ marginRight: 4 }}>分组显示</label>
+                              <label style={{ marginRight: 4 }}>
+                                {locale.groupView}
+                              </label>
                               <Switch
                                 checked={grouped}
                                 onChange={(v) => setGrouped(v)}
@@ -787,7 +802,7 @@ const TokenContent: FC<ColorTokenContentProps> = ({
                           onActiveGroupChange(category.groups[index + 1]?.key)
                         }
                       >
-                        下一步
+                        {locale.next}
                       </Button>
                     )}
                   </div>

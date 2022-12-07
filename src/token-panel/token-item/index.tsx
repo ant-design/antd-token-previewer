@@ -1,16 +1,16 @@
 import { CaretRightOutlined } from '@ant-design/icons';
 import { Collapse, Space } from 'antd';
-import { Pick } from '../../icons';
+import type { ThemeConfig } from 'antd/es/config-provider/context';
+import classNames from 'classnames';
 import type { CSSProperties } from 'react';
 import React, { useEffect, useMemo } from 'react';
-import type { MutableTheme, TokenValue } from '../../interface';
-import makeStyle from '../../utils/makeStyle';
-import classNames from 'classnames';
 import ColorPreview from '../../ColorPreview';
-import isColor from '../../utils/isColor';
+import { Pick } from '../../icons';
+import type { MutableTheme, TokenValue } from '../../interface';
 import TokenInput from '../../TokenInput';
 import getValueByPath from '../../utils/getValueByPath';
-import type { ThemeConfig } from 'antd/es/config-provider/context';
+import isColor from '../../utils/isColor';
+import makeStyle from '../../utils/makeStyle';
 import { getRelatedComponents } from '../../utils/statistic';
 
 const { Panel } = Collapse;
@@ -128,9 +128,9 @@ const useStyle = makeStyle('TokenItem', (token) => ({
         paddingInlineEnd: `${token.paddingXXS}px !important`,
       },
       '.previewer-token-count': {
-        height: token.controlHeightXS,
+        height: 16,
         fontSize: token.fontSizeSM,
-        lineHeight: `${token.controlHeightXS}px`,
+        lineHeight: '16px',
         borderRadius: 100,
         paddingInline: token.paddingXXS * 1.5,
         color: token.colorTextSecondary,
@@ -319,6 +319,7 @@ export default ({
               return (
                 <div key={theme.key}>
                   <TokenInput
+                    hideTheme={themes.length === 1}
                     theme={theme}
                     onChange={(value) => handleTokenChange(theme, value)}
                     value={

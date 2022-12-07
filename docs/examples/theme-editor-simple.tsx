@@ -1,14 +1,16 @@
 import { Button, ConfigProvider, message, Modal } from 'antd';
 import type { Theme } from 'antd-token-previewer';
-import { ThemeEditor } from 'antd-token-previewer';
+import { enUS, ThemeEditor, zhCN } from 'antd-token-previewer';
 import 'antd/es/style/reset.css';
 import React, { useEffect } from 'react';
+import IconSwitch from '../../src/IconSwitch';
 
 const ANT_DESIGN_V5_CUSTOM_THEME_PRO = 'ant-design-v5-custom-theme-pro';
 
 const Demo = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const [modalApi, modalContextHolder] = Modal.useModal();
+  const [lang, setLang] = React.useState('zh-CN');
   const [theme, setTheme] = React.useState<Theme>({
     name: '自定义主题',
     key: 'secret theme',
@@ -91,6 +93,13 @@ const Demo = () => {
             <span>{theme.name}</span>
           </div>
           <div>
+            <IconSwitch
+              leftIcon={<span style={{ fontSize: 14 }}>ZH</span>}
+              rightIcon={<span style={{ fontSize: 14 }}>EN</span>}
+              leftChecked={lang === 'zh-CN'}
+              onChange={(checked) => setLang(checked ? 'zh-CN' : 'en-US')}
+              style={{ marginRight: 8 }}
+            />
             <Button onClick={handleOutput} style={{ marginRight: 8 }}>
               导出
             </Button>
@@ -100,10 +109,10 @@ const Demo = () => {
           </div>
         </div>
         <ThemeEditor
-          simple
           theme={theme}
           onThemeChange={handleThemeChange}
           style={{ height: 'calc(100vh - 56px)' }}
+          locale={lang === 'zh-CN' ? zhCN : enUS}
         />
       </ConfigProvider>
     </React.StrictMode>
