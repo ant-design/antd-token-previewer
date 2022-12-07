@@ -3,6 +3,11 @@ export type Locale = {
   followPrimary: string;
   reset: string;
   next: string;
+  groupView: string;
+  fill: string;
+  background: string;
+  border: string;
+  text: string;
   demo: {
     overview: string;
     components: string;

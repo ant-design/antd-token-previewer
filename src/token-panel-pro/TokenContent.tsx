@@ -464,13 +464,6 @@ const MapTokenCollapseContent: FC<MapTokenCollapseContentProps> = ({
   );
 };
 
-const mapGroupTitle: any = {
-  fill: '填充',
-  background: '背景',
-  text: '文本',
-  border: '描边',
-};
-
 export type MapTokenCollapseProps = {
   theme: MutableTheme;
   group: TokenGroup<string>;
@@ -486,6 +479,8 @@ const MapTokenCollapse: FC<MapTokenCollapseProps> = ({
   groupFn,
   group,
 }) => {
+  const locale = useLocale();
+
   const groupedTokens = useMemo(() => {
     const grouped: Record<string, string[]> = {};
     if (groupFn) {
@@ -511,7 +506,7 @@ const MapTokenCollapse: FC<MapTokenCollapseProps> = ({
         )}
       >
         {(group.mapTokenGroups ?? Object.keys(groupedTokens)).map((key) => (
-          <Panel key={key} header={mapGroupTitle[key] ?? ''}>
+          <Panel key={key} header={(locale as any)[key] ?? ''}>
             <MapTokenCollapseContent
               mapTokens={groupedTokens[key]}
               theme={theme}
@@ -775,7 +770,9 @@ const TokenContent: FC<ColorTokenContentProps> = ({
                                 alignItems: 'center',
                               }}
                             >
-                              <label style={{ marginRight: 4 }}>分组显示</label>
+                              <label style={{ marginRight: 4 }}>
+                                {locale.groupView}
+                              </label>
                               <Switch
                                 checked={grouped}
                                 onChange={(v) => setGrouped(v)}

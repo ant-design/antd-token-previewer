@@ -128,9 +128,9 @@ const useStyle = makeStyle('TokenItem', (token) => ({
         paddingInlineEnd: `${token.paddingXXS}px !important`,
       },
       '.previewer-token-count': {
-        height: token.controlHeightXS,
+        height: 16,
         fontSize: token.fontSizeSM,
-        lineHeight: `${token.controlHeightXS}px`,
+        lineHeight: '16px',
         borderRadius: 100,
         paddingInline: token.paddingXXS * 1.5,
         color: token.colorTextSecondary,
