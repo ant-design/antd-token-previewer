@@ -178,6 +178,7 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
             activeComponents={relatedComponents}
             selectedTokens={computedSelectedTokens}
             style={{ flex: 1, overflow: 'auto', height: '100%' }}
+            componentDrawer
           />
         </div>
       </LocaleContext.Provider>,
