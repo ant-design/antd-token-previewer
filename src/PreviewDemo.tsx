@@ -16,6 +16,7 @@ const PreviewDemo: FC<PreviewDemoProps> = ({ theme, style }) => {
         theme={theme}
         components={antdComponents}
         componentDrawer={false}
+        style={{ minHeight: '100%' }}
       />
     </div>
   );
