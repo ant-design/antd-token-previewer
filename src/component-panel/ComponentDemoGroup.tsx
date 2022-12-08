@@ -54,6 +54,7 @@ type ComponentDemoBlockProps = {
   disabled?: boolean;
   demos?: (ComponentDemo & { active?: boolean })[];
   theme: MutableTheme;
+  componentDrawer?: boolean;
 };
 
 const ComponentDemoBlock: FC<ComponentDemoBlockProps> = ({
@@ -63,6 +64,7 @@ const ComponentDemoBlock: FC<ComponentDemoBlockProps> = ({
   disabled = false,
   demos = [],
   theme,
+  componentDrawer,
 }) => {
   const [, hashId] = useDemoStyle();
   const locale = useLocale();
@@ -73,7 +75,7 @@ const ComponentDemoBlock: FC<ComponentDemoBlockProps> = ({
         title={component}
         component={component}
         onTokenClick={onTokenClick}
-        drawer
+        drawer={componentDrawer}
         theme={theme}
       >
         <ConfigProvider componentSize={size} componentDisabled={disabled}>
@@ -112,6 +114,7 @@ type ComponentDemoGroupProps = {
   disabled?: boolean;
   selectedTokens?: string[];
   onTokenClick?: (token: TokenName) => void;
+  componentDrawer?: boolean;
 };
 
 const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
@@ -122,6 +125,7 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
   activeComponents,
   selectedTokens,
   onTokenClick,
+  componentDrawer,
 }) => {
   const [wrapSSR, hashId] = useStyle();
 
@@ -170,6 +174,7 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
                       disabled={disabled}
                       size={size}
                       theme={theme}
+                      componentDrawer={componentDrawer}
                     />
                   </ConfigProvider>
                 ))
@@ -181,6 +186,7 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
                   disabled={disabled}
                   size={size}
                   theme={themes[0]}
+                  componentDrawer={componentDrawer}
                 />
               )}
             </div>

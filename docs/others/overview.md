@@ -15,3 +15,7 @@
 ## 失败色
 
 <code src="../examples/overview-error.tsx"></code>
+
+## 聚合
+
+<code src="../examples/preview-demo.tsx"></code>
