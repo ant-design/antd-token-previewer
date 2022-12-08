@@ -12,6 +12,7 @@ export type ComponentDemoProProps = {
   components: Record<string, string[]>;
   activeComponents?: string[];
   style?: React.CSSProperties;
+  componentDrawer?: boolean;
 };
 
 const ComponentDemoPro: FC<ComponentDemoProProps> = ({
@@ -19,6 +20,7 @@ const ComponentDemoPro: FC<ComponentDemoProProps> = ({
   theme,
   components,
   activeComponents,
+  componentDrawer,
   style,
 }) => {
   const [mode, setMode] = React.useState<'overview' | 'component'>('overview');
@@ -41,7 +43,7 @@ const ComponentDemoPro: FC<ComponentDemoProProps> = ({
   }, [selectedTokens]);
 
   return (
-    <div style={{ ...style, background: colorBgLayout }}>
+    <div style={{ ...style, background: colorBgLayout, paddingBottom: 24 }}>
       <div style={{ margin: 'auto', maxWidth: 960 }}>
         <Segmented
           options={[
@@ -90,6 +92,7 @@ const ComponentDemoPro: FC<ComponentDemoProProps> = ({
               themes={[theme]}
               components={components}
               activeComponents={activeComponents}
+              componentDrawer={componentDrawer}
             />
           )}
         </ConfigProvider>
