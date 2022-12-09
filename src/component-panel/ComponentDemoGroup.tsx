@@ -115,6 +115,7 @@ type ComponentDemoGroupProps = {
   selectedTokens?: string[];
   onTokenClick?: (token: TokenName) => void;
   componentDrawer?: boolean;
+  hideTokens?: boolean;
 };
 
 const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
@@ -126,6 +127,7 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
   selectedTokens,
   onTokenClick,
   componentDrawer,
+  hideTokens,
 }) => {
   const [wrapSSR, hashId] = useStyle();
 
@@ -141,6 +143,7 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
           const demos: ComponentDemo[] = componentDemos.map((demo, index) => {
             return {
               ...demo,
+              tokens: hideTokens ? undefined : demo.tokens,
               active:
                 ((!selectedTokens || selectedTokens.length === 0) &&
                   index === 0) ||

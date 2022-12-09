@@ -1,4 +1,4 @@
-import { ConfigProvider, Segmented, theme as antdTheme } from 'antd';
+import { ConfigProvider, Segmented, Space, theme as antdTheme } from 'antd';
 import type { MutableTheme } from 'antd-token-previewer';
 import type { FC } from 'react';
 import React from 'react';
@@ -13,6 +13,7 @@ export type ComponentDemoProProps = {
   activeComponents?: string[];
   style?: React.CSSProperties;
   componentDrawer?: boolean;
+  showAll?: boolean;
 };
 
 const ComponentDemoPro: FC<ComponentDemoProProps> = ({
@@ -21,6 +22,7 @@ const ComponentDemoPro: FC<ComponentDemoProProps> = ({
   components,
   activeComponents,
   componentDrawer,
+  showAll,
   style,
 }) => {
   const [mode, setMode] = React.useState<'overview' | 'component'>('overview');
@@ -30,6 +32,16 @@ const ComponentDemoPro: FC<ComponentDemoProProps> = ({
   const locale = useLocale();
 
   const overviewDemo = React.useMemo(() => {
+    if (showAll) {
+      return (
+        <Space direction="vertical">
+          <Primary />
+          <Success />
+          <Error />
+          <Warning />
+        </Space>
+      );
+    }
     if (selectedTokens?.includes('colorError')) {
       return <Error />;
     }
@@ -40,7 +52,7 @@ const ComponentDemoPro: FC<ComponentDemoProProps> = ({
       return <Warning />;
     }
     return <Primary />;
-  }, [selectedTokens]);
+  }, [selectedTokens, showAll]);
 
   return (
     <div style={{ ...style, background: colorBgLayout, paddingBottom: 24 }}>
@@ -93,6 +105,7 @@ const ComponentDemoPro: FC<ComponentDemoProProps> = ({
               components={components}
               activeComponents={activeComponents}
               componentDrawer={componentDrawer}
+              hideTokens
             />
           )}
         </ConfigProvider>
