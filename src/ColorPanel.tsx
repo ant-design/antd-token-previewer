@@ -1,6 +1,5 @@
 import type { InputProps } from 'antd';
 import { ConfigProvider, Input, InputNumber, Select, theme } from 'antd';
-import { tuple } from 'antd/es/_util/type';
 import classNames from 'classnames';
 import useMergedState from 'rc-util/es/hooks/useMergedState';
 import type { CSSProperties, FC } from 'react';
@@ -222,7 +221,8 @@ export type ColorPanelProps = {
   style?: CSSProperties;
 };
 
-const colorModes = tuple('HEX', 'HEX8', 'RGB', 'RGBA');
+const colorModes = ['HEX', 'HEX8', 'RGB', 'RGBA'] as const;
+
 type ColorMode = typeof colorModes[number];
 
 const getColorStr = (color: any, mode: ColorMode) => {

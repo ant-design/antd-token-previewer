@@ -13,7 +13,7 @@
     "es",
     "lib"
   ],
-  "homepage": "https://react-component.github.io/footer",
+  "homepage": "https://ant-design.github.io/antd-token-previewer/previewer",
   "repository": {
     "type": "git",
     "url": "git@github.com:ant-design/antd-token-previewer.git"
