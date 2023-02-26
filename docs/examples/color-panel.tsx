@@ -1,6 +1,6 @@
-import React from 'react';
+import { ColorPanel } from 'antd-token-previewer';
 import 'antd/es/style/reset.css';
-import ColorPanel from '../../src/ColorPanel';
+import React from 'react';
 
 const Demo = () => {
   const [color, setColor] = React.useState<string>('#1632ff');
