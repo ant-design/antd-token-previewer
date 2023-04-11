@@ -1,18 +1,11 @@
 import classNames from 'classnames';
 import type { FC } from 'react';
-import React, { useMemo, useState } from 'react';
-import { antdComponents } from './component-panel';
+import React, { useState } from 'react';
 import type { SelectedToken, Theme } from './interface';
-import {
-  mapRelatedAlias,
-  seedRelatedAlias,
-  seedRelatedMap,
-} from './meta/TokenRelation';
 import type { TokenPanelProProps } from './token-panel-pro';
 import TokenPanelPro from './token-panel-pro';
 import ComponentDemoPro from './token-panel-pro/ComponentDemoPro';
 import makeStyle from './utils/makeStyle';
-import { getRelatedComponents } from './utils/statistic';
 
 const useStyle = makeStyle('GlobalTokenEditor', (token) => ({
   [token.componentCls]: {
@@ -25,10 +18,12 @@ export type GlobalTokenEditorProps = {
   theme: Theme;
   infoFollowPrimary?: boolean;
   onInfoFollowPrimaryChange?: (checked: boolean) => void;
+  advanced?: boolean;
 };
 
 const GlobalTokenEditor: FC<GlobalTokenEditorProps> = (props) => {
-  const { theme, infoFollowPrimary, onInfoFollowPrimaryChange } = props;
+  const { theme, infoFollowPrimary, onInfoFollowPrimaryChange, advanced } =
+    props;
 
   const prefixCls = 'antd-global-token-editor';
   const [, hashId] = useStyle(prefixCls);
@@ -67,38 +62,6 @@ const GlobalTokenEditor: FC<GlobalTokenEditorProps> = (props) => {
     });
   };
 
-  const computedSelectedTokens = useMemo(() => {
-    if (
-      selectedTokens.seed?.length &&
-      !selectedTokens.map?.length &&
-      !selectedTokens.alias?.length
-    ) {
-      return [
-        ...selectedTokens.seed,
-        ...((seedRelatedMap as any)[selectedTokens.seed[0]] ?? []),
-        ...((seedRelatedAlias as any)[selectedTokens.seed[0]] ?? []),
-      ];
-    }
-    if (selectedTokens.map?.length && !selectedTokens.alias?.length) {
-      return [
-        ...selectedTokens.map,
-        ...selectedTokens.map.reduce((result, item) => {
-          return result.concat((mapRelatedAlias as any)[item]);
-        }, []),
-      ];
-    }
-    if (selectedTokens.alias?.length) {
-      return [...selectedTokens.alias];
-    }
-    return [];
-  }, [selectedTokens]);
-
-  const relatedComponents = useMemo(() => {
-    return computedSelectedTokens
-      ? getRelatedComponents(computedSelectedTokens)
-      : [];
-  }, [computedSelectedTokens]);
-
   return (
     <div className={classNames(hashId, prefixCls)}>
       <div
@@ -125,11 +88,8 @@ const GlobalTokenEditor: FC<GlobalTokenEditorProps> = (props) => {
       </div>
       <ComponentDemoPro
         theme={theme}
-        components={antdComponents}
-        activeComponents={relatedComponents}
-        selectedTokens={computedSelectedTokens}
         style={{ flex: 1, overflow: 'auto', height: '100%' }}
-        componentDrawer
+        advanced={advanced}
       />
     </div>
   );

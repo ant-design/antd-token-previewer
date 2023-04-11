@@ -13,10 +13,13 @@ const locale: Locale = {
   title: '主题编辑器',
   globalToken: '全局',
   componentToken: '组件',
+  advancedMode: '高级模式',
+  basicMode: '基础模式',
   demo: {
-    overview: '概览',
+    overview: '风格概览',
     components: '组件',
     relatedTokens: '关联 Token',
+    page: '页面示例',
   },
 };
 

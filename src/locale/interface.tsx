@@ -11,9 +11,12 @@ export type Locale = {
   title: string;
   globalToken: string;
   componentToken: string;
+  advancedMode: string;
+  basicMode: string;
   demo: {
     overview: string;
     components: string;
     relatedTokens: string;
+    page: string;
   };
 };

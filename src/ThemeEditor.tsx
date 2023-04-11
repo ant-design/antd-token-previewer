@@ -1,5 +1,6 @@
 import type { DerivativeFunc } from '@ant-design/cssinjs';
-import { Segmented } from 'antd';
+import { CaretDownOutlined } from '@ant-design/icons';
+import { Dropdown, Segmented, Tag } from 'antd';
 import classNames from 'classnames';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import type { ReactNode } from 'react';
@@ -64,6 +65,8 @@ export type ThemeEditorProps = {
   actions?: ReactNode;
   mode?: ThemeEditorMode;
   onModeChange?: (mode: ThemeEditorMode) => void;
+  advanced?: boolean;
+  onAdvancedChange?: (advanced: boolean) => void;
 };
 
 const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
@@ -78,6 +81,8 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
       actions,
       mode: customMode,
       onModeChange,
+      advanced: customAdvanced,
+      onAdvancedChange,
     },
     ref,
   ) => {
@@ -87,6 +92,18 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
     const [mode, setMode] = useMergedState<ThemeEditorMode>('global', {
       value: customMode,
       onChange: onModeChange,
+    });
+
+    const handleAdvancedChange = (value: boolean) => {
+      if (!value) {
+        setMode('global');
+      }
+      onAdvancedChange?.(value);
+    };
+
+    const [advanced, setAdvanced] = useMergedState<boolean>(false, {
+      value: customAdvanced,
+      onChange: handleAdvancedChange,
     });
 
     const { theme, infoFollowPrimary, onInfoFollowPrimaryChange, updateRef } =
@@ -106,20 +123,48 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
         <div className={classNames(hashId, prefixCls, className)} style={style}>
           <div className={`${prefixCls}-header`}>
             <div className={`${prefixCls}-header-title`}>{locale.title}</div>
-            <Segmented
-              options={[
-                { label: locale.globalToken, value: 'global' },
-                { label: locale.componentToken, value: 'component' },
-              ]}
-              onChange={(v) => setMode(v as ThemeEditorMode)}
-              style={{ marginLeft: 24 }}
-            />
+            <Dropdown
+              trigger={['click']}
+              menu={{
+                items: [
+                  {
+                    key: 'basic',
+                    label: locale.basicMode,
+                    onClick: () => setAdvanced(false),
+                  },
+                  {
+                    key: 'advanced',
+                    label: locale.advancedMode,
+                    onClick: () => setAdvanced(true),
+                  },
+                ],
+              }}
+            >
+              <Tag
+                color={advanced ? 'blue' : 'green'}
+                style={{ marginLeft: 24, cursor: 'pointer' }}
+              >
+                <span>{advanced ? locale.advancedMode : locale.basicMode}</span>
+                <CaretDownOutlined style={{ fontSize: 10 }} />
+              </Tag>
+            </Dropdown>
+            {advanced && (
+              <Segmented
+                options={[
+                  { label: locale.globalToken, value: 'global' },
+                  { label: locale.componentToken, value: 'component' },
+                ]}
+                onChange={(v) => setMode(v as ThemeEditorMode)}
+                style={{ marginLeft: 24 }}
+              />
+            )}
             <div className={`${prefixCls}-header-actions`}>{actions}</div>
           </div>
           <div className={`${prefixCls}-body`}>
             {mode === 'global' && (
               <GlobalTokenEditor
                 theme={theme}
+                advanced={advanced}
                 infoFollowPrimary={infoFollowPrimary}
                 onInfoFollowPrimaryChange={onInfoFollowPrimaryChange}
               />
