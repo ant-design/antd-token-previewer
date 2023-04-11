@@ -64,6 +64,8 @@ const Demo = () => {
     });
   };
 
+  const handleEdit = () => {};
+
   return (
     <React.StrictMode>
       {contextHolder}
@@ -84,6 +86,9 @@ const Demo = () => {
               />
               <Button onClick={handleOutput} style={{ marginRight: 8 }}>
                 导出
+              </Button>
+              <Button onClick={handleEdit} style={{ marginRight: 8 }}>
+                编辑
               </Button>
               <Button type="primary" onClick={handleSave}>
                 保存
