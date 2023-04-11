@@ -119,6 +119,8 @@ const Demo = () => {
     setIsModalOpen(true);
   };
 
+  const handleEdit = () => {};
+
   return (
     <React.StrictMode>
       {contextHolder}
