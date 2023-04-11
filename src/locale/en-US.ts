@@ -13,10 +13,13 @@ const locale: Locale = {
   title: 'Theme Editor',
   globalToken: 'Global',
   componentToken: 'Component',
+  advancedMode: 'Advanced Mode',
+  basicMode: 'Basic Mode',
   demo: {
     overview: 'Overview',
     components: 'Components',
     relatedTokens: 'Related Tokens',
+    page: 'Page',
   },
 };
 
