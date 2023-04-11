@@ -11,6 +11,8 @@ const locale: Locale = {
   background: 'Background',
   text: 'Text',
   title: 'Theme Editor',
+  globalToken: 'Global',
+  componentToken: 'Component',
   demo: {
     overview: 'Overview',
     components: 'Components',

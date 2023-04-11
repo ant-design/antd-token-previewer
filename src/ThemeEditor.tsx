@@ -1,27 +1,15 @@
 import type { DerivativeFunc } from '@ant-design/cssinjs';
+import { Segmented } from 'antd';
 import classNames from 'classnames';
+import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import type { ReactNode } from 'react';
-import React, {
-  forwardRef,
-  useImperativeHandle,
-  useMemo,
-  useState,
-} from 'react';
-import { antdComponents } from './component-panel';
+import React, { forwardRef, useImperativeHandle } from 'react';
+import GlobalTokenEditor from './GlobalTokenEditor';
 import useControlledTheme from './hooks/useControlledTheme';
-import type { SelectedToken, Theme } from './interface';
+import type { Theme } from './interface';
 import type { Locale } from './locale';
 import { LocaleContext, zhCN } from './locale';
-import {
-  mapRelatedAlias,
-  seedRelatedAlias,
-  seedRelatedMap,
-} from './meta/TokenRelation';
-import type { TokenPanelProProps } from './token-panel-pro';
-import TokenPanelPro from './token-panel-pro';
-import ComponentDemoPro from './token-panel-pro/ComponentDemoPro';
 import makeStyle from './utils/makeStyle';
-import { getRelatedComponents } from './utils/statistic';
 
 const useStyle = makeStyle('ThemeEditor', (token) => ({
   [token.componentCls]: {
@@ -36,16 +24,18 @@ const useStyle = makeStyle('ThemeEditor', (token) => ({
       padding: '0 16px',
       background: token.colorBgContainer,
       borderBottom: `1px solid ${token.colorSplit}`,
-      fontSize: token.fontSizeLG,
-      fontWeight: token.fontWeightStrong,
       flex: `0 0 ${token.headerHeight}px`,
+
+      '&-title': {
+        fontSize: token.fontSizeLG,
+        fontWeight: token.fontWeightStrong,
+      },
 
       '&-actions': {
         marginLeft: 'auto',
       },
     },
     [`${token.componentCls}-body`]: {
-      display: 'flex',
       flex: 1,
       height: 0,
     },
@@ -62,6 +52,8 @@ export type ThemeEditorRef = {
   updateRef: () => void;
 };
 
+export type ThemeEditorMode = 'global' | 'component';
+
 export type ThemeEditorProps = {
   theme?: Theme;
   onThemeChange?: (theme: Theme) => void;
@@ -70,6 +62,8 @@ export type ThemeEditorProps = {
   darkAlgorithm?: DerivativeFunc<any, any>;
   locale?: Locale;
   actions?: ReactNode;
+  mode?: ThemeEditorMode;
+  onModeChange?: (mode: ThemeEditorMode) => void;
 };
 
 const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
@@ -82,15 +76,18 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
       darkAlgorithm,
       locale = zhCN,
       actions,
+      mode: customMode,
+      onModeChange,
     },
     ref,
   ) => {
     const prefixCls = 'antd-theme-editor';
     const [wrapSSR, hashId] = useStyle(prefixCls);
-    const [selectedTokens, setSelectedTokens] = useState<SelectedToken>({
-      seed: ['colorPrimary'],
+
+    const [mode, setMode] = useMergedState<ThemeEditorMode>('global', {
+      value: customMode,
+      onChange: onModeChange,
     });
-    const [aliasOpen, setAliasOpen] = useState<boolean>(false);
 
     const { theme, infoFollowPrimary, onInfoFollowPrimaryChange, updateRef } =
       useControlledTheme({
@@ -104,105 +101,29 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
       updateRef,
     }));
 
-    const handleTokenSelect: TokenPanelProProps['onTokenSelect'] = (
-      token,
-      type,
-    ) => {
-      setSelectedTokens((prev) => {
-        const tokens =
-          typeof token === 'string' ? (token ? [token] : []) : token;
-        if (type === 'seed') {
-          return {
-            seed: tokens,
-          };
-        }
-
-        let newSelectedTokens = { ...prev };
-        tokens.forEach((newToken) => {
-          newSelectedTokens = {
-            ...prev,
-            [type]: prev[type]?.includes(newToken)
-              ? prev[type]?.filter((t) => t !== newToken)
-              : [...(prev[type] ?? []), newToken],
-          };
-        });
-        if (type === 'map') {
-          delete newSelectedTokens.alias;
-        }
-        return newSelectedTokens;
-      });
-    };
-
-    const computedSelectedTokens = useMemo(() => {
-      if (
-        selectedTokens.seed?.length &&
-        !selectedTokens.map?.length &&
-        !selectedTokens.alias?.length
-      ) {
-        return [
-          ...selectedTokens.seed,
-          ...((seedRelatedMap as any)[selectedTokens.seed[0]] ?? []),
-          ...((seedRelatedAlias as any)[selectedTokens.seed[0]] ?? []),
-        ];
-      }
-      if (selectedTokens.map?.length && !selectedTokens.alias?.length) {
-        return [
-          ...selectedTokens.map,
-          ...selectedTokens.map.reduce((result, item) => {
-            return result.concat((mapRelatedAlias as any)[item]);
-          }, []),
-        ];
-      }
-      if (selectedTokens.alias?.length) {
-        return [...selectedTokens.alias];
-      }
-      return [];
-    }, [selectedTokens]);
-
-    const relatedComponents = useMemo(() => {
-      return computedSelectedTokens
-        ? getRelatedComponents(computedSelectedTokens)
-        : [];
-    }, [computedSelectedTokens]);
-
     return wrapSSR(
       <LocaleContext.Provider value={locale}>
         <div className={classNames(hashId, prefixCls, className)} style={style}>
           <div className={`${prefixCls}-header`}>
             <div className={`${prefixCls}-header-title`}>{locale.title}</div>
+            <Segmented
+              options={[
+                { label: locale.globalToken, value: 'global' },
+                { label: locale.componentToken, value: 'component' },
+              ]}
+              onChange={(v) => setMode(v as ThemeEditorMode)}
+              style={{ marginLeft: 24 }}
+            />
             <div className={`${prefixCls}-header-actions`}>{actions}</div>
           </div>
-          <div className="antd-theme-editor-body">
-            <div
-              style={{
-                flex: aliasOpen ? '0 0 860px' : `0 0 ${860 - 320}px`,
-                height: '100%',
-                backgroundColor: '#F7F8FA',
-                backgroundImage:
-                  'linear-gradient(180deg, #FFFFFF 0%, rgba(246,247,249,0.00) 100%)',
-                display: 'flex',
-                transition: 'all 0.3s',
-              }}
-            >
-              <TokenPanelPro
-                aliasOpen={aliasOpen}
-                onAliasOpenChange={(open) => setAliasOpen(open)}
+          <div className={`${prefixCls}-body`}>
+            {mode === 'global' && (
+              <GlobalTokenEditor
                 theme={theme}
-                style={{ flex: 1 }}
-                selectedTokens={selectedTokens}
-                onTokenSelect={handleTokenSelect}
                 infoFollowPrimary={infoFollowPrimary}
                 onInfoFollowPrimaryChange={onInfoFollowPrimaryChange}
               />
-            </div>
-            <ComponentDemoPro
-              theme={theme}
-              components={antdComponents}
-              activeComponents={relatedComponents}
-              selectedTokens={computedSelectedTokens}
-              style={{ flex: 1, overflow: 'auto', height: '100%' }}
-              componentDrawer
-            />
+            )}
           </div>
         </div>
       </LocaleContext.Provider>,
