@@ -139,7 +139,6 @@ exports[`ThemeSelect should show selected themes correctly 1`] = `
       </span>
     </span>
     <button
-      ant-click-animating-without-extra-node="false"
       class="ant-btn ant-btn-circle ant-btn-primary ant-btn-icon-only ant-dropdown-trigger previewer-theme-select-add-btn"
       type="button"
     >
@@ -187,15 +186,18 @@ exports[`ThemeSelect should show selected themes correctly 1`] = `
           <li
             class="ant-dropdown-menu-item-group previewer-theme-select-dropdown-title"
             disabled=""
+            role="presentation"
           >
             <div
               class="ant-dropdown-menu-item-group-title"
+              role="presentation"
               title="添加主题即可预览"
             >
               添加主题即可预览
             </div>
             <ul
               class="ant-dropdown-menu-item-group-list"
+              role="group"
             />
           </li>
         </ul>
