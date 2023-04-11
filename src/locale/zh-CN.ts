@@ -10,6 +10,9 @@ const locale: Locale = {
   border: '描边',
   background: '背景',
   text: '文本',
+  title: '主题编辑器',
+  globalToken: '全局',
+  componentToken: '组件',
   demo: {
     overview: '概览',
     components: '组件',

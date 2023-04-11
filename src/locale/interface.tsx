@@ -8,6 +8,9 @@ export type Locale = {
   background: string;
   border: string;
   text: string;
+  title: string;
+  globalToken: string;
+  componentToken: string;
   demo: {
     overview: string;
     components: string;
