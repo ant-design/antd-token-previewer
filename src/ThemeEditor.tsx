@@ -1,5 +1,6 @@
 import type { DerivativeFunc } from '@ant-design/cssinjs';
 import classNames from 'classnames';
+import type { ReactNode } from 'react';
 import React, {
   forwardRef,
   useImperativeHandle,
@@ -23,9 +24,31 @@ import makeStyle from './utils/makeStyle';
 import { getRelatedComponents } from './utils/statistic';
 
 const useStyle = makeStyle('ThemeEditor', (token) => ({
-  '.antd-theme-editor': {
+  [token.componentCls]: {
     backgroundColor: token.colorBgLayout,
+    height: '100vh',
     display: 'flex',
+    flexDirection: 'column',
+    [`${token.componentCls}-header`]: {
+      height: token.headerHeight,
+      display: 'flex',
+      alignItems: 'center',
+      padding: '0 16px',
+      background: token.colorBgContainer,
+      borderBottom: `1px solid ${token.colorSplit}`,
+      fontSize: token.fontSizeLG,
+      fontWeight: token.fontWeightStrong,
+      flex: `0 0 ${token.headerHeight}px`,
+
+      '&-actions': {
+        marginLeft: 'auto',
+      },
+    },
+    [`${token.componentCls}-body`]: {
+      display: 'flex',
+      flex: 1,
+      height: 0,
+    },
   },
 }));
 
@@ -40,17 +63,13 @@ export type ThemeEditorRef = {
 };
 
 export type ThemeEditorProps = {
-  /**
-   * @deprecated
-   * @default true
-   */
-  simple?: boolean;
   theme?: Theme;
   onThemeChange?: (theme: Theme) => void;
   className?: string;
   style?: React.CSSProperties;
   darkAlgorithm?: DerivativeFunc<any, any>;
   locale?: Locale;
+  actions?: ReactNode;
 };
 
 const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
@@ -62,10 +81,12 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
       style,
       darkAlgorithm,
       locale = zhCN,
+      actions,
     },
     ref,
   ) => {
-    const [wrapSSR, hashId] = useStyle();
+    const prefixCls = 'antd-theme-editor';
+    const [wrapSSR, hashId] = useStyle(prefixCls);
     const [selectedTokens, setSelectedTokens] = useState<SelectedToken>({
       seed: ['colorPrimary'],
     });
@@ -146,40 +167,43 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
 
     return wrapSSR(
       <LocaleContext.Provider value={locale}>
-        <div
-          className={classNames(hashId, 'antd-theme-editor', className)}
-          style={style}
-        >
-          <div
-            style={{
-              flex: aliasOpen ? '0 0 860px' : `0 0 ${860 - 320}px`,
-              height: '100%',
-              backgroundColor: '#F7F8FA',
-              backgroundImage:
-                'linear-gradient(180deg, #FFFFFF 0%, rgba(246,247,249,0.00) 100%)',
-              display: 'flex',
-              transition: 'all 0.3s',
-            }}
-          >
-            <TokenPanelPro
-              aliasOpen={aliasOpen}
-              onAliasOpenChange={(open) => setAliasOpen(open)}
+        <div className={classNames(hashId, prefixCls, className)} style={style}>
+          <div className={`${prefixCls}-header`}>
+            <div className={`${prefixCls}-header-title`}>{locale.title}</div>
+            <div className={`${prefixCls}-header-actions`}>{actions}</div>
+          </div>
+          <div className="antd-theme-editor-body">
+            <div
+              style={{
+                flex: aliasOpen ? '0 0 860px' : `0 0 ${860 - 320}px`,
+                height: '100%',
+                backgroundColor: '#F7F8FA',
+                backgroundImage:
+                  'linear-gradient(180deg, #FFFFFF 0%, rgba(246,247,249,0.00) 100%)',
+                display: 'flex',
+                transition: 'all 0.3s',
+              }}
+            >
+              <TokenPanelPro
+                aliasOpen={aliasOpen}
+                onAliasOpenChange={(open) => setAliasOpen(open)}
+                theme={theme}
+                style={{ flex: 1 }}
+                selectedTokens={selectedTokens}
+                onTokenSelect={handleTokenSelect}
+                infoFollowPrimary={infoFollowPrimary}
+                onInfoFollowPrimaryChange={onInfoFollowPrimaryChange}
+              />
+            </div>
+            <ComponentDemoPro
               theme={theme}
-              style={{ flex: 1 }}
-              selectedTokens={selectedTokens}
-              onTokenSelect={handleTokenSelect}
-              infoFollowPrimary={infoFollowPrimary}
-              onInfoFollowPrimaryChange={onInfoFollowPrimaryChange}
+              components={antdComponents}
+              activeComponents={relatedComponents}
+              selectedTokens={computedSelectedTokens}
+              style={{ flex: 1, overflow: 'auto', height: '100%' }}
+              componentDrawer
             />
           </div>
-          <ComponentDemoPro
-            theme={theme}
-            components={antdComponents}
-            activeComponents={relatedComponents}
-            selectedTokens={computedSelectedTokens}
-            style={{ flex: 1, overflow: 'auto', height: '100%' }}
-            componentDrawer
-          />
         </div>
       </LocaleContext.Provider>,
     );

@@ -69,50 +69,27 @@ const Demo = () => {
       {contextHolder}
       {modalContextHolder}
       <ConfigProvider theme={{ hashed: true }}>
-        <div
-          style={{
-            display: 'flex',
-            height: 56,
-            alignItems: 'center',
-            padding: '0 24px',
-            justifyContent: 'space-between',
-            borderBottom: '1px solid #F0F0F0',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <div
-              style={{
-                marginRight: 8,
-                display: 'inline-block',
-                width: 32,
-                height: 32,
-                borderRadius: 4,
-                background: theme.config.token?.colorPrimary,
-              }}
-            />
-            <span>{theme.name}</span>
-          </div>
-          <div>
-            <IconSwitch
-              leftIcon={<span style={{ fontSize: 14 }}>ZH</span>}
-              rightIcon={<span style={{ fontSize: 14 }}>EN</span>}
-              leftChecked={lang === 'zh-CN'}
-              onChange={(checked) => setLang(checked ? 'zh-CN' : 'en-US')}
-              style={{ marginRight: 8 }}
-            />
-            <Button onClick={handleOutput} style={{ marginRight: 8 }}>
-              导出
-            </Button>
-            <Button type="primary" onClick={handleSave}>
-              保存
-            </Button>
-          </div>
-        </div>
         <ThemeEditor
           theme={theme}
           onThemeChange={handleThemeChange}
-          style={{ height: 'calc(100vh - 56px)' }}
           locale={lang === 'zh-CN' ? zhCN : enUS}
+          actions={
+            <div>
+              <IconSwitch
+                leftIcon={<span style={{ fontSize: 14 }}>ZH</span>}
+                rightIcon={<span style={{ fontSize: 14 }}>EN</span>}
+                leftChecked={lang === 'zh-CN'}
+                onChange={(checked) => setLang(checked ? 'zh-CN' : 'en-US')}
+                style={{ marginRight: 8 }}
+              />
+              <Button onClick={handleOutput} style={{ marginRight: 8 }}>
+                导出
+              </Button>
+              <Button type="primary" onClick={handleSave}>
+                保存
+              </Button>
+            </div>
+          }
         />
       </ConfigProvider>
     </React.StrictMode>

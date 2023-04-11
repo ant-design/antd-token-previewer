@@ -10,6 +10,7 @@ const locale: Locale = {
   border: '描边',
   background: '背景',
   text: '文本',
+  title: '主题编辑器',
   demo: {
     overview: '概览',
     components: '组件',

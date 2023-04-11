@@ -10,6 +10,7 @@ const locale: Locale = {
   border: 'Border',
   background: 'Background',
   text: 'Text',
+  title: 'Theme Editor',
   demo: {
     overview: 'Overview',
     components: 'Components',
