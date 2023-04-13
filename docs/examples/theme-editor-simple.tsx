@@ -67,12 +67,25 @@ const Demo = () => {
     });
   };
 
-  const handleEditConfigChange = (newContent: JSONContent | TextContent) => {
+  const handleEditConfigChange = (newContent: JSONContent & TextContent) => {
     const mergedTheme = {
       ...theme,
-      config: newContent?.json ?? JSON.parse(newContent.text || '{}'),
+      config: newContent?.json,
     };
-    setTheme(mergedTheme);
+    // const themeConfig = themeConfigContent.text
+    //   ? JSON.parse(themeConfigContent.text)
+    //   : themeConfigContent.json;
+    console.log('mergedTheme', mergedTheme);
+    // setTheme(mergedTheme);
+    // setThemeConfigContent(newcontent);
+    // if (
+    //   Array.isArray(status.contentErrors.validationErrors) &&
+    //   status.contentErrors.validationErrors.length === 0
+    // ) {
+    //   setEditThemeFormatRight(true);
+    // } else {
+    //   setEditThemeFormatRight(false);
+    // }
   };
 
   const handleEdit = () => {
