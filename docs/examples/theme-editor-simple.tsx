@@ -1,9 +1,12 @@
 import { Button, ConfigProvider, message, Modal } from 'antd';
 import type { Theme } from 'antd-token-previewer';
 import { enUS, ThemeEditor, zhCN } from 'antd-token-previewer';
+import type { JSONContent, TextContent } from 'vanilla-jsoneditor';
+
 import 'antd/es/style/reset.css';
 import React, { useEffect } from 'react';
 import IconSwitch from '../../src/IconSwitch';
+const JSONEditor = React.lazy(() => import('../JSONEditor'));
 
 const ANT_DESIGN_V5_CUSTOM_THEME_PRO = 'ant-design-v5-custom-theme-pro';
 
@@ -64,7 +67,33 @@ const Demo = () => {
     });
   };
 
-  const handleEdit = () => {};
+  const handleEditConfigChange = (newContent: JSONContent | TextContent) => {
+    const mergedTheme = {
+      ...theme,
+      config: newContent?.json ?? JSON.parse(newContent.text || '{}'),
+    };
+    setTheme(mergedTheme);
+  };
+
+  const handleEdit = () => {
+    const mergedContent = {
+      json: theme.config,
+      text: '{}',
+    };
+    modalApi.info({
+      title: '导出',
+      width: 600,
+      content: (
+        <div>
+          <JSONEditor
+            content={mergedContent}
+            onChange={handleEditConfigChange}
+            mainMenuBar={false}
+          />
+        </div>
+      ),
+    });
+  };
 
   return (
     <React.StrictMode>
