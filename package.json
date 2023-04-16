@@ -75,7 +75,7 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-test-renderer": "^16.0.0",
-    "typescript": "^4.0.5",
+    "typescript": "~5.0.2",
     "umi-test": "^1.9.7",
     "utility-types": "^3.10.0"
   },
