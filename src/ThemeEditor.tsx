@@ -1,6 +1,6 @@
 import type { DerivativeFunc } from '@ant-design/cssinjs';
 import { CaretDownOutlined } from '@ant-design/icons';
-import { Dropdown, Button, message, Modal, Segmented, Tag } from 'antd';
+import { Button, Dropdown, message, Modal, Segmented, Tag } from 'antd';
 import type { ThemeConfig } from 'antd/es/config-provider/context';
 import classNames from 'classnames';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
@@ -245,7 +245,7 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
               />
             )}
             <div className={`${prefixCls}-header-actions`}>
-              <span>
+              <span style={{ marginRight: 8 }}>
                 共 <span style={{ color: '#dd5b21' }}>{editNum}</span> 处修改
               </span>
               <Button

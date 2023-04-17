@@ -64,8 +64,6 @@ const Demo = () => {
     });
   };
 
-  const handleEdit = () => {};
-
   return (
     <React.StrictMode>
       {contextHolder}
