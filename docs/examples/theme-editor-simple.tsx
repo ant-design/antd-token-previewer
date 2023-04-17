@@ -76,7 +76,7 @@ const Demo = () => {
           onThemeChange={handleThemeChange}
           locale={lang === 'zh-CN' ? zhCN : enUS}
           actions={
-            <div>
+            <>
               <IconSwitch
                 leftIcon={<span style={{ fontSize: 14 }}>ZH</span>}
                 rightIcon={<span style={{ fontSize: 14 }}>EN</span>}
@@ -90,7 +90,7 @@ const Demo = () => {
               <Button type="primary" onClick={handleSave}>
                 保存
               </Button>
-            </div>
+            </>
           }
         />
       </ConfigProvider>
