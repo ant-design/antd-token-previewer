@@ -65,6 +65,8 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
     [`.token-panel-pro-token-collapse${token.rootCls}-collapse`]: {
       flex: 1,
       overflow: 'auto',
+      paddingInlineEnd: '16px',
+
       [`> ${token.rootCls}-collapse-item-active`]: {
         backgroundColor: '#fff',
         boxShadow:
@@ -394,7 +396,10 @@ const MapTokenCollapseContent: FC<MapTokenCollapseContentProps> = ({
   const locale = useLocale();
 
   return (
-    <Collapse className="token-panel-pro-token-collapse-map-collapse">
+    <Collapse
+      className="token-panel-pro-token-collapse-map-collapse"
+      activeKey={mapTokens ?? []}
+    >
       {mapTokens?.map((mapToken) => (
         <Panel
           header={
@@ -576,6 +581,7 @@ const groupMapToken = (token: string): string => {
 };
 
 export type ColorTokenContentProps = {
+  id: string;
   category: TokenCategory<string>;
   theme: MutableTheme;
   selectedTokens?: SelectedToken;
@@ -587,13 +593,14 @@ export type ColorTokenContentProps = {
 };
 
 const TokenContent: FC<ColorTokenContentProps> = ({
+  id,
   category,
   theme,
   selectedTokens,
   onTokenSelect,
   infoFollowPrimary,
   onInfoFollowPrimaryChange,
-  activeGroup,
+  // activeGroup,
   onActiveGroupChange,
 }) => {
   const [wrapSSR, hashId] = useStyle();
@@ -630,7 +637,7 @@ const TokenContent: FC<ColorTokenContentProps> = ({
   };
 
   return wrapSSR(
-    <div className={classNames(hashId, 'token-panel-pro-color')}>
+    <div className={classNames(hashId, 'token-panel-pro-color')} id={id}>
       <div className="token-panel-pro-color-seeds">
         <div className="token-panel-pro-color-themes">
           <span style={{ marginRight: 12 }}>
@@ -666,8 +673,7 @@ const TokenContent: FC<ColorTokenContentProps> = ({
             className="token-panel-pro-token-collapse"
             expandIconPosition="end"
             ghost
-            accordion
-            activeKey={activeGroup}
+            activeKey={category.groups.map((group) => group.key)}
             expandIcon={({ isActive }) => (
               <CaretRightOutlined
                 rotate={isActive ? 450 : 360}
