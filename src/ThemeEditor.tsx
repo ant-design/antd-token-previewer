@@ -13,6 +13,7 @@ import React, {
   useState,
 } from 'react';
 import type { OnChange } from 'vanilla-jsoneditor';
+import { AdvancedContext } from './context';
 import GlobalTokenEditor from './GlobalTokenEditor';
 import useControlledTheme from './hooks/useControlledTheme';
 import type { Theme } from './interface';
@@ -203,81 +204,89 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
 
     return wrapSSR(
       <LocaleContext.Provider value={locale}>
-        {contextHolder}
-        <div className={classNames(hashId, prefixCls, className)} style={style}>
-          <div className={`${prefixCls}-header`}>
-            <div className={`${prefixCls}-header-title`}>{locale.title}</div>
-            <Dropdown
-              trigger={['click']}
-              menu={{
-                items: [
-                  {
-                    key: 'basic',
-                    label: locale.basicMode,
-                    onClick: () => setAdvanced(false),
-                  },
-                  {
-                    key: 'advanced',
-                    label: locale.advancedMode,
-                    onClick: () => setAdvanced(true),
-                  },
-                ],
-              }}
-            >
-              <Tag
-                color={advanced ? 'blue' : 'green'}
-                style={{ marginLeft: 24, cursor: 'pointer' }}
-              >
-                <span>{advanced ? locale.advancedMode : locale.basicMode}</span>
-                <CaretDownOutlined style={{ fontSize: 10 }} />
-              </Tag>
-            </Dropdown>
-            {advanced && (
-              <Segmented
-                options={[
-                  { label: locale.globalToken, value: 'global' },
-                  { label: locale.componentToken, value: 'component' },
-                ]}
-                onChange={(v) => setMode(v as ThemeEditorMode)}
-                style={{ marginLeft: 24 }}
-              />
-            )}
-            <div className={`${prefixCls}-header-actions`}>
-              <span style={{ marginRight: 8 }}>
-                共 <span style={{ color: '#dd5b21' }}>{editTotal}</span> 处修改
-              </span>
-              <Button
-                style={{ marginRight: 8 }}
-                onClick={() => setIsModalOpen(true)}
-              >
-                主题配置
-              </Button>
-              {actions}
-            </div>
-          </div>
-          <div className={`${prefixCls}-body`}>
-            {mode === 'global' && (
-              <GlobalTokenEditor
-                theme={theme}
-                advanced={advanced}
-                infoFollowPrimary={infoFollowPrimary}
-                onInfoFollowPrimaryChange={onInfoFollowPrimaryChange}
-              />
-            )}
-          </div>
-          <Modal
-            title="主题配置"
-            open={isModalOpen}
-            onOk={editSave}
-            onCancel={editModelClose}
+        <AdvancedContext.Provider value={advanced}>
+          {contextHolder}
+          <div
+            className={classNames(hashId, prefixCls, className)}
+            style={style}
           >
-            <JSONEditor
-              content={themeConfigContent}
-              onChange={handleEditConfigChange}
-              mainMenuBar={false}
-            />
-          </Modal>
-        </div>
+            <div className={`${prefixCls}-header`}>
+              <div className={`${prefixCls}-header-title`}>{locale.title}</div>
+              <Dropdown
+                trigger={['click']}
+                menu={{
+                  items: [
+                    {
+                      key: 'basic',
+                      label: locale.basicMode,
+                      onClick: () => setAdvanced(false),
+                    },
+                    {
+                      key: 'advanced',
+                      label: locale.advancedMode,
+                      onClick: () => setAdvanced(true),
+                    },
+                  ],
+                }}
+              >
+                <Tag
+                  color={advanced ? 'blue' : 'green'}
+                  style={{ marginLeft: 24, cursor: 'pointer' }}
+                >
+                  <span>
+                    {advanced ? locale.advancedMode : locale.basicMode}
+                  </span>
+                  <CaretDownOutlined style={{ fontSize: 10 }} />
+                </Tag>
+              </Dropdown>
+              {advanced && (
+                <Segmented
+                  options={[
+                    { label: locale.globalToken, value: 'global' },
+                    { label: locale.componentToken, value: 'component' },
+                  ]}
+                  onChange={(v) => setMode(v as ThemeEditorMode)}
+                  style={{ marginLeft: 24 }}
+                />
+              )}
+              <div className={`${prefixCls}-header-actions`}>
+                <span style={{ marginRight: 8 }}>
+                  共 <span style={{ color: '#dd5b21' }}>{editTotal}</span>{' '}
+                  处修改
+                </span>
+                <Button
+                  style={{ marginRight: 8 }}
+                  onClick={() => setIsModalOpen(true)}
+                >
+                  主题配置
+                </Button>
+                {actions}
+              </div>
+            </div>
+            <div className={`${prefixCls}-body`}>
+              {mode === 'global' && (
+                <GlobalTokenEditor
+                  theme={theme}
+                  advanced={advanced}
+                  infoFollowPrimary={infoFollowPrimary}
+                  onInfoFollowPrimaryChange={onInfoFollowPrimaryChange}
+                />
+              )}
+            </div>
+            <Modal
+              title="主题配置"
+              open={isModalOpen}
+              onOk={editSave}
+              onCancel={editModelClose}
+            >
+              <JSONEditor
+                content={themeConfigContent}
+                onChange={handleEditConfigChange}
+                mainMenuBar={false}
+              />
+            </Modal>
+          </div>
+        </AdvancedContext.Provider>
       </LocaleContext.Provider>,
     );
   },

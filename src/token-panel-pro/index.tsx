@@ -24,6 +24,14 @@ const useStyle = makeStyle('TokenPanelPro', (token) => ({
       display: 'flex',
       flexDirection: 'column',
 
+      [`${token.rootCls}-anchor-wrapper`]: {
+        padding: '0px 16px',
+      },
+
+      [`${token.rootCls}-anchor`]: {
+        padding: '10px 0',
+      },
+
       '.token-panel-pro-list': {
         overflow: 'scroll',
       },
@@ -82,8 +90,10 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
       <div className="token-panel-pro-content">
         <Anchor
           affix={false}
-          style={{ padding: '10px 0' }}
           direction="horizontal"
+          getContainer={() =>
+            document.querySelector('.token-panel-pro-list') as HTMLElement
+          }
           onChange={(key) => {
             setActiveGroup(
               tokenCategory.find((category) => category.nameEn === key)
@@ -97,22 +107,20 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
           }))}
         />
         <div className="token-panel-pro-list">
-          <div className="token-panel-pro-item">
-            {tokenCategory.map((category) => (
-              <TokenContent
-                id={category.nameEn}
-                key={category.nameEn}
-                category={category}
-                theme={theme}
-                selectedTokens={selectedTokens}
-                onTokenSelect={onTokenSelect}
-                infoFollowPrimary={infoFollowPrimary}
-                onInfoFollowPrimaryChange={onInfoFollowPrimaryChange}
-                activeGroup={activeGroup}
-                onActiveGroupChange={setActiveGroup}
-              />
-            ))}
-          </div>
+          {tokenCategory.map((category) => (
+            <TokenContent
+              id={category.nameEn}
+              key={category.nameEn}
+              category={category}
+              theme={theme}
+              selectedTokens={selectedTokens}
+              onTokenSelect={onTokenSelect}
+              infoFollowPrimary={infoFollowPrimary}
+              onInfoFollowPrimaryChange={onInfoFollowPrimaryChange}
+              activeGroup={activeGroup}
+              onActiveGroupChange={setActiveGroup}
+            />
+          ))}
         </div>
       </div>
       <AliasPanel

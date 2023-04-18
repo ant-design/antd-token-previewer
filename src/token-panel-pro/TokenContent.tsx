@@ -4,8 +4,6 @@ import {
   QuestionCircleOutlined,
 } from '@ant-design/icons';
 import {
-  Button,
-  Checkbox,
   Collapse,
   ConfigProvider,
   Popover,
@@ -22,6 +20,7 @@ import type { FC } from 'react';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDebouncyFn } from 'use-debouncy';
 import ColorPanel from '../ColorPanel';
+import { useAdvanced } from '../context';
 import type { ThemeCode } from '../hooks/useControlledTheme';
 import { themeMap } from '../hooks/useControlledTheme';
 import { CompactTheme, DarkTheme, Light, Pick } from '../icons';
@@ -39,7 +38,7 @@ const { Panel } = Collapse;
 
 const useStyle = makeStyle('ColorTokenContent', (token) => ({
   '.token-panel-pro-color': {
-    height: '100%',
+    height: 'auto',
     display: 'flex',
     '.token-panel-pro-color-seeds': {
       height: '100%',
@@ -55,51 +54,70 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
         alignItems: 'center',
         padding: '0 16px',
         flex: '0 0 60px',
+        borderBlockEnd: `1px solid ${token.colorBorderSecondary}`,
+        color: 'rgba(0, 0, 0, 0.85)',
 
         '> span': {
           fontSize: token.fontSizeLG,
-          fontWeight: token.fontWeightStrong,
         },
       },
     },
-    [`.token-panel-pro-token-collapse${token.rootCls}-collapse`]: {
+    '.token-panel-pro-token-list': {
       flex: 1,
       overflow: 'auto',
-      paddingInlineEnd: '16px',
+      padding: '10px 16px',
 
-      [`> ${token.rootCls}-collapse-item-active`]: {
-        backgroundColor: '#fff',
-        boxShadow:
-          '0 6px 16px -8px rgba(0,0,0,0.08), 0 9px 28px 0 rgba(0,0,0,0.05), 0 12px 48px -8px rgba(0,0,0,0.03), inset 0 0 0 2px #1677FF',
-        transition: 'box-shadow 0.2s ease-in-out',
-        borderRadius: 8,
+      '.token-panel-pro-token-item': {
+        display: 'flex',
+        flexWrap: 'wrap',
+        paddingBlock: '2px 10px',
+
+        [`&:not(:last-child)`]: {
+          borderBlockEnd: `1px solid ${token.colorBorderSecondary}`,
+        },
       },
-      [`> ${token.rootCls}-collapse-item > ${token.rootCls}-collapse-content > ${token.rootCls}-collapse-content-box`]:
-        {
-          paddingBlock: '0 12px',
+
+      '.token-panel-pro-token-item-header': {
+        display: 'flex',
+        flexWrap: 'wrap',
+        alignItems: 'center',
+
+        '.token-panel-pro-token-item-header-title': {
+          marginInlineEnd: 8,
+          marginBlockStart: 13.5,
         },
 
-      '.token-panel-pro-token-collapse-description': {
+        '.token-panel-pro-token-item-header-desc': {
+          marginBlockStart: 10,
+          fontSize: token.fontSizeSM,
+          color: 'rgba(0, 0, 0, 0.45)',
+        },
+      },
+
+      '.token-panel-pro-token-list-description': {
         color: token.colorTextTertiary,
         marginBottom: 16,
       },
 
-      '.token-panel-pro-token-collapse-subtitle': {
+      '.token-panel-pro-token-list-subtitle': {
         color: token.colorTextSecondary,
         fontSize: 12,
       },
 
-      '.token-panel-pro-token-collapse-seed-block': {
+      '.token-panel-pro-token-list-seed-block': {
+        width: '100%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-end',
 
-        '+ .token-panel-pro-token-collapse-seed-block': {
+        '+ .token-panel-pro-token-list-seed-block': {
           marginTop: 8,
         },
 
         '&-name-cn': {
-          fontWeight: token.fontWeightStrong,
+          fontSize: token.fontSize,
+          fontWeight: 400,
+          borderBlockStart: 2,
           marginInlineEnd: 4,
         },
 
@@ -341,7 +359,7 @@ const SeedTokenPreview: FC<SeedTokenProps> = ({
           }
         >
           <div
-            className="token-panel-pro-token-collapse-seed-block-sample-card"
+            className="token-panel-pro-token-list-seed-block-sample-card"
             style={{ pointerEvents: disabled ? 'none' : 'auto' }}
           >
             <div
@@ -355,7 +373,7 @@ const SeedTokenPreview: FC<SeedTokenProps> = ({
                   '0 2px 3px -1px rgba(0,0,0,0.20), inset 0 0 0 1px rgba(0,0,0,0.09)',
               }}
             />
-            <div className="token-panel-pro-token-collapse-seed-block-sample-card-value">
+            <div className="token-panel-pro-token-list-seed-block-sample-card-value">
               {tokenValue}
             </div>
           </div>
@@ -600,12 +618,11 @@ const TokenContent: FC<ColorTokenContentProps> = ({
   onTokenSelect,
   infoFollowPrimary,
   onInfoFollowPrimaryChange,
-  // activeGroup,
-  onActiveGroupChange,
 }) => {
   const [wrapSSR, hashId] = useStyle();
   const [grouped, setGrouped] = useState<boolean>(true);
   const locale = useLocale();
+  const advanced = useAdvanced();
 
   const switchAlgorithm = (themeStr: 'dark' | 'compact') => () => {
     let newAlgorithm = theme.config.algorithm;
@@ -669,105 +686,94 @@ const TokenContent: FC<ColorTokenContentProps> = ({
             },
           }}
         >
-          <Collapse
-            className="token-panel-pro-token-collapse"
-            expandIconPosition="end"
-            ghost
-            activeKey={category.groups.map((group) => group.key)}
-            expandIcon={({ isActive }) => (
-              <CaretRightOutlined
-                rotate={isActive ? 450 : 360}
-                style={{ fontSize: 12 }}
-              />
-            )}
-            onChange={(key) => {
-              onActiveGroupChange(key as string);
-            }}
-          >
-            {category.groups.map((group, index) => {
+          <div className="token-panel-pro-token-list">
+            {category.groups.map((group) => {
               return (
-                <Panel
-                  header={
-                    <span style={{ fontWeight: 500 }}>
-                      {locale._lang === 'zh-CN' ? group.name : group.nameEn}
-                    </span>
-                  }
-                  key={group.key}
-                >
-                  <div>
-                    <div className="token-panel-pro-token-collapse-description">
-                      {locale._lang === 'zh-CN' ? group.desc : group.descEn}
-                    </div>
-                    {group.seedToken?.map((seedToken) => (
-                      <div
-                        key={seedToken}
-                        className="token-panel-pro-token-collapse-seed-block"
-                      >
-                        <div style={{ marginRight: 'auto' }}>
-                          <div className="token-panel-pro-token-collapse-subtitle">
-                            <span style={{ fontSize: 12 }}>Seed Token</span>
-                            <Tooltip
-                              placement="topLeft"
-                              arrowPointAtCenter
-                              title={
-                                locale._lang === 'zh-CN'
-                                  ? (tokenMeta as any)[seedToken]?.desc
-                                  : (tokenMeta as any)[seedToken]?.descEn
-                              }
-                            >
-                              <QuestionCircleOutlined
-                                style={{ fontSize: 14, marginLeft: 8 }}
-                              />
-                            </Tooltip>
-                          </div>
-                          <div>
-                            <span className="token-panel-pro-token-collapse-seed-block-name-cn">
-                              {locale._lang === 'zh-CN'
-                                ? (tokenMeta as any)[seedToken]?.name
-                                : (tokenMeta as any)[seedToken]?.nameEn}
-                            </span>
-                            {seedToken === 'colorInfo' && (
-                              <Checkbox
-                                style={{ marginLeft: 12 }}
-                                checked={infoFollowPrimary}
-                                onChange={(e) =>
-                                  onInfoFollowPrimaryChange?.(e.target.checked)
-                                }
-                              >
-                                {locale.followPrimary}
-                              </Checkbox>
-                            )}
-                          </div>
-                        </div>
-                        <SeedTokenPreview
-                          theme={theme}
-                          tokenName={seedToken}
-                          disabled={
-                            seedToken === 'colorInfo' && infoFollowPrimary
-                          }
-                        />
+                (!!group.seedToken || advanced) && (
+                  <div className="token-panel-pro-token-item" key={group.key}>
+                    <div className="token-panel-pro-token-item-header">
+                      <div className="token-panel-pro-token-item-header-title">
+                        <span>
+                          {locale._lang === 'zh-CN' ? group.name : group.nameEn}
+                        </span>
                       </div>
-                    ))}
-                    {(group.mapToken || group.groups) && (
-                      <div style={{ marginTop: 16, marginBottom: 24 }}>
+                      <div className="token-panel-pro-token-item-header-desc">
+                        <span>
+                          {locale._lang === 'zh-CN' ? group.desc : group.descEn}
+                        </span>
+                      </div>
+                    </div>
+                    {group.seedToken?.map((seedToken) =>
+                      seedToken === 'colorInfo' ? (
                         <div
-                          className="token-panel-pro-token-collapse-subtitle"
+                          key={seedToken}
                           style={{
-                            marginBottom: 10,
-                            display: 'flex',
-                            alignItems: 'center',
+                            marginBlockStart: 10,
+                            marginInlineStart: 'auto',
                           }}
                         >
-                          <span>Map Token</span>
-                          <Tooltip
-                            placement="topLeft"
-                            arrowPointAtCenter
-                            title="梯度变量（Map Token） 是基于 Seed 派生的梯度变量，我们精心设计的梯度变量模型具有良好的视觉设计语义，可在亮暗色模式切换时保证视觉梯度的一致性。"
-                          >
-                            <QuestionCircleOutlined
-                              style={{ fontSize: 14, marginLeft: 8 }}
-                            />
-                          </Tooltip>
+                          {locale.followPrimary}
+                          <Switch
+                            style={{ marginLeft: 12 }}
+                            checked={infoFollowPrimary}
+                            onChange={(e) => onInfoFollowPrimaryChange?.(e)}
+                          />
+                        </div>
+                      ) : (
+                        <div
+                          key={seedToken}
+                          className="token-panel-pro-token-list-seed-block"
+                        >
+                          <div style={{ marginRight: 'auto' }}>
+                            <div className="token-panel-pro-token-list-subtitle">
+                              <span style={{ fontSize: 12 }}>
+                                {locale._lang === 'zh-CN'
+                                  ? '基础变量'
+                                  : ' Seed Token'}
+                              </span>
+                              <Tooltip
+                                placement="topLeft"
+                                arrowPointAtCenter
+                                title={
+                                  locale._lang === 'zh-CN'
+                                    ? (tokenMeta as any)[seedToken]?.desc
+                                    : (tokenMeta as any)[seedToken]?.descEn
+                                }
+                              >
+                                <QuestionCircleOutlined
+                                  style={{ fontSize: 14, marginLeft: 8 }}
+                                />
+                              </Tooltip>
+                            </div>
+                            <div>
+                              <span className="token-panel-pro-token-list-seed-block-name-cn">
+                                {seedToken}
+                              </span>
+                            </div>
+                          </div>
+                          <SeedTokenPreview
+                            theme={theme}
+                            tokenName={seedToken}
+                            disabled={
+                              seedToken === 'colorInfo' && infoFollowPrimary
+                            }
+                          />
+                        </div>
+                      ),
+                    )}
+                    {(group.mapToken || group.groups) && advanced && (
+                      <Collapse
+                        bordered={false}
+                        activeKey={[group.key]}
+                        expandIcon={() => <CaretRightOutlined rotate={90} />}
+                        style={{ width: '100%', marginBlockStart: 10 }}
+                      >
+                        <Panel
+                          header={
+                            locale._lang === 'zh-CN' ? '梯度变量' : 'Map Token'
+                          }
+                          key={group.key}
+                        >
                           {group.mapTokenGroups && (
                             <div
                               style={{
@@ -786,36 +792,25 @@ const TokenContent: FC<ColorTokenContentProps> = ({
                               />
                             </div>
                           )}
-                        </div>
-                        <MapTokenCollapse
-                          group={group}
-                          theme={theme}
-                          selectedTokens={selectedTokens}
-                          onTokenSelect={onTokenSelect}
-                          groupFn={
-                            group.mapTokenGroups && grouped
-                              ? groupMapToken
-                              : undefined
-                          }
-                        />
-                      </div>
-                    )}
-                    {index < category.groups.length - 1 && (
-                      <Button
-                        type="primary"
-                        style={{ borderRadius: 4, marginBottom: 12 }}
-                        onClick={() =>
-                          onActiveGroupChange(category.groups[index + 1]?.key)
-                        }
-                      >
-                        {locale.next}
-                      </Button>
+                          <MapTokenCollapse
+                            group={group}
+                            theme={theme}
+                            selectedTokens={selectedTokens}
+                            onTokenSelect={onTokenSelect}
+                            groupFn={
+                              group.mapTokenGroups && grouped
+                                ? groupMapToken
+                                : undefined
+                            }
+                          />
+                        </Panel>
+                      </Collapse>
                     )}
                   </div>
-                </Panel>
+                )
               );
             })}
-          </Collapse>
+          </div>
         </ConfigProvider>
       </div>
     </div>,
