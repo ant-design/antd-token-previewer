@@ -1,5 +1,5 @@
-import React from 'react';
 import { Modal } from 'antd';
+import React from 'react';
 
 import type { ComponentDemo } from '../../interface';
 
@@ -8,6 +8,8 @@ const Demo = () => {
     <Modal._InternalPanelDoNotUseOrYouWillBeFired
       type={'confirm'}
       title={'Confirm This?'}
+      // @ts-ignore
+      autoFocusButton={null}
     >
       Some descriptions.
     </Modal._InternalPanelDoNotUseOrYouWillBeFired>
