@@ -9,6 +9,7 @@ import React, {
   forwardRef,
   useCallback,
   useImperativeHandle,
+  useMemo,
   useState,
 } from 'react';
 import type { OnChange } from 'vanilla-jsoneditor';
@@ -101,7 +102,6 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
     const prefixCls = 'antd-theme-editor';
     const [wrapSSR, hashId] = useStyle(prefixCls);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [editNum, setEditNum] = useState(0);
     const [editThemeFormatRight, setEditThemeFormatRight] =
       useState<boolean>(true);
     const [mode, setMode] = useMergedState<ThemeEditorMode>('global', {
@@ -110,25 +110,11 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
     });
     const [messageApi, contextHolder] = message.useMessage();
 
-    const setEditNumChange = (config: ThemeConfig) => {
-      const { token = {}, components = {} } = config;
-      let mergedEditNum = Object.keys(token).length;
-      if (components) {
-        for (const key in components) {
-          const mergedItem = components[key as keyof ThemeConfig['components']];
-          if (mergedItem && isObject(mergedItem)) {
-            mergedEditNum += Object.keys(mergedItem).length;
-          }
-        }
-      }
-      setEditNum(mergedEditNum);
-    };
-
     const [themeConfigContent, setThemeConfigContent] = useState<{
       text: string;
       json?: undefined;
     }>({
-      text: JSON.stringify(defaultTheme.config),
+      text: JSON.stringify(customTheme?.config ?? defaultTheme.config),
       json: undefined,
     });
 
@@ -153,10 +139,23 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
           setThemeConfigContent({
             text: JSON.stringify(newTheme.config),
           });
-          setEditNumChange?.(newTheme.config);
         },
         darkAlgorithm,
       });
+
+    const editTotal = useMemo(() => {
+      const { token = {}, components = {} } = theme.config;
+      let mergedEditTotal = Object.keys(token).length;
+      if (components) {
+        for (const key in components) {
+          const mergedItem = components[key as keyof ThemeConfig['components']];
+          if (mergedItem && isObject(mergedItem)) {
+            mergedEditTotal += Object.keys(mergedItem).length;
+          }
+        }
+      }
+      return mergedEditTotal;
+    }, [theme]);
 
     useImperativeHandle(ref, () => ({
       updateRef,
@@ -198,7 +197,6 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
         return;
       }
       onThemeChange?.(themeConfig);
-      setEditNumChange(themeConfig.config);
       editModelClose();
       messageApi.success('编辑成功');
     }, [themeConfigContent]);
@@ -246,13 +244,13 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
             )}
             <div className={`${prefixCls}-header-actions`}>
               <span style={{ marginRight: 8 }}>
-                共 <span style={{ color: '#dd5b21' }}>{editNum}</span> 处修改
+                共 <span style={{ color: '#dd5b21' }}>{editTotal}</span> 处修改
               </span>
               <Button
                 style={{ marginRight: 8 }}
                 onClick={() => setIsModalOpen(true)}
               >
-                主题编辑
+                主题配置
               </Button>
               {actions}
             </div>
@@ -268,7 +266,7 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
             )}
           </div>
           <Modal
-            title="编辑配置"
+            title="主题配置"
             open={isModalOpen}
             onOk={editSave}
             onCancel={editModelClose}
