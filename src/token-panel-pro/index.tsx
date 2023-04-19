@@ -1,4 +1,4 @@
-import { Tabs } from 'antd';
+import { Anchor } from 'antd';
 import type { Theme } from 'antd-token-previewer';
 import classNames from 'classnames';
 import type { FC } from 'react';
@@ -13,17 +13,27 @@ import TokenContent from './TokenContent';
 
 const useStyle = makeStyle('TokenPanelPro', (token) => ({
   '.token-panel-pro': {
+    width: '100%',
     height: '100%',
     display: 'flex',
     borderInlineEnd: `1px solid ${token.colorBorderSecondary}`,
-    [`.token-panel-pro-tabs${token.rootCls}-tabs`]: {
+
+    '.token-panel-pro-content': {
+      width: '100%',
       height: '100%',
-      overflow: 'auto',
-      [`${token.rootCls}-tabs-content`]: {
-        height: '100%',
-        [`${token.rootCls}-tabs-tabpane`]: {
-          height: '100%',
-        },
+      display: 'flex',
+      flexDirection: 'column',
+
+      [`${token.rootCls}-anchor-wrapper`]: {
+        padding: '0px 16px',
+      },
+
+      [`${token.rootCls}-anchor`]: {
+        padding: '10px 0',
+      },
+
+      '.token-panel-pro-list': {
+        overflow: 'scroll',
       },
     },
   },
@@ -77,23 +87,30 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
       className={classNames(hashId, className, 'token-panel-pro')}
       style={style}
     >
-      <Tabs
-        defaultActiveKey="color"
-        tabBarGutter={32}
-        tabBarStyle={{ padding: '0 16px', margin: 0 }}
-        style={{ height: '100%', flex: '0 0 540px' }}
-        className="token-panel-pro-tabs"
-        onChange={(key) => {
-          setActiveGroup(
-            tokenCategory.find((category) => category.nameEn === key)?.groups[0]
-              .key ?? '',
-          );
-        }}
-        items={tokenCategory.map((category) => ({
-          key: category.nameEn,
-          label: locale._lang === 'zh-CN' ? category.name : category.nameEn,
-          children: (
+      <div className="token-panel-pro-content">
+        <Anchor
+          affix={false}
+          direction="horizontal"
+          getContainer={() =>
+            document.querySelector('.token-panel-pro-list') as HTMLElement
+          }
+          onChange={(key) => {
+            setActiveGroup(
+              tokenCategory.find((category) => category.nameEn === key)
+                ?.groups[0].key ?? '',
+            );
+          }}
+          items={tokenCategory.map((category) => ({
+            key: category.nameEn,
+            title: locale._lang === 'zh-CN' ? category.name : category.nameEn,
+            href: `#${category.nameEn}`,
+          }))}
+        />
+        <div className="token-panel-pro-list">
+          {tokenCategory.map((category) => (
             <TokenContent
+              id={category.nameEn}
+              key={category.nameEn}
               category={category}
               theme={theme}
               selectedTokens={selectedTokens}
@@ -103,9 +120,9 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
               activeGroup={activeGroup}
               onActiveGroupChange={setActiveGroup}
             />
-          ),
-        }))}
-      />
+          ))}
+        </div>
+      </div>
       <AliasPanel
         open={aliasOpen}
         description={activeCategory?.aliasTokenDescription}
