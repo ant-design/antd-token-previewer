@@ -29,6 +29,7 @@ import IconSwitch from '../IconSwitch';
 import type { SelectedToken } from '../interface';
 import { useLocale } from '../locale';
 import type { TokenCategory, TokenGroup } from '../meta/interface';
+import { highlightColor } from '../utils/constants';
 import getDesignToken from '../utils/getDesignToken';
 import makeStyle from '../utils/makeStyle';
 import InputNumberPlus from './InputNumberPlus';
@@ -461,7 +462,7 @@ const MapTokenCollapseContent: FC<MapTokenCollapseContentProps> = ({
   const locale = useLocale();
 
   const getMapTokenColor = (token: string) =>
-    !!(theme.config.token as any)?.[token] ? '#dd5b21' : '';
+    !!(theme.config.token as any)?.[token] ? highlightColor : '';
 
   return (
     <>
@@ -804,7 +805,7 @@ const TokenContent: FC<ColorTokenContentProps> = ({
                                       color: !!(theme.config.token as any)?.[
                                         seedToken
                                       ]
-                                        ? '#dd5b21'
+                                        ? highlightColor
                                         : '',
                                     }}
                                   >
@@ -851,7 +852,7 @@ const TokenContent: FC<ColorTokenContentProps> = ({
                                   color: group.mapToken?.some(
                                     (t) => !!(theme.config.token as any)?.[t],
                                   )
-                                    ? '#dd5b21'
+                                    ? highlightColor
                                     : '',
                                 }}
                               >
