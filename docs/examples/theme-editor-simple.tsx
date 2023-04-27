@@ -1,23 +1,22 @@
-import { Button, ConfigProvider, message, Modal } from 'antd';
+import { Button, ConfigProvider, message, theme as antdTheme } from 'antd';
 import type { Theme } from 'antd-token-previewer';
 import { enUS, ThemeEditor, zhCN } from 'antd-token-previewer';
 import 'antd/es/style/reset.css';
 import React, { useEffect } from 'react';
+import { DarkTheme, Light } from '../../src/icons';
 import IconSwitch from '../../src/IconSwitch';
 
 const ANT_DESIGN_V5_CUSTOM_THEME_PRO = 'ant-design-v5-custom-theme-pro';
 
 const Demo = () => {
   const [messageApi, contextHolder] = message.useMessage();
-  const [modalApi, modalContextHolder] = Modal.useModal();
   const [lang, setLang] = React.useState('zh-CN');
+  const [isDark, setIsDark] = React.useState(false);
   const [theme, setTheme] = React.useState<Theme>({
     name: '自定义主题',
     key: 'secret theme',
     config: {
-      token: {
-        colorPrimary: '#1677FF',
-      },
+      token: {},
     },
   });
 
@@ -40,37 +39,18 @@ const Demo = () => {
     messageApi.success('保存成功');
   };
 
-  const handleOutput = () => {
-    modalApi.info({
-      title: '导出',
-      width: 600,
-      content: (
-        <div>
-          <div style={{ color: 'rgba(0,0,0,0.65)' }}>
-            将下面的 JSON 对象复制到 ConfigProvider 的 theme 属性中即可。
-          </div>
-          <pre
-            style={{
-              padding: 12,
-              background: '#f5f5f5',
-              borderRadius: 4,
-              marginTop: 12,
-            }}
-          >
-            {JSON.stringify(theme.config, null, 2)}
-          </pre>
-        </div>
-      ),
-    });
-  };
-
   return (
     <React.StrictMode>
       {contextHolder}
-      {modalContextHolder}
-      <ConfigProvider theme={{ hashed: true }}>
+      <ConfigProvider
+        theme={{
+          hashed: true,
+          algorithm: isDark ? antdTheme.darkAlgorithm : undefined,
+        }}
+      >
         <ThemeEditor
           theme={theme}
+          advanced
           onThemeChange={handleThemeChange}
           locale={lang === 'zh-CN' ? zhCN : enUS}
           actions={
@@ -82,9 +62,13 @@ const Demo = () => {
                 onChange={(checked) => setLang(checked ? 'zh-CN' : 'en-US')}
                 style={{ marginRight: 8 }}
               />
-              <Button onClick={handleOutput} style={{ marginRight: 8 }}>
-                导出
-              </Button>
+              <IconSwitch
+                onChange={(v) => setIsDark(!v)}
+                leftChecked={!isDark}
+                leftIcon={<Light />}
+                rightIcon={<DarkTheme />}
+                style={{ marginRight: 8 }}
+              />
               <Button type="primary" onClick={handleSave}>
                 保存
               </Button>

@@ -2,7 +2,7 @@ import type { Locale } from './interface';
 
 const locale: Locale = {
   _lang: 'zh-CN',
-  followPrimary: '跟随主色',
+  followPrimary: '使用主色',
   reset: '重置',
   next: '下一步',
   groupView: '分组显示',
