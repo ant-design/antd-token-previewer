@@ -50,7 +50,6 @@ const Demo = () => {
       >
         <ThemeEditor
           theme={theme}
-          advanced
           onThemeChange={handleThemeChange}
           locale={lang === 'zh-CN' ? zhCN : enUS}
           actions={
