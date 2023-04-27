@@ -76,6 +76,12 @@ const useControlledTheme: UseControlledTheme = ({
     handleSetTheme({ ...theme, config: newConfig }, path);
   };
 
+  const handleAbortTheme = (path: string[]) => {
+    let newConfig = { ...theme.config };
+    newConfig = deepUpdateObj(newConfig, path, undefined);
+    setTheme({ ...theme, config: newConfig });
+  };
+
   const getCanReset =
     (origin: ThemeConfig, current: ThemeConfig) => (path: string[]) => {
       return getValueByPath(origin, path) !== getValueByPath(current, path);
@@ -101,6 +107,7 @@ const useControlledTheme: UseControlledTheme = ({
       onThemeChange: (config, path) =>
         handleSetTheme({ ...theme, config }, path),
       onReset: handleResetTheme,
+      onAbort: handleAbortTheme,
       getCanReset: getCanReset(themeRef.current?.config, theme.config),
     },
     infoFollowPrimary,

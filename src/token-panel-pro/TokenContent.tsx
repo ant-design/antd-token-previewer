@@ -6,11 +6,11 @@ import {
 import {
   Collapse,
   ConfigProvider,
+  Input,
   Popover,
   Switch,
   theme as antdTheme,
   Tooltip,
-  Typography,
 } from 'antd';
 import type { MutableTheme } from 'antd-token-previewer';
 import type { ThemeConfig } from 'antd/es/config-provider/context';
@@ -32,6 +32,7 @@ import type { TokenCategory, TokenGroup } from '../meta/interface';
 import getDesignToken from '../utils/getDesignToken';
 import makeStyle from '../utils/makeStyle';
 import InputNumberPlus from './InputNumberPlus';
+import ResetTokenButton from './ResetTokenButton';
 import TokenPreview from './TokenPreview';
 
 const { Panel } = Collapse;
@@ -232,6 +233,7 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
           display: 'flex',
           flex: 'none',
           borderLeft: `1px solid ${token.colorSplit}`,
+          cursor: 'pointer',
           '.token-panel-pro-token-collapse-map-collapse-preview-color': {
             height: 56,
             width: 56,
@@ -243,7 +245,7 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
 
     '.token-panel-pro-token-collapse-map-collapse-count': {
       color: token.colorTextTertiary,
-      // display: 'inline-block',
+      display: 'inline-block',
       fontSize: 12,
       lineHeight: '16px',
       padding: '0 6px',
@@ -253,6 +255,9 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
       textOverflow: 'ellipsis',
       marginLeft: 'auto',
       marginRight: 12,
+      maxWidth: 100,
+      flex: 'none',
+      whiteSpace: 'nowrap',
     },
 
     '.token-panel-pro-token-pick': {
@@ -298,6 +303,7 @@ export type SeedTokenProps = {
   theme: MutableTheme;
   tokenName: string;
   disabled?: boolean;
+  editMode?: boolean;
 };
 
 const getSeedValue = (config: ThemeConfig, token: string) => {
@@ -322,19 +328,26 @@ const seedRange: Record<string, { min: number; max: number }> = {
     min: 0,
     max: 16,
   },
+  margin: {
+    min: 0,
+    max: 32,
+  },
+  padding: {
+    min: 0,
+    max: 32,
+  },
 };
 
 const SeedTokenPreview: FC<SeedTokenProps> = ({
   theme,
   tokenName,
   disabled,
+  editMode,
 }) => {
   const tokenPath = ['token', tokenName];
   const [tokenValue, setTokenValue] = useState(
     getSeedValue(theme.config, tokenName),
   );
-  const locale = useLocale();
-
   const debouncedOnChange = useDebouncyFn((newValue: number | string) => {
     theme.onThemeChange?.(
       {
@@ -357,65 +370,74 @@ const SeedTokenPreview: FC<SeedTokenProps> = ({
     setTokenValue(getSeedValue(theme.config, tokenName));
   }, [theme.config, tokenName]);
 
-  const showReset = theme.getCanReset?.(tokenPath);
+  const tokenGroup = [
+    'fontSize',
+    'sizeUnit',
+    'sizeStep',
+    'borderRadius',
+    'margin',
+    'padding',
+  ].find((prefix) => tokenName.startsWith(prefix));
 
   return (
     <div className="token-panel-pro-token-list-seed-block-sample">
-      <div className="token-panel-pro-token-list-seed-block-sample-theme">
-        <Typography.Link
-          style={{
-            fontSize: 12,
-            padding: 0,
-            opacity: showReset ? 1 : 0,
-            pointerEvents: showReset ? 'auto' : 'none',
-          }}
-          onClick={() => theme.onReset?.(tokenPath)}
-        >
-          {locale.reset}
-        </Typography.Link>
-      </div>
-      {tokenName.startsWith('color') && (
-        <Popover
-          trigger="click"
-          placement="bottomRight"
-          overlayInnerStyle={{ padding: 0 }}
-          content={
-            <ColorPanel
-              color={tokenValue}
-              onChange={handleChange}
-              style={{ border: 'none' }}
-            />
-          }
-        >
-          <div
-            className="token-panel-pro-token-list-seed-block-sample-card"
-            style={{ pointerEvents: disabled ? 'none' : 'auto' }}
+      {tokenName.startsWith('color') &&
+        (editMode ? (
+          <ColorPanel
+            color={tokenValue}
+            onChange={handleChange}
+            style={{ border: 'none' }}
+          />
+        ) : (
+          <Popover
+            trigger="click"
+            placement="bottomRight"
+            overlayInnerStyle={{ padding: 0 }}
+            content={
+              <ColorPanel
+                color={tokenValue}
+                onChange={handleChange}
+                style={{ border: 'none' }}
+              />
+            }
           >
             <div
-              style={{
-                backgroundColor: tokenValue,
-                width: 48,
-                height: 32,
-                borderRadius: 6,
-                marginRight: 10,
-                boxShadow: 'inset 0 0 0 1px rgba(0,0,0,0.09)',
-              }}
-            />
-            <div className="token-panel-pro-token-list-seed-block-sample-card-value">
-              {tokenValue}
+              className="token-panel-pro-token-list-seed-block-sample-card"
+              style={{ pointerEvents: disabled ? 'none' : 'auto' }}
+            >
+              <div
+                style={{
+                  backgroundColor: tokenValue,
+                  width: 48,
+                  height: 32,
+                  borderRadius: 6,
+                  marginRight: 10,
+                  boxShadow: 'inset 0 0 0 1px rgba(0,0,0,0.09)',
+                }}
+              />
+              <div className="token-panel-pro-token-list-seed-block-sample-card-value">
+                {tokenValue}
+              </div>
             </div>
-          </div>
-        </Popover>
-      )}
-      {['fontSize', 'sizeUnit', 'sizeStep', 'borderRadius'].includes(
-        tokenName,
-      ) && (
+          </Popover>
+        ))}
+      {tokenGroup && (
         <InputNumberPlus
           value={tokenValue}
           onChange={handleChange}
-          min={seedRange[tokenName].min}
-          max={seedRange[tokenName].max}
+          min={seedRange[tokenGroup].min}
+          max={seedRange[tokenGroup].max}
+          style={editMode ? { marginInline: 12, paddingBlock: 12 } : undefined}
         />
+      )}
+      {['boxShadow', 'lineHeight'].some((prefix) =>
+        tokenName.startsWith(prefix),
+      ) && (
+        <div
+          style={editMode ? { marginInline: 12, paddingBlock: 12 } : undefined}
+        >
+          <Input value={tokenValue} onChange={handleChange} />
+        </div>
       )}
       {tokenName === 'wireframe' && (
         <Switch checked={tokenValue} onChange={handleChange} />
@@ -439,6 +461,9 @@ const MapTokenCollapseContent: FC<MapTokenCollapseContentProps> = ({
 }) => {
   const locale = useLocale();
 
+  const getMapTokenColor = (token: string) =>
+    !!(theme.config.token as any)?.[token] ? '#dd5b21' : '';
+
   return (
     <>
       {mapTokens?.map((mapToken) => (
@@ -458,29 +483,46 @@ const MapTokenCollapseContent: FC<MapTokenCollapseContentProps> = ({
             }}
           >
             {locale._lang === 'zh-CN' && (
-              <span style={{ fontWeight: 500, flex: 'none' }}>
+              <span
+                style={{
+                  fontWeight: 500,
+                  flex: 'none',
+                  color: getMapTokenColor(mapToken),
+                }}
+              >
                 {(tokenMeta as any)[mapToken]?.name}
               </span>
             )}
             <span
               className="token-panel-pro-token-collapse-map-collapse-token"
-              style={{ flex: 'none' }}
+              style={{ flex: 'none', color: getMapTokenColor(mapToken) }}
             >
               {mapToken}
             </span>
+            <ResetTokenButton theme={theme} tokenName={mapToken} />
           </div>
           <span className="token-panel-pro-token-collapse-map-collapse-count">
             {(getDesignToken(theme.config) as any)[mapToken]}
           </span>
-          <div className="token-panel-pro-token-collapse-map-collapse-preview">
-            <div className="token-panel-pro-token-collapse-map-collapse-preview-color">
-              <TokenPreview
-                theme={theme.config}
-                tokenName={mapToken}
-                type={type}
-              />
+          <Popover
+            overlayInnerStyle={{ padding: 0 }}
+            arrow={false}
+            placement="bottomRight"
+            trigger="click"
+            content={
+              <SeedTokenPreview theme={theme} tokenName={mapToken} editMode />
+            }
+          >
+            <div className="token-panel-pro-token-collapse-map-collapse-preview">
+              <div className="token-panel-pro-token-collapse-map-collapse-preview-color">
+                <TokenPreview
+                  theme={theme.config}
+                  tokenName={mapToken}
+                  type={type}
+                />
+              </div>
             </div>
-          </div>
+          </Popover>
         </div>
       ))}
     </>
@@ -757,8 +799,22 @@ const TokenContent: FC<ColorTokenContentProps> = ({
                                   </div>
                                 )}
                                 <div>
-                                  <span className="token-panel-pro-token-list-seed-block-name-cn">
+                                  <span
+                                    className="token-panel-pro-token-list-seed-block-name-cn"
+                                    style={{
+                                      color: !!(theme.config.token as any)?.[
+                                        seedToken
+                                      ]
+                                        ? '#dd5b21'
+                                        : '',
+                                    }}
+                                  >
                                     {seedToken}
+                                    <ResetTokenButton
+                                      theme={theme}
+                                      tokenName={seedToken}
+                                      style={{ marginLeft: 8 }}
+                                    />
                                   </span>
                                 </div>
                               </div>
@@ -791,7 +847,15 @@ const TokenContent: FC<ColorTokenContentProps> = ({
                                 justifyContent: 'space-between',
                               }}
                             >
-                              <span>
+                              <span
+                                style={{
+                                  color: group.mapToken?.some(
+                                    (t) => !!(theme.config.token as any)?.[t],
+                                  )
+                                    ? '#dd5b21'
+                                    : '',
+                                }}
+                              >
                                 {locale._lang === 'zh-CN'
                                   ? '梯度变量 Map Token'
                                   : 'Map Token'}
