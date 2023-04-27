@@ -344,7 +344,6 @@ const SeedTokenPreview: FC<SeedTokenProps> = ({
   disabled,
   editMode,
 }) => {
-  const tokenPath = ['token', tokenName];
   const [tokenValue, setTokenValue] = useState(
     getSeedValue(theme.config, tokenName),
   );
