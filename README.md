@@ -6,18 +6,35 @@ https://ant-design.github.io/antd-token-previewer/
 
 ## Install
 
-
 ```
-npm i ant-token-previewer
+npm i antd-token-previewer
 ```
 
 ## Usage
 
-TODO
+Ref: https://ant-design.github.io/antd-token-previewer/editor
 
 ## API
 
-TODO
+### ThemeEditor
+
+| Property | Description | Type | Default |
+| --- | --- | --- | --- |
+| theme | Controlled Theme object | `Theme` | - |
+| onThemeChange | Callback when `theme` changed | `(theme: Theme) => void` | - |
+| locale | Language used in ThemeEditor | `Locale` | `zhCN` |
+| actions | Actions displayed on the right of header | `React.ReactNode` | - |
+| advanced | Advance mode | `boolean` | - |
+| onAdvancedChange | Callback when `advanced` change | `(advanced: booleaen) => void` | - |
+
+### Theme
+
+| Property | Description | Type |
+| --- | --- | --- |
+| name | Name of Theme | `string` |
+| key | Used as `key` for ReactElement | `string` |
+| config | Theme config of antd | `ThemeConfig` |
+
 
 ## Development
 
