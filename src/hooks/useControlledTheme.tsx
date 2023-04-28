@@ -44,7 +44,7 @@ const useControlledTheme: UseControlledTheme = ({
   onChange,
 }) => {
   const [theme, setTheme] = useState<Theme>(customTheme ?? defaultTheme);
-  const [infoFollowPrimary, setInfoFollowPrimary] = useState<boolean>(false);
+  const [infoFollowPrimary, setInfoFollowPrimary] = useState<boolean>(true);
   const themeRef = useRef<Theme>(theme);
   const [, setRenderHolder] = useState(0);
 
@@ -54,7 +54,12 @@ const useControlledTheme: UseControlledTheme = ({
     const result = { ...newTheme };
     if (infoFollowPrimary || force) {
       const newToken = { ...newTheme.config.token };
-      newToken.colorInfo = getDesignToken(newTheme.config).colorPrimary;
+      const colorPrimary = getDesignToken(newTheme.config).colorPrimary;
+      if (colorPrimary) {
+        newToken.colorInfo = colorPrimary;
+      } else {
+        delete newToken.colorInfo;
+      }
       if (Object.keys(newToken).length > 0) {
         result.config = {
           ...newTheme.config,

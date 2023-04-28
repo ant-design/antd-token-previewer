@@ -208,10 +208,10 @@ const category: TokenTree<keyof AliasToken> = [
         descEn: '',
         seedToken: ['borderRadius'],
         mapToken: [
-          'borderRadius',
-          'borderRadiusSM',
-          'borderRadiusLG',
           'borderRadiusXS',
+          'borderRadiusSM',
+          'borderRadius',
+          'borderRadiusLG',
         ],
       },
       {
@@ -223,18 +223,10 @@ const category: TokenTree<keyof AliasToken> = [
         descEn: '',
         mapToken: ['boxShadow', 'boxShadowSecondary'],
       },
-    ],
-  },
-  {
-    name: '其他',
-    nameEn: 'Others',
-    desc: '',
-    descEn: '',
-    groups: [
       {
         key: 'other',
         type: 'other',
-        name: '其他',
+        name: '线框化',
         nameEn: 'Others',
         desc: '',
         descEn: '',
