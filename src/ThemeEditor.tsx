@@ -20,7 +20,7 @@ import type { Theme } from './interface';
 import JSONEditor from './JSONEditor';
 import type { Locale } from './locale';
 import { LocaleContext, zhCN } from './locale';
-import { highlightColor } from './utils/constants';
+import { HIGHLIGHT_COLOR } from './utils/constants';
 import makeStyle from './utils/makeStyle';
 
 const useStyle = makeStyle('ThemeEditor', (token) => ({
@@ -261,7 +261,7 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
                   className={`${prefixCls}-header-actions-diff`}
                   style={{ marginRight: 8, fontSize: 14 }}
                 >
-                  共 <span style={{ color: highlightColor }}>{editTotal}</span>{' '}
+                  共 <span style={{ color: HIGHLIGHT_COLOR }}>{editTotal}</span>{' '}
                   处修改
                 </span>
                 <Button

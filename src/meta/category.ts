@@ -227,7 +227,7 @@ const category: TokenTree<keyof AliasToken> = [
         key: 'other',
         type: 'other',
         name: '线框化',
-        nameEn: 'Others',
+        nameEn: 'Wireframe',
         desc: '',
         descEn: '',
         seedToken: ['wireframe'],

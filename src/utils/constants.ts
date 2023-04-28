@@ -1,1 +1,1 @@
-export const highlightColor = '#FF5500';
+export const HIGHLIGHT_COLOR = '#FF5500';

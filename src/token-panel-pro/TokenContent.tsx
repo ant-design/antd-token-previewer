@@ -1,8 +1,4 @@
-import {
-  CaretRightOutlined,
-  ExpandOutlined,
-  QuestionCircleOutlined,
-} from '@ant-design/icons';
+import { CaretRightOutlined, ExpandOutlined } from '@ant-design/icons';
 import {
   Collapse,
   ConfigProvider,
@@ -29,7 +25,7 @@ import { CompactTheme, DarkTheme, Light } from '../icons';
 import type { SelectedToken } from '../interface';
 import { useLocale } from '../locale';
 import type { TokenCategory, TokenGroup } from '../meta/interface';
-import { highlightColor } from '../utils/constants';
+import { HIGHLIGHT_COLOR } from '../utils/constants';
 import getDesignToken from '../utils/getDesignToken';
 import makeStyle from '../utils/makeStyle';
 import InputNumberPlus from './InputNumberPlus';
@@ -465,7 +461,7 @@ const MapTokenCollapseContent: FC<MapTokenCollapseContentProps> = ({
   const locale = useLocale();
 
   const getMapTokenColor = (token: string) =>
-    !!(theme.config.token as any)?.[token] ? highlightColor : '';
+    !!(theme.config.token as any)?.[token] ? HIGHLIGHT_COLOR : '';
 
   return (
     <>
@@ -709,28 +705,31 @@ const TokenContent: FC<ColorTokenContentProps> = ({
           {category.nameEn === 'Color' && (
             <Segmented
               options={[
-                { icon: <Light />, value: 'light' },
-                { icon: <DarkTheme />, value: 'dark' },
+                { icon: <Light style={{ fontSize: 16 }} />, value: 'light' },
+                { icon: <DarkTheme style={{ fontSize: 16 }} />, value: 'dark' },
               ]}
               onChange={switchAlgorithm('dark')}
               value={isLeftChecked('dark') ? 'light' : 'dark'}
               style={{ marginLeft: 'auto' }}
-              size="small"
             />
           )}
           {category.nameEn === 'Size' && (
             <Segmented
               options={[
                 {
-                  icon: <ExpandOutlined style={{ fontSize: 12 }} />,
+                  icon: (
+                    <ExpandOutlined style={{ fontSize: 13, marginTop: 1 }} />
+                  ),
                   value: 'normal',
                 },
-                { icon: <CompactTheme />, value: 'compact' },
+                {
+                  icon: <CompactTheme style={{ fontSize: 16 }} />,
+                  value: 'compact',
+                },
               ]}
               onChange={switchAlgorithm('compact')}
               value={isLeftChecked('compact') ? 'normal' : 'compact'}
               style={{ marginLeft: 'auto' }}
-              size="small"
             />
           )}
         </div>
@@ -752,22 +751,20 @@ const TokenContent: FC<ColorTokenContentProps> = ({
                   <div className="token-panel-pro-token-item" key={group.key}>
                     <div className="token-panel-pro-token-item-seed">
                       <div className="token-panel-pro-token-item-header">
-                        <div className="token-panel-pro-token-item-header-title">
-                          <span>
-                            {locale._lang === 'zh-CN'
-                              ? group.name
-                              : group.nameEn}
-                          </span>
-                        </div>
-                        {groupDesc && (
-                          <Tooltip
-                            placement="topLeft"
-                            arrow={{ pointAtCenter: true }}
-                            title={groupDesc}
-                          >
-                            <QuestionCircleOutlined style={{ fontSize: 12 }} />
-                          </Tooltip>
-                        )}
+                        <Tooltip
+                          mouseEnterDelay={0.5}
+                          placement="topLeft"
+                          arrow={{ pointAtCenter: true }}
+                          title={groupDesc}
+                        >
+                          <div className="token-panel-pro-token-item-header-title">
+                            <span>
+                              {locale._lang === 'zh-CN'
+                                ? group.name
+                                : group.nameEn}
+                            </span>
+                          </div>
+                        </Tooltip>
                         {group.seedToken?.[0] === 'colorInfo' && (
                           <div
                             key={group.seedToken[0]}
@@ -794,32 +791,58 @@ const TokenContent: FC<ColorTokenContentProps> = ({
                             >
                               <div style={{ marginRight: 'auto' }}>
                                 <div>
-                                  <span
-                                    style={{
-                                      color: !!(theme.config.token as any)?.[
-                                        seedToken
-                                      ]
-                                        ? highlightColor
-                                        : '',
-                                    }}
-                                  >
-                                    {multipleSeeds && (
-                                      <span
-                                        className="token-panel-pro-token-list-seed-block-name-cn"
-                                        style={{ marginRight: 4 }}
-                                      >
-                                        {(tokenMeta as any)[seedToken]?.name}
-                                      </span>
-                                    )}
-                                    <span
-                                      className={
-                                        multipleSeeds
-                                          ? 'token-panel-pro-token-list-seed-block-subtitle'
-                                          : 'token-panel-pro-token-list-seed-block-name-cn'
+                                  <span>
+                                    <Tooltip
+                                      mouseEnterDelay={0.5}
+                                      placement="topLeft"
+                                      title={
+                                        (tokenMeta as any)[seedToken]?.[
+                                          locale._lang === 'zh-CN'
+                                            ? 'desc'
+                                            : 'descEn'
+                                        ]
                                       }
                                     >
-                                      {seedToken}
-                                    </span>
+                                      <span>
+                                        {multipleSeeds && (
+                                          <span
+                                            className="token-panel-pro-token-list-seed-block-name-cn"
+                                            style={{
+                                              marginRight: 4,
+                                              color: !!(
+                                                theme.config.token as any
+                                              )?.[seedToken]
+                                                ? HIGHLIGHT_COLOR
+                                                : '',
+                                            }}
+                                          >
+                                            {
+                                              (tokenMeta as any)[seedToken]?.[
+                                                locale._lang === 'zh-CN'
+                                                  ? 'name'
+                                                  : 'nameEn'
+                                              ]
+                                            }
+                                          </span>
+                                        )}
+                                        <span
+                                          className={
+                                            multipleSeeds
+                                              ? 'token-panel-pro-token-list-seed-block-subtitle'
+                                              : 'token-panel-pro-token-list-seed-block-name-cn'
+                                          }
+                                          style={{
+                                            color: !!(
+                                              theme.config.token as any
+                                            )?.[seedToken]
+                                              ? HIGHLIGHT_COLOR
+                                              : '',
+                                          }}
+                                        >
+                                          {seedToken}
+                                        </span>
+                                      </span>
+                                    </Tooltip>
                                     <ResetTokenButton
                                       theme={theme}
                                       tokenName={seedToken}
@@ -866,7 +889,7 @@ const TokenContent: FC<ColorTokenContentProps> = ({
                                     color: group.mapToken?.some(
                                       (t) => !!(theme.config.token as any)?.[t],
                                     )
-                                      ? highlightColor
+                                      ? HIGHLIGHT_COLOR
                                       : '',
                                   }}
                                 >
