@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkantd_token_previewer=self.webpackChunkantd_token_previewer||[]).push([[9],{12535:function(f,n,e){e.r(n),e.d(n,{default:function(){return d}});var t=e(66190),r=e(67294),o=function(){var u=(0,t.UO)(),m=u.id,s=(0,t.WF)(),v=s.demos,c=v[m]||{},a=c.component;return a&&(0,r.createElement)(a)},d=o}}]);
