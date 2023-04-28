@@ -269,8 +269,11 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
     },
 
     [`.token-panel-pro-grouped-map-collapse${token.rootCls}-collapse`]: {
-      borderRadius: 4,
+      borderRadius: `4px 4px 0 0`,
       [`> ${token.rootCls}-collapse-item`]: {
+        [`&:last-child`]: {
+          borderRadius: 0,
+        },
         [`> ${token.rootCls}-collapse-header`]: {
           padding: '6px 12px',
           color: token.colorIcon,
@@ -285,14 +288,15 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
           {
             padding: 0,
 
-            [`.token-panel-pro-token-collapse-map-collapse${token.rootCls}-collapse`]:
-              {
-                border: 'none',
-
-                [`${token.rootCls}-collapse-item:last-child`]: {
-                  borderBottom: 'none',
-                },
+            '.token-panel-pro-token-collapse-map': {
+              borderInline: 0,
+              '&:last-child': {
+                borderBottom: 0,
               },
+              '&:first-child': {
+                borderTop: 0,
+              },
+            },
           },
       },
     },
