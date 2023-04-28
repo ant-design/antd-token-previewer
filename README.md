@@ -1,5 +1,9 @@
 # antd-token-previewer 🖥
 
+Help you customize theme in Ant Design.
+
+![image](https://user-images.githubusercontent.com/27722486/235037764-54068c36-13de-4c06-9c7d-78b9a5475c28.png)
+
 ## Live Demo
 
 https://ant-design.github.io/antd-token-previewer/
