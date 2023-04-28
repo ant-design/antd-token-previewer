@@ -13,9 +13,20 @@ const deepUpdateObj = (obj: any, path: string[], value: any): any => {
       [path[0]]: value,
     };
   }
+
+  const pathValue = deepUpdateObj(obj[path[0]] ?? {}, path.slice(1), value);
+  if (
+    pathValue === null ||
+    pathValue === undefined ||
+    Object.keys(pathValue).length === 0
+  ) {
+    const newObj = { ...obj };
+    delete newObj[path[0]];
+    return newObj;
+  }
   return {
     ...obj,
-    [path[0]]: deepUpdateObj(obj[path[0]] ?? {}, path.slice(1), value),
+    [path[0]]: pathValue,
   };
 };
 

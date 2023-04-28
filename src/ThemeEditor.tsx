@@ -122,7 +122,7 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
       text: string;
       json?: undefined;
     }>({
-      text: JSON.stringify(customTheme?.config ?? defaultTheme.config),
+      text: JSON.stringify(customTheme?.config ?? defaultTheme.config, null, 2),
       json: undefined,
     });
 
@@ -145,7 +145,7 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
         onChange: (newTheme: Theme) => {
           onThemeChange?.(newTheme);
           setThemeConfigContent({
-            text: JSON.stringify(newTheme.config),
+            text: JSON.stringify(newTheme.config, null, 2),
           });
         },
         darkAlgorithm,
@@ -288,6 +288,7 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
               open={isModalOpen}
               onOk={editSave}
               onCancel={editModelClose}
+              width={800}
             >
               <JSONEditor
                 content={themeConfigContent}

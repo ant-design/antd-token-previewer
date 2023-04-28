@@ -15,9 +15,7 @@ const Demo = () => {
   const [theme, setTheme] = React.useState<Theme>({
     name: '自定义主题',
     key: 'secret theme',
-    config: {
-      token: {},
-    },
+    config: {},
   });
 
   const handleThemeChange = (newTheme: Theme) => {

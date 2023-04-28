@@ -51,11 +51,18 @@ const useControlledTheme: UseControlledTheme = ({
   const forceUpdate = () => setRenderHolder((prev) => prev + 1);
 
   const getNewTheme = (newTheme: Theme, force?: boolean): Theme => {
-    const newToken = { ...newTheme.config.token };
+    const result = { ...newTheme };
     if (infoFollowPrimary || force) {
+      const newToken = { ...newTheme.config.token };
       newToken.colorInfo = getDesignToken(newTheme.config).colorPrimary;
+      if (Object.keys(newToken).length > 0) {
+        result.config = {
+          ...newTheme.config,
+          token: newToken,
+        };
+      }
     }
-    return { ...newTheme, config: { ...newTheme.config, token: newToken } };
+    return result;
   };
 
   const handleSetTheme: SetThemeState = (newTheme) => {
@@ -79,7 +86,7 @@ const useControlledTheme: UseControlledTheme = ({
   const handleAbortTheme = (path: string[]) => {
     let newConfig = { ...theme.config };
     newConfig = deepUpdateObj(newConfig, path, undefined);
-    setTheme({ ...theme, config: newConfig });
+    handleSetTheme({ ...theme, config: newConfig }, path);
   };
 
   const getCanReset =
