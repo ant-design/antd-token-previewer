@@ -4,6 +4,7 @@ import { defineConfig } from 'dumi';
 const isProdSite =
   // 不是预览模式 同时是生产环境
   process.env.PREVIEW !== '1' && process.env.NODE_ENV === 'production';
+const sitePrefix = isProdSite ? '/antd-token-previewer' : '';
 
 export default defineConfig({
   themeConfig: {
@@ -14,9 +15,9 @@ export default defineConfig({
       { title: 'Previewer', link: '/previewer' },
       { title: 'Others', link: '/others/color-panel' },
     ],
-    logo: '/icon/theme-editor.svg',
+    logo: `${sitePrefix}/icon/theme-editor.svg`,
   },
-  favicons: ['/icon/theme-editor.svg'],
+  favicons: [`${sitePrefix}/icon/theme-editor.svg`],
   outputPath: '.doc',
   exportStatic: {},
   base: isProdSite ? '/antd-token-previewer/' : '/',
