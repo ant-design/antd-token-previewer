@@ -7,14 +7,16 @@ const isProdSite =
 
 export default defineConfig({
   themeConfig: {
-    name: 'antd-token-previewer',
+    name: 'Theme Editor',
     sideBar: {},
     nav: [
-      { title: 'Previewer', link: '/previewer' },
       { title: 'Theme Editor', link: '/editor' },
-      { title: 'others', link: '/others/color-panel' },
+      { title: 'Previewer', link: '/previewer' },
+      { title: 'Others', link: '/others/color-panel' },
     ],
+    logo: '/icon/theme-editor.svg',
   },
+  favicons: ['/icon/theme-editor.svg'],
   outputPath: '.doc',
   exportStatic: {},
   base: isProdSite ? '/antd-token-previewer/' : '/',
