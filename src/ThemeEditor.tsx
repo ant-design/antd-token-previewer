@@ -20,6 +20,7 @@ import type { Theme } from './interface';
 import JSONEditor from './JSONEditor';
 import type { Locale } from './locale';
 import { LocaleContext, zhCN } from './locale';
+import { highlightColor } from './utils/constants';
 import makeStyle from './utils/makeStyle';
 
 const useStyle = makeStyle('ThemeEditor', (token) => ({
@@ -40,10 +41,16 @@ const useStyle = makeStyle('ThemeEditor', (token) => ({
       '&-title': {
         fontSize: token.fontSizeLG,
         fontWeight: token.fontWeightStrong,
+        color: token.colorText,
       },
 
       '&-actions': {
         marginLeft: 'auto',
+
+        '&-diff': {
+          fontSize: token.fontSize,
+          color: token.colorTextTertiary,
+        },
       },
     },
     [`${token.componentCls}-body`]: {
@@ -239,7 +246,7 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
                   <CaretDownOutlined style={{ fontSize: 10 }} />
                 </Tag>
               </Dropdown>
-              {advanced && (
+              {advanced && false && (
                 <Segmented
                   options={[
                     { label: locale.globalToken, value: 'global' },
@@ -250,8 +257,11 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
                 />
               )}
               <div className={`${prefixCls}-header-actions`}>
-                <span style={{ marginRight: 8 }}>
-                  共 <span style={{ color: '#dd5b21' }}>{editTotal}</span>{' '}
+                <span
+                  className={`${prefixCls}-header-actions-diff`}
+                  style={{ marginRight: 8, fontSize: 14 }}
+                >
+                  共 <span style={{ color: highlightColor }}>{editTotal}</span>{' '}
                   处修改
                 </span>
                 <Button

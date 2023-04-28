@@ -11,6 +11,14 @@ const useStyle = makeStyle('GlobalTokenEditor', (token) => ({
   [token.componentCls]: {
     display: 'flex',
     height: '100%',
+    [`${token.componentCls}-token-panel-wrapper`]: {
+      backgroundColor: token.colorBgContainer,
+      height: '100%',
+      backgroundImage:
+        'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0, 0, 0, 0.04) 100%)',
+      display: 'flex',
+      transition: 'all 0.3s',
+    },
   },
 }));
 
@@ -67,13 +75,8 @@ const GlobalTokenEditor: FC<GlobalTokenEditorProps> = (props) => {
       <div
         style={{
           flex: aliasOpen ? '0 0 860px' : `0 0 ${860 - 320}px`,
-          height: '100%',
-          backgroundColor: '#F7F8FA',
-          backgroundImage:
-            'linear-gradient(180deg, #FFFFFF 0%, rgba(246,247,249,0.00) 100%)',
-          display: 'flex',
-          transition: 'all 0.3s',
         }}
+        className={`${prefixCls}-token-panel-wrapper`}
       >
         <TokenPanelPro
           aliasOpen={aliasOpen}

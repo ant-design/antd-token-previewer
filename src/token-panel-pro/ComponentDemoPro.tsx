@@ -18,7 +18,7 @@ export type ComponentDemoProProps = {
 };
 
 const ComponentDemoPro: FC<ComponentDemoProProps> = ({ style, advanced }) => {
-  const [mode, setMode] = React.useState<'overview' | 'page'>('page');
+  const [mode, setMode] = React.useState<'overview' | 'page'>('overview');
   const {
     token: { colorBgLayout },
   } = antdTheme.useToken();
@@ -26,14 +26,14 @@ const ComponentDemoPro: FC<ComponentDemoProProps> = ({ style, advanced }) => {
 
   useEffect(() => {
     if (!advanced) {
-      setMode('page');
+      setMode('overview');
     }
   }, [advanced]);
 
   return (
     <div style={{ ...style, background: colorBgLayout, paddingBottom: 24 }}>
       <div style={{ margin: 'auto', maxWidth: 960 }}>
-        {advanced && (
+        {advanced && false && (
           <Segmented
             options={[
               { value: 'page', label: locale.demo.page },
@@ -93,7 +93,7 @@ const ComponentDemoPro: FC<ComponentDemoProProps> = ({ style, advanced }) => {
 };
 
 export default (props: ComponentDemoProProps) => (
-  <ConfigProvider theme={props.theme.config}>
+  <ConfigProvider theme={{ ...props.theme.config, inherit: false }}>
     <ComponentDemoPro {...props} />
   </ConfigProvider>
 );

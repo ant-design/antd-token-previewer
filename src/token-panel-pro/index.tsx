@@ -8,7 +8,6 @@ import { useLocale } from '../locale';
 import { tokenCategory } from '../meta';
 import type { TokenGroup } from '../meta/interface';
 import makeStyle from '../utils/makeStyle';
-import AliasPanel from './AliasPanel';
 import TokenContent from './TokenContent';
 
 const useStyle = makeStyle('TokenPanelPro', (token) => ({
@@ -60,8 +59,6 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
   onTokenSelect,
   infoFollowPrimary,
   onInfoFollowPrimaryChange,
-  aliasOpen,
-  onAliasOpenChange,
 }) => {
   const [wrapSSR, hashId] = useStyle();
   const [activeGroup, setActiveGroup] = useState<string>('brandColor');
@@ -123,16 +120,6 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
           ))}
         </div>
       </div>
-      <AliasPanel
-        open={aliasOpen}
-        description={activeCategory?.aliasTokenDescription}
-        onOpenChange={(value) => onAliasOpenChange?.(value)}
-        activeSeeds={activeCategory?.seedToken}
-        theme={theme}
-        style={{ flex: aliasOpen ? '0 0 320px' : 'none', width: 0 }}
-        selectedTokens={selectedTokens}
-        onTokenSelect={onTokenSelect}
-      />
     </div>,
   );
 };

@@ -7,6 +7,7 @@ export type InputNumberPlusProps = {
   onChange?: (value: number | null) => void;
   min?: number;
   max?: number;
+  style?: React.CSSProperties;
 };
 
 const InputNumberPlus: FC<InputNumberPlusProps> = ({
@@ -14,9 +15,10 @@ const InputNumberPlus: FC<InputNumberPlusProps> = ({
   onChange,
   min,
   max,
+  style,
 }) => {
   return (
-    <div style={{ display: 'flex', width: 200 }}>
+    <div style={{ display: 'flex', width: 200, ...style }}>
       <Slider
         style={{ flex: '0 0 120px', marginRight: 12 }}
         value={value}

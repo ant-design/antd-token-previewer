@@ -85,7 +85,7 @@ const category: TokenTree<keyof AliasToken> = [
     ],
   },
   {
-    name: '尺寸大小',
+    name: '尺寸',
     nameEn: 'Size',
     desc: '',
     descEn: '',

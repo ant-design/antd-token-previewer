@@ -20,6 +20,7 @@ export interface ComponentDemo {
 export interface MutableTheme extends Theme {
   onThemeChange?: (newTheme: ThemeConfig, path: string[]) => void;
   onReset?: (path: string[]) => void;
+  onAbort?: (path: string[]) => void;
   getCanReset?: (path: string[]) => boolean;
 }
 
