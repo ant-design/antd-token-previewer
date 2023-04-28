@@ -4,7 +4,6 @@ import type { ThemeConfig } from 'antd/es/config-provider/context';
 import { useEffect, useRef, useState } from 'react';
 import type { MutableTheme, Theme } from '../interface';
 import deepUpdateObj from '../utils/deepUpdateObj';
-import getDesignToken from '../utils/getDesignToken';
 import getValueByPath from '../utils/getValueByPath';
 
 const {
@@ -54,9 +53,8 @@ const useControlledTheme: UseControlledTheme = ({
     const result = { ...newTheme };
     if (infoFollowPrimary || force) {
       const newToken = { ...newTheme.config.token };
-      const colorPrimary = getDesignToken(newTheme.config).colorPrimary;
-      if (colorPrimary) {
-        newToken.colorInfo = colorPrimary;
+      if (newToken.colorPrimary) {
+        newToken.colorInfo = newToken.colorPrimary;
       } else {
         delete newToken.colorInfo;
       }
@@ -65,6 +63,8 @@ const useControlledTheme: UseControlledTheme = ({
           ...newTheme.config,
           token: newToken,
         };
+      } else {
+        delete result.config.token;
       }
     }
     return result;
