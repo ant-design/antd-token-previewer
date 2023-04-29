@@ -10,7 +10,7 @@ import {
 import classNames from 'classnames';
 import type { FC } from 'react';
 import React, { useMemo } from 'react';
-import ComponentDemos from '../component-demos';
+import ComponentDemos from '../demos/components';
 import type {
   AliasToken,
   ComponentDemo,
