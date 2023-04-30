@@ -15,7 +15,7 @@ const useStyle = makeStyle('GlobalTokenEditor', (token) => ({
       backgroundColor: token.colorBgContainer,
       height: '100%',
       backgroundImage:
-        'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0, 0, 0, 0.04) 100%)',
+        'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0, 0, 0, 0.02) 100%)',
       display: 'flex',
       transition: 'all 0.3s',
     },
