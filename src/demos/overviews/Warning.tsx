@@ -15,9 +15,9 @@ import Title from '../components/typography/warningTitle';
 
 import { Flexbox } from '@arvinxu/layout-kit';
 
-export const Warning = () => {
+export const Warning = ({ id }: { id?: string }) => {
   return (
-    <Card size={'small'}>
+    <Card size={'small'} id={id}>
       <Flexbox horizontal align={'start'} gap={24}>
         <Flexbox gap={24}>
           <Flexbox horizontal gap={12}>

@@ -1,7 +1,12 @@
 import {
   BellOutlined,
+  ContainerOutlined,
+  DatabaseOutlined,
+  FormOutlined,
   HomeOutlined,
+  ProjectOutlined,
   QuestionCircleOutlined,
+  SafetyCertificateOutlined,
   SearchOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
@@ -19,9 +24,36 @@ export type AppDemoProps = {
 
 const menuItems: MenuProps['items'] = [
   {
-    label: 'Dashboard',
+    label: '主页',
     key: 'dashboard',
     icon: <HomeOutlined />,
+  },
+  {
+    label: '表单页',
+    key: 'form',
+    icon: <FormOutlined />,
+  },
+  {
+    label: '项目',
+    key: 'table',
+    icon: <ProjectOutlined />,
+    children: [
+      {
+        label: '列表页',
+        key: 'table',
+        icon: <DatabaseOutlined />,
+      },
+      {
+        label: '详情页',
+        key: 'detail',
+        icon: <ContainerOutlined />,
+      },
+      {
+        label: '结果页',
+        key: 'result',
+        icon: <SafetyCertificateOutlined />,
+      },
+    ],
   },
 ];
 
@@ -37,6 +69,8 @@ const AppDemo: FC<AppDemoProps> = ({ className, style }) => {
           },
           Menu: {
             colorItemBg: token.colorBgLayout,
+            colorItemTextSelected: token.colorText,
+            colorItemBgSelected: token.colorPrimaryBgHover,
           },
         },
       }}
@@ -44,9 +78,6 @@ const AppDemo: FC<AppDemoProps> = ({ className, style }) => {
       <Layout
         className={className}
         style={{
-          boxShadow: token.boxShadowTertiary,
-          borderRadius: 8,
-          overflow: 'hidden',
           ...style,
         }}
       >
@@ -77,12 +108,12 @@ const AppDemo: FC<AppDemoProps> = ({ className, style }) => {
             <Button
               icon={<SearchOutlined style={{ fontSize: token.fontSizeIcon }} />}
               type="text"
-              style={{ marginLeft: 8 }}
+              style={{ marginLeft: token.marginXS }}
             />
             <Button
               icon={<BellOutlined style={{ fontSize: token.fontSizeIcon }} />}
               type="text"
-              style={{ marginLeft: 8 }}
+              style={{ marginLeft: token.marginXS }}
             />
             <Button
               icon={
@@ -91,17 +122,18 @@ const AppDemo: FC<AppDemoProps> = ({ className, style }) => {
                 />
               }
               type="text"
-              style={{ marginLeft: 8 }}
+              style={{ marginLeft: token.marginXS }}
             />
             <Avatar
               src="https://gw.alipayobjects.com/mdn/rms_08e378/afts/img/A*CLp0Qqc11AkAAAAAAAAAAAAAARQnAQ"
-              style={{ marginLeft: 12 }}
+              style={{ marginLeft: token.marginSM }}
             />
           </div>
         </Header>
         <Layout>
           <Sider>
             <Menu
+              defaultOpenKeys={['project']}
               mode="inline"
               style={{ height: '100%', paddingTop: 4 }}
               items={menuItems}

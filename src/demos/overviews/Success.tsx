@@ -12,9 +12,9 @@ import Timeline from '../components/timeline/success';
 
 import { Flexbox } from '@arvinxu/layout-kit';
 
-export const Success = () => {
+export const Success = ({ id }: { id?: string }) => {
   return (
-    <Card size={'small'}>
+    <Card size={'small'} id={id}>
       <Flexbox horizontal align={'start'} gap={24}>
         <Flexbox gap={40}>
           <Flexbox horizontal align={'center'} gap={12}>

@@ -14,9 +14,9 @@ import Tag from '../components/tag/error';
 import Timeline from '../components/timeline/danger';
 import Upload from '../components/upload/danger';
 
-export const Error = () => {
+export const Error = ({ id }: { id?: string }) => {
   return (
-    <Card size={'small'}>
+    <Card size={'small'} id={id}>
       <Flexbox horizontal align={'start'} gap={24}>
         <Flexbox gap={24}>
           <Flexbox

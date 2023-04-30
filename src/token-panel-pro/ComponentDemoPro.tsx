@@ -1,4 +1,10 @@
-import { ConfigProvider, Segmented, Space, theme as antdTheme } from 'antd';
+import {
+  Anchor,
+  ConfigProvider,
+  Segmented,
+  Space,
+  theme as antdTheme,
+} from 'antd';
 import type { MutableTheme } from 'antd-token-previewer';
 import type { FC } from 'react';
 import React, { useEffect } from 'react';
@@ -14,10 +20,9 @@ export type ComponentDemoProProps = {
 
 const ComponentDemoPro: FC<ComponentDemoProProps> = ({ style, advanced }) => {
   const [mode, setMode] = React.useState<'overview' | 'page'>('page');
-  const {
-    token: { colorBgLayout, colorBgContainer },
-  } = antdTheme.useToken();
+  const { token } = antdTheme.useToken();
   const locale = useLocale();
+  const containerRef = React.useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!advanced) {
@@ -29,8 +34,7 @@ const ComponentDemoPro: FC<ComponentDemoProProps> = ({ style, advanced }) => {
     <div
       style={{
         ...style,
-        background: mode === 'overview' ? colorBgLayout : colorBgContainer,
-        paddingBottom: 24,
+        background: token.colorBgLayout,
       }}
     >
       <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
@@ -75,16 +79,58 @@ const ComponentDemoPro: FC<ComponentDemoProProps> = ({ style, advanced }) => {
             },
           }}
         >
-          <div style={{ margin: `12px 20px`, flex: 1, height: 0 }}>
+          <div
+            style={{
+              margin: `12px 20px 0`,
+              flex: 1,
+              height: 0,
+              overflow: 'auto',
+            }}
+            ref={containerRef}
+          >
             {mode === 'overview' ? (
-              <Space direction="vertical" size={24} style={{ maxWidth: 960 }}>
-                <Primary />
-                <Success />
-                <Error />
-                <Warning />
-              </Space>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Space direction="vertical" size={24} style={{ maxWidth: 960 }}>
+                  <Primary id="primary-demo" />
+                  <Success id="success-demo" />
+                  <Error id="error-demo" />
+                  <Warning id="warning-demo" />
+                </Space>
+                <Anchor
+                  style={{ marginRight: 40 }}
+                  affix
+                  getContainer={() => containerRef.current!}
+                  items={[
+                    {
+                      title: 'Primary',
+                      href: '#primary-demo',
+                      key: 'primary-demo',
+                    },
+                    {
+                      title: 'Success',
+                      href: '#success-demo',
+                      key: 'success-demo',
+                    },
+                    { title: 'Error', href: '#error-demo', key: 'error-demo' },
+                    {
+                      title: 'Warning',
+                      href: '#warning-demo',
+                      key: 'warning-demo',
+                    },
+                  ]}
+                />
+              </div>
             ) : (
-              <AppDemo style={{ height: '100%' }} />
+              <AppDemo
+                style={{
+                  height: 'calc(100% - 20px)',
+                  boxShadow: token.boxShadowTertiary,
+                  borderRadius: token.marginXS,
+                  overflow: 'hidden',
+                  border: `1px solid ${token.colorBorder}`,
+                  marginBottom: 20,
+                }}
+              />
             )}
           </div>
         </ConfigProvider>

@@ -15,9 +15,9 @@ import Table from '../components/table/table';
 import Tabs from '../components/tabs/tabs';
 import Timeline from '../components/timeline/timeline';
 
-export const Primary = () => {
+export const Primary = ({ id }: { id?: string }) => {
   return (
-    <Card size={'small'}>
+    <Card size={'small'} id={id}>
       <Space direction={'vertical'}>
         <Space align={'start'} size={'large'}>
           {Menu.demo}
