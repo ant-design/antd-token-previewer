@@ -1,16 +1,27 @@
-import {
-  Anchor,
-  ConfigProvider,
-  Segmented,
-  Space,
-  theme as antdTheme,
-} from 'antd';
+import { ConfigProvider, Segmented, Space, theme as antdTheme } from 'antd';
 import type { MutableTheme } from 'antd-token-previewer';
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 import React, { useEffect } from 'react';
+import ReactFlow, {
+  Background,
+  Controls,
+  Panel,
+  ReactFlowProvider,
+} from 'reactflow';
+import 'reactflow/dist/style.css';
 import { useLocale } from '../locale';
 import { Error, Primary, Success, Warning } from '../previews/overviews';
 import AppDemo from '../previews/pages';
+
+const Artboard: FC<{ data: ReactNode }> = ({ data }) => {
+  return <div>{data}</div>;
+};
+
+const nodeTypes = {
+  artboard: Artboard,
+};
+
+export type DemoMode = 'overview' | 'page';
 
 export type ComponentDemoProProps = {
   theme: MutableTheme;
@@ -18,11 +29,45 @@ export type ComponentDemoProProps = {
   advanced?: boolean;
 };
 
-const ComponentDemoPro: FC<ComponentDemoProProps> = ({ style, advanced }) => {
-  const [mode, setMode] = React.useState<'overview' | 'page'>('page');
+const Demo = ({ mode }: { mode: DemoMode }) => {
   const { token } = antdTheme.useToken();
+
+  return (
+    <div>
+      {mode === 'overview' ? (
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Space size={24} align="start">
+            <Space direction="vertical" size={24} style={{ width: 960 }}>
+              <Primary id="primary-demo" />
+              <Success id="success-demo" />
+            </Space>
+            <Space direction="vertical" size={24} style={{ width: 960 }}>
+              <Error id="error-demo" />
+              <Warning id="warning-demo" />
+            </Space>
+          </Space>
+        </div>
+      ) : (
+        <AppDemo
+          style={{
+            width: 1440,
+            height: 'calc(100% - 20px)',
+            boxShadow: token.boxShadowTertiary,
+            borderRadius: token.marginXS,
+            overflow: 'hidden',
+            border: `1px solid ${token.colorBorder}`,
+          }}
+        />
+      )}
+    </div>
+  );
+};
+
+const GlobalTokenDemos = (props: ComponentDemoProProps) => {
+  const { advanced } = props;
+  const [mode, setMode] = React.useState<'overview' | 'page'>('page');
   const locale = useLocale();
-  const containerRef = React.useRef<HTMLDivElement>(null);
+  const { token } = antdTheme.useToken();
 
   useEffect(() => {
     if (!advanced) {
@@ -31,15 +76,29 @@ const ComponentDemoPro: FC<ComponentDemoProProps> = ({ style, advanced }) => {
   }, [advanced]);
 
   return (
-    <div
-      style={{
-        ...style,
-        background: token.colorBgLayout,
-      }}
-    >
-      <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+    <ReactFlowProvider>
+      <ReactFlow
+        minZoom={0.25}
+        maxZoom={4}
+        nodes={[
+          {
+            id: 'artboard',
+            type: 'artboard',
+            data: <Demo mode={mode} />,
+            draggable: false,
+            connectable: false,
+            position: { x: 0, y: 0 },
+          },
+        ]}
+        nodeTypes={nodeTypes}
+        onlyRenderVisibleElements
+        panOnScroll
+        panOnDrag={false}
+        zoomOnScroll={false}
+        fitView
+      >
         {advanced && (
-          <div style={{ flex: 'none' }}>
+          <Panel position="top-center">
             <Segmented
               options={[
                 { value: 'page', label: locale.demo.page },
@@ -47,100 +106,24 @@ const ComponentDemoPro: FC<ComponentDemoProProps> = ({ style, advanced }) => {
               ]}
               value={mode}
               onChange={setMode as any}
-              style={{ margin: '12px 0 0 20px' }}
             />
-          </div>
+          </Panel>
         )}
-
-        <ConfigProvider
-          theme={{
-            components: {
-              Select: {
-                zIndexPopup: 10,
-              },
-              DatePicker: {
-                zIndexPopup: 10,
-              },
-              Dropdown: {
-                zIndexPopup: 10,
-              },
-              Mentions: {
-                zIndexPopup: 10,
-              },
-              Tooltip: {
-                zIndexPopup: 10,
-              },
-              Popover: {
-                zIndexPopup: 10,
-              },
-              Popconfirm: {
-                zIndexPopup: 10,
-              },
-            },
-          }}
-        >
-          <div
-            style={{
-              margin: `12px 20px 0`,
-              flex: 1,
-              height: 0,
-              overflow: 'auto',
-            }}
-            ref={containerRef}
-          >
-            {mode === 'overview' ? (
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Space direction="vertical" size={24} style={{ maxWidth: 960 }}>
-                  <Primary id="primary-demo" />
-                  <Success id="success-demo" />
-                  <Error id="error-demo" />
-                  <Warning id="warning-demo" />
-                </Space>
-                <Anchor
-                  style={{ marginRight: 40 }}
-                  affix
-                  getContainer={() => containerRef.current!}
-                  items={[
-                    {
-                      title: 'Primary',
-                      href: '#primary-demo',
-                      key: 'primary-demo',
-                    },
-                    {
-                      title: 'Success',
-                      href: '#success-demo',
-                      key: 'success-demo',
-                    },
-                    { title: 'Error', href: '#error-demo', key: 'error-demo' },
-                    {
-                      title: 'Warning',
-                      href: '#warning-demo',
-                      key: 'warning-demo',
-                    },
-                  ]}
-                />
-              </div>
-            ) : (
-              <AppDemo
-                style={{
-                  height: 'calc(100% - 20px)',
-                  boxShadow: token.boxShadowTertiary,
-                  borderRadius: token.marginXS,
-                  overflow: 'hidden',
-                  border: `1px solid ${token.colorBorder}`,
-                  marginBottom: 20,
-                }}
-              />
-            )}
-          </div>
-        </ConfigProvider>
-      </div>
-    </div>
+        <Controls />
+        <Background
+          color={token.colorTextSecondary}
+          gap={16}
+          style={{ zIndex: -1, background: token.colorBgLayout }}
+        />
+      </ReactFlow>
+    </ReactFlowProvider>
   );
 };
 
 export default (props: ComponentDemoProProps) => (
-  <ConfigProvider theme={{ ...props.theme.config, inherit: false }}>
-    <ComponentDemoPro {...props} />
-  </ConfigProvider>
+  <div style={{ position: 'relative', ...props.style }}>
+    <ConfigProvider theme={{ ...props.theme.config, inherit: false }}>
+      <GlobalTokenDemos {...props} />
+    </ConfigProvider>
+  </div>
 );
