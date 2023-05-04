@@ -20,6 +20,8 @@ const locale: Locale = {
     components: 'Components',
     relatedTokens: 'Related Tokens',
     page: 'Page',
+    fitView: 'Fit View',
+    zoomTo: 'Zoom to',
   },
 };
 

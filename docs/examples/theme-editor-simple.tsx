@@ -4,7 +4,6 @@ import { enUS, ThemeEditor, zhCN } from 'antd-token-previewer';
 import 'antd/es/style/reset.css';
 import React, { useEffect } from 'react';
 import { DarkTheme, Light } from '../../src/icons';
-import IconSwitch from '../../src/IconSwitch';
 
 const ANT_DESIGN_V5_CUSTOM_THEME_PRO = 'ant-design-v5-custom-theme-pro';
 
@@ -52,18 +51,22 @@ const Demo = () => {
           locale={lang === 'zh-CN' ? zhCN : enUS}
           actions={
             <>
-              <IconSwitch
-                leftIcon={<span style={{ fontSize: 14 }}>ZH</span>}
-                rightIcon={<span style={{ fontSize: 14 }}>EN</span>}
-                leftChecked={lang === 'zh-CN'}
-                onChange={(checked) => setLang(checked ? 'zh-CN' : 'en-US')}
+              <Button
+                type="text"
+                icon={lang === 'zh-CN' ? '中' : 'en'}
+                onClick={() => setLang(lang === 'en-US' ? 'zh-CN' : 'en-US')}
                 style={{ marginRight: 8 }}
               />
-              <IconSwitch
-                onChange={(v) => setIsDark(!v)}
-                leftChecked={!isDark}
-                leftIcon={<Light />}
-                rightIcon={<DarkTheme />}
+              <Button
+                type="text"
+                icon={
+                  isDark ? (
+                    <DarkTheme style={{ fontSize: 16 }} />
+                  ) : (
+                    <Light style={{ fontSize: 16 }} />
+                  )
+                }
+                onClick={() => setIsDark(!isDark)}
                 style={{ marginRight: 8 }}
               />
               <Button type="primary" onClick={handleSave}>

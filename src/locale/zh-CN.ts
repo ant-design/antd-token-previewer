@@ -20,6 +20,8 @@ const locale: Locale = {
     components: '组件',
     relatedTokens: '关联 Token',
     page: '页面示例',
+    fitView: '适应视图',
+    zoomTo: '缩放到',
   },
 };
 

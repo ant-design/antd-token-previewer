@@ -385,6 +385,7 @@ const SeedTokenPreview: FC<SeedTokenProps> = ({
             color={tokenValue}
             onChange={handleChange}
             style={{ border: 'none' }}
+            alpha
           />
         ) : (
           <Popover
@@ -752,7 +753,7 @@ const TokenContent: FC<ColorTokenContentProps> = ({
                       <div className="token-panel-pro-token-item-header">
                         <Tooltip
                           mouseEnterDelay={0.5}
-                          placement="topLeft"
+                          placement="right"
                           arrow={{ pointAtCenter: true }}
                           title={groupDesc}
                         >
@@ -793,7 +794,7 @@ const TokenContent: FC<ColorTokenContentProps> = ({
                                   <span>
                                     <Tooltip
                                       mouseEnterDelay={0.5}
-                                      placement="topLeft"
+                                      placement="right"
                                       title={
                                         (tokenMeta as any)[seedToken]?.[
                                           locale._lang === 'zh-CN'

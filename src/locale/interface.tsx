@@ -18,5 +18,7 @@ export type Locale = {
     components: string;
     relatedTokens: string;
     page: string;
+    fitView: string;
+    zoomTo: string;
   };
 };
