@@ -1,11 +1,5 @@
 import type { DerivativeFunc } from '@ant-design/cssinjs';
-import {
-  CaretDownOutlined,
-  EditOutlined,
-  ExportOutlined,
-  ImportOutlined,
-  SettingOutlined,
-} from '@ant-design/icons';
+import { CaretDownOutlined } from '@ant-design/icons';
 import { Button, Dropdown, message, Modal, Segmented, Tag } from 'antd';
 import type { ThemeConfig } from 'antd/es/config-provider/context';
 import classNames from 'classnames';
@@ -270,37 +264,12 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
                   共 <span style={{ color: HIGHLIGHT_COLOR }}>{editTotal}</span>{' '}
                   处修改
                 </span>
-                <Dropdown
-                  menu={{
-                    items: [
-                      {
-                        icon: <ExportOutlined />,
-                        label: '导出主题',
-                        key: 'export',
-                      },
-                      {
-                        icon: <ImportOutlined />,
-                        label: '导入主题',
-                        key: 'import',
-                      },
-                      {
-                        icon: <EditOutlined />,
-                        label: '编辑主题',
-                        key: 'edit',
-                        onClick: () => setIsModalOpen(true),
-                      },
-                    ],
-                  }}
+                <Button
+                  style={{ marginRight: 8 }}
+                  onClick={() => setIsModalOpen(true)}
                 >
-                  <Button
-                    icon={
-                      <SettingOutlined style={{ verticalAlign: 'middle' }} />
-                    }
-                    style={{ marginRight: 8 }}
-                  >
-                    主题配置
-                  </Button>
-                </Dropdown>
+                  主题配置
+                </Button>
                 {actions}
               </div>
             </div>
