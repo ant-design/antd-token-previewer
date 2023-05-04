@@ -8,9 +8,9 @@ import {
 import type { MutableTheme } from 'antd-token-previewer';
 import type { FC } from 'react';
 import React, { useEffect } from 'react';
-import { Error, Primary, Success, Warning } from '../demos/overviews';
-import AppDemo from '../demos/pages';
 import { useLocale } from '../locale';
+import { Error, Primary, Success, Warning } from '../previews/overviews';
+import AppDemo from '../previews/pages';
 
 export type ComponentDemoProProps = {
   theme: MutableTheme;

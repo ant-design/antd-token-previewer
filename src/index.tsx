@@ -1,10 +1,10 @@
-export * from './demos/overviews';
 export type { MutableTheme, PreviewerProps, Theme } from './interface';
 export * from './locale';
 export * from './meta';
 export { default as PreviewDemo } from './PreviewDemo';
 export type { PreviewDemoProps } from './PreviewDemo';
 export { default as Previewer } from './previewer';
+export * from './previews/overviews';
 export { default as ThemeEditor } from './ThemeEditor';
 export type { ThemeEditorProps, ThemeEditorRef } from './ThemeEditor';
 export { default as TokenPanel } from './token-panel';

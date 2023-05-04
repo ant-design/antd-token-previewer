@@ -2,9 +2,9 @@ import { ConfigProvider, Tooltip } from 'antd';
 import classNames from 'classnames';
 import type { FC } from 'react';
 import React from 'react';
-import ComponentDemos from '../demos/components';
 import type { ComponentDemo, MutableTheme, TokenName } from '../interface';
 import { useLocale } from '../locale';
+import ComponentDemos from '../previews/components';
 import makeStyle from '../utils/makeStyle';
 import ComponentCard, { getComponentDemoId } from './ComponentCard';
 

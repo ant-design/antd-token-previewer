@@ -10,7 +10,6 @@ import {
 import classNames from 'classnames';
 import type { FC } from 'react';
 import React, { useMemo } from 'react';
-import ComponentDemos from '../demos/components';
 import type {
   AliasToken,
   ComponentDemo,
@@ -19,6 +18,7 @@ import type {
   TokenValue,
 } from '../interface';
 import { useLocale } from '../locale';
+import ComponentDemos from '../previews/components';
 import TokenCard from '../token-panel/token-card';
 import getDesignToken from '../utils/getDesignToken';
 import makeStyle from '../utils/makeStyle';
