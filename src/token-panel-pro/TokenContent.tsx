@@ -469,6 +469,7 @@ const MapTokenCollapseContent: FC<MapTokenCollapseContentProps> = ({
         <div
           className="token-panel-pro-token-collapse-map"
           style={{ display: 'flex', alignItems: 'center' }}
+          key={mapToken}
         >
           <div
             style={{

@@ -541,13 +541,13 @@ const Dashboard: FC = () => {
                 title="使用帮助"
                 extra={<Typography.Link disabled>更多</Typography.Link>}
                 actions={[
-                  <Button type="link" icon={<BulbOutlined />}>
+                  <Button key="prompt" type="link" icon={<BulbOutlined />}>
                     新手引导
                   </Button>,
-                  <Button type="link" icon={<PlayCircleOutlined />}>
+                  <Button key="demo" type="link" icon={<PlayCircleOutlined />}>
                     视频演示
                   </Button>,
-                  <Button type="link" icon={<BookOutlined />}>
+                  <Button key="docs" type="link" icon={<BookOutlined />}>
                     产品文档
                   </Button>,
                 ]}

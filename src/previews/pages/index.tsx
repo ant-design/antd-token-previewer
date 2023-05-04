@@ -15,7 +15,7 @@ import type { FC } from 'react';
 import React from 'react';
 import Dashboard from './dashboard';
 
-const { Header, Sider, Content } = Layout;
+const { Header, Content } = Layout;
 
 export type AppDemoProps = {
   style?: React.CSSProperties;
