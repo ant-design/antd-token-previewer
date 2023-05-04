@@ -35,7 +35,7 @@ const menuItems: MenuProps['items'] = [
   },
   {
     label: '项目',
-    key: 'table',
+    key: 'project',
     icon: <ProjectOutlined />,
     children: [
       {
