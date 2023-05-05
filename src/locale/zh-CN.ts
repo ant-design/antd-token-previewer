@@ -15,6 +15,8 @@ const locale: Locale = {
   componentToken: '组件',
   advancedMode: '高级模式',
   basicMode: '基础模式',
+  export: '导出',
+  import: '导入',
   demo: {
     overview: '风格概览',
     components: '组件',

@@ -13,6 +13,8 @@ export type Locale = {
   componentToken: string;
   advancedMode: string;
   basicMode: string;
+  export: string;
+  import: string;
   demo: {
     overview: string;
     components: string;

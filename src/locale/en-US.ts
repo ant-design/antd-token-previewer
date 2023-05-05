@@ -15,6 +15,8 @@ const locale: Locale = {
   componentToken: 'Component',
   advancedMode: 'Advanced Mode',
   basicMode: 'Basic Mode',
+  import: 'Import',
+  export: 'Export',
   demo: {
     overview: 'Overview',
     components: 'Components',

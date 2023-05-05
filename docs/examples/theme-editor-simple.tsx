@@ -2,6 +2,7 @@ import { Button, ConfigProvider, message, theme as antdTheme } from 'antd';
 import type { Theme } from 'antd-token-previewer';
 import { enUS, ThemeEditor, zhCN } from 'antd-token-previewer';
 import 'antd/es/style/reset.css';
+import antdZhCN from 'antd/locale/zh_CN';
 import React, { useEffect } from 'react';
 import { DarkTheme, Light } from '../../src/icons';
 
@@ -40,6 +41,7 @@ const Demo = () => {
     <React.StrictMode>
       {contextHolder}
       <ConfigProvider
+        locale={lang === 'zh-CN' ? antdZhCN : undefined}
         theme={{
           hashed: true,
           algorithm: isDark ? antdTheme.darkAlgorithm : undefined,

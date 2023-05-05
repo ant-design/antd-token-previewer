@@ -1,23 +1,22 @@
 import type { DerivativeFunc } from '@ant-design/cssinjs';
 import { CaretDownOutlined } from '@ant-design/icons';
-import { Button, Dropdown, message, Modal, Segmented, Tag } from 'antd';
+import { Button, Dropdown, message, Segmented, Tag } from 'antd';
 import type { ThemeConfig } from 'antd/es/config-provider/context';
 import classNames from 'classnames';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import type { ReactNode } from 'react';
 import React, {
   forwardRef,
-  useCallback,
   useImperativeHandle,
   useMemo,
   useState,
 } from 'react';
-import type { OnChange } from 'vanilla-jsoneditor';
 import { AdvancedContext } from './context';
+import type { EditorModalProps } from './editor-modal';
+import EditorModal from './editor-modal';
 import GlobalTokenEditor from './GlobalTokenEditor';
 import useControlledTheme from './hooks/useControlledTheme';
 import type { Theme } from './interface';
-import JSONEditor from './JSONEditor';
 import type { Locale } from './locale';
 import { LocaleContext, zhCN } from './locale';
 import { HIGHLIGHT_COLOR } from './utils/constants';
@@ -110,21 +109,11 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
     const prefixCls = 'antd-theme-editor';
     const [wrapSSR, hashId] = useStyle(prefixCls);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [editThemeFormatRight, setEditThemeFormatRight] =
-      useState<boolean>(true);
     const [mode, setMode] = useMergedState<ThemeEditorMode>('global', {
       value: customMode,
       onChange: onModeChange,
     });
     const [messageApi, contextHolder] = message.useMessage();
-
-    const [themeConfigContent, setThemeConfigContent] = useState<{
-      text: string;
-      json?: undefined;
-    }>({
-      text: JSON.stringify(customTheme?.config ?? defaultTheme.config, null, 2),
-      json: undefined,
-    });
 
     const handleAdvancedChange = (value: boolean) => {
       if (!value) {
@@ -144,9 +133,6 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
         defaultTheme,
         onChange: (newTheme: Theme) => {
           onThemeChange?.(newTheme);
-          setThemeConfigContent({
-            text: JSON.stringify(newTheme.config, null, 2),
-          });
         },
         darkAlgorithm,
       });
@@ -173,31 +159,10 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
       setIsModalOpen(false);
     };
 
-    const handleEditConfigChange: OnChange = (
-      newContent,
-      preContent,
-      status,
-    ) => {
-      setThemeConfigContent(newContent as { text: string });
-      if (
-        status?.contentErrors &&
-        Object.keys(status.contentErrors).length > 0
-      ) {
-        setEditThemeFormatRight(false);
-      } else {
-        setEditThemeFormatRight(true);
-      }
-    };
-
-    const editSave = useCallback(() => {
-      if (!editThemeFormatRight) {
-        messageApi.error('主题 JSON 格式错误');
-        return;
-      }
-
+    const editSave: EditorModalProps['onOk'] = (config) => {
       const themeConfig = {
         ...theme,
-        config: JSON.parse(themeConfigContent.text),
+        config,
       };
 
       if (!isObject(themeConfig)) {
@@ -207,7 +172,7 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
       onThemeChange?.(themeConfig);
       editModelClose();
       messageApi.success('编辑成功');
-    }, [themeConfigContent]);
+    };
 
     return wrapSSR(
       <LocaleContext.Provider value={locale}>
@@ -283,19 +248,12 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
                 />
               )}
             </div>
-            <Modal
-              title="主题配置"
+            <EditorModal
               open={isModalOpen}
               onOk={editSave}
+              theme={theme}
               onCancel={editModelClose}
-              width={800}
-            >
-              <JSONEditor
-                content={themeConfigContent}
-                onChange={handleEditConfigChange}
-                mainMenuBar={false}
-              />
-            </Modal>
+            />
           </div>
         </AdvancedContext.Provider>
       </LocaleContext.Provider>,
