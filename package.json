@@ -67,7 +67,7 @@
     "dumi": "^2.0.9",
     "eslint": "^7.0.0",
     "father": "^4",
-    "gh-pages": "^4.0.0",
+    "gh-pages": "^5.0.0",
     "husky": "^8.0.0",
     "jest": "^28.1.0",
     "lint-staged": "^13.0.3",
