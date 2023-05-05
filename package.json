@@ -32,7 +32,7 @@
     "docs:deploy": "npm run docs:build && npm run gh-pages",
     "compile": "father build",
     "gh-pages": "gh-pages -d .doc",
-    "prepublishOnly": "npm run compile && np --yolo --no-publish && npm run gh-pages",
+    "prepublishOnly": "npm run compile && np --yolo --no-publish && npm run docs:deploy",
     "lint": "eslint src/ --ext .ts,.tsx,.jsx,.js,.md",
     "test": "umi-test",
     "coverage": "umi-test --coverage",
