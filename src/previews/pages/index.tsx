@@ -15,7 +15,7 @@ import type { FC } from 'react';
 import React from 'react';
 import Dashboard from './dashboard';
 
-const { Header, Sider, Content } = Layout;
+const { Header, Content } = Layout;
 
 export type AppDemoProps = {
   style?: React.CSSProperties;
@@ -130,21 +130,21 @@ const AppDemo: FC<AppDemoProps> = ({ className, style }) => {
             />
           </div>
         </Header>
-        <Layout>
-          <Sider>
+        <div style={{ display: 'flex' }}>
+          <div style={{ flex: '0 0 208px' }}>
             <Menu
               defaultOpenKeys={['project']}
               mode="inline"
               style={{ height: '100%', paddingTop: 4 }}
               items={menuItems}
             />
-          </Sider>
+          </div>
           <Layout>
             <Content style={{ padding: 24, overflow: 'auto' }}>
               <Dashboard />
             </Content>
           </Layout>
-        </Layout>
+        </div>
       </Layout>
     </ConfigProvider>
   );

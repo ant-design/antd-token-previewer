@@ -385,6 +385,7 @@ const SeedTokenPreview: FC<SeedTokenProps> = ({
             color={tokenValue}
             onChange={handleChange}
             style={{ border: 'none' }}
+            alpha
           />
         ) : (
           <Popover
@@ -468,6 +469,7 @@ const MapTokenCollapseContent: FC<MapTokenCollapseContentProps> = ({
         <div
           className="token-panel-pro-token-collapse-map"
           style={{ display: 'flex', alignItems: 'center' }}
+          key={mapToken}
         >
           <div
             style={{
@@ -752,7 +754,7 @@ const TokenContent: FC<ColorTokenContentProps> = ({
                       <div className="token-panel-pro-token-item-header">
                         <Tooltip
                           mouseEnterDelay={0.5}
-                          placement="topLeft"
+                          placement="right"
                           arrow={{ pointAtCenter: true }}
                           title={groupDesc}
                         >
@@ -793,7 +795,7 @@ const TokenContent: FC<ColorTokenContentProps> = ({
                                   <span>
                                     <Tooltip
                                       mouseEnterDelay={0.5}
-                                      placement="topLeft"
+                                      placement="right"
                                       title={
                                         (tokenMeta as any)[seedToken]?.[
                                           locale._lang === 'zh-CN'
