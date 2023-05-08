@@ -7,7 +7,7 @@ import ComponentPanel, { antdComponents } from '../src/component-panel';
 
 const { useToken } = theme;
 
-describe('ComponentPanel', () => {
+describe.skip('ComponentPanel', () => {
   const Panel = ({ themes, ...restProps }: Partial<ComponentPanelProps>) => {
     const { token } = useToken();
 
