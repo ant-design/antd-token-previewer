@@ -7,7 +7,6 @@ import {
   theme as antdTheme,
   Tooltip,
 } from 'antd';
-import type { MutableTheme } from 'antd-token-previewer';
 import type { FC, ReactNode } from 'react';
 import React, { memo, useEffect } from 'react';
 import ReactFlow, {
@@ -19,6 +18,7 @@ import ReactFlow, {
   useViewport,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
+import type { MutableTheme, Theme } from '../interface';
 import { useLocale } from '../locale';
 import { Error, Primary, Success, Warning } from '../previews/overviews';
 import AppDemo from '../previews/pages';
@@ -80,42 +80,44 @@ export type ComponentDemoProProps = {
   advanced?: boolean;
 };
 
-const Demo = ({ mode }: { mode: DemoMode }) => {
+const Demo = ({ mode, theme }: { mode: DemoMode; theme: Theme }) => {
   const { token } = antdTheme.useToken();
 
   return (
-    <div>
-      {mode === 'overview' ? (
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Space size={24} align="start">
-            <Space direction="vertical" size={24} style={{ width: 960 }}>
-              <Primary id="primary-demo" />
-              <Success id="success-demo" />
+    <ConfigProvider theme={{ ...theme.config, inherit: false }}>
+      <div>
+        {mode === 'overview' ? (
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Space size={24} align="start">
+              <Space direction="vertical" size={24} style={{ width: 960 }}>
+                <Primary id="primary-demo" />
+                <Success id="success-demo" />
+              </Space>
+              <Space direction="vertical" size={24} style={{ width: 960 }}>
+                <Error id="error-demo" />
+                <Warning id="warning-demo" />
+              </Space>
             </Space>
-            <Space direction="vertical" size={24} style={{ width: 960 }}>
-              <Error id="error-demo" />
-              <Warning id="warning-demo" />
-            </Space>
-          </Space>
-        </div>
-      ) : (
-        <AppDemo
-          style={{
-            width: 1440,
-            height: 'calc(100% - 20px)',
-            boxShadow: token.boxShadowTertiary,
-            borderRadius: token.marginXS,
-            overflow: 'hidden',
-            border: `1px solid ${token.colorBorder}`,
-          }}
-        />
-      )}
-    </div>
+          </div>
+        ) : (
+          <AppDemo
+            style={{
+              width: 1440,
+              height: 'calc(100% - 20px)',
+              boxShadow: token.boxShadowTertiary,
+              borderRadius: token.marginXS,
+              overflow: 'hidden',
+              border: `1px solid ${token.colorBorder}`,
+            }}
+          />
+        )}
+      </div>
+    </ConfigProvider>
   );
 };
 
 const GlobalTokenDemos = (props: ComponentDemoProProps) => {
-  const { advanced } = props;
+  const { advanced, theme } = props;
   const [mode, setMode] = React.useState<'overview' | 'page'>('page');
   const locale = useLocale();
   const { token } = antdTheme.useToken();
@@ -142,7 +144,7 @@ const GlobalTokenDemos = (props: ComponentDemoProProps) => {
         {
           id: `artboard-${mode}`,
           type: 'artboard',
-          data: <Demo mode={mode} />,
+          data: <Demo mode={mode} theme={theme} />,
           draggable: false,
           connectable: false,
           position: { x: 0, y: 0 },
@@ -167,6 +169,7 @@ const GlobalTokenDemos = (props: ComponentDemoProProps) => {
             ]}
             value={mode}
             onChange={setMode as any}
+            style={{ boxShadow: token.boxShadowTertiary }}
           />
         </Panel>
       )}
@@ -182,10 +185,8 @@ const GlobalTokenDemos = (props: ComponentDemoProProps) => {
 
 export default (props: ComponentDemoProProps) => (
   <div style={{ position: 'relative', ...props.style }}>
-    <ConfigProvider theme={{ ...props.theme.config, inherit: false }}>
-      <ReactFlowProvider>
-        <GlobalTokenDemos {...props} />
-      </ReactFlowProvider>
-    </ConfigProvider>
+    <ReactFlowProvider>
+      <GlobalTokenDemos {...props} />
+    </ReactFlowProvider>
   </div>
 );
