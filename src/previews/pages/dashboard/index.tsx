@@ -30,8 +30,19 @@ import makeStyle from '../../../utils/makeStyle';
 const useStyle = makeStyle('AppDemoDashboard', (token) => ({
   [token.componentCls]: {
     [`&-banner${token.rootCls}-card`]: {
-      background: '#247FFF',
+      backgroundColor: token.colorPrimary,
       color: token.colorTextLightSolid,
+      '&::before': {
+        content: '""',
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        backgroundImage:
+          'url(https://mdn.alipayobjects.com/huamei_7uahnr/afts/img/A*s3DrQKBGAI4AAAAAAAAAAAAADrJ8AQ/original)',
+        filter: 'grayscale(100%)',
+      },
       [`${token.componentCls}-banner-title`]: {
         fontSize: token.fontSizeHeading3,
         lineHeight: token.lineHeightHeading3,

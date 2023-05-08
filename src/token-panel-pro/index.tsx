@@ -46,7 +46,6 @@ export type TokenPanelProProps = {
   onTokenSelect?: (token: string | string[], type: keyof SelectedToken) => void;
   infoFollowPrimary?: boolean;
   onInfoFollowPrimaryChange?: (value: boolean) => void;
-  aliasOpen?: boolean;
   onAliasOpenChange?: (value: boolean) => void;
   activeTheme?: string;
 };

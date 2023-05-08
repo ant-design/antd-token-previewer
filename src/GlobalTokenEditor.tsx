@@ -36,8 +36,6 @@ const GlobalTokenEditor: FC<GlobalTokenEditorProps> = (props) => {
   const prefixCls = 'antd-global-token-editor';
   const [, hashId] = useStyle(prefixCls);
 
-  const [aliasOpen, setAliasOpen] = useState<boolean>(false);
-
   const [selectedTokens, setSelectedTokens] = useState<SelectedToken>({
     seed: ['colorPrimary'],
   });
@@ -74,13 +72,11 @@ const GlobalTokenEditor: FC<GlobalTokenEditorProps> = (props) => {
     <div className={classNames(hashId, prefixCls)}>
       <div
         style={{
-          flex: aliasOpen ? '0 0 860px' : `0 0 ${860 - 320}px`,
+          flex: `0 0 480px`,
         }}
         className={`${prefixCls}-token-panel-wrapper`}
       >
         <TokenPanelPro
-          aliasOpen={aliasOpen}
-          onAliasOpenChange={(open) => setAliasOpen(open)}
           theme={theme}
           style={{ flex: 1 }}
           selectedTokens={selectedTokens}
