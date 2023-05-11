@@ -77,7 +77,6 @@ export type DemoMode = 'overview' | 'page';
 export type ComponentDemoProProps = {
   theme: MutableTheme;
   style?: React.CSSProperties;
-  advanced?: boolean;
 };
 
 const Demo = ({ mode, theme }: { mode: DemoMode; theme: Theme }) => {
@@ -117,7 +116,7 @@ const Demo = ({ mode, theme }: { mode: DemoMode; theme: Theme }) => {
 };
 
 const GlobalTokenDemos = (props: ComponentDemoProProps) => {
-  const { advanced, theme } = props;
+  const { theme } = props;
   const [mode, setMode] = React.useState<'overview' | 'page'>('page');
   const locale = useLocale();
   const { token } = antdTheme.useToken();
@@ -129,12 +128,6 @@ const GlobalTokenDemos = (props: ComponentDemoProProps) => {
       fitView();
     }
   }, [nodesInitialized]);
-
-  useEffect(() => {
-    if (!advanced) {
-      setMode('page');
-    }
-  }, [advanced]);
 
   return (
     <ReactFlow
@@ -160,19 +153,17 @@ const GlobalTokenDemos = (props: ComponentDemoProProps) => {
         hideAttribution: true,
       }}
     >
-      {advanced && (
-        <Panel position="top-center">
-          <Segmented
-            options={[
-              { value: 'page', label: locale.demo.page },
-              { value: 'overview', label: locale.demo.overview },
-            ]}
-            value={mode}
-            onChange={setMode as any}
-            style={{ boxShadow: token.boxShadowTertiary }}
-          />
-        </Panel>
-      )}
+      <Panel position="top-center">
+        <Segmented
+          options={[
+            { value: 'page', label: locale.demo.page },
+            { value: 'overview', label: locale.demo.overview },
+          ]}
+          value={mode}
+          onChange={setMode as any}
+          style={{ boxShadow: token.boxShadowTertiary }}
+        />
+      </Panel>
       <Controls />
       <Background
         color={token.colorTextSecondary}

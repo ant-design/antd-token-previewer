@@ -242,7 +242,6 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
               {mode === 'global' && (
                 <GlobalTokenEditor
                   theme={theme}
-                  advanced={advanced}
                   infoFollowPrimary={infoFollowPrimary}
                   onInfoFollowPrimaryChange={onInfoFollowPrimaryChange}
                 />
