@@ -11,6 +11,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
+import ComponentTokenEditor from './component-token-editor';
 import { AdvancedContext } from './context';
 import type { EditorModalProps } from './editor-modal';
 import EditorModal from './editor-modal';
@@ -211,8 +212,9 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
                   <CaretDownOutlined style={{ fontSize: 10 }} />
                 </Tag>
               </Dropdown>
-              {advanced && false && (
+              {advanced && (
                 <Segmented
+                  value={mode}
                   options={[
                     { label: locale.globalToken, value: 'global' },
                     { label: locale.componentToken, value: 'component' },
@@ -246,6 +248,7 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
                   onInfoFollowPrimaryChange={onInfoFollowPrimaryChange}
                 />
               )}
+              {mode === 'component' && <ComponentTokenEditor theme={theme} />}
             </div>
             <EditorModal
               open={isModalOpen}

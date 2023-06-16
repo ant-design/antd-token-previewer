@@ -15,6 +15,9 @@ export type Locale = {
   basicMode: string;
   export: string;
   import: string;
+  color: string;
+  size: string;
+  style: string;
   demo: {
     overview: string;
     components: string;

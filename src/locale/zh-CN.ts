@@ -17,6 +17,9 @@ const locale: Locale = {
   basicMode: '基础模式',
   export: '导出',
   import: '导入',
+  color: '颜色',
+  size: '尺寸',
+  style: '风格',
   demo: {
     overview: '风格概览',
     components: '组件',

@@ -17,6 +17,9 @@ const locale: Locale = {
   basicMode: 'Basic Mode',
   import: 'Import',
   export: 'Export',
+  color: 'Color',
+  size: 'Size',
+  style: 'Style',
   demo: {
     overview: 'Overview',
     components: 'Components',
