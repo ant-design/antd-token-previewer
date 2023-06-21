@@ -1,5 +1,13 @@
 import type { MenuProps } from 'antd';
-import { Anchor, Card, ConfigProvider, Empty, Menu, Typography } from 'antd';
+import {
+  Anchor,
+  Card,
+  ConfigProvider,
+  Divider,
+  Empty,
+  Menu,
+  Typography,
+} from 'antd';
 import tokenStatistic from 'antd/lib/version/token.json';
 import classNames from 'classnames';
 import type { FC } from 'react';
@@ -14,6 +22,7 @@ import getDesignToken from '../utils/getDesignToken';
 import getValueByPath from '../utils/getValueByPath';
 import makeStyle from '../utils/makeStyle';
 import ComponentTokenInput from './component-token-input';
+import DemoWrapper from './DemoWrapper';
 
 const { Link } = Typography;
 
@@ -39,6 +48,7 @@ const useStyle = makeStyle('ComponentTokenEditor', (token) => ({
         '&-title': {
           fontSize: token.fontSizeHeading3,
           lineHeight: token.lineHeightHeading3,
+          color: token.colorTextHeading,
           marginBottom: 20,
         },
 
@@ -46,17 +56,6 @@ const useStyle = makeStyle('ComponentTokenEditor', (token) => ({
           fontSize: token.fontSize,
           lineHeight: token.lineHeight,
           color: token.colorTextSecondary,
-        },
-      },
-
-      [`${token.componentCls}-demo-wrapper`]: {
-        height: 0,
-        overflow: 'auto',
-        flex: 1,
-
-        '& > *': {
-          margin: 24,
-          width: 'calc(100% - 48px)',
         },
       },
     },
@@ -83,6 +82,7 @@ const useStyle = makeStyle('ComponentTokenEditor', (token) => ({
         fontWeight: token.fontWeightStrong,
         marginBottom: 12,
         marginLeft: 8,
+        color: token.colorText,
       },
 
       [`&-anchor${token.rootCls}-anchor-wrapper`]: {
@@ -109,6 +109,7 @@ const useStyle = makeStyle('ComponentTokenEditor', (token) => ({
         },
         '&-name': {
           fontSize: token.fontSizeSM,
+          color: token.colorText,
         },
         '&-tag': {
           fontSize: token.fontSizeSM,
@@ -191,6 +192,10 @@ const classifyTokens = (tokens: string[]) => {
     }
   }
 
+  result.color.sort();
+  result.size.sort();
+  result.style.sort();
+
   return result;
 };
 
@@ -251,17 +256,18 @@ const ComponentTokenEditor: FC<ComponentTokenEditorProps> = ({ theme }) => {
             className={`${prefixCls}-demo-banner-info`}
           >{`Token 数: ${count.total} (${count.global} 个全局 Token / ${count.component} 个组件 Token)`}</div>
         </div>
-        <ConfigProvider theme={theme.config}>
-          <div className={`${prefixCls}-demo-wrapper`}>
+        <ConfigProvider theme={{ ...theme.config, inherit: false }}>
+          <DemoWrapper>
             {ComponentDemos[activeComponent].map((item) => (
               <Card
                 title={`关联 Token: ${item.tokens?.join(', ')}`}
                 key={item.key}
               >
                 {item.demo}
+                <Divider />
               </Card>
             ))}
-          </div>
+          </DemoWrapper>
         </ConfigProvider>
       </div>
       <div className={`${prefixCls}-token-panel`}>
@@ -301,66 +307,6 @@ const ComponentTokenEditor: FC<ComponentTokenEditorProps> = ({ theme }) => {
               <div className={`${prefixCls}-token-panel-subtitle`}>
                 {(locale as any)[key]}
               </div>
-              {(tokenGroups.global as any)[key].map((token: string) => {
-                const configValue = getValueByPath(theme.config, [
-                  'components',
-                  activeComponent,
-                  token,
-                ]);
-                const value =
-                  configValue ?? (getDesignToken(theme.config) as any)[token];
-                return (
-                  <ComponentTokenInput
-                    theme={theme}
-                    token={token}
-                    component={activeComponent}
-                    color={key === 'color'}
-                    value={value}
-                    key={key}
-                  >
-                    <div className={`${prefixCls}-token-item`}>
-                      <span
-                        className={`${prefixCls}-token-item-name`}
-                        style={{ color: configValue ? HIGHLIGHT_COLOR : '' }}
-                      >
-                        {token}
-                      </span>
-                      {configValue !== undefined && (
-                        <Link
-                          style={{
-                            fontSize: 12,
-                            margin: '0 4px',
-                            flex: 'none',
-                          }}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            theme.onAbort?.([
-                              'components',
-                              activeComponent,
-                              token,
-                            ]);
-                          }}
-                        >
-                          {locale.reset}
-                        </Link>
-                      )}
-                      <span
-                        className={`${prefixCls}-token-item-value`}
-                        title={value}
-                      >
-                        {value}
-                      </span>
-                      {key === 'color' && (
-                        <ColorPreview
-                          size={16}
-                          color={value}
-                          style={{ marginLeft: 8 }}
-                        />
-                      )}
-                    </div>
-                  </ComponentTokenInput>
-                );
-              })}
               {(tokenGroups.component as any)[key].map((token: string) => {
                 const configValue = getValueByPath(theme.config, [
                   'components',
@@ -418,6 +364,66 @@ const ComponentTokenEditor: FC<ComponentTokenEditorProps> = ({ theme }) => {
                         <ColorPreview
                           size={16}
                           color={value as string}
+                          style={{ marginLeft: 8 }}
+                        />
+                      )}
+                    </div>
+                  </ComponentTokenInput>
+                );
+              })}
+              {(tokenGroups.global as any)[key].map((token: string) => {
+                const configValue = getValueByPath(theme.config, [
+                  'components',
+                  activeComponent,
+                  token,
+                ]);
+                const value =
+                  configValue ?? (getDesignToken(theme.config) as any)[token];
+                return (
+                  <ComponentTokenInput
+                    theme={theme}
+                    token={token}
+                    component={activeComponent}
+                    color={key === 'color'}
+                    value={value}
+                    key={key}
+                  >
+                    <div className={`${prefixCls}-token-item`}>
+                      <span
+                        className={`${prefixCls}-token-item-name`}
+                        style={{ color: configValue ? HIGHLIGHT_COLOR : '' }}
+                      >
+                        {token}
+                      </span>
+                      {configValue !== undefined && (
+                        <Link
+                          style={{
+                            fontSize: 12,
+                            margin: '0 4px',
+                            flex: 'none',
+                          }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            theme.onAbort?.([
+                              'components',
+                              activeComponent,
+                              token,
+                            ]);
+                          }}
+                        >
+                          {locale.reset}
+                        </Link>
+                      )}
+                      <span
+                        className={`${prefixCls}-token-item-value`}
+                        title={value}
+                      >
+                        {value}
+                      </span>
+                      {key === 'color' && (
+                        <ColorPreview
+                          size={16}
+                          color={value}
                           style={{ marginLeft: 8 }}
                         />
                       )}

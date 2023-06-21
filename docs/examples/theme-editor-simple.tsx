@@ -5,12 +5,15 @@ import 'antd/es/style/reset.css';
 import antdZhCN from 'antd/locale/zh_CN';
 import React, { useEffect } from 'react';
 import { DarkTheme, Light } from '../../src/icons';
+import type { ThemeEditorMode } from '../../src/ThemeEditor';
 
 const ANT_DESIGN_V5_CUSTOM_THEME_PRO = 'ant-design-v5-custom-theme-pro';
 
 const Demo = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const [lang, setLang] = React.useState('zh-CN');
+  const [advanced, setAdvanced] = React.useState(false);
+  const [mode, setMode] = React.useState<ThemeEditorMode>('global');
   const [isDark, setIsDark] = React.useState(false);
   const [theme, setTheme] = React.useState<Theme>({
     name: '自定义主题',
@@ -51,6 +54,10 @@ const Demo = () => {
           theme={theme}
           onThemeChange={handleThemeChange}
           locale={lang === 'zh-CN' ? zhCN : enUS}
+          advanced={advanced}
+          onAdvancedChange={setAdvanced}
+          mode={mode}
+          onModeChange={setMode}
           actions={
             <>
               <Button
