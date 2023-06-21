@@ -1,4 +1,4 @@
-import { ColorPicker, Input, InputNumber, Popover } from 'antd';
+import { ColorPicker, Input, InputNumber, Popover, Switch } from 'antd';
 import type { FC, PropsWithChildren } from 'react';
 import React, { useState } from 'react';
 import { useDebouncyFn } from 'use-debouncy';
@@ -10,6 +10,8 @@ export interface ComponentTokenInputProps {
   component: string;
   color: boolean;
   value?: string;
+  style?: React.CSSProperties;
+  className?: string;
 }
 
 const ComponentTokenInput: FC<PropsWithChildren<ComponentTokenInputProps>> = ({
@@ -19,6 +21,8 @@ const ComponentTokenInput: FC<PropsWithChildren<ComponentTokenInputProps>> = ({
   color,
   children,
   value,
+  style,
+  className,
 }) => {
   const [tokenValue, setTokenValue] = useState(value);
   const debouncedOnChange = useDebouncyFn((newValue: number | string) => {
@@ -42,6 +46,12 @@ const ComponentTokenInput: FC<PropsWithChildren<ComponentTokenInputProps>> = ({
     debouncedOnChange(newValue);
   };
 
+  const child = (
+    <span style={style} className={className}>
+      {children}
+    </span>
+  );
+
   if (color) {
     return (
       <ColorPicker
@@ -51,30 +61,40 @@ const ComponentTokenInput: FC<PropsWithChildren<ComponentTokenInputProps>> = ({
           handleChange(newColor.toRgbString());
         }}
       >
-        {children}
+        {child}
       </ColorPicker>
     );
   }
+
+  let inputNode;
+
+  if (typeof tokenValue === 'string') {
+    inputNode = (
+      <Input
+        value={tokenValue}
+        onChange={(e) => handleChange(e.target.value)}
+      />
+    );
+  } else if (typeof tokenValue === 'number') {
+    inputNode = (
+      <InputNumber<number>
+        style={{ minWidth: 200 }}
+        value={tokenValue}
+        onChange={(newValue) => handleChange(newValue ?? 0)}
+      />
+    );
+  } else if (typeof tokenValue === 'boolean') {
+    inputNode = (
+      <Switch
+        checked={tokenValue}
+        onChange={(checked) => handleChange(checked)}
+      />
+    );
+  }
+
   return (
-    <Popover
-      trigger="click"
-      placement="bottomRight"
-      content={
-        typeof tokenValue === 'string' ? (
-          <Input
-            value={tokenValue}
-            onChange={(e) => handleChange(e.target.value)}
-          />
-        ) : (
-          <InputNumber<number>
-            style={{ minWidth: 200 }}
-            value={tokenValue}
-            onChange={(newValue) => handleChange(newValue ?? 0)}
-          />
-        )
-      }
-    >
-      {children}
+    <Popover trigger="click" placement="bottomRight" content={inputNode}>
+      {child}
     </Popover>
   );
 };

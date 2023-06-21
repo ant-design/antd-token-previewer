@@ -12,8 +12,8 @@ const ANT_DESIGN_V5_CUSTOM_THEME_PRO = 'ant-design-v5-custom-theme-pro';
 const Demo = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const [lang, setLang] = React.useState('zh-CN');
-  const [advanced, setAdvanced] = React.useState(false);
-  const [mode, setMode] = React.useState<ThemeEditorMode>('global');
+  const [advanced, setAdvanced] = React.useState(true);
+  const [mode, setMode] = React.useState<ThemeEditorMode>('component');
   const [isDark, setIsDark] = React.useState(false);
   const [theme, setTheme] = React.useState<Theme>({
     name: '自定义主题',
@@ -62,7 +62,7 @@ const Demo = () => {
             <>
               <Button
                 type="text"
-                icon={lang === 'zh-CN' ? '中' : 'en'}
+                icon={lang === 'zh-CN' ? '中' : 'EN'}
                 onClick={() => setLang(lang === 'en-US' ? 'zh-CN' : 'en-US')}
                 style={{ marginRight: 8 }}
               />

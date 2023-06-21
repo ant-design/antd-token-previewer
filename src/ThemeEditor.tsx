@@ -228,14 +228,15 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
                   className={`${prefixCls}-header-actions-diff`}
                   style={{ marginRight: 8, fontSize: 14 }}
                 >
-                  共 <span style={{ color: HIGHLIGHT_COLOR }}>{editTotal}</span>{' '}
-                  处修改
+                  {locale.total}{' '}
+                  <span style={{ color: HIGHLIGHT_COLOR }}>{editTotal}</span>{' '}
+                  {locale.changes}
                 </span>
                 <Button
                   style={{ marginRight: 8 }}
                   onClick={() => setIsModalOpen(true)}
                 >
-                  主题配置
+                  {locale.themeConfig}
                 </Button>
                 {actions}
               </div>
