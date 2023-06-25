@@ -19,6 +19,7 @@ const Demo = () => {
   });
 
   const handleThemeChange = (newTheme: Theme) => {
+    console.log(newTheme);
     setTheme(newTheme);
   };
 
