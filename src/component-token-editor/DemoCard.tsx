@@ -1,4 +1,4 @@
-import { Card, ConfigProvider, Divider, Tag, theme } from 'antd';
+import { Card, ConfigProvider, Tag, theme } from 'antd';
 import type { FC } from 'react';
 import React, { useMemo, useState } from 'react';
 import type { ComponentDemo } from '../interface';
@@ -35,17 +35,29 @@ const DemoCard: FC<DemoCardProps> = ({ demo: item }) => {
   }, [item.tokens]);
 
   return (
-    <Card>
-      <ConfigProvider
-        theme={{
-          token: tokenOverride,
-        }}
-      >
-        {item.demo}
-      </ConfigProvider>
+    <Card
+      bodyStyle={{
+        padding: 0,
+      }}
+    >
+      <div style={{ padding: 20 }}>
+        <ConfigProvider
+          theme={{
+            token: tokenOverride,
+          }}
+        >
+          {item.demo}
+        </ConfigProvider>
+      </div>
       {shownTokens.length > 0 && (
-        <>
-          <Divider />
+        <div
+          style={{
+            background: token.colorFillQuaternary,
+            padding: '12px 20px 20px',
+            borderRadius: `0 0 ${token.borderRadiusLG}px ${token.borderRadiusLG}px`,
+            boxShadow: 'inset 0 2px 4px 0 rgba(25,15,15,0.07)',
+          }}
+        >
           <div style={{ color: token.colorTextDescription, marginBottom: 12 }}>
             {locale.demo.relatedTokensDescription}
           </div>
@@ -55,12 +67,12 @@ const DemoCard: FC<DemoCardProps> = ({ demo: item }) => {
               key={t}
               onClick={toggle(t)}
               color={selectedTokens.includes(t) ? 'blue' : undefined}
-              style={{ cursor: 'pointer' }}
+              style={{ cursor: 'pointer', userSelect: 'none' }}
             >
               {t}
             </Tag>
           ))}
-        </>
+        </div>
       )}
     </Card>
   );

@@ -24,6 +24,7 @@ const locale: Locale = {
   themeConfig: '主题配置',
   total: '共',
   changes: '处修改',
+  tokenInfo: 'Token 列表',
   demo: {
     overview: '风格概览',
     components: '组件',

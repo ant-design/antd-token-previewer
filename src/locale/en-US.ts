@@ -24,6 +24,7 @@ const locale: Locale = {
   themeConfig: 'Config',
   total: '',
   changes: 'Changes',
+  tokenInfo: 'Token',
   demo: {
     overview: 'Overview',
     components: 'Components',

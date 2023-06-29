@@ -22,6 +22,7 @@ export type Locale = {
   themeConfig: string;
   total: string;
   changes: string;
+  tokenInfo: string;
   demo: {
     overview: string;
     components: string;
