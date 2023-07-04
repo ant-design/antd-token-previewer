@@ -1,6 +1,12 @@
 import { Button, ConfigProvider, message, theme as antdTheme } from 'antd';
 import type { Theme } from 'antd-token-previewer';
-import { enUS, ThemeEditor, zhCN } from 'antd-token-previewer';
+import {
+  enUS,
+  parsePlainConfig,
+  parseThemeConfig,
+  ThemeEditor,
+  zhCN,
+} from 'antd-token-previewer';
 import 'antd/es/style/reset.css';
 import antdZhCN from 'antd/locale/zh_CN';
 import React, { useEffect } from 'react';
@@ -26,14 +32,18 @@ const Demo = () => {
   useEffect(() => {
     const storedConfig = localStorage.getItem(ANT_DESIGN_V5_CUSTOM_THEME_PRO);
     if (storedConfig) {
-      setTheme((prev) => ({ ...prev, config: JSON.parse(storedConfig) }));
+      setTheme((prev) => ({
+        ...prev,
+        config: parseThemeConfig(JSON.parse(storedConfig)),
+      }));
     }
   }, []);
 
   const handleSave = () => {
+    console.log(theme.config, parsePlainConfig(theme.config));
     localStorage.setItem(
       ANT_DESIGN_V5_CUSTOM_THEME_PRO,
-      JSON.stringify(theme.config),
+      JSON.stringify(parsePlainConfig(theme.config)),
     );
     messageApi.success('保存成功');
   };
