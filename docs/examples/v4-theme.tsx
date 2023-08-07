@@ -1,22 +1,15 @@
-import { ConfigProvider, theme as antdTheme } from 'antd';
+import { darkAlgorithm, defaultTheme } from '@ant-design/compatible';
+import { ConfigProvider } from 'antd';
 import type { Theme } from 'antd-token-previewer';
 import { ThemeEditor } from 'antd-token-previewer';
 import 'antd/es/style/reset.css';
 import React from 'react';
 
-const { defaultAlgorithmV4, darkAlgorithmV4 } = antdTheme;
-
 const Demo = () => {
   const [theme, setTheme] = React.useState<Theme>({
     name: 'antd 4.x',
     key: 'secret theme',
-    config: {
-      token: {
-        colorPrimary: '#1890ff',
-        radiusBase: 2,
-      },
-      algorithm: defaultAlgorithmV4,
-    },
+    config: defaultTheme,
   });
 
   const handleThemeChange = (newTheme: Theme) => {
@@ -30,7 +23,7 @@ const Demo = () => {
           theme={theme}
           onThemeChange={handleThemeChange}
           style={{ height: '100vh' }}
-          darkAlgorithm={darkAlgorithmV4}
+          darkAlgorithm={darkAlgorithm}
         />
       </ConfigProvider>
     </React.StrictMode>

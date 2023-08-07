@@ -54,6 +54,7 @@
     "vanilla-jsoneditor": "^0.16.1"
   },
   "devDependencies": {
+    "@ant-design/compatible": "^5.1.2",
     "@testing-library/react": "^13",
     "@types/classnames": "^2.2.9",
     "@types/jest": "^27.5.1",
