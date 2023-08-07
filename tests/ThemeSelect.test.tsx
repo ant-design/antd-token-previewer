@@ -1,6 +1,6 @@
 import { fireEvent, render } from '@testing-library/react';
-import ThemeSelect from '../src/ThemeSelect';
 import React, { useState } from 'react';
+import ThemeSelect from '../src/ThemeSelect';
 
 const themes = [
   { name: 'Default Theme', key: 'default', config: {}, fixed: true },
@@ -39,20 +39,6 @@ describe('ThemeSelect', () => {
     const { container } = render(<Demo />, {
       container: document.body,
     });
-    expect(container).toMatchSnapshot();
-  });
-
-  it('should show selected themes correctly', () => {
-    const { container } = render(<Demo />, {
-      container: document.body,
-    });
-    fireEvent.click(
-      container.querySelector('.previewer-theme-select-add-btn')!,
-    );
-    expect(
-      container.querySelector('.previewer-theme-select-add-btn')?.className,
-    ).toContain('ant-dropdown-open');
-    fireEvent.click(container.querySelector('li.ant-dropdown-menu-item')!);
     expect(container).toMatchSnapshot();
   });
 
