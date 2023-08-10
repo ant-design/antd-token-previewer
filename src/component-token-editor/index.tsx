@@ -1,5 +1,6 @@
 import type { MenuProps } from 'antd';
 import { Anchor, ConfigProvider, Empty, Menu } from 'antd';
+import tokenMeta from 'antd/lib/version/token-meta.json';
 import tokenStatistic from 'antd/lib/version/token.json';
 import classNames from 'classnames';
 import type { FC } from 'react';
@@ -291,32 +292,43 @@ const ComponentTokenEditor: FC<ComponentTokenEditorProps> = ({ theme }) => {
               <div className={`${prefixCls}-token-panel-subtitle`}>
                 {(locale as any)[key]}
               </div>
-              {(tokenGroups.component as any)[key].map((token: string) => {
-                const configValue = getValueByPath(theme.config, [
-                  'components',
-                  activeComponent,
-                  token,
-                ]);
-                const value =
-                  configValue ??
-                  (tokenStatistic as any)[activeComponent].component[token];
-                return (
-                  <TokenItem
-                    key={token}
-                    token={token}
-                    theme={theme}
-                    value={value}
-                    configValue={configValue}
-                    component={activeComponent}
-                    color={key === 'color'}
-                    prefix={
-                      <span className={`${prefixCls}-token-item-tag`}>
-                        {locale.component}
-                      </span>
-                    }
-                  />
-                );
-              })}
+              {(tokenGroups.component as any)[key]
+                .filter((token: string) => {
+                  return (tokenMeta.components as any)[activeComponent].some(
+                    (meta: any) => meta.token === token,
+                  );
+                })
+                .map((token: string) => {
+                  const configValue = getValueByPath(theme.config, [
+                    'components',
+                    activeComponent,
+                    token,
+                  ]);
+                  const value =
+                    configValue ??
+                    (tokenStatistic as any)[activeComponent].component[token];
+                  return (
+                    <TokenItem
+                      key={token}
+                      token={token}
+                      theme={theme}
+                      value={value}
+                      configValue={configValue}
+                      component={activeComponent}
+                      color={key === 'color'}
+                      tooltip={
+                        (tokenMeta.components as any)[activeComponent].find(
+                          (meta: any) => meta.token === token,
+                        )?.[locale._lang === 'zh-CN' ? 'desc' : 'descEN']
+                      }
+                      prefix={
+                        <span className={`${prefixCls}-token-item-tag`}>
+                          {locale.component}
+                        </span>
+                      }
+                    />
+                  );
+                })}
               {(tokenGroups.global as any)[key].map((token: string) => {
                 const configValue = getValueByPath(theme.config, [
                   'components',
@@ -331,6 +343,11 @@ const ComponentTokenEditor: FC<ComponentTokenEditorProps> = ({ theme }) => {
                     token={token}
                     theme={theme}
                     value={value}
+                    tooltip={
+                      (tokenMeta.global as any)[token]?.[
+                        locale._lang === 'zh-CN' ? 'desc' : 'descEn'
+                      ]
+                    }
                     configValue={configValue}
                     component={activeComponent}
                     color={key === 'color'}

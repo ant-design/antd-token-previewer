@@ -91,7 +91,7 @@ const TokenDetail: FC<TokenDetailProps> = ({
     >
       <div className="token-panel-pro-token-collapse-map-collapse-token-description">
         {
-          (tokenMeta as any)[tokenName]?.[
+          (tokenMeta.global as any)[tokenName]?.[
             locale._lang === 'zh-CN' ? 'desc' : 'descEn'
           ]
         }

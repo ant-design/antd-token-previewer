@@ -206,7 +206,7 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
               >
                 <Tag
                   color={advanced ? 'blue' : 'green'}
-                  style={{ marginLeft: 24, cursor: 'pointer' }}
+                  style={{ marginLeft: 24, cursor: 'pointer', fontSize: 12 }}
                 >
                   <span>
                     {advanced ? locale.advancedMode : locale.basicMode}

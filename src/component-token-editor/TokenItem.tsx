@@ -1,4 +1,4 @@
-import { Typography } from 'antd';
+import { Tooltip, Typography } from 'antd';
 import classNames from 'classnames';
 import type { FC, ReactNode } from 'react';
 import React from 'react';
@@ -80,6 +80,7 @@ export interface TokenItemProps {
   value: any;
   component: string;
   color?: boolean;
+  tooltip?: string;
 }
 
 const TokenItem: FC<TokenItemProps> = ({
@@ -90,6 +91,7 @@ const TokenItem: FC<TokenItemProps> = ({
   theme,
   component,
   color,
+  tooltip,
   configValue,
 }) => {
   const prefixCls = `antd-component-token-editor-token-item`;
@@ -101,14 +103,16 @@ const TokenItem: FC<TokenItemProps> = ({
   return (
     <div className={classNames(prefixCls, hashId)} key={token}>
       {prefix && <div className={`${prefixCls}-prefix`}>{prefix}</div>}
-      <span
-        className={`${prefixCls}-name`}
-        style={{
-          color: configValue !== undefined ? HIGHLIGHT_COLOR : '',
-        }}
-      >
-        {token}
-      </span>
+      <Tooltip title={tooltip} mouseEnterDelay={0.5} placement="left">
+        <span
+          className={`${prefixCls}-name`}
+          style={{
+            color: configValue !== undefined ? HIGHLIGHT_COLOR : '',
+          }}
+        >
+          {token}
+        </span>
+      </Tooltip>
       {configValue !== undefined && (
         <Link
           style={{
