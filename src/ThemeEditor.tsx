@@ -1,7 +1,6 @@
 import type { DerivativeFunc } from '@ant-design/cssinjs';
 import { CaretDownOutlined } from '@ant-design/icons';
 import { Button, Dropdown, message, Segmented, Tag } from 'antd';
-import type { ThemeConfig } from 'antd/es/config-provider/context';
 import classNames from 'classnames';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import type { ReactNode } from 'react';
@@ -11,6 +10,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
+import ComponentTokenEditor from './component-token-editor';
 import { AdvancedContext } from './context';
 import type { EditorModalProps } from './editor-modal';
 import EditorModal from './editor-modal';
@@ -143,12 +143,12 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
       const { token = {}, components = {} } = theme.config;
       let mergedEditTotal = Object.keys(token).length;
       if (components) {
-        for (const key in components) {
-          const mergedItem = components[key as keyof ThemeConfig['components']];
-          if (mergedItem && isObject(mergedItem)) {
-            mergedEditTotal += Object.keys(mergedItem).length;
+        Object.values(components).forEach((componentTokens) => {
+          if (isObject(componentTokens)) {
+            console.log(componentTokens);
+            mergedEditTotal += Object.keys(componentTokens).length;
           }
-        }
+        });
       }
       return mergedEditTotal;
     }, [theme]);
@@ -205,7 +205,7 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
               >
                 <Tag
                   color={advanced ? 'blue' : 'green'}
-                  style={{ marginLeft: 24, cursor: 'pointer' }}
+                  style={{ marginLeft: 24, cursor: 'pointer', fontSize: 12 }}
                 >
                   <span>
                     {advanced ? locale.advancedMode : locale.basicMode}
@@ -213,8 +213,9 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
                   <CaretDownOutlined style={{ fontSize: 10 }} />
                 </Tag>
               </Dropdown>
-              {advanced && false && (
+              {advanced && (
                 <Segmented
+                  value={mode}
                   options={[
                     { label: locale.globalToken, value: 'global' },
                     { label: locale.componentToken, value: 'component' },
@@ -228,14 +229,15 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
                   className={`${prefixCls}-header-actions-diff`}
                   style={{ marginRight: 8, fontSize: 14 }}
                 >
-                  共 <span style={{ color: HIGHLIGHT_COLOR }}>{editTotal}</span>{' '}
-                  处修改
+                  {locale.total}{' '}
+                  <span style={{ color: HIGHLIGHT_COLOR }}>{editTotal}</span>{' '}
+                  {locale.changes}
                 </span>
                 <Button
                   style={{ marginRight: 8 }}
                   onClick={() => setIsModalOpen(true)}
                 >
-                  主题配置
+                  {locale.themeConfig}
                 </Button>
                 {actions}
               </div>
@@ -250,6 +252,7 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
                   {children}
                 </GlobalTokenEditor>
               )}
+              {mode === 'component' && <ComponentTokenEditor theme={theme} />}
             </div>
             <EditorModal
               open={isModalOpen}

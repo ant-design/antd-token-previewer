@@ -490,7 +490,7 @@ const MapTokenCollapseContent: FC<MapTokenCollapseContentProps> = ({
                   color: getMapTokenColor(mapToken),
                 }}
               >
-                {(tokenMeta as any)[mapToken]?.name}
+                {(tokenMeta.global as any)[mapToken]?.name}
               </span>
             )}
             <span
@@ -797,7 +797,7 @@ const TokenContent: FC<ColorTokenContentProps> = ({
                                       mouseEnterDelay={0.5}
                                       placement="right"
                                       title={
-                                        (tokenMeta as any)[seedToken]?.[
+                                        (tokenMeta.global as any)[seedToken]?.[
                                           locale._lang === 'zh-CN'
                                             ? 'desc'
                                             : 'descEn'
@@ -818,7 +818,9 @@ const TokenContent: FC<ColorTokenContentProps> = ({
                                             }}
                                           >
                                             {
-                                              (tokenMeta as any)[seedToken]?.[
+                                              (tokenMeta.global as any)[
+                                                seedToken
+                                              ]?.[
                                                 locale._lang === 'zh-CN'
                                                   ? 'name'
                                                   : 'nameEn'

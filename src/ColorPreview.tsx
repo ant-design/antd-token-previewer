@@ -1,20 +1,19 @@
+import classNames from 'classnames';
 import type { FC } from 'react';
 import React from 'react';
-import classNames from 'classnames';
-import makeStyle from './utils/makeStyle';
 import getColorBgImg from './utils/getColorBgImg';
+import makeStyle from './utils/makeStyle';
 
 export type ColorPreviewProps = {
   color: string;
   dark?: boolean;
   className?: string;
   style?: React.CSSProperties;
+  size?: number;
 };
 
 const useStyle = makeStyle('ColorPreview', () => ({
   '.previewer-color-preview': {
-    width: 20,
-    height: 20,
     position: 'relative',
     borderRadius: '50%',
     padding: 0,
@@ -41,6 +40,7 @@ const ColorPreview: FC<ColorPreviewProps> = ({
   style,
   className,
   dark,
+  size = 20,
   ...restProps
 }) => {
   const [warpSSR, hashId] = useStyle();
@@ -52,20 +52,22 @@ const ColorPreview: FC<ColorPreviewProps> = ({
       style={{
         // @ts-ignore
         ['--antd-token-previewer-color-preview']: color,
+        width: size,
+        height: size,
         ...style,
       }}
     >
       <div
         style={{
           content: '""',
-          width: 18,
-          height: 18,
+          width: size - 2,
+          height: size - 2,
           borderRadius: '50%',
           top: 1,
           insetInlineStart: 1,
           position: 'absolute',
           zIndex: 1,
-          background: `${getColorBgImg(dark)} 0% 0% / 20px`,
+          background: `${getColorBgImg(dark)} 0% 0% / ${size}px`,
         }}
       />
     </div>,

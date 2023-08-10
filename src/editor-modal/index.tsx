@@ -78,7 +78,7 @@ const EditorModal: FC<EditorModalProps> = ({ open, onCancel, onOk, theme }) => {
     <>
       {contextHolder}
       <Modal
-        title="主题配置"
+        title={locale.themeConfig}
         open={open}
         onOk={handleOk}
         onCancel={onCancel}

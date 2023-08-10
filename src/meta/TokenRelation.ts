@@ -123,6 +123,7 @@ export const seedRelatedMap: SeedRelatedMap = {
     'colorInfoText',
     'colorInfoTextActive',
   ],
+  colorLink: ['colorLinkHover', 'colorLinkActive'],
   colorTextBase: [
     'colorText',
     'colorTextSecondary',
