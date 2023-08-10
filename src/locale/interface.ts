@@ -23,6 +23,8 @@ export type Locale = {
   total: string;
   changes: string;
   tokenInfo: string;
+  enableComponentAlgorithm: string;
+  componentAlgorithm: string;
   demo: {
     overview: string;
     components: string;

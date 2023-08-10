@@ -25,6 +25,9 @@ const locale: Locale = {
   total: '',
   changes: 'Changes',
   tokenInfo: 'Token',
+  enableComponentAlgorithm: 'Algorithm',
+  componentAlgorithm:
+    'If enabled, seed token of component will affect other tokens like global seed token',
   demo: {
     overview: 'Overview',
     components: 'Components',

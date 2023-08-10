@@ -1,5 +1,5 @@
 import type { MenuProps } from 'antd';
-import { Anchor, ConfigProvider, Empty, Menu, Switch } from 'antd';
+import { Anchor, ConfigProvider, Empty, Menu, Switch, Tooltip } from 'antd';
 import tokenMeta from 'antd/lib/version/token-meta.json';
 import tokenStatistic from 'antd/lib/version/token.json';
 import classNames from 'classnames';
@@ -306,28 +306,34 @@ const ComponentTokenEditor: FC<ComponentTokenEditorProps> = ({ theme }) => {
             },
           ]}
         />
-        <div
-          style={{
-            position: 'absolute',
-            top: 14,
-            right: 12,
-            display: 'flex',
-            alignItems: 'center',
-          }}
+        <Tooltip
+          title={locale.componentAlgorithm}
+          placement="bottom"
+          mouseEnterDelay={0.2}
         >
-          <label
-            htmlFor="component-algorithm"
-            style={{ fontSize: 12, marginRight: 4, cursor: 'pointer' }}
+          <div
+            style={{
+              position: 'absolute',
+              top: 14,
+              right: 12,
+              display: 'flex',
+              alignItems: 'center',
+            }}
           >
-            开启算法
-          </label>
-          <Switch
-            id="component-algorithm"
-            checked={enableAlgorithm}
-            size="small"
-            onChange={handleAlgorithmChange}
-          />
-        </div>
+            <label
+              htmlFor="component-algorithm"
+              style={{ fontSize: 12, marginRight: 4, cursor: 'pointer' }}
+            >
+              {locale.enableComponentAlgorithm}
+            </label>
+            <Switch
+              id="component-algorithm"
+              checked={enableAlgorithm}
+              size="small"
+              onChange={handleAlgorithmChange}
+            />
+          </div>
+        </Tooltip>
         <div
           ref={tokenPanelRef}
           style={{ flex: 1, height: 0, overflow: 'auto' }}

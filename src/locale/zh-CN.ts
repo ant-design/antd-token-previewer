@@ -25,6 +25,9 @@ const locale: Locale = {
   total: '共',
   changes: '处修改',
   tokenInfo: 'Token 列表',
+  enableComponentAlgorithm: '开启算法',
+  componentAlgorithm:
+    '开启后，组件维度的 seed token 将会进行派生计算影响其他 token 的值',
   demo: {
     overview: '风格概览',
     components: '组件',
