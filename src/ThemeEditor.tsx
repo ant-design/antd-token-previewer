@@ -1,7 +1,6 @@
 import type { DerivativeFunc } from '@ant-design/cssinjs';
 import { CaretDownOutlined } from '@ant-design/icons';
 import { Button, Dropdown, message, Segmented, Tag } from 'antd';
-import type { ThemeConfig } from 'antd/es/config-provider/context';
 import classNames from 'classnames';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import type { ReactNode } from 'react';
@@ -144,12 +143,12 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
       const { token = {}, components = {} } = theme.config;
       let mergedEditTotal = Object.keys(token).length;
       if (components) {
-        for (const key in components) {
-          const mergedItem = components[key as keyof ThemeConfig['components']];
-          if (mergedItem && isObject(mergedItem)) {
-            mergedEditTotal += Object.keys(mergedItem).length;
+        Object.values(components).forEach((componentTokens) => {
+          if (isObject(componentTokens)) {
+            console.log(componentTokens);
+            mergedEditTotal += Object.keys(componentTokens).length;
           }
-        }
+        });
       }
       return mergedEditTotal;
     }, [theme]);

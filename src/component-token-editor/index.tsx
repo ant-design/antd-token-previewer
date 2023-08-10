@@ -1,14 +1,16 @@
 import type { MenuProps } from 'antd';
-import { Anchor, ConfigProvider, Empty, Menu } from 'antd';
+import { Anchor, ConfigProvider, Empty, Menu, Switch } from 'antd';
 import tokenMeta from 'antd/lib/version/token-meta.json';
 import tokenStatistic from 'antd/lib/version/token.json';
 import classNames from 'classnames';
 import type { FC } from 'react';
 import React, { useMemo, useRef, useState } from 'react';
+import { useDebouncyFn } from 'use-debouncy';
 import { antdComponents } from '../component-panel';
 import type { MutableTheme } from '../interface';
 import { useLocale } from '../locale';
 import ComponentDemos from '../previews/components';
+import deepUpdateObj from '../utils/deepUpdateObj';
 import getDesignToken from '../utils/getDesignToken';
 import getValueByPath from '../utils/getValueByPath';
 import makeStyle from '../utils/makeStyle';
@@ -79,6 +81,7 @@ const useStyle = makeStyle('ComponentTokenEditor', (token) => ({
       borderLeft: `1px solid ${token.colorSplit}`,
       display: 'flex',
       flexDirection: 'column',
+      position: 'relative',
 
       '&-block': {
         padding: '16px 6px',
@@ -185,6 +188,30 @@ const ComponentTokenEditor: FC<ComponentTokenEditorProps> = ({ theme }) => {
     };
   }, [activeComponent]);
 
+  const [enableAlgorithm, setEnableAlgorithm] = useState(
+    !!getValueByPath(theme.config, [
+      'components',
+      activeComponent,
+      'algorithm',
+    ]),
+  );
+
+  const debouncedAlgorithmChange = useDebouncyFn((checked: boolean) => {
+    theme.onThemeChange?.(
+      deepUpdateObj(
+        theme.config,
+        ['components', activeComponent, 'algorithm'],
+        checked || undefined,
+      ),
+      ['components', activeComponent, 'algorithm'],
+    );
+  }, 500);
+
+  const handleAlgorithmChange = (checked: boolean) => {
+    setEnableAlgorithm(checked);
+    debouncedAlgorithmChange(checked);
+  };
+
   const menuItems: MenuProps['items'] = useMemo(
     () =>
       Object.entries(antdComponents).map(([key, value]) => ({
@@ -279,6 +306,28 @@ const ComponentTokenEditor: FC<ComponentTokenEditorProps> = ({ theme }) => {
             },
           ]}
         />
+        <div
+          style={{
+            position: 'absolute',
+            top: 14,
+            right: 12,
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          <label
+            htmlFor="component-algorithm"
+            style={{ fontSize: 12, marginRight: 4, cursor: 'pointer' }}
+          >
+            开启算法
+          </label>
+          <Switch
+            id="component-algorithm"
+            checked={enableAlgorithm}
+            size="small"
+            onChange={handleAlgorithmChange}
+          />
+        </div>
         <div
           ref={tokenPanelRef}
           style={{ flex: 1, height: 0, overflow: 'auto' }}
