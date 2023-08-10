@@ -84,6 +84,7 @@ export type ThemeEditorProps = {
   onModeChange?: (mode: ThemeEditorMode) => void;
   advanced?: boolean;
   onAdvancedChange?: (advanced: boolean) => void;
+  children?: ReactNode;
 };
 
 function isObject(target: any) {
@@ -104,6 +105,7 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
       onModeChange,
       advanced: customAdvanced,
       onAdvancedChange,
+      children,
     },
     ref,
   ) => {
@@ -247,7 +249,9 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
                   theme={theme}
                   infoFollowPrimary={infoFollowPrimary}
                   onInfoFollowPrimaryChange={onInfoFollowPrimaryChange}
-                />
+                >
+                  {children}
+                </GlobalTokenEditor>
               )}
               {mode === 'component' && <ComponentTokenEditor theme={theme} />}
             </div>

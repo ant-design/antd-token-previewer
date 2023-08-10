@@ -71,9 +71,8 @@ const useControlledTheme: UseControlledTheme = ({
   };
 
   const handleSetTheme: SetThemeState = (newTheme) => {
-    if (customTheme) {
-      onChange?.(getNewTheme(newTheme));
-    } else {
+    onChange?.(getNewTheme(newTheme));
+    if (!customTheme) {
       setTheme(getNewTheme(newTheme));
     }
   };

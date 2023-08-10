@@ -26,10 +26,12 @@ export type GlobalTokenEditorProps = {
   theme: Theme;
   infoFollowPrimary?: boolean;
   onInfoFollowPrimaryChange?: (checked: boolean) => void;
+  children?: React.ReactNode;
 };
 
 const GlobalTokenEditor: FC<GlobalTokenEditorProps> = (props) => {
-  const { theme, infoFollowPrimary, onInfoFollowPrimaryChange } = props;
+  const { theme, infoFollowPrimary, onInfoFollowPrimaryChange, children } =
+    props;
 
   const prefixCls = 'antd-global-token-editor';
   const [, hashId] = useStyle(prefixCls);
@@ -83,10 +85,12 @@ const GlobalTokenEditor: FC<GlobalTokenEditorProps> = (props) => {
           onInfoFollowPrimaryChange={onInfoFollowPrimaryChange}
         />
       </div>
-      <ComponentDemoPro
-        theme={theme}
-        style={{ flex: 1, overflow: 'auto', height: '100%' }}
-      />
+      {children || (
+        <ComponentDemoPro
+          theme={theme}
+          style={{ flex: 1, overflow: 'auto', height: '100%' }}
+        />
+      )}
     </div>
   );
 };

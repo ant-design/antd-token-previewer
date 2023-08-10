@@ -1,6 +1,6 @@
 {
   "name": "antd-token-previewer",
-  "version": "2.0.0-alpha.6",
+  "version": "2.0.0-alpha.10",
   "description": "Ant Design token previewer",
   "keywords": [
     "react",
@@ -53,6 +53,7 @@
     "vanilla-jsoneditor": "^0.16.1"
   },
   "devDependencies": {
+    "@ant-design/compatible": "^5.1.2",
     "@testing-library/react": "^13",
     "@types/classnames": "^2.2.9",
     "@types/jest": "^27.5.1",
@@ -66,7 +67,7 @@
     "dumi": "^2.0.9",
     "eslint": "^7.0.0",
     "father": "^4",
-    "gh-pages": "^4.0.0",
+    "gh-pages": "^5.0.0",
     "husky": "^8.0.0",
     "jest": "^28.1.0",
     "lint-staged": "^13.0.3",

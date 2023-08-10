@@ -10,3 +10,4 @@ export type { ThemeEditorProps, ThemeEditorRef } from './ThemeEditor';
 export { default as TokenPanel } from './token-panel';
 export type { TokenPanelRef, TokenPreviewProps } from './token-panel';
 export { default as getDesignToken } from './utils/getDesignToken';
+export { parsePlainConfig, parseThemeConfig } from './utils/parse-config';
