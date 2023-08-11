@@ -10,3 +10,5 @@ public
 _site
 .umi
 .doc
+.dumi/tmp
+.dumi/tmp-production
