@@ -1,8 +1,0 @@
-{
-  "assets": {
-    "public/icon/theme-editor.png": "/antd-token-previewer/icon/theme-editor.png",
-    "public/icon/theme-editor.svg": "/antd-token-previewer/icon/theme-editor.svg",
-    "umi.css": "/antd-token-previewer/umi.3fa94c2b.css",
-    "umi.js": "/antd-token-previewer/umi.server.js"
-  }
-}

@@ -12,3 +12,4 @@ _site
 .doc
 .dumi/tmp
 .dumi/tmp-production
+server
