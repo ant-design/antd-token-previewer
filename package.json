@@ -54,6 +54,7 @@
   },
   "devDependencies": {
     "@ant-design/compatible": "^5.1.2",
+    "@rc-component/father-plugin": "^1.0.2",
     "@testing-library/react": "^13",
     "@types/classnames": "^2.2.9",
     "@types/jest": "^27.5.1",

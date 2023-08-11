@@ -2,7 +2,7 @@ import { Anchor } from 'antd';
 import type { Theme } from 'antd-token-previewer';
 import classNames from 'classnames';
 import type { FC } from 'react';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import type { SelectedToken } from '../interface';
 import { useLocale } from '../locale';
 import { tokenCategory } from '../meta';
@@ -78,6 +78,8 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
     onTokenSelect?.(activeCategory?.seedToken ?? [], 'seed');
   }, [activeCategory]);
 
+  const tokenListRef = useRef<HTMLDivElement>(null);
+
   return wrapSSR(
     <div
       className={classNames(hashId, className, 'token-panel-pro')}
@@ -87,9 +89,7 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
         <Anchor
           affix={false}
           direction="horizontal"
-          getContainer={() =>
-            document.querySelector('.token-panel-pro-list') as HTMLElement
-          }
+          getContainer={() => tokenListRef.current!}
           onChange={(key) => {
             setActiveGroup(
               tokenCategory.find((category) => category.nameEn === key)
@@ -102,7 +102,7 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
             href: `#${category.nameEn}`,
           }))}
         />
-        <div className="token-panel-pro-list">
+        <div className="token-panel-pro-list" ref={tokenListRef}>
           {tokenCategory.map((category) => (
             <TokenContent
               id={category.nameEn}
