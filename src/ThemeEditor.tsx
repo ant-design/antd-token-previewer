@@ -145,7 +145,6 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
       if (components) {
         Object.values(components).forEach((componentTokens) => {
           if (isObject(componentTokens)) {
-            console.log(componentTokens);
             mergedEditTotal += Object.keys(componentTokens).length;
           }
         });

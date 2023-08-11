@@ -48,12 +48,13 @@
     "classnames": "^2.3.1",
     "rc-util": "^5.21.5",
     "react-colorful": "^5.5.1",
-    "reactflow": "^11.7.0",
+    "reactflow": "^11.8.1",
     "use-debouncy": "^4.3.0",
     "vanilla-jsoneditor": "^0.16.1"
   },
   "devDependencies": {
     "@ant-design/compatible": "^5.1.2",
+    "@rc-component/father-plugin": "^1.0.2",
     "@testing-library/react": "^13",
     "@types/classnames": "^2.2.9",
     "@types/jest": "^27.5.1",

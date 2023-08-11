@@ -1,12 +1,13 @@
 import { ExportOutlined, ImportOutlined } from '@ant-design/icons';
 import type { ThemeConfig, UploadProps } from 'antd';
-import { Button, message, Modal, Upload } from 'antd';
+import { Button, message, Modal, Skeleton, Upload } from 'antd';
 import type { FC } from 'react';
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import type { OnChange } from 'vanilla-jsoneditor';
 import type { Theme } from '../interface';
 import { useLocale } from '../locale';
-import JSONEditor from './JSONEditor';
+
+const JSONEditor = React.lazy(() => import('./JSONEditor'));
 
 export type EditorModalProps = {
   open?: boolean;
@@ -84,11 +85,13 @@ const EditorModal: FC<EditorModalProps> = ({ open, onCancel, onOk, theme }) => {
         onCancel={onCancel}
         width={800}
       >
-        <JSONEditor
-          content={content}
-          onChange={handleChange}
-          mainMenuBar={false}
-        />
+        <Suspense fallback={<Skeleton />}>
+          <JSONEditor
+            content={content}
+            onChange={handleChange}
+            mainMenuBar={false}
+          />
+        </Suspense>
         <div style={{ marginBottom: -44, marginTop: 24 }}>
           <Upload
             customRequest={() => {}}

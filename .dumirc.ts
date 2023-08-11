@@ -19,6 +19,7 @@ export default defineConfig({
   },
   favicons: [`${sitePrefix}/icon/theme-editor.svg`],
   outputPath: '.doc',
+  ssr: {},
   exportStatic: {},
   base: isProdSite ? '/antd-token-previewer/' : '/',
   publicPath: isProdSite ? '/antd-token-previewer/' : '/',
