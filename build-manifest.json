@@ -1,0 +1,21 @@
+{
+  "assets": {
+    "public/icon/theme-editor.png": "/antd-token-previewer/icon/theme-editor.png",
+    "public/icon/theme-editor.svg": "/antd-token-previewer/icon/theme-editor.svg",
+    "umi.css": "/antd-token-previewer/umi.ec897b2c.css",
+    "umi.js": "/antd-token-previewer/umi.d7556ac6.js",
+    "demos.js": "/antd-token-previewer/demos.c6832261.async.js",
+    "dumi__pages__404.js": "/antd-token-previewer/dumi__pages__404.bc4e2875.async.js",
+    "dumi__theme__ContextWrapper.js": "/antd-token-previewer/dumi__theme__ContextWrapper.4561b5d2.async.js",
+    "dumi__theme__layouts__DocLayout.js": "/antd-token-previewer/dumi__theme__layouts__DocLayout.7eaa77b2.async.js",
+    "docs__previewer__previewer-token-panel.md.js": "/antd-token-previewer/docs__previewer__previewer-token-panel.md.7e58d304.async.js",
+    "docs__previewer__controlled.md.js": "/antd-token-previewer/docs__previewer__controlled.md.51fee58a.async.js",
+    "docs__others__color-panel.md.js": "/antd-token-previewer/docs__others__color-panel.md.73f6cfed.async.js",
+    "docs__editor__v4-theme.md.js": "/antd-token-previewer/docs__editor__v4-theme.md.17e9478f.async.js",
+    "docs__others__overview.md.js": "/antd-token-previewer/docs__others__overview.md.cf511804.async.js",
+    "docs__previewer__index.md.js": "/antd-token-previewer/docs__previewer__index.md.2df03d1c.async.js",
+    "docs__editor__index.md.js": "/antd-token-previewer/docs__editor__index.md.e6853319.async.js",
+    "docs__index.md.js": "/antd-token-previewer/docs__index.md.7e5b6d24.async.js",
+    "dumi__pages__Demo.js": "/antd-token-previewer/dumi__pages__Demo.cc14daa4.async.js"
+  }
+}
