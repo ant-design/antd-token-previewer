@@ -435,7 +435,10 @@ const SeedTokenPreview: FC<SeedTokenProps> = ({
         <div
           style={editMode ? { marginInline: 12, paddingBlock: 12 } : undefined}
         >
-          <Input value={tokenValue} onChange={handleChange} />
+          <Input
+            value={tokenValue}
+            onChange={({ target: { value } }) => handleChange(value)}
+          />
         </div>
       )}
       {tokenName === 'wireframe' && (
