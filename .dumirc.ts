@@ -1,6 +1,5 @@
 // more config: https://d.umijs.org/config
 import { defineConfig } from 'dumi';
-import * as process from 'process';
 
 const isProdSite =
   // 不是预览模式 同时是生产环境
