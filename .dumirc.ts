@@ -1,5 +1,6 @@
 // more config: https://d.umijs.org/config
 import { defineConfig } from 'dumi';
+import * as process from 'process';
 
 const isProdSite =
   // 不是预览模式 同时是生产环境
@@ -19,7 +20,7 @@ export default defineConfig({
   },
   favicons: [`${sitePrefix}/icon/theme-editor.svg`],
   outputPath: '.doc',
-  ssr: {},
+  ssr: process.env.NODE_ENV === 'production' ? {} : false,
   exportStatic: {},
   base: isProdSite ? '/antd-token-previewer/' : '/',
   publicPath: isProdSite ? '/antd-token-previewer/' : '/',

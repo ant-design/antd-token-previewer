@@ -38,7 +38,7 @@ export const parseThemeConfig = (config: PlainThemeConfig): ThemeConfig => {
   if (!algorithm) return rest;
 
   const parsedAlgorithms = Array.isArray(algorithm)
-    ? algorithm.map((item) => algorithmMap[item])
+    ? algorithm.map((item) => algorithmMap[item]).filter(Boolean)
     : algorithmMap[algorithm];
   return {
     ...rest,
