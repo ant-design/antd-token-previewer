@@ -6,6 +6,7 @@ import React, { Suspense, useEffect, useState } from 'react';
 import type { OnChange } from 'vanilla-jsoneditor';
 import type { Theme } from '../interface';
 import { useLocale } from '../locale';
+import { parsePlainConfig, parseThemeConfig } from '../utils/parse-config';
 
 const JSONEditor = React.lazy(() => import('./JSONEditor'));
 
@@ -24,13 +25,13 @@ const EditorModal: FC<EditorModalProps> = ({ open, onCancel, onOk, theme }) => {
     text: string;
     json?: undefined;
   }>({
-    text: JSON.stringify(theme?.config, null, 2),
+    text: JSON.stringify(parsePlainConfig(theme?.config), null, 2),
     json: undefined,
   });
 
   useEffect(() => {
     setContent({
-      text: JSON.stringify(theme?.config, null, 2),
+      text: JSON.stringify(parsePlainConfig(theme?.config), null, 2),
     });
   }, [theme]);
 
@@ -66,7 +67,7 @@ const EditorModal: FC<EditorModalProps> = ({ open, onCancel, onOk, theme }) => {
       messageApi.error('主题 JSON 格式错误');
       return;
     }
-    onOk?.(JSON.parse(content.text));
+    onOk?.(parseThemeConfig(JSON.parse(content.text)));
   };
 
   const handleUpload: UploadProps['onChange'] = async ({ fileList }) => {
