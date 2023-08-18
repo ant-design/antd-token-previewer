@@ -253,6 +253,7 @@ const useStyle = makeStyle('ColorTokenContent', (token) => ({
       maxWidth: 100,
       flex: 'none',
       whiteSpace: 'nowrap',
+      cursor: 'pointer',
     },
 
     '.token-panel-pro-token-pick': {
@@ -504,7 +505,10 @@ const MapTokenCollapseContent: FC<MapTokenCollapseContentProps> = ({
             </span>
             <ResetTokenButton theme={theme} tokenName={mapToken} />
           </div>
-          <span className="token-panel-pro-token-collapse-map-collapse-count">
+          <span
+            title={(getDesignToken(theme.config) as any)[mapToken]}
+            className="token-panel-pro-token-collapse-map-collapse-count"
+          >
             {(getDesignToken(theme.config) as any)[mapToken]}
           </span>
           <Popover
