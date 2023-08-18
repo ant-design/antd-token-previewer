@@ -1,0 +1,83 @@
+{
+  "menus": {
+    "en-US": {
+      "*": [
+        {
+          "path": "/",
+          "title": "Index",
+          "meta": {}
+        },
+        {
+          "title": "Editor",
+          "path": "/editor",
+          "meta": {},
+          "children": [
+            {
+              "path": "/editor",
+              "title": "Theme Editor",
+              "meta": {}
+            },
+            {
+              "path": "/editor/v4-theme",
+              "title": "V4 Theme",
+              "meta": {}
+            }
+          ]
+        },
+        {
+          "title": "Others",
+          "path": "/others",
+          "meta": {},
+          "children": [
+            {
+              "path": "/others/color-panel",
+              "title": "Color Panel",
+              "meta": {}
+            },
+            {
+              "path": "/others/overview",
+              "title": "总览组件",
+              "meta": {}
+            }
+          ]
+        },
+        {
+          "title": "Previewer",
+          "path": "/previewer",
+          "meta": {},
+          "children": [
+            {
+              "path": "/previewer",
+              "title": "Previewer",
+              "meta": {}
+            },
+            {
+              "path": "/previewer/controlled",
+              "title": "Previewer Controlled",
+              "meta": {}
+            },
+            {
+              "path": "/previewer/previewer-token-panel",
+              "title": "Previewer Token Panel",
+              "meta": {}
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "locales": [
+    {
+      "name": "en-US",
+      "label": "English"
+    }
+  ],
+  "navs": {},
+  "title": "antd-token-previewer",
+  "mode": "doc",
+  "repository": {
+    "url": "https://github.com/ant-design/antd-token-previewer",
+    "branch": "master"
+  },
+  "theme": {}
+}
