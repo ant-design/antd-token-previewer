@@ -24,6 +24,9 @@
   "sideEffects": [
     "*.css"
   ],
+  "engines": {
+    "node": ">=16 <17"
+  },
   "license": "MIT",
   "scripts": {
     "start": "dumi dev",
