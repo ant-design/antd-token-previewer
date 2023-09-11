@@ -25,7 +25,7 @@
     "*.css"
   ],
   "engines": {
-    "node": ">=16 <17"
+    "node": ">=18"
   },
   "license": "MIT",
   "scripts": {
