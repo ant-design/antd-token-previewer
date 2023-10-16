@@ -32,7 +32,7 @@ const useStyle = makeStyle('TokenPanelPro', (token) => ({
       },
 
       '.token-panel-pro-list': {
-        overflow: 'scroll',
+        overflow: 'auto',
       },
     },
   },

@@ -54,11 +54,11 @@ const Controls = () => {
 
   return (
     <Space style={{ zIndex: 100, position: 'absolute', bottom: 10, right: 10 }}>
-      <Button icon={<MinusOutlined />} onClick={zoomOut} />
+      <Button icon={<MinusOutlined />} onClick={() => zoomOut()} />
       <Zoom />
-      <Button icon={<PlusOutlined />} onClick={zoomIn} />
+      <Button icon={<PlusOutlined />} onClick={() => zoomIn()} />
       <Tooltip title={locale.demo.fitView}>
-        <Button icon={<ExpandOutlined />} onClick={fitView} />
+        <Button icon={<ExpandOutlined />} onClick={() => fitView()} />
       </Tooltip>
     </Space>
   );

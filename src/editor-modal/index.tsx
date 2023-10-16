@@ -1,6 +1,13 @@
 import { ExportOutlined, ImportOutlined } from '@ant-design/icons';
 import type { ThemeConfig, UploadProps } from 'antd';
-import { Button, message, Modal, Skeleton, Upload } from 'antd';
+import {
+  Button,
+  message,
+  Modal,
+  Skeleton,
+  theme as antdTheme,
+  Upload,
+} from 'antd';
 import type { FC } from 'react';
 import React, { Suspense, useEffect, useState } from 'react';
 import type { OnChange } from 'vanilla-jsoneditor';
@@ -20,6 +27,7 @@ export type EditorModalProps = {
 const EditorModal: FC<EditorModalProps> = ({ open, onCancel, onOk, theme }) => {
   const locale = useLocale();
   const [messageApi, contextHolder] = message.useMessage();
+  const { token } = antdTheme.useToken();
 
   const [content, setContent] = useState<{
     text: string;
@@ -86,6 +94,9 @@ const EditorModal: FC<EditorModalProps> = ({ open, onCancel, onOk, theme }) => {
         onCancel={onCancel}
         width={800}
       >
+        <div style={{ color: token.colorTextDescription, marginBottom: 12 }}>
+          {locale.algorithmTip}
+        </div>
         <Suspense fallback={<Skeleton />}>
           <JSONEditor
             content={content}

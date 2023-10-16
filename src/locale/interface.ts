@@ -20,11 +20,13 @@ export type Locale = {
   style: string;
   component: string;
   themeConfig: string;
+  algorithmTip: string;
   total: string;
   changes: string;
   tokenInfo: string;
   enableComponentAlgorithm: string;
   componentAlgorithm: string;
+  presetColors: string;
   demo: {
     overview: string;
     components: string;

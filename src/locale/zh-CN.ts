@@ -22,12 +22,14 @@ const locale: Locale = {
   style: '风格',
   component: '组件',
   themeConfig: '主题配置',
+  algorithmTip: `注意：算法配置中的字符串 dark 和 compact 分别表示暗色与紧凑算法，这仅适用于在主题编辑器配置中使用。如果需要复制到代码中使用，请手动替换为从 antd 中引入的 theme.darkAlgorithm 和 theme.compactAlgorithm。`,
   total: '共',
   changes: '处修改',
   tokenInfo: 'Token 列表',
   enableComponentAlgorithm: '开启算法',
   componentAlgorithm:
     '开启后，组件维度的 seed token 将会进行派生计算影响其他 token 的值',
+  presetColors: '预设颜色',
   demo: {
     overview: '风格概览',
     components: '组件',

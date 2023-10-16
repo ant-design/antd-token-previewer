@@ -6,7 +6,7 @@ const Demo = () => {
   return (
     <React.StrictMode>
       <ConfigProvider theme={{ hashed: true }} prefixCls="hitu">
-        <Previewer showTheme onSave={(arr, obj) => console.log(arr, obj)} />
+        <Previewer showTheme onSave={(obj) => console.log(obj)} />
       </ConfigProvider>
     </React.StrictMode>
   );
