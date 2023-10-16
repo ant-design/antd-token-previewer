@@ -14,10 +14,10 @@ import type { ThemeConfig } from 'antd/es/config-provider/context';
 import seed from 'antd/es/theme/themes/seed';
 import tokenMeta from 'antd/lib/version/token-meta.json';
 import classNames from 'classnames';
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDebouncyFn } from 'use-debouncy';
-import ColorPanel from '../ColorPanel';
+import ColorPicker from '../ColorPicker';
 import { useAdvanced } from '../context';
 import type { ThemeCode } from '../hooks/useControlledTheme';
 import { themeMap } from '../hooks/useControlledTheme';
@@ -303,7 +303,7 @@ export type SeedTokenProps = {
   theme: MutableTheme;
   tokenName: string;
   disabled?: boolean;
-  editMode?: boolean;
+  children?: ReactNode;
 };
 
 const getSeedValue = (config: ThemeConfig, token: string) => {
@@ -342,12 +342,12 @@ const SeedTokenPreview: FC<SeedTokenProps> = ({
   theme,
   tokenName,
   disabled,
-  editMode,
+  children,
 }) => {
   const [tokenValue, setTokenValue] = useState(
     getSeedValue(theme.config, tokenName),
   );
-  const debouncedOnChange = useDebouncyFn((newValue: number | string) => {
+  const onThemeChange = (newValue: number | string) => {
     theme.onThemeChange?.(
       {
         ...theme.config,
@@ -358,7 +358,8 @@ const SeedTokenPreview: FC<SeedTokenProps> = ({
       },
       ['token', tokenName],
     );
-  }, 500);
+  };
+  const debouncedOnChange = useDebouncyFn(onThemeChange, 200);
 
   const handleChange = (value: any) => {
     setTokenValue(value);
@@ -378,29 +379,67 @@ const SeedTokenPreview: FC<SeedTokenProps> = ({
     'padding',
   ].find((prefix) => tokenName.startsWith(prefix));
 
-  return (
-    <div className="token-panel-pro-token-list-seed-block-sample">
-      {tokenName.startsWith('color') &&
-        (editMode ? (
-          <ColorPanel
-            color={tokenValue}
-            onChange={handleChange}
-            style={{ border: 'none' }}
-            alpha
+  const nonColorInput = (
+    <>
+      {tokenGroup && (
+        <InputNumberPlus
+          value={tokenValue}
+          onChange={handleChange}
+          min={seedRange[tokenGroup].min}
+          max={seedRange[tokenGroup].max}
+        />
+      )}
+      {['boxShadow', 'lineHeight'].some((prefix) =>
+        tokenName.startsWith(prefix),
+      ) && (
+        <div>
+          <Input.TextArea
+            value={tokenValue}
+            onChange={({ target: { value } }) => handleChange(value)}
+            style={{ width: 200 }}
           />
+        </div>
+      )}
+      {tokenName === 'wireframe' && (
+        <Switch checked={tokenValue} onChange={handleChange} />
+      )}
+    </>
+  );
+
+  if (children) {
+    return (
+      <>
+        {tokenName.startsWith('color') ? (
+          <ColorPicker
+            onChangeComplete={(newColor) =>
+              onThemeChange(newColor.toHexString())
+            }
+            value={tokenValue}
+          >
+            {children}
+          </ColorPicker>
         ) : (
           <Popover
-            trigger="click"
+            arrow={false}
             placement="bottomRight"
-            overlayInnerStyle={{ padding: 0 }}
-            content={
-              <ColorPanel
-                color={tokenValue}
-                onChange={handleChange}
-                style={{ border: 'none' }}
-              />
-            }
+            trigger="click"
+            content={nonColorInput}
           >
+            {children}
+          </Popover>
+        )}
+      </>
+    );
+  }
+
+  return (
+    <div className="token-panel-pro-token-list-seed-block-sample">
+      {tokenName.startsWith('color') && (
+        <ColorPicker
+          onChangeComplete={(newColor) => onThemeChange(newColor.toHexString())}
+          value={tokenValue}
+        >
+          {
             <div
               className="token-panel-pro-token-list-seed-block-sample-card"
               style={{ pointerEvents: disabled ? 'none' : 'auto' }}
@@ -419,32 +458,10 @@ const SeedTokenPreview: FC<SeedTokenProps> = ({
                 {tokenValue}
               </div>
             </div>
-          </Popover>
-        ))}
-      {tokenGroup && (
-        <InputNumberPlus
-          value={tokenValue}
-          onChange={handleChange}
-          min={seedRange[tokenGroup].min}
-          max={seedRange[tokenGroup].max}
-          style={editMode ? { marginInline: 12, paddingBlock: 12 } : undefined}
-        />
+          }
+        </ColorPicker>
       )}
-      {['boxShadow', 'lineHeight'].some((prefix) =>
-        tokenName.startsWith(prefix),
-      ) && (
-        <div
-          style={editMode ? { marginInline: 12, paddingBlock: 12 } : undefined}
-        >
-          <Input
-            value={tokenValue}
-            onChange={({ target: { value } }) => handleChange(value)}
-          />
-        </div>
-      )}
-      {tokenName === 'wireframe' && (
-        <Switch checked={tokenValue} onChange={handleChange} />
-      )}
+      {nonColorInput}
     </div>
   );
 };
@@ -511,15 +528,7 @@ const MapTokenCollapseContent: FC<MapTokenCollapseContentProps> = ({
           >
             {(getDesignToken(theme.config) as any)[mapToken]}
           </span>
-          <Popover
-            overlayInnerStyle={{ padding: 0 }}
-            arrow={false}
-            placement="bottomRight"
-            trigger="click"
-            content={
-              <SeedTokenPreview theme={theme} tokenName={mapToken} editMode />
-            }
-          >
+          <SeedTokenPreview theme={theme} tokenName={mapToken}>
             <div className="token-panel-pro-token-collapse-map-collapse-preview">
               <div className="token-panel-pro-token-collapse-map-collapse-preview-color">
                 <TokenPreview
@@ -529,7 +538,7 @@ const MapTokenCollapseContent: FC<MapTokenCollapseContentProps> = ({
                 />
               </div>
             </div>
-          </Popover>
+          </SeedTokenPreview>
         </div>
       ))}
     </>

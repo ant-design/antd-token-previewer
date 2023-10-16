@@ -22,12 +22,14 @@ const locale: Locale = {
   style: 'Style',
   component: 'Comp',
   themeConfig: 'Config',
+  algorithmTip: `Tips: The string dark and compact in algorithm config represent darkAlgorithm and compactAlgorithm from antd, this is only for theme editor config. If you want to copy to code, please replace them with theme.darkAlgorithm and theme.compactAlgorithm imported from antd.`,
   total: '',
   changes: 'Changes',
   tokenInfo: 'Token',
   enableComponentAlgorithm: 'Algorithm',
   componentAlgorithm:
     'If enabled, seed token of component will affect other tokens like global seed token',
+  presetColors: 'Preset Colors',
   demo: {
     overview: 'Overview',
     components: 'Components',

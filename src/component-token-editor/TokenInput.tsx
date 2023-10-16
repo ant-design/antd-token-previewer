@@ -1,7 +1,8 @@
-import { ColorPicker, Input, InputNumber, Popover, Switch } from 'antd';
+import { Input, InputNumber, Popover, Switch } from 'antd';
 import type { FC, PropsWithChildren } from 'react';
 import React, { useEffect, useState } from 'react';
 import { useDebouncyFn } from 'use-debouncy';
+import ColorPicker from '../ColorPicker';
 import type { MutableTheme } from '../interface';
 
 export interface ComponentTokenInputProps {
@@ -25,7 +26,7 @@ const ComponentTokenInput: FC<PropsWithChildren<ComponentTokenInputProps>> = ({
   className,
 }) => {
   const [tokenValue, setTokenValue] = useState(value);
-  const debouncedOnChange = useDebouncyFn((newValue: number | string) => {
+  const onThemeChange = (newValue: number | string) => {
     theme.onThemeChange?.(
       {
         ...theme.config,
@@ -39,7 +40,9 @@ const ComponentTokenInput: FC<PropsWithChildren<ComponentTokenInputProps>> = ({
       },
       ['components', component, token],
     );
-  }, 500);
+  };
+
+  const debouncedOnChange = useDebouncyFn(onThemeChange, 200);
 
   useEffect(() => {
     setTokenValue(value);
@@ -61,8 +64,8 @@ const ComponentTokenInput: FC<PropsWithChildren<ComponentTokenInputProps>> = ({
       <ColorPicker
         placement="bottomRight"
         value={tokenValue}
-        onChange={(newColor) => {
-          handleChange(newColor.toRgbString());
+        onChangeComplete={(newColor) => {
+          onThemeChange(newColor.toRgbString());
         }}
       >
         {child}

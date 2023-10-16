@@ -18,7 +18,7 @@ const ANT_DESIGN_V5_CUSTOM_THEME_PRO = 'ant-design-v5-custom-theme-pro';
 const Demo = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const [lang, setLang] = React.useState('zh-CN');
-  const [advanced, setAdvanced] = React.useState(false);
+  const [advanced, setAdvanced] = React.useState(true);
   const [mode, setMode] = React.useState<ThemeEditorMode>('global');
   const [isDark, setIsDark] = React.useState(false);
   const [theme, setTheme] = React.useState<Theme>({
