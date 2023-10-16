@@ -82,6 +82,7 @@ export type ThemeEditorProps = {
   mode?: ThemeEditorMode;
   onModeChange?: (mode: ThemeEditorMode) => void;
   advanced?: boolean;
+  hideAdvancedSwitcher?: boolean;
   onAdvancedChange?: (advanced: boolean) => void;
   children?: ReactNode;
 };
@@ -104,6 +105,7 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
       onModeChange,
       advanced: customAdvanced,
       onAdvancedChange,
+      hideAdvancedSwitcher,
       children,
     },
     ref,
@@ -185,33 +187,35 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
           >
             <div className={`${prefixCls}-header`}>
               <div className={`${prefixCls}-header-title`}>{locale.title}</div>
-              <Dropdown
-                trigger={['click']}
-                menu={{
-                  items: [
-                    {
-                      key: 'basic',
-                      label: locale.basicMode,
-                      onClick: () => setAdvanced(false),
-                    },
-                    {
-                      key: 'advanced',
-                      label: locale.advancedMode,
-                      onClick: () => setAdvanced(true),
-                    },
-                  ],
-                }}
-              >
-                <Tag
-                  color={advanced ? 'blue' : 'green'}
-                  style={{ marginLeft: 24, cursor: 'pointer', fontSize: 12 }}
+              {!hideAdvancedSwitcher && (
+                <Dropdown
+                  trigger={['click']}
+                  menu={{
+                    items: [
+                      {
+                        key: 'basic',
+                        label: locale.basicMode,
+                        onClick: () => setAdvanced(false),
+                      },
+                      {
+                        key: 'advanced',
+                        label: locale.advancedMode,
+                        onClick: () => setAdvanced(true),
+                      },
+                    ],
+                  }}
                 >
-                  <span>
-                    {advanced ? locale.advancedMode : locale.basicMode}
-                  </span>
-                  <CaretDownOutlined style={{ fontSize: 10 }} />
-                </Tag>
-              </Dropdown>
+                  <Tag
+                    color={advanced ? 'blue' : 'green'}
+                    style={{ marginLeft: 24, cursor: 'pointer', fontSize: 12 }}
+                  >
+                    <span>
+                      {advanced ? locale.advancedMode : locale.basicMode}
+                    </span>
+                    <CaretDownOutlined style={{ fontSize: 10 }} />
+                  </Tag>
+                </Dropdown>
+              )}
               {advanced && (
                 <Segmented
                   value={mode}
