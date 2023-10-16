@@ -15,7 +15,6 @@ const ColorPicker: FC<ColorPickerProps> = (props) => {
       antdToken.cyan,
       antdToken.green,
       antdToken.magenta,
-      antdToken.pink,
       antdToken.red,
       antdToken.orange,
       antdToken.yellow,
