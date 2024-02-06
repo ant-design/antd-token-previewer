@@ -106,7 +106,7 @@ const useStyle = makeStyle('ComponentPanel', (token) => ({
 
 export const antdComponents = {
   General: ['Button', 'Icon', 'Typography'],
-  Layout: ['Divider', 'Grid', 'Space'],
+  Layout: ['Divider', 'Grid', 'Layout', 'Space'],
   Navigation: [
     'Anchor',
     'Breadcrumb',
