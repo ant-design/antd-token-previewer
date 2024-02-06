@@ -23,6 +23,7 @@ import Icon from './icon';
 import Image from './image';
 import Input from './input';
 import InputNumber from './inputNumber';
+import Layout from './layout';
 import List from './list';
 import Mentions from './mentions';
 import Menu from './menu';
@@ -85,6 +86,7 @@ const ComponentDemos: PreviewerDemos = {
   Image,
   InputNumber,
   Input,
+  Layout,
   List,
   Mentions,
   Modal,
