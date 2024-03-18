@@ -40,37 +40,36 @@ const useStyle = makeStyle('layout', (token) => ({
       transition: `all ${token.motionDurationSlow}`,
       overflow: 'visible !important',
 
-      [`${token.rootCls}-btn${token.rootCls}-btn-circle.previewer-sider-collapse-btn`]:
-        {
-          position: 'absolute',
-          transform: 'translateX(50%)',
-          border: 'none',
+      [`${token.rootCls}-btn${token.rootCls}-btn-circle.previewer-sider-collapse-btn`]: {
+        position: 'absolute',
+        transform: 'translateX(50%)',
+        border: 'none',
+        boxShadow:
+          '0 2px 8px -2px rgba(0,0,0,0.05), 0 1px 4px -1px rgba(25,15,15,0.07), 0 0 1px 0 rgba(0,0,0,0.08)',
+        marginTop: token.margin,
+        insetInlineEnd: 0,
+        color: 'rgba(0,0,0,0.25)',
+
+        '&:hover': {
+          color: 'rgba(0,0,0,0.45)',
           boxShadow:
-            '0 2px 8px -2px rgba(0,0,0,0.05), 0 1px 4px -1px rgba(25,15,15,0.07), 0 0 1px 0 rgba(0,0,0,0.08)',
-          marginTop: token.margin,
-          insetInlineEnd: 0,
-          color: 'rgba(0,0,0,0.25)',
+            '0 2px 8px -2px rgba(0,0,0,0.18), 0 1px 4px -1px rgba(25,15,15,0.18), 0 0 1px 0 rgba(0,0,0,0.18)',
+        },
 
-          '&:hover': {
-            color: 'rgba(0,0,0,0.45)',
-            boxShadow:
-              '0 2px 8px -2px rgba(0,0,0,0.18), 0 1px 4px -1px rgba(25,15,15,0.18), 0 0 1px 0 rgba(0,0,0,0.18)',
-          },
+        '.previewer-sider-collapse-btn-icon': {
+          fontSize: 16,
+          marginTop: 4,
+          transition: 'transform 0.3s',
+        },
 
+        '&-collapsed': {
+          borderRadius: { _skip_check_: true, value: '0 100px 100px 0' },
+          transform: 'translateX(90%)',
           '.previewer-sider-collapse-btn-icon': {
-            fontSize: 16,
-            marginTop: 4,
-            transition: 'transform 0.3s',
-          },
-
-          '&-collapsed': {
-            borderRadius: { _skip_check_: true, value: '0 100px 100px 0' },
-            transform: 'translateX(90%)',
-            '.previewer-sider-collapse-btn-icon': {
-              transform: 'rotate(180deg)',
-            },
+            transform: 'rotate(180deg)',
           },
         },
+      },
 
       '.previewer-sider-handler': {
         position: 'absolute',
@@ -89,8 +88,13 @@ const useStyle = makeStyle('layout', (token) => ({
 const Previewer: React.FC<PreviewerProps> = ({
   onSave,
   showTheme,
+  initialThemeConfig,
+  initialDarkThemeConfig,
+  initialCompactThemeConfig,
   theme,
   onThemeChange,
+  components,
+  demos,
 }) => {
   const [wrapSSR, hashId] = useStyle();
   const [selectedTokens, setSelectedTokens] = useState<string[]>([]);
@@ -103,33 +107,31 @@ const Previewer: React.FC<PreviewerProps> = ({
   const dragRef = useRef(false);
   const siderRef = useRef<HTMLDivElement>(null);
 
-  const defaultThemes = useMemo<ThemeSelectProps['themes']>(
-    () => [
-      {
-        name: '默认主题',
-        key: 'default',
-        config: {},
-        fixed: true,
+  const { current: defaultThemes } = useRef<ThemeSelectProps['themes']>([
+    {
+      name: '默认主题',
+      key: 'default',
+      config: initialThemeConfig || {},
+      fixed: true,
+    },
+    {
+      name: '暗色主题',
+      key: 'dark',
+      config: {
+        algorithm: darkAlgorithm,
+        ...initialDarkThemeConfig,
       },
-      {
-        name: '暗色主题',
-        key: 'dark',
-        config: {
-          algorithm: darkAlgorithm,
-        },
-        icon: <DarkTheme style={{ fontSize: 16 }} />,
-        closable: true,
-      },
-      {
-        name: '紧凑主题',
-        key: 'compact',
-        config: {},
-        icon: <CompactTheme style={{ fontSize: 16 }} />,
-        closable: true,
-      },
-    ],
-    [],
-  );
+      icon: <DarkTheme style={{ fontSize: 16 }} />,
+      fixed: true,
+    },
+    {
+      name: '紧凑主题',
+      key: 'compact',
+      config: initialCompactThemeConfig || {},
+      icon: <CompactTheme style={{ fontSize: 16 }} />,
+      closable: true,
+    },
+  ]);
 
   const [themes, setThemes] = useState<ThemeSelectProps['themes']>(
     theme
@@ -162,7 +164,7 @@ const Previewer: React.FC<PreviewerProps> = ({
     );
     setShownThemes((prev) => (theme ? [theme.key] : prev));
     setEnabledThemes((prev) => (theme ? [theme.key] : prev));
-  }, [defaultThemes, theme]);
+  }, [defaultThemes, theme, theme?.key]);
 
   useEffect(() => {
     const handleMouseUp = () => {
@@ -219,19 +221,6 @@ const Previewer: React.FC<PreviewerProps> = ({
         };
       }),
     [enabledThemes, onThemeChange, theme?.key, themes],
-  );
-
-  const componentPanel = useMemo(
-    () => (
-      <ComponentPanel
-        filterMode={filterMode}
-        selectedTokens={selectedTokens}
-        themes={mutableThemes}
-        onTokenClick={handleTokenClick}
-        style={{ flex: 1, height: 0, marginTop: 12 }}
-      />
-    ),
-    [filterMode, handleTokenClick, mutableThemes, selectedTokens],
   );
 
   return wrapSSR(
@@ -346,7 +335,15 @@ const Previewer: React.FC<PreviewerProps> = ({
             onFilterModeChange={(mode) => setFilterMode(mode)}
             onTokenClick={handleTokenClick}
           />
-          {componentPanel}
+          <ComponentPanel
+            filterMode={filterMode}
+            selectedTokens={selectedTokens}
+            themes={mutableThemes}
+            onTokenClick={handleTokenClick}
+            style={{ flex: 1, height: 0, marginTop: 12 }}
+            components={components}
+            demos={demos}
+          />
         </Content>
       </Layout>
     </Layout>,

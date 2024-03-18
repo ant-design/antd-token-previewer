@@ -5,6 +5,7 @@ import React from 'react';
 import type { ComponentDemo, MutableTheme, TokenName } from '../interface';
 import { useLocale } from '../locale';
 import ComponentDemos from '../previews/components';
+import type { PreviewerDemos } from '../previews/components';
 import makeStyle from '../utils/makeStyle';
 import ComponentCard, { getComponentDemoId } from './ComponentCard';
 
@@ -116,6 +117,7 @@ type ComponentDemoGroupProps = {
   onTokenClick?: (token: TokenName) => void;
   componentDrawer?: boolean;
   hideTokens?: boolean;
+  demos?: PreviewerDemos;
 };
 
 const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
@@ -128,15 +130,21 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
   onTokenClick,
   componentDrawer,
   hideTokens,
+  demos: _demos,
 }) => {
   const [wrapSSR, hashId] = useStyle();
+  const combinedDemos: PreviewerDemos = Object.assign(
+    {},
+    ComponentDemos,
+    _demos,
+  );
 
   return wrapSSR(
     <>
       {Object.entries(components)
         .reduce<string[]>((result, [, group]) => result.concat(group), [])
         .map((item) => {
-          const componentDemos = ComponentDemos[item];
+          const componentDemos = combinedDemos[item];
           if (!componentDemos) {
             return null;
           }

@@ -10,6 +10,7 @@ import { getRelatedComponents } from '../utils/statistic';
 import { getComponentDemoId } from './ComponentCard';
 import ComponentDemoGroup from './ComponentDemoGroup';
 import ComponentTree from './ComponentTree';
+import type { PreviewerDemos } from '../previews/components';
 
 const BREADCRUMB_HEIGHT = 40;
 
@@ -86,7 +87,7 @@ const useStyle = makeStyle('ComponentPanel', (token) => ({
         insetInlineStart: 0,
         width: '100%',
         height: BREADCRUMB_HEIGHT,
-        zIndex: 20,
+        zIndex: 9999,
         backgroundColor: token.colorBgContainer,
         padding: '8px 16px',
         transition: 'opacity 0.3s',
@@ -104,7 +105,9 @@ const useStyle = makeStyle('ComponentPanel', (token) => ({
   },
 }));
 
-export const antdComponents = {
+export type AntdComponentsMap = Record<string, string[]>;
+
+export const defaultAntdComponents: AntdComponentsMap = {
   General: ['Button', 'Icon', 'Typography'],
   Layout: ['Divider', 'Grid', 'Layout', 'Space'],
   Navigation: [
@@ -176,6 +179,8 @@ export type ComponentPanelProps = {
   className?: string;
   style?: CSSProperties;
   onTokenClick?: (token: TokenName) => void;
+  components?: AntdComponentsMap;
+  demos?: PreviewerDemos;
 };
 
 const Index: FC<ComponentPanelProps> = ({
@@ -184,6 +189,8 @@ const Index: FC<ComponentPanelProps> = ({
   filterMode,
   className,
   onTokenClick,
+  components = defaultAntdComponents,
+  demos,
   ...rest
 }) => {
   const [wrapSSR, hashId] = useStyle();
@@ -246,21 +253,21 @@ const Index: FC<ComponentPanelProps> = ({
     if (!activeComponent) {
       return undefined;
     }
-    const key = Object.entries(antdComponents).find(([, value]) =>
+    const key = Object.entries(components).find(([, value]) =>
       value.includes(activeComponent),
     )?.[0];
     if (key) {
-      return (antdComponents as any)[key];
+      return (components as any)[key];
     } else {
       return undefined;
     }
-  }, [activeComponent]);
+  }, [components, activeComponent]);
 
   const demoGroup = useMemo(
     () => (
       <ComponentDemoGroup
         themes={themes}
-        components={antdComponents}
+        components={components}
         size={componentSize}
         disabled={componentDisabled}
         activeComponents={
@@ -268,6 +275,7 @@ const Index: FC<ComponentPanelProps> = ({
         }
         selectedTokens={selectedTokens}
         onTokenClick={onTokenClick}
+        demos={demos}
       />
     ),
     [
@@ -278,6 +286,8 @@ const Index: FC<ComponentPanelProps> = ({
       relatedComponents,
       selectedTokens,
       onTokenClick,
+      components,
+      demos,
     ],
   );
 
@@ -292,11 +302,11 @@ const Index: FC<ComponentPanelProps> = ({
           activeComponent={activeComponent}
           filterMode={filterMode}
           selectedTokens={selectedTokens}
-          components={antdComponents}
+          components={components}
           onSelect={(component) => {
             if (component.startsWith('type-')) {
               scrollToComponent(
-                (antdComponents as any)[component.split('-')[1]][0],
+                (components as any)[component.split('-')[1]][0],
               );
             } else {
               scrollToComponent(component);
@@ -349,7 +359,7 @@ const Index: FC<ComponentPanelProps> = ({
                     }
                   >
                     {
-                      Object.entries(antdComponents).find(([, value]) =>
+                      Object.entries(components).find(([, value]) =>
                         value.includes(activeComponent),
                       )?.[0]
                     }
