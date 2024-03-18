@@ -3,7 +3,7 @@ import { theme } from 'antd';
 import tokenStatistic from 'antd/lib/version/token.json';
 import React from 'react';
 import type { ComponentPanelProps } from '../src/component-panel';
-import ComponentPanel, { antdComponents } from '../src/component-panel';
+import ComponentPanel, { defaultAntdComponents } from '../src/component-panel';
 
 const { useToken } = theme;
 
@@ -26,10 +26,12 @@ describe.skip('ComponentPanel', () => {
     const { container } = render(<Panel selectedTokens={['colorPrimary']} />);
     const relatedComponents = Object.entries(tokenStatistic)
       .filter(([, { global: tokens }]) =>
-        tokens.includes('colorPrimary' as unknown as never),
+        tokens.includes(('colorPrimary' as unknown) as never),
       )
       .map(([name]) => name);
-    const [treeLength, componentLength] = Object.entries(antdComponents).reduce(
+    const [treeLength, componentLength] = Object.entries(
+      defaultAntdComponents,
+    ).reduce(
       (result, [, components]) => {
         let typeLen = 0;
         components.forEach((item) => {

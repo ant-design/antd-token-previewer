@@ -1,4 +1,9 @@
-export type { MutableTheme, PreviewerProps, Theme } from './interface';
+export type {
+  MutableTheme,
+  PreviewerProps,
+  Theme,
+  ComponentDemo,
+} from './interface';
 export * from './locale';
 export * from './meta';
 export { default as PreviewDemo } from './PreviewDemo';
@@ -11,3 +16,4 @@ export { default as TokenPanel } from './token-panel';
 export type { TokenPanelRef, TokenPreviewProps } from './token-panel';
 export { default as getDesignToken } from './utils/getDesignToken';
 export { parsePlainConfig, parseThemeConfig } from './utils/parse-config';
+export { defaultAntdComponents } from './component-panel';

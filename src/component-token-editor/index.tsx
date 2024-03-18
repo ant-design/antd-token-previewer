@@ -6,7 +6,8 @@ import classNames from 'classnames';
 import type { FC } from 'react';
 import React, { useMemo, useRef, useState } from 'react';
 import { useDebouncyFn } from 'use-debouncy';
-import { antdComponents } from '../component-panel';
+import { defaultAntdComponents } from '../component-panel';
+import type { AntdComponentsMap } from '../component-panel';
 import type { MutableTheme } from '../interface';
 import { useLocale } from '../locale';
 import ComponentDemos from '../previews/components';
@@ -162,9 +163,13 @@ const classifyTokens = (tokens: string[]) => {
 
 export interface ComponentTokenEditorProps {
   theme: MutableTheme;
+  components?: AntdComponentsMap;
 }
 
-const ComponentTokenEditor: FC<ComponentTokenEditorProps> = ({ theme }) => {
+const ComponentTokenEditor: FC<ComponentTokenEditorProps> = ({
+  theme,
+  components = defaultAntdComponents,
+}) => {
   const locale = useLocale();
   const prefixCls = `antd-component-token-editor`;
   const [activeComponent, setActiveComponent] = useState<string>('Button');
@@ -172,10 +177,9 @@ const ComponentTokenEditor: FC<ComponentTokenEditorProps> = ({ theme }) => {
 
   const [, hashId] = useStyle(prefixCls);
 
-  const count = useMemo(
-    () => getTokenCount(activeComponent),
-    [activeComponent],
-  );
+  const count = useMemo(() => getTokenCount(activeComponent), [
+    activeComponent,
+  ]);
 
   const tokenGroups = useMemo(() => {
     const globalTokens = (tokenStatistic as any)[activeComponent]?.global || [];
@@ -214,7 +218,7 @@ const ComponentTokenEditor: FC<ComponentTokenEditorProps> = ({ theme }) => {
 
   const menuItems: MenuProps['items'] = useMemo(
     () =>
-      Object.entries(antdComponents).map(([key, value]) => ({
+      Object.entries(components).map(([key, value]) => ({
         key,
         label: (locale.components as any)[key],
         type: 'group',
