@@ -240,7 +240,7 @@ const getColorStr = (color: any, mode: ColorMode) => {
 
 const ColorPanel: FC<ColorPanelProps> = ({ color, onChange, alpha, style }) => {
   const { token } = useToken();
-  const [wrapSSR, hashId] = useStyle();
+  const hashId = useStyle();
   const [colorMode, setColorMode] = React.useState<ColorMode>('HEX');
 
   const presetColors = useMemo(() => {
@@ -268,7 +268,7 @@ const ColorPanel: FC<ColorPanelProps> = ({ color, onChange, alpha, style }) => {
     onChange(getColorStr(color, value));
   };
 
-  return wrapSSR(
+  return (
     <div className={classNames(hashId, 'color-panel')} style={style}>
       {(colorMode === 'HEX' || colorMode === 'RGB') && (
         <HexColorPicker
@@ -337,7 +337,7 @@ const ColorPanel: FC<ColorPanelProps> = ({ color, onChange, alpha, style }) => {
           />
         ))}
       </div>
-    </div>,
+    </div>
   );
 };
 

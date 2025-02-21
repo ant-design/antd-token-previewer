@@ -109,7 +109,7 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
   onClose,
   theme,
 }) => {
-  const [, hashId] = useStyle();
+  const hashId = useStyle();
 
   const { component: componentToken, global: aliasTokenNames } =
     getComponentToken(component) || { global: [] };

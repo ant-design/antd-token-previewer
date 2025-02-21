@@ -34,7 +34,7 @@ const GlobalTokenEditor: FC<GlobalTokenEditorProps> = (props) => {
     props;
 
   const prefixCls = 'antd-global-token-editor';
-  const [, hashId] = useStyle(prefixCls);
+  const hashId = useStyle(prefixCls);
 
   const [selectedTokens, setSelectedTokens] = useState<SelectedToken>({
     seed: ['colorPrimary'],

@@ -111,7 +111,7 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
     ref,
   ) => {
     const prefixCls = 'antd-theme-editor';
-    const [wrapSSR, hashId] = useStyle(prefixCls);
+    const hashId = useStyle(prefixCls);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [mode, setMode] = useMergedState<ThemeEditorMode>('global', {
       value: customMode,
@@ -177,7 +177,7 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
       messageApi.success('编辑成功');
     };
 
-    return wrapSSR(
+    return (
       <LocaleContext.Provider value={locale}>
         <AdvancedContext.Provider value={advanced}>
           {contextHolder}
@@ -265,7 +265,7 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
             />
           </div>
         </AdvancedContext.Provider>
-      </LocaleContext.Provider>,
+      </LocaleContext.Provider>
     );
   },
 );

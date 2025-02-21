@@ -58,10 +58,10 @@ const ComponentCard: FC<ComponentCardProps> = ({
   theme,
   drawer,
 }) => {
-  const [wrapSSR, hashId] = useStyle();
+  const hashId = useStyle();
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  return wrapSSR(
+  return (
     <>
       <Card
         className={classNames('component-card', hashId)}
@@ -86,7 +86,7 @@ const ComponentCard: FC<ComponentCardProps> = ({
           onClose={() => setDrawerOpen(false)}
         />
       )}
-    </>,
+    </>
   );
 };
 

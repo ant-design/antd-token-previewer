@@ -133,14 +133,14 @@ export default ({
   fallback,
   placeholder,
 }: TokenCardProps) => {
-  const [wrapSSR, hashId] = useStyle();
+  const hashId = useStyle();
   const [open, setOpen] = useMergedState(false, {
     onChange: onOpenChange,
     defaultValue: defaultOpen,
     value: customOpen,
   });
 
-  return wrapSSR(
+  return (
     <div className={classNames('token-card', hashId)}>
       <Collapse
         ghost
@@ -195,6 +195,6 @@ export default ({
           {tokenArr.length === 0 && placeholder}
         </Panel>
       </Collapse>
-    </div>,
+    </div>
   );
 };

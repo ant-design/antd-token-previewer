@@ -136,7 +136,7 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
       onTokenSelect,
       enableTokenSelect,
     } = props;
-    const [wrapSSR, hashId] = useStyle();
+    const hashId = useStyle();
     const [search, setSearch] = useState<string>('');
     const [showAll, setShowAll] = useState<boolean>(false);
     const [showTokenListShadowTop, setShowTokenListShadowTop] =
@@ -202,7 +202,7 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
       );
     };
 
-    return wrapSSR(
+    return (
       <div className={classNames('preview-panel-wrapper', hashId)}>
         <div className={classNames('preview-panel')}>
           <div style={{ padding: 16 }}>
@@ -339,7 +339,7 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
             </div>
           </div>
         </div>
-      </div>,
+      </div>
     );
   },
 );

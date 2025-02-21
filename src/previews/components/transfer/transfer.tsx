@@ -1,4 +1,5 @@
 import { Transfer } from 'antd';
+import type { Key} from 'react';
 import React, { useState } from 'react';
 
 import type { ComponentDemo } from '../../../interface';
@@ -10,7 +11,7 @@ const initialTargetKeys = mockData
 
 const Demo = () => {
   const [targetKeys, setTargetKeys] = useState(initialTargetKeys);
-  const [selectedKeys, setSelectedKeys] = useState<string[]>(['1', '2']);
+  const [selectedKeys, setSelectedKeys] = useState<Key[]>(['1', '2']);
   const onScroll = () => {};
   return (
     <Transfer

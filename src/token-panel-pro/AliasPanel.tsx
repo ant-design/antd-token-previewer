@@ -135,7 +135,7 @@ const AliasPanel: FC<AliasPanelProps> = ({
   onOpenChange,
   description,
 }) => {
-  const [wrapSSR, hashId] = useStyle();
+  const hashId = useStyle();
   const [open, setOpen] = useMergedState(customOpen ?? true, {
     value: customOpen,
     onChange: onOpenChange,
@@ -159,7 +159,7 @@ const AliasPanel: FC<AliasPanelProps> = ({
     [selectedTokens, activeSeeds],
   );
 
-  return wrapSSR(
+  return (
     <div
       className={classNames(className, 'token-panel-pro-color-alias', hashId)}
       style={style}
@@ -253,7 +253,7 @@ const AliasPanel: FC<AliasPanelProps> = ({
           </div>
         </div>
       )}
-    </div>,
+    </div>
   );
 };
 
