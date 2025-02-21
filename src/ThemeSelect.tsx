@@ -2,7 +2,8 @@ import type { FC, ReactNode } from 'react';
 import React, { useMemo } from 'react';
 import makeStyle from './utils/makeStyle';
 import classNames from 'classnames';
-import { Button, Dropdown, MenuProps } from 'antd';
+import type { MenuProps } from 'antd';
+import { Button, Dropdown } from 'antd';
 import { CloseOutlined, PlusOutlined } from '@ant-design/icons';
 import type { Theme } from './interface';
 
