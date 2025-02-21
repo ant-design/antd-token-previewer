@@ -2,7 +2,6 @@ import type { CSSInterpolation } from '@ant-design/cssinjs';
 import { useStyleRegister } from '@ant-design/cssinjs';
 import { ConfigProvider, theme as antdTheme } from 'antd';
 import type { GlobalToken } from 'antd/es/theme/interface';
-import type React from 'react';
 import { useContext } from 'react';
 
 const { ConfigContext } = ConfigProvider;
