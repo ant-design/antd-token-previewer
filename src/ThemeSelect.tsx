@@ -136,7 +136,7 @@ const ThemeSelect: FC<ThemeSelectProps> = (props) => {
     showAddTheme,
   } = props;
 
-  const [wrapSSR, hashId] = useStyle();
+  const hashId = useStyle();
 
   const dropdownItems = useMemo(
     () => [
@@ -169,7 +169,7 @@ const ThemeSelect: FC<ThemeSelectProps> = (props) => {
     [themes, shownThemes],
   );
 
-  return wrapSSR(
+  return (
     <div className={classNames('previewer-theme-select', hashId)}>
       {shownThemeEntities.map((theme) => (
         <span
@@ -229,7 +229,7 @@ const ThemeSelect: FC<ThemeSelectProps> = (props) => {
           />
         </Dropdown>
       )}
-    </div>,
+    </div>
   );
 };
 

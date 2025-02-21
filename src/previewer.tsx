@@ -92,7 +92,7 @@ const Previewer: React.FC<PreviewerProps> = ({
   theme,
   onThemeChange,
 }) => {
-  const [wrapSSR, hashId] = useStyle();
+  const hashId = useStyle();
   const [selectedTokens, setSelectedTokens] = useState<string[]>([]);
   const [siderVisible, setSiderVisible] = useState<boolean>(true);
   const [siderWidth, setSiderWidth] = useState<number>(SIDER_WIDTH);
@@ -234,7 +234,7 @@ const Previewer: React.FC<PreviewerProps> = ({
     [filterMode, handleTokenClick, mutableThemes, selectedTokens],
   );
 
-  return wrapSSR(
+  return (
     <Layout className={classNames('previewer-layout', hashId)}>
       <Header className="previewer-header">
         <span style={{ fontSize: 16, fontWeight: 'bold', marginRight: 16 }}>
@@ -349,7 +349,7 @@ const Previewer: React.FC<PreviewerProps> = ({
           {componentPanel}
         </Content>
       </Layout>
-    </Layout>,
+    </Layout>
   );
 };
 

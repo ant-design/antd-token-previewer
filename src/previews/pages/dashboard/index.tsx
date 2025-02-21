@@ -221,7 +221,7 @@ const AntDesignDir = ({ style }: { style?: CSSProperties }) => {
 
 const Dashboard: FC = () => {
   const prefixCls = 'app-demo-dashboard';
-  const [, hashId] = useStyle(prefixCls);
+  const hashId = useStyle(prefixCls);
   const { token } = theme.useToken();
 
   return (

@@ -170,7 +170,7 @@ const ComponentTokenEditor: FC<ComponentTokenEditorProps> = ({ theme }) => {
   const [activeComponent, setActiveComponent] = useState<string>('Button');
   const tokenPanelRef = useRef<HTMLDivElement>(null);
 
-  const [, hashId] = useStyle(prefixCls);
+  const hashId = useStyle(prefixCls);
 
   const count = useMemo(
     () => getTokenCount(activeComponent),

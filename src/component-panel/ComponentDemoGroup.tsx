@@ -129,9 +129,9 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
   componentDrawer,
   hideTokens,
 }) => {
-  const [wrapSSR, hashId] = useStyle();
+  const hashId = useStyle();
 
-  return wrapSSR(
+  return (
     <>
       {Object.entries(components)
         .reduce<string[]>((result, [, group]) => result.concat(group), [])
@@ -195,7 +195,7 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
             </div>
           );
         })}
-    </>,
+    </>
   );
 };
 

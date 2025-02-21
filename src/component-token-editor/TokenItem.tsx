@@ -98,7 +98,7 @@ const TokenItem: FC<TokenItemProps> = ({
 
   const locale = useLocale();
 
-  const [, hashId] = useStyle(prefixCls);
+  const hashId = useStyle(prefixCls);
 
   return (
     <div className={classNames(prefixCls, hashId)} key={token}>

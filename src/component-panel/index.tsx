@@ -186,7 +186,7 @@ const Index: FC<ComponentPanelProps> = ({
   onTokenClick,
   ...rest
 }) => {
-  const [wrapSSR, hashId] = useStyle();
+  const hashId = useStyle();
   const [showSide, setShowSide] = useState<boolean>(true);
   const demosRef = useRef<HTMLDivElement>(null);
   const [componentSize, setComponentSize] = useState<
@@ -281,7 +281,7 @@ const Index: FC<ComponentPanelProps> = ({
     ],
   );
 
-  return wrapSSR(
+  return (
     <div className={classNames('component-panel', hashId, className)} {...rest}>
       <div
         className={classNames('component-panel-side', {
@@ -364,7 +364,7 @@ const Index: FC<ComponentPanelProps> = ({
           </div>
         </div>
       </div>
-    </div>,
+    </div>
   );
 };
 

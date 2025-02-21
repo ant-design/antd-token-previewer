@@ -43,9 +43,9 @@ const ColorPreview: FC<ColorPreviewProps> = ({
   size = 20,
   ...restProps
 }) => {
-  const [warpSSR, hashId] = useStyle();
+  const hashId = useStyle();
 
-  return warpSSR(
+  return (
     <div
       {...restProps}
       className={classNames('previewer-color-preview', className, hashId)}
@@ -70,7 +70,7 @@ const ColorPreview: FC<ColorPreviewProps> = ({
           background: `${getColorBgImg(dark)} 0% 0% / ${size}px`,
         }}
       />
-    </div>,
+    </div>
   );
 };
 

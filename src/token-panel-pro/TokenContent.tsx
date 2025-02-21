@@ -677,7 +677,7 @@ const TokenContent: FC<ColorTokenContentProps> = ({
   infoFollowPrimary,
   onInfoFollowPrimaryChange,
 }) => {
-  const [wrapSSR, hashId] = useStyle();
+  const hashId = useStyle();
   const [grouped, setGrouped] = useState<boolean>(true);
   const locale = useLocale();
   const advanced = useAdvanced();
@@ -712,7 +712,7 @@ const TokenContent: FC<ColorTokenContentProps> = ({
       : theme.config.algorithm !== themeMap[str];
   };
 
-  return wrapSSR(
+  return (
     <div className={classNames(hashId, 'token-panel-pro-color')} id={id}>
       <div className="token-panel-pro-color-seeds">
         <div className="token-panel-pro-color-themes">
@@ -956,7 +956,7 @@ const TokenContent: FC<ColorTokenContentProps> = ({
           </div>
         </ConfigProvider>
       </div>
-    </div>,
+    </div>
   );
 };
 

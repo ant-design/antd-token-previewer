@@ -20,7 +20,7 @@ const useStyle = makeStyle('ComponentTokenEditorDemoWrapper', (token) => ({
 const DemoWrapper: FC<PropsWithChildren> = ({ children }) => {
   const prefixCls = `antd-component-token-editor-demo-wrapper`;
 
-  const [, hashId] = useStyle(prefixCls);
+  const hashId = useStyle(prefixCls);
 
   return <div className={classNames(prefixCls, hashId)}>{children}</div>;
 };

@@ -59,7 +59,7 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
   infoFollowPrimary,
   onInfoFollowPrimaryChange,
 }) => {
-  const [wrapSSR, hashId] = useStyle();
+  const hashId = useStyle();
   const [activeGroup, setActiveGroup] = useState<string>('brandColor');
   const locale = useLocale();
 
@@ -80,7 +80,7 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
 
   const tokenListRef = useRef<HTMLDivElement>(null);
 
-  return wrapSSR(
+  return (
     <div
       className={classNames(hashId, className, 'token-panel-pro')}
       style={style}
@@ -119,7 +119,7 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
           ))}
         </div>
       </div>
-    </div>,
+    </div>
   );
 };
 

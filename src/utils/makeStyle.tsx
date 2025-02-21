@@ -19,25 +19,24 @@ const makeStyle =
     styleFn: (token: ThemeEditorToken) => CSSInterpolation,
   ): ((
     prefixCls?: string,
-  ) => [(node: React.ReactNode) => React.ReactElement, string]) =>
+  ) => string) =>
   (prefixCls) => {
     const { theme, token, hashId } = antdTheme.useToken();
     const { getPrefixCls } = useContext(ConfigContext);
     const rootCls = getPrefixCls();
 
-    return [
-      useStyleRegister(
-        { theme: theme as any, hashId, token, path: [path, prefixCls || ''] },
-        () =>
-          styleFn({
-            ...token,
-            rootCls: `.${rootCls}`,
-            componentCls: `.${prefixCls}`,
-            headerHeight: 56,
-          }),
-      ) as (node: React.ReactNode) => React.ReactElement,
-      hashId,
-    ];
+    useStyleRegister(
+      { theme: theme as any, hashId, token, path: [path, prefixCls || ''] },
+      () =>
+        styleFn({
+          ...token,
+          rootCls: `.${rootCls}`,
+          componentCls: `.${prefixCls}`,
+          headerHeight: 56,
+        }),
+    )
+
+    return hashId;
   };
 
 export default makeStyle;
