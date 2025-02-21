@@ -2,7 +2,7 @@ import type { FC, ReactNode } from 'react';
 import React, { useMemo } from 'react';
 import makeStyle from './utils/makeStyle';
 import classNames from 'classnames';
-import { Button, Dropdown, Menu } from 'antd';
+import { Button, Dropdown, MenuProps } from 'antd';
 import { CloseOutlined, PlusOutlined } from '@ant-design/icons';
 import type { Theme } from './interface';
 
@@ -138,7 +138,7 @@ const ThemeSelect: FC<ThemeSelectProps> = (props) => {
 
   const hashId = useStyle();
 
-  const dropdownItems = useMemo(
+  const dropdownItems = useMemo<MenuProps['items']>(
     () => [
       {
         disabled: true,
@@ -215,7 +215,9 @@ const ThemeSelect: FC<ThemeSelectProps> = (props) => {
         <Dropdown
           placement="bottomRight"
           trigger={['click']}
-          overlay={<Menu items={dropdownItems} />}
+          menu={{
+            items: dropdownItems,
+          }}
           overlayClassName={classNames(
             'previewer-theme-select-dropdown',
             hashId,
