@@ -1,6 +1,6 @@
 import type { DerivativeFunc } from '@ant-design/cssinjs';
 import { CaretDownOutlined } from '@ant-design/icons';
-import { Button, Dropdown, message, Segmented, Tag } from 'antd';
+import { Button, Dropdown, message, Segmented, Space, Tag } from 'antd';
 import classNames from 'classnames';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import type { ReactNode } from 'react';
@@ -16,11 +16,13 @@ import type { EditorModalProps } from './editor-modal';
 import EditorModal from './editor-modal';
 import GlobalTokenEditor from './GlobalTokenEditor';
 import useControlledTheme from './hooks/useControlledTheme';
+import { DarkTheme, Light } from './icons';
 import type { Theme } from './interface';
 import type { Locale } from './locale';
 import { LocaleContext, zhCN } from './locale';
 import { HIGHLIGHT_COLOR } from './utils/constants';
 import makeStyle from './utils/makeStyle';
+import { isLeftChecked, switchAlgorithm } from './utils/themeAlgorithmUtils';
 
 const useStyle = makeStyle('ThemeEditor', (token) => ({
   [token.componentCls]: {
@@ -216,17 +218,34 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
                   </Tag>
                 </Dropdown>
               )}
-              {advanced && (
+              <Space size="middle">
+                {advanced && (
+                  <Segmented
+                    value={mode}
+                    options={[
+                      { label: locale.globalToken, value: 'global' },
+                      { label: locale.componentToken, value: 'component' },
+                    ]}
+                    onChange={(v) => setMode(v as ThemeEditorMode)}
+                    style={{ marginLeft: 24 }}
+                  />
+                )}
+
                 <Segmented
-                  value={mode}
                   options={[
-                    { label: locale.globalToken, value: 'global' },
-                    { label: locale.componentToken, value: 'component' },
+                    {
+                      icon: <Light style={{ fontSize: 16 }} />,
+                      value: 'light',
+                    },
+                    {
+                      icon: <DarkTheme style={{ fontSize: 16 }} />,
+                      value: 'dark',
+                    },
                   ]}
-                  onChange={(v) => setMode(v as ThemeEditorMode)}
-                  style={{ marginLeft: 24 }}
+                  onChange={switchAlgorithm('dark', theme)}
+                  value={isLeftChecked('dark', theme) ? 'light' : 'dark'}
                 />
-              )}
+              </Space>
               <div className={`${prefixCls}-header-actions`}>
                 <span
                   className={`${prefixCls}-header-actions-diff`}
