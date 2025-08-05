@@ -19,15 +19,14 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useDebouncyFn } from 'use-debouncy';
 import ColorPicker from '../ColorPicker';
 import { useAdvanced } from '../context';
-import type { ThemeCode } from '../hooks/useControlledTheme';
-import { themeMap } from '../hooks/useControlledTheme';
-import { CompactTheme, DarkTheme, Light } from '../icons';
+import { CompactTheme } from '../icons';
 import type { SelectedToken } from '../interface';
 import { useLocale } from '../locale';
 import type { TokenCategory, TokenGroup } from '../meta/interface';
 import { HIGHLIGHT_COLOR } from '../utils/constants';
 import getDesignToken from '../utils/getDesignToken';
 import makeStyle from '../utils/makeStyle';
+import { isLeftChecked, switchAlgorithm } from '../utils/themeAlgorithmUtils';
 import InputNumberPlus from './InputNumberPlus';
 import ResetTokenButton from './ResetTokenButton';
 import TokenPreview from './TokenPreview';
@@ -683,35 +682,6 @@ const TokenContent: FC<ColorTokenContentProps> = ({
   const advanced = useAdvanced();
   const { token } = antdTheme.useToken();
 
-  const switchAlgorithm = (themeStr: 'dark' | 'compact') => () => {
-    let newAlgorithm = theme.config.algorithm;
-    if (!newAlgorithm) {
-      newAlgorithm = themeMap[themeStr];
-    } else if (Array.isArray(newAlgorithm)) {
-      newAlgorithm = newAlgorithm.includes(themeMap[themeStr])
-        ? newAlgorithm.filter((item) => item !== themeMap[themeStr])
-        : [...newAlgorithm, themeMap[themeStr]];
-    } else {
-      newAlgorithm =
-        newAlgorithm === themeMap[themeStr]
-          ? undefined
-          : [newAlgorithm, themeMap[themeStr]];
-    }
-    theme.onThemeChange?.({ ...theme.config, algorithm: newAlgorithm }, [
-      'config',
-      'algorithm',
-    ]);
-  };
-
-  const isLeftChecked = (str: ThemeCode) => {
-    if (!theme.config.algorithm) {
-      return true;
-    }
-    return Array.isArray(theme.config.algorithm)
-      ? !theme.config.algorithm.includes(themeMap[str])
-      : theme.config.algorithm !== themeMap[str];
-  };
-
   return (
     <div className={classNames(hashId, 'token-panel-pro-color')} id={id}>
       <div className="token-panel-pro-color-seeds">
@@ -719,17 +689,6 @@ const TokenContent: FC<ColorTokenContentProps> = ({
           <span style={{ marginRight: 12 }}>
             {locale._lang === 'zh-CN' ? category.name : category.nameEn}
           </span>
-          {category.nameEn === 'Color' && (
-            <Segmented
-              options={[
-                { icon: <Light style={{ fontSize: 16 }} />, value: 'light' },
-                { icon: <DarkTheme style={{ fontSize: 16 }} />, value: 'dark' },
-              ]}
-              onChange={switchAlgorithm('dark')}
-              value={isLeftChecked('dark') ? 'light' : 'dark'}
-              style={{ marginLeft: 'auto' }}
-            />
-          )}
           {category.nameEn === 'Size' && (
             <Segmented
               options={[
@@ -744,8 +703,8 @@ const TokenContent: FC<ColorTokenContentProps> = ({
                   value: 'compact',
                 },
               ]}
-              onChange={switchAlgorithm('compact')}
-              value={isLeftChecked('compact') ? 'normal' : 'compact'}
+              onChange={switchAlgorithm('compact', theme)}
+              value={isLeftChecked('compact', theme) ? 'normal' : 'compact'}
               style={{ marginLeft: 'auto' }}
             />
           )}
