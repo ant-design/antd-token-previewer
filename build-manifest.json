@@ -3,10 +3,10 @@
     "public/icon/theme-editor.png": "/antd-token-previewer/icon/theme-editor.png",
     "public/icon/theme-editor.svg": "/antd-token-previewer/icon/theme-editor.svg",
     "umi.css": "/antd-token-previewer/umi.137be1c9.css",
-    "umi.js": "/antd-token-previewer/umi.45a756de.js",
-    "meta__docs.js": "/antd-token-previewer/meta__docs.203e516c.async.js",
+    "umi.js": "/antd-token-previewer/umi.e263c2df.js",
+    "meta__docs.js": "/antd-token-previewer/meta__docs.75755847.async.js",
     "nm__dumi__dist__client__pages__404.js": "/antd-token-previewer/nm__dumi__dist__client__pages__404.dfb0a3d3.async.js",
-    "dumi__tmp-production__dumi__theme__ContextWrapper.js": "/antd-token-previewer/dumi__tmp-production__dumi__theme__ContextWrapper.1da389ea.async.js",
+    "dumi__tmp-production__dumi__theme__ContextWrapper.js": "/antd-token-previewer/dumi__tmp-production__dumi__theme__ContextWrapper.a6ee8529.async.js",
     "nm__dumi__theme-default__layouts__DocLayout__index.js": "/antd-token-previewer/nm__dumi__theme-default__layouts__DocLayout__index.e11cd8d4.async.js",
     "docs__previewer__previewer-token-panel.md.js": "/antd-token-previewer/docs__previewer__previewer-token-panel.md.b0f0d722.async.js",
     "docs__previewer__controlled.md.js": "/antd-token-previewer/docs__previewer__controlled.md.7b85dc29.async.js",
@@ -17,6 +17,6 @@
     "docs__editor__index.md.js": "/antd-token-previewer/docs__editor__index.md.8163286d.async.js",
     "docs__index.md.js": "/antd-token-previewer/docs__index.md.d83a281a.async.js",
     "nm__dumi__dist__client__pages__Demo__index.js": "/antd-token-previewer/nm__dumi__dist__client__pages__Demo__index.54e54e46.async.js",
-    "demos.js": "/antd-token-previewer/demos.979f4668.async.js"
+    "demos.js": "/antd-token-previewer/demos.aa54a45d.async.js"
   }
 }
