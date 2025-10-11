@@ -1,121 +1,183 @@
-import { ConfigProvider, Segmented, Space, theme as antdTheme } from 'antd';
-import type { MutableTheme } from 'antd-token-previewer';
-import type { FC } from 'react';
-import React from 'react';
-import ComponentDemoGroup from '../component-panel/ComponentDemoGroup';
+import { ExpandOutlined, MinusOutlined, PlusOutlined } from '@ant-design/icons';
+import {
+  Button,
+  ConfigProvider,
+  Segmented,
+  Space,
+  theme as antdTheme,
+  Tooltip,
+} from 'antd';
+import type { FC, ReactNode } from 'react';
+import React, { memo, useEffect } from 'react';
+import ReactFlow, {
+  Background,
+  Panel,
+  ReactFlowProvider,
+  useNodesInitialized,
+  useReactFlow,
+  useViewport,
+} from 'reactflow';
+import 'reactflow/dist/style.css';
+import type { MutableTheme, Theme } from '../interface';
 import { useLocale } from '../locale';
-import { Error, Primary, Success, Warning } from '../overviews';
+import { Error, Primary, Success, Warning } from '../previews/overviews';
+import AppDemo from '../previews/pages';
 
-export type ComponentDemoProProps = {
-  selectedTokens?: string[];
-  theme: MutableTheme;
-  components: Record<string, string[]>;
-  activeComponents?: string[];
-  style?: React.CSSProperties;
-  componentDrawer?: boolean;
-  showAll?: boolean;
-};
-
-const ComponentDemoPro: FC<ComponentDemoProProps> = ({
-  selectedTokens,
-  theme,
-  components,
-  activeComponents,
-  componentDrawer,
-  showAll,
-  style,
-}) => {
-  const [mode, setMode] = React.useState<'overview' | 'component'>('overview');
-  const {
-    token: { colorBgLayout },
-  } = antdTheme.useToken();
+const Zoom: FC = memo(() => {
+  const reactFlow = useReactFlow();
+  const { zoom } = useViewport();
   const locale = useLocale();
 
-  const overviewDemo = React.useMemo(() => {
-    if (showAll) {
-      return (
-        <Space direction="vertical">
-          <Primary />
-          <Success />
-          <Error />
-          <Warning />
-        </Space>
-      );
+  const handleZoomTo = () => {
+    if (zoom === 1) {
+      reactFlow.zoomTo(0.5);
+    } else {
+      reactFlow.zoomTo(1);
     }
-    if (selectedTokens?.includes('colorError')) {
-      return <Error />;
-    }
-    if (selectedTokens?.includes('colorSuccess')) {
-      return <Success />;
-    }
-    if (selectedTokens?.includes('colorWarning')) {
-      return <Warning />;
-    }
-    return <Primary />;
-  }, [selectedTokens, showAll]);
+  };
 
   return (
-    <div style={{ ...style, background: colorBgLayout, paddingBottom: 24 }}>
-      <div style={{ margin: 'auto', maxWidth: 960 }}>
+    <Tooltip
+      title={
+        zoom === 1 ? `${locale.demo.zoomTo} 2:1` : `${locale.demo.zoomTo} 1:1`
+      }
+    >
+      <Button onClick={handleZoomTo} style={{ width: 64 }}>
+        {Math.round(zoom * 100)}%
+      </Button>
+    </Tooltip>
+  );
+});
+const Controls = () => {
+  const { zoomIn, zoomOut, fitView } = useReactFlow();
+  const locale = useLocale();
+
+  return (
+    <Space style={{ zIndex: 100, position: 'absolute', bottom: 10, right: 10 }}>
+      <Button icon={<MinusOutlined />} onClick={() => zoomOut()} />
+      <Zoom />
+      <Button icon={<PlusOutlined />} onClick={() => zoomIn()} />
+      <Tooltip title={locale.demo.fitView}>
+        <Button icon={<ExpandOutlined />} onClick={() => fitView()} />
+      </Tooltip>
+    </Space>
+  );
+};
+
+const Artboard: FC<{ data: ReactNode }> = ({ data }) => {
+  return <div>{data}</div>;
+};
+
+const nodeTypes = {
+  artboard: Artboard,
+};
+
+export type DemoMode = 'overview' | 'page';
+
+export type ComponentDemoProProps = {
+  theme: MutableTheme;
+  style?: React.CSSProperties;
+};
+
+const Demo = ({ mode, theme }: { mode: DemoMode; theme: Theme }) => {
+  const { token } = antdTheme.useToken();
+
+  return (
+    <ConfigProvider theme={{ ...theme.config, inherit: false }}>
+      <div>
+        {mode === 'overview' ? (
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Space size={24} align="start">
+              <Space direction="vertical" size={24} style={{ width: 960 }}>
+                <Primary id="primary-demo" />
+                <Success id="success-demo" />
+              </Space>
+              <Space direction="vertical" size={24} style={{ width: 960 }}>
+                <Error id="error-demo" />
+                <Warning id="warning-demo" />
+              </Space>
+            </Space>
+          </div>
+        ) : (
+          <AppDemo
+            style={{
+              width: 1440,
+              height: 'calc(100% - 20px)',
+              boxShadow: token.boxShadowTertiary,
+              borderRadius: token.marginXS,
+              overflow: 'hidden',
+              border: `1px solid ${token.colorBorder}`,
+            }}
+          />
+        )}
+      </div>
+    </ConfigProvider>
+  );
+};
+
+const GlobalTokenDemos = (props: ComponentDemoProProps) => {
+  const { theme } = props;
+  const [mode, setMode] = React.useState<'overview' | 'page'>('page');
+  const locale = useLocale();
+  const { token } = antdTheme.useToken();
+  const { fitView } = useReactFlow();
+  const nodesInitialized = useNodesInitialized();
+
+  useEffect(() => {
+    if (nodesInitialized) {
+      fitView();
+    }
+  }, [nodesInitialized]);
+
+  return (
+    <ReactFlow
+      minZoom={0.25}
+      maxZoom={4}
+      nodes={[
+        {
+          id: `artboard-${mode}`,
+          type: 'artboard',
+          data: <Demo mode={mode} theme={theme} />,
+          draggable: false,
+          connectable: false,
+          position: { x: 0, y: 0 },
+        },
+      ]}
+      nodeTypes={nodeTypes}
+      onlyRenderVisibleElements
+      panOnScroll
+      panOnDrag={false}
+      zoomOnScroll={false}
+      fitView
+      proOptions={{
+        hideAttribution: true,
+      }}
+    >
+      <Panel position="top-center">
         <Segmented
           options={[
+            { value: 'page', label: locale.demo.page },
             { value: 'overview', label: locale.demo.overview },
-            { value: 'component', label: locale.demo.components },
           ]}
           value={mode}
           onChange={setMode as any}
-          style={{ margin: '12px 0 0 12px' }}
+          style={{ boxShadow: token.boxShadowTertiary }}
         />
-
-        <ConfigProvider
-          theme={{
-            components: {
-              Select: {
-                zIndexPopup: 10,
-              },
-              DatePicker: {
-                zIndexPopup: 10,
-              },
-              Dropdown: {
-                zIndexPopup: 10,
-              },
-              Mentions: {
-                zIndexPopup: 10,
-              },
-              Tooltip: {
-                zIndexPopup: 10,
-              },
-              Popover: {
-                zIndexPopup: 10,
-              },
-              Popconfirm: {
-                zIndexPopup: 10,
-              },
-            },
-          }}
-        >
-          {mode === 'overview' ? (
-            <div style={{ margin: 12, maxWidth: 'fit-content' }}>
-              {overviewDemo}
-            </div>
-          ) : (
-            <ComponentDemoGroup
-              selectedTokens={selectedTokens}
-              themes={[theme]}
-              components={components}
-              activeComponents={activeComponents}
-              componentDrawer={componentDrawer}
-              hideTokens
-            />
-          )}
-        </ConfigProvider>
-      </div>
-    </div>
+      </Panel>
+      <Controls />
+      <Background
+        color={token.colorTextSecondary}
+        gap={16}
+        style={{ zIndex: -1, background: token.colorBgLayout }}
+      />
+    </ReactFlow>
   );
 };
 
 export default (props: ComponentDemoProProps) => (
-  <ConfigProvider theme={props.theme.config}>
-    <ComponentDemoPro {...props} />
-  </ConfigProvider>
+  <div style={{ position: 'relative', ...props.style }}>
+    <ReactFlowProvider>
+      <GlobalTokenDemos {...props} />
+    </ReactFlowProvider>
+  </div>
 );

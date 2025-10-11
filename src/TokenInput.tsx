@@ -99,7 +99,7 @@ const TokenInput: FC<TokenInputProps> = ({
   const canReset = customCanReset ?? valueRef.current !== tokenValue;
   const locale = useLocale();
 
-  const [wrapSSR, hashId] = useStyle();
+  const hashId = useStyle();
 
   useEffect(() => {
     if (value !== undefined) {
@@ -216,7 +216,7 @@ const TokenInput: FC<TokenInputProps> = ({
       />
     );
   }
-  return wrapSSR(
+  return (
     <div
       className={classNames('previewer-token-input', hashId, {
         'previewer-token-input-light': light,
@@ -224,7 +224,7 @@ const TokenInput: FC<TokenInputProps> = ({
       })}
     >
       {inputNode}
-    </div>,
+    </div>
   );
 };
 

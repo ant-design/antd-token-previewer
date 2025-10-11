@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Previewer } from 'antd-token-previewer';
 import { ConfigProvider, message } from 'antd';
 import type { Theme } from 'antd-token-previewer';
+import { Previewer } from 'antd-token-previewer';
+import React, { useEffect, useState } from 'react';
 
 const ANT_DESIGN_V5_CUSTOM_THEME = 'ant-design-v5-custom-theme';
 
@@ -26,7 +26,7 @@ const Demo = () => {
       <Previewer
         theme={theme}
         onThemeChange={(config) => setTheme({ ...theme, config })}
-        onSave={(_, obj) => {
+        onSave={(obj) => {
           localStorage.setItem(ANT_DESIGN_V5_CUSTOM_THEME, JSON.stringify(obj));
           messageApi.success('保存成功');
         }}

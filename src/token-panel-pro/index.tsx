@@ -1,29 +1,38 @@
-import { Tabs } from 'antd';
+import { Anchor } from 'antd';
 import type { Theme } from 'antd-token-previewer';
 import classNames from 'classnames';
 import type { FC } from 'react';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import type { SelectedToken } from '../interface';
 import { useLocale } from '../locale';
 import { tokenCategory } from '../meta';
 import type { TokenGroup } from '../meta/interface';
 import makeStyle from '../utils/makeStyle';
-import AliasPanel from './AliasPanel';
 import TokenContent from './TokenContent';
 
 const useStyle = makeStyle('TokenPanelPro', (token) => ({
   '.token-panel-pro': {
+    width: '100%',
     height: '100%',
     display: 'flex',
     borderInlineEnd: `1px solid ${token.colorBorderSecondary}`,
-    [`.token-panel-pro-tabs${token.rootCls}-tabs`]: {
+
+    '.token-panel-pro-content': {
+      width: '100%',
       height: '100%',
-      overflow: 'auto',
-      [`${token.rootCls}-tabs-content`]: {
-        height: '100%',
-        [`${token.rootCls}-tabs-tabpane`]: {
-          height: '100%',
-        },
+      display: 'flex',
+      flexDirection: 'column',
+
+      [`${token.rootCls}-anchor-wrapper`]: {
+        padding: '0px 16px',
+      },
+
+      [`${token.rootCls}-anchor`]: {
+        padding: '10px 0',
+      },
+
+      '.token-panel-pro-list': {
+        overflow: 'auto',
       },
     },
   },
@@ -37,7 +46,6 @@ export type TokenPanelProProps = {
   onTokenSelect?: (token: string | string[], type: keyof SelectedToken) => void;
   infoFollowPrimary?: boolean;
   onInfoFollowPrimaryChange?: (value: boolean) => void;
-  aliasOpen?: boolean;
   onAliasOpenChange?: (value: boolean) => void;
   activeTheme?: string;
 };
@@ -50,10 +58,8 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
   onTokenSelect,
   infoFollowPrimary,
   onInfoFollowPrimaryChange,
-  aliasOpen,
-  onAliasOpenChange,
 }) => {
-  const [wrapSSR, hashId] = useStyle();
+  const hashId = useStyle();
   const [activeGroup, setActiveGroup] = useState<string>('brandColor');
   const locale = useLocale();
 
@@ -72,28 +78,35 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
     onTokenSelect?.(activeCategory?.seedToken ?? [], 'seed');
   }, [activeCategory]);
 
-  return wrapSSR(
+  const tokenListRef = useRef<HTMLDivElement>(null);
+
+  return (
     <div
       className={classNames(hashId, className, 'token-panel-pro')}
       style={style}
     >
-      <Tabs
-        defaultActiveKey="color"
-        tabBarGutter={32}
-        tabBarStyle={{ padding: '0 16px', margin: 0 }}
-        style={{ height: '100%', flex: '0 0 540px' }}
-        className="token-panel-pro-tabs"
-        onChange={(key) => {
-          setActiveGroup(
-            tokenCategory.find((category) => category.nameEn === key)?.groups[0]
-              .key ?? '',
-          );
-        }}
-        items={tokenCategory.map((category) => ({
-          key: category.nameEn,
-          label: locale._lang === 'zh-CN' ? category.name : category.nameEn,
-          children: (
+      <div className="token-panel-pro-content">
+        <Anchor
+          affix={false}
+          direction="horizontal"
+          getContainer={() => tokenListRef.current!}
+          onChange={(key) => {
+            setActiveGroup(
+              tokenCategory.find((category) => category.nameEn === key)
+                ?.groups[0].key ?? '',
+            );
+          }}
+          items={tokenCategory.map((category) => ({
+            key: category.nameEn,
+            title: locale._lang === 'zh-CN' ? category.name : category.nameEn,
+            href: `#${category.nameEn}`,
+          }))}
+        />
+        <div className="token-panel-pro-list" ref={tokenListRef}>
+          {tokenCategory.map((category) => (
             <TokenContent
+              id={category.nameEn}
+              key={category.nameEn}
               category={category}
               theme={theme}
               selectedTokens={selectedTokens}
@@ -103,20 +116,10 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
               activeGroup={activeGroup}
               onActiveGroupChange={setActiveGroup}
             />
-          ),
-        }))}
-      />
-      <AliasPanel
-        open={aliasOpen}
-        description={activeCategory?.aliasTokenDescription}
-        onOpenChange={(value) => onAliasOpenChange?.(value)}
-        activeSeeds={activeCategory?.seedToken}
-        theme={theme}
-        style={{ flex: aliasOpen ? '0 0 320px' : 'none', width: 0 }}
-        selectedTokens={selectedTokens}
-        onTokenSelect={onTokenSelect}
-      />
-    </div>,
+          ))}
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -83,9 +83,9 @@ export default function IconSwitch({
   onChange,
   ...props
 }: IconSwitchProps) {
-  const [wrapSSR, hashId] = useStyle();
+  const hashId = useStyle();
 
-  return wrapSSR(
+  return (
     <div
       className={classNames('theme-editor-icon-switch', className, hashId)}
       style={style}
@@ -104,6 +104,6 @@ export default function IconSwitch({
           {rightIcon}
         </span>
       </div>
-    </div>,
+    </div>
   );
 }

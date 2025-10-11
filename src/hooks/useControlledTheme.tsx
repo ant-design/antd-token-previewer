@@ -4,7 +4,6 @@ import type { ThemeConfig } from 'antd/es/config-provider/context';
 import { useEffect, useRef, useState } from 'react';
 import type { MutableTheme, Theme } from '../interface';
 import deepUpdateObj from '../utils/deepUpdateObj';
-import getDesignToken from '../utils/getDesignToken';
 import getValueByPath from '../utils/getValueByPath';
 
 const {
@@ -44,24 +43,36 @@ const useControlledTheme: UseControlledTheme = ({
   onChange,
 }) => {
   const [theme, setTheme] = useState<Theme>(customTheme ?? defaultTheme);
-  const [infoFollowPrimary, setInfoFollowPrimary] = useState<boolean>(false);
+  const [infoFollowPrimary, setInfoFollowPrimary] = useState<boolean>(true);
   const themeRef = useRef<Theme>(theme);
   const [, setRenderHolder] = useState(0);
 
   const forceUpdate = () => setRenderHolder((prev) => prev + 1);
 
   const getNewTheme = (newTheme: Theme, force?: boolean): Theme => {
-    const newToken = { ...newTheme.config.token };
+    const result = { ...newTheme };
     if (infoFollowPrimary || force) {
-      newToken.colorInfo = getDesignToken(newTheme.config).colorPrimary;
+      const newToken = { ...newTheme.config.token };
+      if (newToken.colorPrimary) {
+        newToken.colorInfo = newToken.colorPrimary;
+      } else {
+        delete newToken.colorInfo;
+      }
+      if (Object.keys(newToken).length > 0) {
+        result.config = {
+          ...newTheme.config,
+          token: newToken,
+        };
+      } else {
+        delete result.config.token;
+      }
     }
-    return { ...newTheme, config: { ...newTheme.config, token: newToken } };
+    return result;
   };
 
   const handleSetTheme: SetThemeState = (newTheme) => {
-    if (customTheme) {
-      onChange?.(getNewTheme(newTheme));
-    } else {
+    onChange?.(getNewTheme(newTheme));
+    if (!customTheme) {
       setTheme(getNewTheme(newTheme));
     }
   };
@@ -73,6 +84,12 @@ const useControlledTheme: UseControlledTheme = ({
       path,
       getValueByPath(themeRef.current?.config, path),
     );
+    handleSetTheme({ ...theme, config: newConfig }, path);
+  };
+
+  const handleAbortTheme = (path: string[]) => {
+    let newConfig = { ...theme.config };
+    newConfig = deepUpdateObj(newConfig, path, undefined);
     handleSetTheme({ ...theme, config: newConfig }, path);
   };
 
@@ -101,6 +118,7 @@ const useControlledTheme: UseControlledTheme = ({
       onThemeChange: (config, path) =>
         handleSetTheme({ ...theme, config }, path),
       onReset: handleResetTheme,
+      onAbort: handleAbortTheme,
       getCanReset: getCanReset(themeRef.current?.config, theme.config),
     },
     infoFollowPrimary,

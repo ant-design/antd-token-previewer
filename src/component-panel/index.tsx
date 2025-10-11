@@ -106,9 +106,16 @@ const useStyle = makeStyle('ComponentPanel', (token) => ({
 
 export const antdComponents = {
   General: ['Button', 'Icon', 'Typography'],
-  Layout: ['Divider', 'Grid', 'Space'],
-  Navigation: ['Breadcrumb', 'Dropdown', 'Menu', 'Pagination', 'Steps'],
-  'Date Entry': [
+  Layout: ['Divider', 'Grid', 'Layout', 'Space'],
+  Navigation: [
+    'Anchor',
+    'Breadcrumb',
+    'Dropdown',
+    'Menu',
+    'Pagination',
+    'Steps',
+  ],
+  'Data Entry': [
     'AutoComplete',
     'Cascader',
     'Checkbox',
@@ -160,7 +167,6 @@ export const antdComponents = {
     'Skeleton',
     'Spin',
   ],
-  Other: ['Anchor'],
 };
 
 export type ComponentPanelProps = {
@@ -180,7 +186,7 @@ const Index: FC<ComponentPanelProps> = ({
   onTokenClick,
   ...rest
 }) => {
-  const [wrapSSR, hashId] = useStyle();
+  const hashId = useStyle();
   const [showSide, setShowSide] = useState<boolean>(true);
   const demosRef = useRef<HTMLDivElement>(null);
   const [componentSize, setComponentSize] = useState<
@@ -275,7 +281,7 @@ const Index: FC<ComponentPanelProps> = ({
     ],
   );
 
-  return wrapSSR(
+  return (
     <div className={classNames('component-panel', hashId, className)} {...rest}>
       <div
         className={classNames('component-panel-side', {
@@ -358,7 +364,7 @@ const Index: FC<ComponentPanelProps> = ({
           </div>
         </div>
       </div>
-    </div>,
+    </div>
   );
 };
 

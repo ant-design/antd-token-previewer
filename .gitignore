@@ -34,5 +34,6 @@ coverage/
 .dumi/tmp
 .dumi/tmp-production
 .dumi/tmp-test
+server
 .env.local
 pnpm-lock.yaml

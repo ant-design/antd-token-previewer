@@ -66,7 +66,7 @@ const TokenDetail: FC<TokenDetailProps> = ({
   className,
   style,
 }) => {
-  const [wrapSSR, hashId] = useStyle();
+  const hashId = useStyle();
   const tokenPath = [...path, tokenName];
   const locale = useLocale();
 
@@ -84,14 +84,14 @@ const TokenDetail: FC<TokenDetailProps> = ({
     ]);
   }, [tokenName]);
 
-  return wrapSSR(
+  return (
     <div
       className={classNames(className, hashId, 'token-panel-token-detail')}
       style={style}
     >
       <div className="token-panel-pro-token-collapse-map-collapse-token-description">
         {
-          (tokenMeta as any)[tokenName]?.[
+          (tokenMeta.global as any)[tokenName]?.[
             locale._lang === 'zh-CN' ? 'desc' : 'descEn'
           ]
         }
@@ -132,7 +132,7 @@ const TokenDetail: FC<TokenDetailProps> = ({
           );
         })}
       </div>
-    </div>,
+    </div>
   );
 };
 

@@ -1,3 +1,5 @@
 export default function isColor(str: string) {
-  return str.startsWith('rgb') || str.startsWith('#');
+  return (
+    typeof str === 'string' && (str.startsWith('rgb') || str.startsWith('#'))
+  );
 }

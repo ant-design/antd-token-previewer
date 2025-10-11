@@ -2,9 +2,9 @@ import { ConfigProvider, Tooltip } from 'antd';
 import classNames from 'classnames';
 import type { FC } from 'react';
 import React from 'react';
-import ComponentDemos from '../component-demos';
 import type { ComponentDemo, MutableTheme, TokenName } from '../interface';
 import { useLocale } from '../locale';
+import ComponentDemos from '../previews/components';
 import makeStyle from '../utils/makeStyle';
 import ComponentCard, { getComponentDemoId } from './ComponentCard';
 
@@ -129,9 +129,9 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
   componentDrawer,
   hideTokens,
 }) => {
-  const [wrapSSR, hashId] = useStyle();
+  const hashId = useStyle();
 
-  return wrapSSR(
+  return (
     <>
       {Object.entries(components)
         .reduce<string[]>((result, [, group]) => result.concat(group), [])
@@ -195,7 +195,7 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
             </div>
           );
         })}
-    </>,
+    </>
   );
 };
 

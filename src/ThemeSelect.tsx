@@ -2,7 +2,8 @@ import type { FC, ReactNode } from 'react';
 import React, { useMemo } from 'react';
 import makeStyle from './utils/makeStyle';
 import classNames from 'classnames';
-import { Button, Dropdown, Menu } from 'antd';
+import type { MenuProps } from 'antd';
+import { Button, Dropdown } from 'antd';
 import { CloseOutlined, PlusOutlined } from '@ant-design/icons';
 import type { Theme } from './interface';
 
@@ -136,9 +137,9 @@ const ThemeSelect: FC<ThemeSelectProps> = (props) => {
     showAddTheme,
   } = props;
 
-  const [wrapSSR, hashId] = useStyle();
+  const hashId = useStyle();
 
-  const dropdownItems = useMemo(
+  const dropdownItems = useMemo<MenuProps['items']>(
     () => [
       {
         disabled: true,
@@ -169,7 +170,7 @@ const ThemeSelect: FC<ThemeSelectProps> = (props) => {
     [themes, shownThemes],
   );
 
-  return wrapSSR(
+  return (
     <div className={classNames('previewer-theme-select', hashId)}>
       {shownThemeEntities.map((theme) => (
         <span
@@ -215,7 +216,9 @@ const ThemeSelect: FC<ThemeSelectProps> = (props) => {
         <Dropdown
           placement="bottomRight"
           trigger={['click']}
-          overlay={<Menu items={dropdownItems} />}
+          menu={{
+            items: dropdownItems,
+          }}
           overlayClassName={classNames(
             'previewer-theme-select-dropdown',
             hashId,
@@ -229,7 +232,7 @@ const ThemeSelect: FC<ThemeSelectProps> = (props) => {
           />
         </Dropdown>
       )}
-    </div>,
+    </div>
   );
 };
 

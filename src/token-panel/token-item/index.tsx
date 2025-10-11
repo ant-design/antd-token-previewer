@@ -196,7 +196,7 @@ export default ({
   fallback,
 }: TokenItemProps) => {
   const [infoVisible, setInfoVisible] = React.useState(false);
-  const [wrapSSR, hashId] = useStyle();
+  const hashId = useStyle();
 
   useEffect(() => {
     if (active) {
@@ -213,7 +213,7 @@ export default ({
     [tokenName],
   );
 
-  return wrapSSR(
+  return (
     <div onMouseEnter={() => onActiveChange?.(false)}>
       <Collapse
         collapsible="header"
@@ -333,6 +333,6 @@ export default ({
           </Space>
         </Panel>
       </Collapse>
-    </div>,
+    </div>
   );
 };

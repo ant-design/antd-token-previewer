@@ -1,10 +1,8 @@
 import { defineConfig } from 'father';
 
 export default defineConfig({
-  platform: 'browser',
-  cjs: { output: 'lib' },
+  plugins: ['@rc-component/father-plugin'],
   esm: {
-    output: 'es',
     alias: {
       'rc-util/lib': 'rc-util/es',
       'antd/lib': 'antd/es',

@@ -81,7 +81,7 @@ const ComponentTree: FC<ComponentTreeProps> = ({
   filterMode = 'filter',
   activeComponent,
 }) => {
-  const [wrapSSR, hashId] = useStyle();
+  const hashId = useStyle();
   const treeRef = useRef<HTMLDivElement>(null);
   const [search, setSearch] = useState<string>('');
 
@@ -168,7 +168,7 @@ const ComponentTree: FC<ComponentTreeProps> = ({
     }
   }, [selectedTokens, filterMode]);
 
-  return wrapSSR(
+  return (
     <div className={classNames('component-tree-wrapper', hashId)}>
       <Input
         allowClear
@@ -190,7 +190,7 @@ const ComponentTree: FC<ComponentTreeProps> = ({
           expandAction="doubleClick"
         />
       </div>
-    </div>,
+    </div>
   );
 };
 

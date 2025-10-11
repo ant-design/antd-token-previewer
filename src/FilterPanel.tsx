@@ -72,7 +72,7 @@ const FilterPanel: FC<FilterPanelProps> = ({
   onTokenClick,
   ...rest
 }) => {
-  const [wrapSSR, hashId] = useStyle();
+  const hashId = useStyle();
 
   const [filterMode, setFilterMode] = useMergedState<FilterMode>(
     customFilterMode || 'filter',
@@ -82,7 +82,7 @@ const FilterPanel: FC<FilterPanelProps> = ({
     return null;
   }
 
-  return wrapSSR(
+  return (
     <div
       className={classNames('previewer-filter-panel', hashId, className)}
       {...rest}
@@ -126,7 +126,7 @@ const FilterPanel: FC<FilterPanelProps> = ({
           </div>
         </>
       )}
-    </div>,
+    </div>
   );
 };
 

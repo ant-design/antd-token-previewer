@@ -1,3 +1,4 @@
+import { TinyColor } from '@ctrl/tinycolor';
 import type { ThemeConfig } from 'antd/es/config-provider/context';
 import type { FC } from 'react';
 import React from 'react';
@@ -11,11 +12,15 @@ export type TokenPreviewProps = {
 };
 
 const TokenPreview: FC<TokenPreviewProps> = ({ theme, tokenName, type }) => {
+  const { colorBgContainer } = getDesignToken(theme);
+
+  const isDark = new TinyColor(colorBgContainer).getBrightness() < 50;
+
   if (type === 'Color') {
     return (
       <div
         style={{
-          background: `${getColorBgImg(false)} 0% 0% / 28px`,
+          background: `${getColorBgImg(isDark)} 0% 0% / 28px`,
           width: '100%',
           height: '100%',
           position: 'relative',
@@ -43,7 +48,7 @@ const TokenPreview: FC<TokenPreviewProps> = ({ theme, tokenName, type }) => {
           alignItems: 'center',
           justifyContent: 'center',
           overflow: 'hidden',
-          background: `${getColorBgImg(false)} 0% 0% / 28px`,
+          background: `${getColorBgImg(isDark)} 0% 0% / 28px`,
           fontSize: (getDesignToken(theme) as any)[tokenName],
           fontWeight: 700,
         }}
@@ -64,7 +69,7 @@ const TokenPreview: FC<TokenPreviewProps> = ({ theme, tokenName, type }) => {
           justifyContent: 'center',
           fontWeight: 700,
           overflow: 'hidden',
-          background: `${getColorBgImg(false)} 0% 0% / 28px`,
+          background: `${getColorBgImg(isDark)} 0% 0% / 28px`,
         }}
       >
         <span
@@ -91,7 +96,7 @@ const TokenPreview: FC<TokenPreviewProps> = ({ theme, tokenName, type }) => {
           height: '100%',
           position: 'relative',
           overflow: 'hidden',
-          background: `${getColorBgImg(false)} 0% 0% / 28px`,
+          background: `${getColorBgImg(isDark)} 0% 0% / 28px`,
         }}
       >
         <div
@@ -125,7 +130,7 @@ const TokenPreview: FC<TokenPreviewProps> = ({ theme, tokenName, type }) => {
           height: '100%',
           position: 'relative',
           overflow: 'hidden',
-          background: `${getColorBgImg(false)} 0% 0% / 28px`,
+          background: `${getColorBgImg(isDark)} 0% 0% / 28px`,
         }}
       >
         <div
@@ -158,7 +163,7 @@ const TokenPreview: FC<TokenPreviewProps> = ({ theme, tokenName, type }) => {
           height: '100%',
           position: 'relative',
           overflow: 'hidden',
-          background: `${getColorBgImg(false)} 0% 0% / 28px`,
+          background: `${getColorBgImg(isDark)} 0% 0% / 28px`,
         }}
       >
         <div
@@ -186,7 +191,7 @@ const TokenPreview: FC<TokenPreviewProps> = ({ theme, tokenName, type }) => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          background: `${getColorBgImg(false)} 0% 0% / 28px`,
+          background: `${getColorBgImg(isDark)} 0% 0% / 28px`,
         }}
       >
         <div

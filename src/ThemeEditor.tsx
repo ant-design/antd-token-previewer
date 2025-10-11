@@ -1,31 +1,63 @@
 import type { DerivativeFunc } from '@ant-design/cssinjs';
+import { CaretDownOutlined } from '@ant-design/icons';
+import { Button, Dropdown, message, Segmented, Space, Tag } from 'antd';
 import classNames from 'classnames';
+import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import type { ReactNode } from 'react';
 import React, {
   forwardRef,
   useImperativeHandle,
   useMemo,
   useState,
 } from 'react';
-import { antdComponents } from './component-panel';
+import ComponentTokenEditor from './component-token-editor';
+import { AdvancedContext } from './context';
+import type { EditorModalProps } from './editor-modal';
+import EditorModal from './editor-modal';
+import GlobalTokenEditor from './GlobalTokenEditor';
 import useControlledTheme from './hooks/useControlledTheme';
-import type { SelectedToken, Theme } from './interface';
+import { DarkTheme, Light } from './icons';
+import type { Theme } from './interface';
 import type { Locale } from './locale';
 import { LocaleContext, zhCN } from './locale';
-import {
-  mapRelatedAlias,
-  seedRelatedAlias,
-  seedRelatedMap,
-} from './meta/TokenRelation';
-import type { TokenPanelProProps } from './token-panel-pro';
-import TokenPanelPro from './token-panel-pro';
-import ComponentDemoPro from './token-panel-pro/ComponentDemoPro';
+import { HIGHLIGHT_COLOR } from './utils/constants';
 import makeStyle from './utils/makeStyle';
-import { getRelatedComponents } from './utils/statistic';
+import { isLeftChecked, switchAlgorithm } from './utils/themeAlgorithmUtils';
 
 const useStyle = makeStyle('ThemeEditor', (token) => ({
-  '.antd-theme-editor': {
+  [token.componentCls]: {
     backgroundColor: token.colorBgLayout,
+    height: '100vh',
     display: 'flex',
+    flexDirection: 'column',
+    [`${token.componentCls}-header`]: {
+      height: token.headerHeight,
+      display: 'flex',
+      alignItems: 'center',
+      padding: '0 16px',
+      background: token.colorBgContainer,
+      borderBottom: `1px solid ${token.colorSplit}`,
+      flex: `0 0 ${token.headerHeight}px`,
+
+      '&-title': {
+        fontSize: token.fontSizeLG,
+        fontWeight: token.fontWeightStrong,
+        color: token.colorText,
+      },
+
+      '&-actions': {
+        marginLeft: 'auto',
+
+        '&-diff': {
+          fontSize: token.fontSize,
+          color: token.colorTextTertiary,
+        },
+      },
+    },
+    [`${token.componentCls}-body`]: {
+      flex: 1,
+      height: 0,
+    },
   },
 }));
 
@@ -39,19 +71,27 @@ export type ThemeEditorRef = {
   updateRef: () => void;
 };
 
+export type ThemeEditorMode = 'global' | 'component';
+
 export type ThemeEditorProps = {
-  /**
-   * @deprecated
-   * @default true
-   */
-  simple?: boolean;
   theme?: Theme;
   onThemeChange?: (theme: Theme) => void;
   className?: string;
   style?: React.CSSProperties;
   darkAlgorithm?: DerivativeFunc<any, any>;
   locale?: Locale;
+  actions?: ReactNode;
+  mode?: ThemeEditorMode;
+  onModeChange?: (mode: ThemeEditorMode) => void;
+  advanced?: boolean;
+  hideAdvancedSwitcher?: boolean;
+  onAdvancedChange?: (advanced: boolean) => void;
+  children?: ReactNode;
 };
+
+function isObject(target: any) {
+  return Object.prototype.toString.call(target) === '[object Object]';
+}
 
 const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
   (
@@ -62,126 +102,189 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
       style,
       darkAlgorithm,
       locale = zhCN,
+      actions,
+      mode: customMode,
+      onModeChange,
+      advanced: customAdvanced,
+      onAdvancedChange,
+      hideAdvancedSwitcher,
+      children,
     },
     ref,
   ) => {
-    const [wrapSSR, hashId] = useStyle();
-    const [selectedTokens, setSelectedTokens] = useState<SelectedToken>({
-      seed: ['colorPrimary'],
+    const prefixCls = 'antd-theme-editor';
+    const hashId = useStyle(prefixCls);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [mode, setMode] = useMergedState<ThemeEditorMode>('global', {
+      value: customMode,
+      onChange: onModeChange,
     });
-    const [aliasOpen, setAliasOpen] = useState<boolean>(false);
+    const [messageApi, contextHolder] = message.useMessage();
+
+    const handleAdvancedChange = (value: boolean) => {
+      if (!value) {
+        setMode('global');
+      }
+      onAdvancedChange?.(value);
+    };
+
+    const [advanced, setAdvanced] = useMergedState<boolean>(false, {
+      value: customAdvanced,
+      onChange: handleAdvancedChange,
+    });
 
     const { theme, infoFollowPrimary, onInfoFollowPrimaryChange, updateRef } =
       useControlledTheme({
         theme: customTheme,
         defaultTheme,
-        onChange: onThemeChange,
+        onChange: (newTheme: Theme) => {
+          onThemeChange?.(newTheme);
+        },
         darkAlgorithm,
       });
+
+    const editTotal = useMemo(() => {
+      const { token = {}, components = {} } = theme.config;
+      let mergedEditTotal = Object.keys(token).length;
+      if (components) {
+        Object.values(components).forEach((componentTokens) => {
+          if (isObject(componentTokens)) {
+            mergedEditTotal += Object.keys(componentTokens).length;
+          }
+        });
+      }
+      return mergedEditTotal;
+    }, [theme]);
 
     useImperativeHandle(ref, () => ({
       updateRef,
     }));
 
-    const handleTokenSelect: TokenPanelProProps['onTokenSelect'] = (
-      token,
-      type,
-    ) => {
-      setSelectedTokens((prev) => {
-        const tokens =
-          typeof token === 'string' ? (token ? [token] : []) : token;
-        if (type === 'seed') {
-          return {
-            seed: tokens,
-          };
-        }
-
-        let newSelectedTokens = { ...prev };
-        tokens.forEach((newToken) => {
-          newSelectedTokens = {
-            ...prev,
-            [type]: prev[type]?.includes(newToken)
-              ? prev[type]?.filter((t) => t !== newToken)
-              : [...(prev[type] ?? []), newToken],
-          };
-        });
-        if (type === 'map') {
-          delete newSelectedTokens.alias;
-        }
-        return newSelectedTokens;
-      });
+    const editModelClose = () => {
+      setIsModalOpen(false);
     };
 
-    const computedSelectedTokens = useMemo(() => {
-      if (
-        selectedTokens.seed?.length &&
-        !selectedTokens.map?.length &&
-        !selectedTokens.alias?.length
-      ) {
-        return [
-          ...selectedTokens.seed,
-          ...((seedRelatedMap as any)[selectedTokens.seed[0]] ?? []),
-          ...((seedRelatedAlias as any)[selectedTokens.seed[0]] ?? []),
-        ];
-      }
-      if (selectedTokens.map?.length && !selectedTokens.alias?.length) {
-        return [
-          ...selectedTokens.map,
-          ...selectedTokens.map.reduce((result, item) => {
-            return result.concat((mapRelatedAlias as any)[item]);
-          }, []),
-        ];
-      }
-      if (selectedTokens.alias?.length) {
-        return [...selectedTokens.alias];
-      }
-      return [];
-    }, [selectedTokens]);
+    const editSave: EditorModalProps['onOk'] = (config) => {
+      const themeConfig = {
+        ...theme,
+        config,
+      };
 
-    const relatedComponents = useMemo(() => {
-      return computedSelectedTokens
-        ? getRelatedComponents(computedSelectedTokens)
-        : [];
-    }, [computedSelectedTokens]);
+      if (!isObject(themeConfig)) {
+        messageApi.error('主题 JSON 格式错误');
+        return;
+      }
+      onThemeChange?.(themeConfig);
+      editModelClose();
+      messageApi.success('编辑成功');
+    };
 
-    return wrapSSR(
+    return (
       <LocaleContext.Provider value={locale}>
-        <div
-          className={classNames(hashId, 'antd-theme-editor', className)}
-          style={style}
-        >
+        <AdvancedContext.Provider value={advanced}>
+          {contextHolder}
           <div
-            style={{
-              flex: aliasOpen ? '0 0 860px' : `0 0 ${860 - 320}px`,
-              height: '100%',
-              backgroundColor: '#F7F8FA',
-              backgroundImage:
-                'linear-gradient(180deg, #FFFFFF 0%, rgba(246,247,249,0.00) 100%)',
-              display: 'flex',
-              transition: 'all 0.3s',
-            }}
+            className={classNames(hashId, prefixCls, className)}
+            style={style}
           >
-            <TokenPanelPro
-              aliasOpen={aliasOpen}
-              onAliasOpenChange={(open) => setAliasOpen(open)}
+            <div className={`${prefixCls}-header`}>
+              <div className={`${prefixCls}-header-title`}>{locale.title}</div>
+              {!hideAdvancedSwitcher && (
+                <Dropdown
+                  trigger={['click']}
+                  menu={{
+                    items: [
+                      {
+                        key: 'basic',
+                        label: locale.basicMode,
+                        onClick: () => setAdvanced(false),
+                      },
+                      {
+                        key: 'advanced',
+                        label: locale.advancedMode,
+                        onClick: () => setAdvanced(true),
+                      },
+                    ],
+                  }}
+                >
+                  <Tag
+                    color={advanced ? 'blue' : 'green'}
+                    style={{ marginLeft: 24, cursor: 'pointer', fontSize: 12 }}
+                  >
+                    <span>
+                      {advanced ? locale.advancedMode : locale.basicMode}
+                    </span>
+                    <CaretDownOutlined style={{ fontSize: 10 }} />
+                  </Tag>
+                </Dropdown>
+              )}
+              <Space size="middle">
+                {advanced && (
+                  <Segmented
+                    value={mode}
+                    options={[
+                      { label: locale.globalToken, value: 'global' },
+                      { label: locale.componentToken, value: 'component' },
+                    ]}
+                    onChange={(v) => setMode(v as ThemeEditorMode)}
+                    style={{ marginLeft: 24 }}
+                  />
+                )}
+
+                <Segmented
+                  options={[
+                    {
+                      icon: <Light style={{ fontSize: 16 }} />,
+                      value: 'light',
+                    },
+                    {
+                      icon: <DarkTheme style={{ fontSize: 16 }} />,
+                      value: 'dark',
+                    },
+                  ]}
+                  onChange={switchAlgorithm('dark', theme)}
+                  value={isLeftChecked('dark', theme) ? 'light' : 'dark'}
+                />
+              </Space>
+              <div className={`${prefixCls}-header-actions`}>
+                <span
+                  className={`${prefixCls}-header-actions-diff`}
+                  style={{ marginRight: 8, fontSize: 14 }}
+                >
+                  {locale.total}{' '}
+                  <span style={{ color: HIGHLIGHT_COLOR }}>{editTotal}</span>{' '}
+                  {locale.changes}
+                </span>
+                <Button
+                  style={{ marginRight: 8 }}
+                  onClick={() => setIsModalOpen(true)}
+                >
+                  {locale.themeConfig}
+                </Button>
+                {actions}
+              </div>
+            </div>
+            <div className={`${prefixCls}-body`}>
+              {mode === 'global' && (
+                <GlobalTokenEditor
+                  theme={theme}
+                  infoFollowPrimary={infoFollowPrimary}
+                  onInfoFollowPrimaryChange={onInfoFollowPrimaryChange}
+                >
+                  {children}
+                </GlobalTokenEditor>
+              )}
+              {mode === 'component' && <ComponentTokenEditor theme={theme} />}
+            </div>
+            <EditorModal
+              open={isModalOpen}
+              onOk={editSave}
               theme={theme}
-              style={{ flex: 1 }}
-              selectedTokens={selectedTokens}
-              onTokenSelect={handleTokenSelect}
-              infoFollowPrimary={infoFollowPrimary}
-              onInfoFollowPrimaryChange={onInfoFollowPrimaryChange}
+              onCancel={editModelClose}
             />
           </div>
-          <ComponentDemoPro
-            theme={theme}
-            components={antdComponents}
-            activeComponents={relatedComponents}
-            selectedTokens={computedSelectedTokens}
-            style={{ flex: 1, overflow: 'auto', height: '100%' }}
-            componentDrawer
-          />
-        </div>
-      </LocaleContext.Provider>,
+        </AdvancedContext.Provider>
+      </LocaleContext.Provider>
     );
   },
 );
