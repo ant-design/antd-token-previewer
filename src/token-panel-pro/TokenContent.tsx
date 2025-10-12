@@ -302,7 +302,6 @@ export type SeedTokenProps = {
   theme: MutableTheme;
   tokenName: string;
   disabled?: boolean;
-  children?: ReactNode;
 };
 
 const getSeedValue = (config: ThemeConfig, token: string) => {
@@ -337,12 +336,10 @@ const seedRange: Record<string, { min: number; max: number }> = {
   },
 };
 
-const SeedTokenPreview: FC<SeedTokenProps> = ({
-  theme,
-  tokenName,
-  disabled,
-  children,
-}) => {
+const SeedTokenPreview: FC<React.PropsWithChildren<SeedTokenProps>> = (
+  props,
+) => {
+  const { theme, tokenName, disabled, children } = props;
   const [tokenValue, setTokenValue] = useState(
     getSeedValue(theme.config, tokenName),
   );
@@ -415,7 +412,7 @@ const SeedTokenPreview: FC<SeedTokenProps> = ({
             }
             value={tokenValue}
           >
-            <>{children}</>
+            {children as any}
           </ColorPicker>
         ) : (
           <Popover
@@ -424,7 +421,7 @@ const SeedTokenPreview: FC<SeedTokenProps> = ({
             trigger="click"
             content={nonColorInput}
           >
-            <>{children}</>
+            {children as any}
           </Popover>
         )}
       </>
