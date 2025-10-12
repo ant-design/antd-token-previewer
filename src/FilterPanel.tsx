@@ -1,9 +1,9 @@
 import type { CSSProperties, FC } from 'react';
 import React from 'react';
 import makeStyle from './utils/makeStyle';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import { Segmented, Tag } from 'antd';
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import useMergedState from '@rc-component/util/lib/hooks/useMergedState';
 
 const useStyle = makeStyle('FilterPanel', (token) => ({
   '.previewer-filter-panel': {
@@ -84,7 +84,7 @@ const FilterPanel: FC<FilterPanelProps> = ({
 
   return (
     <div
-      className={classNames('previewer-filter-panel', hashId, className)}
+      className={clsx('previewer-filter-panel', hashId, className)}
       {...rest}
     >
       {selectedTokens && selectedTokens.length > 0 && (

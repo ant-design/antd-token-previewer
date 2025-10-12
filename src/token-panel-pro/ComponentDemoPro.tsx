@@ -7,23 +7,25 @@ import {
   theme as antdTheme,
   Tooltip,
 } from 'antd';
-import type { FC, ReactNode } from 'react';
 import React, { memo, useEffect } from 'react';
-import ReactFlow, {
+import {
   Background,
+  ReactFlow,
+  NodeTypes,
   Panel,
   ReactFlowProvider,
   useNodesInitialized,
   useReactFlow,
   useViewport,
-} from 'reactflow';
-import 'reactflow/dist/style.css';
+  NodeProps,
+} from '@xyflow/react';
+import '@xyflow/react/dist/style.css';
 import type { MutableTheme, Theme } from '../interface';
 import { useLocale } from '../locale';
 import { Error, Primary, Success, Warning } from '../previews/overviews';
 import AppDemo from '../previews/pages';
 
-const Zoom: FC = memo(() => {
+const Zoom = memo(() => {
   const reactFlow = useReactFlow();
   const { zoom } = useViewport();
   const locale = useLocale();
@@ -48,10 +50,10 @@ const Zoom: FC = memo(() => {
     </Tooltip>
   );
 });
+
 const Controls = () => {
   const { zoomIn, zoomOut, fitView } = useReactFlow();
   const locale = useLocale();
-
   return (
     <Space style={{ zIndex: 100, position: 'absolute', bottom: 10, right: 10 }}>
       <Button icon={<MinusOutlined />} onClick={() => zoomOut()} />
@@ -64,11 +66,11 @@ const Controls = () => {
   );
 };
 
-const Artboard: FC<{ data: ReactNode }> = ({ data }) => {
-  return <div>{data}</div>;
+const Artboard: React.FC<NodeProps & { data: any; type: any }> = (props) => {
+  return <div>{props.data.content}</div>;
 };
 
-const nodeTypes = {
+const nodeTypes: NodeTypes = {
   artboard: Artboard,
 };
 
@@ -137,7 +139,7 @@ const GlobalTokenDemos = (props: ComponentDemoProProps) => {
         {
           id: `artboard-${mode}`,
           type: 'artboard',
-          data: <Demo mode={mode} theme={theme} />,
+          data: { content: <Demo mode={mode} theme={theme} /> },
           draggable: false,
           connectable: false,
           position: { x: 0, y: 0 },

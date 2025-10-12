@@ -13,7 +13,7 @@ import type { MutableTheme } from 'antd-token-previewer';
 import type { ThemeConfig } from 'antd/es/config-provider/context';
 import seed from 'antd/es/theme/themes/seed';
 import tokenMeta from 'antd/lib/version/token-meta.json';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import type { FC, ReactNode } from 'react';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDebouncyFn } from 'use-debouncy';
@@ -683,7 +683,7 @@ const TokenContent: FC<ColorTokenContentProps> = ({
   const { token } = antdTheme.useToken();
 
   return (
-    <div className={classNames(hashId, 'token-panel-pro-color')} id={id}>
+    <div className={clsx(hashId, 'token-panel-pro-color')} id={id}>
       <div className="token-panel-pro-color-seeds">
         <div className="token-panel-pro-color-themes">
           <span style={{ marginRight: 12 }}>

@@ -2,7 +2,7 @@ import { darkAlgorithm, defaultTheme } from '@ant-design/compatible';
 import { ConfigProvider } from 'antd';
 import type { Theme } from 'antd-token-previewer';
 import { ThemeEditor } from 'antd-token-previewer';
-import 'antd/es/style/reset.css';
+// import 'antd/lib/style/reset.css';
 import React from 'react';
 
 const Demo = () => {

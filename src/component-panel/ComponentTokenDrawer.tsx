@@ -7,7 +7,7 @@ import {
   theme as antdTheme,
   Tooltip,
 } from 'antd';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import type { FC } from 'react';
 import React, { useMemo } from 'react';
 import type {
@@ -72,10 +72,7 @@ const ComponentFullDemos: FC<ComponentFullDemosProps> = ({ demos }) => {
   const locale = useLocale();
 
   return (
-    <div
-      className={classNames('previewer-component-full-demos', hashId)}
-      style={{}}
-    >
+    <div className={clsx('previewer-component-full-demos', hashId)} style={{}}>
       {demos?.map((demo) => (
         <ComponentCard
           key={demo.key}
@@ -152,7 +149,7 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
       }
       onClose={onClose}
       width={1200}
-      className={classNames('previewer-component-token-drawer', hashId)}
+      className={clsx('previewer-component-token-drawer', hashId)}
     >
       <div style={{ display: 'flex', height: '100%' }}>
         <ConfigProvider theme={theme.config}>

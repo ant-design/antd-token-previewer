@@ -1,7 +1,7 @@
 import { CaretRightOutlined } from '@ant-design/icons';
 import { Collapse, Space } from 'antd';
 import type { ThemeConfig } from 'antd/es/config-provider/context';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import type { CSSProperties } from 'react';
 import React, { useEffect, useMemo } from 'react';
 import ColorPreview from '../../ColorPreview';
@@ -219,7 +219,7 @@ export default ({
         collapsible="header"
         ghost
         onChange={(key) => setInfoVisible(key.length > 0)}
-        className={classNames('previewer-token-item-collapse', hashId)}
+        className={clsx('previewer-token-item-collapse', hashId)}
         expandIcon={({ isActive }) => (
           <CaretRightOutlined
             rotate={isActive ? 90 : 0}
@@ -251,7 +251,7 @@ export default ({
               >
                 <span
                   title={tokenName}
-                  className={classNames('previewer-token-item-name', {
+                  className={clsx('previewer-token-item-name', {
                     'previewer-token-item-highlighted': active,
                   })}
                   style={{

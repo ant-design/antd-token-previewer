@@ -6,8 +6,8 @@ import {
 } from '@ant-design/icons';
 import { Button, Collapse, Empty, Tooltip } from 'antd';
 import type { MutableTheme } from 'antd-token-previewer';
-import classNames from 'classnames';
-import useMergedState from 'rc-util/es/hooks/useMergedState';
+import { clsx } from 'clsx';
+import useMergedState from '@rc-component/util/lib/hooks/useMergedState';
 import type { FC } from 'react';
 import React, { useMemo } from 'react';
 import { Pick } from '../icons';
@@ -161,7 +161,7 @@ const AliasPanel: FC<AliasPanelProps> = ({
 
   return (
     <div
-      className={classNames(className, 'token-panel-pro-color-alias', hashId)}
+      className={clsx(className, 'token-panel-pro-color-alias', hashId)}
       style={style}
     >
       {open ? (
@@ -216,7 +216,7 @@ const AliasPanel: FC<AliasPanelProps> = ({
                         }}
                       >
                         <Pick
-                          className={classNames('token-panel-pro-token-pick', {
+                          className={clsx('token-panel-pro-token-pick', {
                             'token-panel-pro-token-picked':
                               selectedTokens?.alias?.includes(aliasToken),
                           })}

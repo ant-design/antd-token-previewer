@@ -15,8 +15,8 @@ import {
 } from '@ant-design/icons';
 import { Collapse, Space } from 'antd';
 import type { ThemeConfig } from 'antd/es/config-provider/context';
-import classNames from 'classnames';
-import useMergedState from 'rc-util/es/hooks/useMergedState';
+import { clsx } from 'clsx';
+import useMergedState from '@rc-component/util/lib/hooks/useMergedState';
 import type { ReactNode } from 'react';
 import React from 'react';
 import { Motion, ShapeLine } from '../../icons';
@@ -112,27 +112,28 @@ const useStyle = makeStyle('TokenCard', (token) => ({
     },
 }));
 
-export default ({
-  title,
-  icon,
-  tokenArr,
-  keyword,
-  hideUseless,
-  defaultOpen,
-  open: customOpen,
-  onOpenChange,
-  activeToken,
-  onActiveTokenChange,
-  onTokenChange,
-  tokenPath,
-  selectedTokens,
-  themes,
-  onTokenSelect,
-  enableTokenSelect,
-  hideUsageCount,
-  fallback,
-  placeholder,
-}: TokenCardProps) => {
+export default (props: TokenCardProps) => {
+  const {
+    title,
+    icon,
+    tokenArr,
+    keyword,
+    hideUseless,
+    defaultOpen,
+    open: customOpen,
+    onOpenChange,
+    activeToken,
+    onActiveTokenChange,
+    onTokenChange,
+    tokenPath,
+    selectedTokens,
+    themes,
+    onTokenSelect,
+    enableTokenSelect,
+    hideUsageCount,
+    fallback,
+    placeholder,
+  } = props;
   const hashId = useStyle();
   const [open, setOpen] = useMergedState(false, {
     onChange: onOpenChange,
@@ -141,7 +142,7 @@ export default ({
   });
 
   return (
-    <div className={classNames('token-card', hashId)}>
+    <div className={clsx('token-card', hashId)}>
       <Collapse
         ghost
         expandIcon={({ isActive }) => (
@@ -150,7 +151,7 @@ export default ({
             style={{ fontSize: 12, color: 'rgba(0,0,0,0.45)' }}
           />
         )}
-        expandIconPosition="right"
+        expandIconPlacement="end"
         className="token-card-collapse"
         activeKey={open ? '1' : undefined}
         onChange={(keys) => {
@@ -192,7 +193,7 @@ export default ({
                 fallback={fallback}
               />
             ))}
-          {tokenArr.length === 0 && placeholder}
+          {tokenArr.length === 0 && <>{placeholder}</>}
         </Panel>
       </Collapse>
     </div>

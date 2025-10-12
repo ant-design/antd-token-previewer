@@ -1,7 +1,7 @@
 import type { FC, ReactNode } from 'react';
 import React, { useMemo } from 'react';
 import makeStyle from './utils/makeStyle';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import type { MenuProps } from 'antd';
 import { Button, Dropdown } from 'antd';
 import { CloseOutlined, PlusOutlined } from '@ant-design/icons';
@@ -171,7 +171,7 @@ const ThemeSelect: FC<ThemeSelectProps> = (props) => {
   );
 
   return (
-    <div className={classNames('previewer-theme-select', hashId)}>
+    <div className={clsx('previewer-theme-select', hashId)}>
       {shownThemeEntities.map((theme) => (
         <span
           onClick={() => {
@@ -185,7 +185,7 @@ const ThemeSelect: FC<ThemeSelectProps> = (props) => {
             );
           }}
           key={theme.key}
-          className={classNames('previewer-theme-select-tag', {
+          className={clsx('previewer-theme-select-tag', {
             'previewer-theme-select-tag-active': enabledThemes.includes(
               theme.key,
             ),
@@ -216,13 +216,8 @@ const ThemeSelect: FC<ThemeSelectProps> = (props) => {
         <Dropdown
           placement="bottomRight"
           trigger={['click']}
-          menu={{
-            items: dropdownItems,
-          }}
-          overlayClassName={classNames(
-            'previewer-theme-select-dropdown',
-            hashId,
-          )}
+          menu={{ items: dropdownItems }}
+          classNames={{ root: clsx('previewer-theme-select-dropdown', hashId) }}
         >
           <Button
             type="primary"

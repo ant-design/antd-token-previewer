@@ -4,7 +4,7 @@ import type { CardProps } from 'antd';
 import { Card } from 'antd';
 import { Control } from '../icons';
 import makeStyle from '../utils/makeStyle';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import type { MutableTheme, TokenName } from '../interface';
 import ComponentTokenDrawer from './ComponentTokenDrawer';
 
@@ -64,7 +64,7 @@ const ComponentCard: FC<ComponentCardProps> = ({
   return (
     <>
       <Card
-        className={classNames('component-card', hashId)}
+        className={clsx('component-card', hashId)}
         title={title}
         extra={
           drawer &&

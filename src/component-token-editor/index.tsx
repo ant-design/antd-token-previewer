@@ -2,7 +2,7 @@ import type { MenuProps } from 'antd';
 import { Anchor, ConfigProvider, Empty, Menu, Switch, Tooltip } from 'antd';
 import tokenMeta from 'antd/lib/version/token-meta.json';
 import tokenStatistic from 'antd/lib/version/token.json';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import type { FC } from 'react';
 import React, { useMemo, useRef, useState } from 'react';
 import { useDebouncyFn } from 'use-debouncy';
@@ -236,14 +236,8 @@ const ComponentTokenEditor: FC<ComponentTokenEditorProps> = ({ theme }) => {
   );
 
   return (
-    <div className={classNames(prefixCls, hashId)}>
-      <div
-        style={{
-          flex: '0 0 258px',
-          height: '100%',
-          overflow: 'auto',
-        }}
-      >
+    <div className={clsx(prefixCls, hashId)}>
+      <div style={{ flex: '0 0 258px', height: '100%', overflow: 'auto' }}>
         <Menu
           className={`${prefixCls}-menu`}
           items={menuItems}

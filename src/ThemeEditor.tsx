@@ -1,8 +1,8 @@
 import type { DerivativeFunc } from '@ant-design/cssinjs';
 import { CaretDownOutlined } from '@ant-design/icons';
 import { Button, Dropdown, message, Segmented, Space, Tag } from 'antd';
-import classNames from 'classnames';
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import { clsx } from 'clsx';
+import useMergedState from '@rc-component/util/lib/hooks/useMergedState';
 import type { ReactNode } from 'react';
 import React, {
   forwardRef,
@@ -183,10 +183,7 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
       <LocaleContext.Provider value={locale}>
         <AdvancedContext.Provider value={advanced}>
           {contextHolder}
-          <div
-            className={classNames(hashId, prefixCls, className)}
-            style={style}
-          >
+          <div className={clsx(hashId, prefixCls, className)} style={style}>
             <div className={`${prefixCls}-header`}>
               <div className={`${prefixCls}-header-title`}>{locale.title}</div>
               {!hideAdvancedSwitcher && (

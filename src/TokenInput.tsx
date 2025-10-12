@@ -1,5 +1,5 @@
 import { Button, Dropdown, Input, InputNumber } from 'antd';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import type { FC } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDebouncyFn } from 'use-debouncy';
@@ -163,15 +163,22 @@ const TokenInput: FC<TokenInputProps> = ({
         addonBefore={
           <Dropdown
             trigger={['click']}
-            overlay={
-              <ColorPanel
-                alpha
-                color={String(tokenValue)}
-                onChange={(v: string) => {
-                  handleTokenChange(v);
-                }}
-              />
-            }
+            menu={{
+              items: [
+                {
+                  key: 'colorPanel-key',
+                  label: (
+                    <ColorPanel
+                      alpha
+                      color={String(tokenValue)}
+                      onChange={(v: string) => {
+                        handleTokenChange(v);
+                      }}
+                    />
+                  ),
+                },
+              ],
+            }}
           >
             <ColorPreview
               color={String(tokenValue)}
@@ -218,7 +225,7 @@ const TokenInput: FC<TokenInputProps> = ({
   }
   return (
     <div
-      className={classNames('previewer-token-input', hashId, {
+      className={clsx('previewer-token-input', hashId, {
         'previewer-token-input-light': light,
         'previewer-token-input-readonly': readonly,
       })}
