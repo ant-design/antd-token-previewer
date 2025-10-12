@@ -7,7 +7,7 @@ import {
   ThemeEditor,
   zhCN,
 } from 'antd-token-previewer';
-// import 'antd/es/style/reset.css';
+import 'antd/es/style/reset.css';
 import antdZhCN from 'antd/locale/zh_CN';
 import React, { useEffect } from 'react';
 import { DarkTheme, Light } from '../../src/icons';

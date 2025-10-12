@@ -11,14 +11,13 @@ import React, { memo, useEffect } from 'react';
 import {
   Background,
   ReactFlow,
-  NodeTypes,
   Panel,
   ReactFlowProvider,
   useNodesInitialized,
   useReactFlow,
   useViewport,
-  NodeProps,
 } from '@xyflow/react';
+import type { Node, NodeProps, NodeTypes } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import type { MutableTheme, Theme } from '../interface';
 import { useLocale } from '../locale';
@@ -66,8 +65,13 @@ const Controls = () => {
   );
 };
 
-const Artboard: React.FC<NodeProps & { data: any; type: any }> = (props) => {
-  return <div>{props.data.content}</div>;
+type ArtboardData = {
+  content?: React.ReactNode;
+};
+
+const Artboard = (props: NodeProps<Node<ArtboardData, 'artboard'>>) => {
+  const { data } = props;
+  return <div>{data?.content}</div>;
 };
 
 const nodeTypes: NodeTypes = {

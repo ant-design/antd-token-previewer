@@ -415,7 +415,7 @@ const SeedTokenPreview: FC<SeedTokenProps> = ({
             }
             value={tokenValue}
           >
-            {children}
+            <>{children}</>
           </ColorPicker>
         ) : (
           <Popover
@@ -424,7 +424,7 @@ const SeedTokenPreview: FC<SeedTokenProps> = ({
             trigger="click"
             content={nonColorInput}
           >
-            {children}
+            <>{children}</>
           </Popover>
         )}
       </>
@@ -577,7 +577,7 @@ const MapTokenCollapse: FC<MapTokenCollapseProps> = ({
       <Collapse
         className="token-panel-pro-grouped-map-collapse"
         defaultActiveKey={Object.keys(groupedTokens)}
-        expandIconPosition="end"
+        expandIconPlacement="end"
         expandIcon={({ isActive }) => (
           <CaretRightOutlined
             rotate={isActive ? 450 : 360}
@@ -605,7 +605,7 @@ const MapTokenCollapse: FC<MapTokenCollapseProps> = ({
       <Collapse
         className="token-panel-pro-grouped-map-collapse"
         defaultActiveKey={group.groups.map((item) => item.key)}
-        expandIconPosition="end"
+        expandIconPlacement="end"
         expandIcon={({ isActive }) => (
           <CaretRightOutlined
             rotate={isActive ? 450 : 360}
