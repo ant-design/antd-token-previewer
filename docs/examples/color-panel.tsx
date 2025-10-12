@@ -1,5 +1,5 @@
 import React from 'react';
-import 'antd/es/style/reset.css';
+// import 'antd/es/style/reset.css';
 import ColorPanel from '../../src/ColorPanel';
 
 const Demo = () => {
