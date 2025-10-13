@@ -3,7 +3,7 @@ import type { FC, PropsWithChildren } from 'react';
 import React, { useEffect, useState } from 'react';
 import ColorPicker from '../ColorPicker';
 import type { MutableTheme } from '../interface';
-import useDebouncy from '../../src/hooks/useDebouncy';
+import useDebouncy from '../hooks/useDebouncy';
 
 export interface ComponentTokenInputProps {
   theme: MutableTheme;
