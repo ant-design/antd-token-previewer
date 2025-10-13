@@ -172,7 +172,7 @@ const AliasPanel: FC<AliasPanelProps> = ({
             </span>
             <Tooltip
               placement="topLeft"
-              arrowPointAtCenter
+              arrow={{ pointAtCenter: true }}
               title="别名变量（Alias Token）是 Map Token 的别名。Alias Token 用于批量控制某些共性组件的样式。"
             >
               <QuestionCircleOutlined style={{ fontSize: 14, marginLeft: 4 }} />
