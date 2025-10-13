@@ -1,5 +1,5 @@
 import { ConfigProvider, Tooltip } from 'antd';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import type { FC } from 'react';
 import React from 'react';
 import type { ComponentDemo, MutableTheme, TokenName } from '../interface';
@@ -70,7 +70,7 @@ const ComponentDemoBlock: FC<ComponentDemoBlockProps> = ({
   const locale = useLocale();
 
   return (
-    <div className={classNames('previewer-component-demo-group-item', hashId)}>
+    <div className={clsx('previewer-component-demo-group-item', hashId)}>
       <ComponentCard
         title={component}
         component={component}
@@ -155,7 +155,7 @@ const ComponentDemoGroup: FC<ComponentDemoGroupProps> = ({
 
           return (
             <div
-              className={classNames('previewer-component-demo-group', hashId)}
+              className={clsx('previewer-component-demo-group', hashId)}
               key={item}
               id={getComponentDemoId(item)}
               style={{

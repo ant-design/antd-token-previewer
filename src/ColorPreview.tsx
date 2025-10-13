@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import type { FC } from 'react';
 import React from 'react';
 import getColorBgImg from './utils/getColorBgImg';
@@ -48,7 +48,7 @@ const ColorPreview: FC<ColorPreviewProps> = ({
   return (
     <div
       {...restProps}
-      className={classNames('previewer-color-preview', className, hashId)}
+      className={clsx('previewer-color-preview', className, hashId)}
       style={{
         // @ts-ignore
         ['--antd-token-previewer-color-preview']: color,

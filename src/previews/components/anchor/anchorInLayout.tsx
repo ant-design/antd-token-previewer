@@ -3,9 +3,9 @@ import React from 'react';
 import type { ComponentDemo } from '../../../interface';
 
 const { Link } = Anchor;
+
 const Demo = () => {
   const { token } = theme.useToken();
-
   return (
     <div style={{ background: token.colorBorderSecondary, padding: 12 }}>
       <Anchor>

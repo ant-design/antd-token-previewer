@@ -1,10 +1,10 @@
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import type { FC, PropsWithChildren } from 'react';
 import React from 'react';
 import makeStyle from '../utils/makeStyle';
 
 const useStyle = makeStyle('ComponentTokenEditorDemoWrapper', (token) => ({
-  [`${token.componentCls}`]: {
+  [token.componentCls]: {
     height: 0,
     overflow: 'auto',
     flex: 1,
@@ -22,7 +22,7 @@ const DemoWrapper: FC<PropsWithChildren> = ({ children }) => {
 
   const hashId = useStyle(prefixCls);
 
-  return <div className={classNames(prefixCls, hashId)}>{children}</div>;
+  return <div className={clsx(prefixCls, hashId)}>{children}</div>;
 };
 
 export default DemoWrapper;

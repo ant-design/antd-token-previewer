@@ -2,18 +2,24 @@ import { Steps } from 'antd';
 import React from 'react';
 import type { ComponentDemo } from '../../../interface';
 
-const { Step } = Steps;
-
 const Demo: React.FC = () => (
-  <Steps current={1}>
-    <Step title="Finished" description="This is a description." />
-    <Step
-      title="In Progress"
-      subTitle="Left 00:00:08"
-      description="This is a description."
-    />
-    <Step title="Waiting" description="This is a description." />
-  </Steps>
+  <Steps
+    current={1}
+    items={[
+      {
+        title: 'Finished',
+        content: 'This is a description.',
+      },
+      {
+        title: 'In Progress',
+        content: 'This is a description.',
+      },
+      {
+        title: 'Waiting',
+        content: 'This is a description.',
+      },
+    ]}
+  />
 );
 
 const componentDemo: ComponentDemo = {

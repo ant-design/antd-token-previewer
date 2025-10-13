@@ -5,6 +5,7 @@ import React, { useMemo } from 'react';
 import { useLocale } from './locale';
 
 const ColorPicker: FC<ColorPickerProps> = (props) => {
+  const { children, ...rest } = props;
   const locale = useLocale();
   const { token: antdToken } = antdTheme.useToken();
 
@@ -29,14 +30,11 @@ const ColorPicker: FC<ColorPickerProps> = (props) => {
 
   return (
     <AntdColorPicker
-      {...props}
-      presets={[
-        {
-          label: locale.presetColors,
-          colors: presetColors,
-        },
-      ]}
-    />
+      presets={[{ label: locale.presetColors, colors: presetColors }]}
+      {...rest}
+    >
+      {children}
+    </AntdColorPicker>
   );
 };
 

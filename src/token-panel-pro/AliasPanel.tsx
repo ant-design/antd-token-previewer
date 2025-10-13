@@ -6,8 +6,8 @@ import {
 } from '@ant-design/icons';
 import { Button, Collapse, Empty, Tooltip } from 'antd';
 import type { MutableTheme } from 'antd-token-previewer';
-import classNames from 'classnames';
-import useMergedState from 'rc-util/es/hooks/useMergedState';
+import { clsx } from 'clsx';
+import useMergedState from '@rc-component/util/lib/hooks/useMergedState';
 import type { FC } from 'react';
 import React, { useMemo } from 'react';
 import { Pick } from '../icons';
@@ -161,7 +161,7 @@ const AliasPanel: FC<AliasPanelProps> = ({
 
   return (
     <div
-      className={classNames(className, 'token-panel-pro-color-alias', hashId)}
+      className={clsx(className, 'token-panel-pro-color-alias', hashId)}
       style={style}
     >
       {open ? (
@@ -172,7 +172,7 @@ const AliasPanel: FC<AliasPanelProps> = ({
             </span>
             <Tooltip
               placement="topLeft"
-              arrowPointAtCenter
+              arrow={{ pointAtCenter: true }}
               title="别名变量（Alias Token）是 Map Token 的别名。Alias Token 用于批量控制某些共性组件的样式。"
             >
               <QuestionCircleOutlined style={{ fontSize: 14, marginLeft: 4 }} />
@@ -216,7 +216,7 @@ const AliasPanel: FC<AliasPanelProps> = ({
                         }}
                       >
                         <Pick
-                          className={classNames('token-panel-pro-token-pick', {
+                          className={clsx('token-panel-pro-token-pick', {
                             'token-panel-pro-token-picked':
                               selectedTokens?.alias?.includes(aliasToken),
                           })}

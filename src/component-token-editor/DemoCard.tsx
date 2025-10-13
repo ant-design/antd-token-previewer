@@ -35,17 +35,9 @@ const DemoCard: FC<DemoCardProps> = ({ demo: item }) => {
   }, [item.tokens]);
 
   return (
-    <Card
-      bodyStyle={{
-        padding: 0,
-      }}
-    >
+    <Card styles={{ body: { padding: 0 } }}>
       <div style={{ padding: 20 }}>
-        <ConfigProvider
-          theme={{
-            token: tokenOverride,
-          }}
-        >
+        <ConfigProvider theme={{ token: tokenOverride }}>
           {item.demo}
         </ConfigProvider>
       </div>

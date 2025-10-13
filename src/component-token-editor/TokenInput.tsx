@@ -1,9 +1,9 @@
 import { Input, InputNumber, Popover, Switch } from 'antd';
 import type { FC, PropsWithChildren } from 'react';
 import React, { useEffect, useState } from 'react';
-import { useDebouncyFn } from 'use-debouncy';
 import ColorPicker from '../ColorPicker';
 import type { MutableTheme } from '../interface';
+import useDebouncy from '../hooks/useDebouncy';
 
 export interface ComponentTokenInputProps {
   theme: MutableTheme;
@@ -42,7 +42,7 @@ const ComponentTokenInput: FC<PropsWithChildren<ComponentTokenInputProps>> = ({
     );
   };
 
-  const debouncedOnChange = useDebouncyFn(onThemeChange, 200);
+  const debouncedOnChange = useDebouncy(onThemeChange, 200);
 
   useEffect(() => {
     setTokenValue(value);

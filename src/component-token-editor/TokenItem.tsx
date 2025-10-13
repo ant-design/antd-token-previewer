@@ -1,5 +1,5 @@
 import { Tooltip, Typography } from 'antd';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import type { FC, ReactNode } from 'react';
 import React from 'react';
 import ColorPreview from '../ColorPreview';
@@ -101,7 +101,7 @@ const TokenItem: FC<TokenItemProps> = ({
   const hashId = useStyle(prefixCls);
 
   return (
-    <div className={classNames(prefixCls, hashId)} key={token}>
+    <div className={clsx(prefixCls, hashId)} key={token}>
       {prefix && <div className={`${prefixCls}-prefix`}>{prefix}</div>}
       <Tooltip title={tooltip} mouseEnterDelay={0.5} placement="left">
         <span

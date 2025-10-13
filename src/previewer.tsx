@@ -1,5 +1,5 @@
 import { Button, Layout, message, theme as antdTheme } from 'antd';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import React, {
   useCallback,
   useEffect,
@@ -235,7 +235,7 @@ const Previewer: React.FC<PreviewerProps> = ({
   );
 
   return (
-    <Layout className={classNames('previewer-layout', hashId)}>
+    <Layout className={clsx('previewer-layout', hashId)}>
       <Header className="previewer-header">
         <span style={{ fontSize: 16, fontWeight: 'bold', marginRight: 16 }}>
           主题预览器
@@ -301,7 +301,7 @@ const Previewer: React.FC<PreviewerProps> = ({
           />
           <Button
             onClick={() => setSiderVisible((prev) => !prev)}
-            className={classNames(
+            className={clsx(
               'previewer-sider-collapse-btn',
               !siderVisible && 'previewer-sider-collapse-btn-collapsed',
             )}

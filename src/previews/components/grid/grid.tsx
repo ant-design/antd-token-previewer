@@ -1,5 +1,5 @@
 import { Col, Row } from 'antd';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import React from 'react';
 import type { ComponentDemo } from '../../../interface';
 import makeStyle from '../../../utils/makeStyle';
@@ -28,7 +28,7 @@ const Demo = () => {
   const [, hashId] = useStyle();
 
   return (
-    <div className={classNames('previewer-grid-demo', hashId)}>
+    <div className={clsx('previewer-grid-demo', hashId)}>
       <Row>
         <Col span={24}>col</Col>
       </Row>

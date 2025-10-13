@@ -1,6 +1,6 @@
 import { SearchOutlined } from '@ant-design/icons';
 import { Badge, Input, Tree } from 'antd';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import type { FC } from 'react';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import type { FilterMode } from '../FilterPanel';
@@ -127,7 +127,7 @@ const ComponentTree: FC<ComponentTreeProps> = ({
               title: (
                 <span
                   id={getTreeItemId(item)}
-                  className={classNames('component-tree-item', {
+                  className={clsx('component-tree-item', {
                     'component-tree-item-highlight':
                       filterMode === 'highlight' &&
                       relatedComponents.includes(item),
@@ -169,7 +169,7 @@ const ComponentTree: FC<ComponentTreeProps> = ({
   }, [selectedTokens, filterMode]);
 
   return (
-    <div className={classNames('component-tree-wrapper', hashId)}>
+    <div className={clsx('component-tree-wrapper', hashId)}>
       <Input
         allowClear
         placeholder="Type to search"

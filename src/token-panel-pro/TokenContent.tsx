@@ -13,10 +13,9 @@ import type { MutableTheme } from 'antd-token-previewer';
 import type { ThemeConfig } from 'antd/es/config-provider/context';
 import seed from 'antd/es/theme/themes/seed';
 import tokenMeta from 'antd/lib/version/token-meta.json';
-import classNames from 'classnames';
-import type { FC, ReactNode } from 'react';
+import { clsx } from 'clsx';
+import type { FC } from 'react';
 import React, { useEffect, useMemo, useState } from 'react';
-import { useDebouncyFn } from 'use-debouncy';
 import ColorPicker from '../ColorPicker';
 import { useAdvanced } from '../context';
 import { CompactTheme } from '../icons';
@@ -30,6 +29,7 @@ import { isLeftChecked, switchAlgorithm } from '../utils/themeAlgorithmUtils';
 import InputNumberPlus from './InputNumberPlus';
 import ResetTokenButton from './ResetTokenButton';
 import TokenPreview from './TokenPreview';
+import useDebouncy from '../../src/hooks/useDebouncy';
 
 const { Panel } = Collapse;
 
@@ -302,7 +302,6 @@ export type SeedTokenProps = {
   theme: MutableTheme;
   tokenName: string;
   disabled?: boolean;
-  children?: ReactNode;
 };
 
 const getSeedValue = (config: ThemeConfig, token: string) => {
@@ -337,12 +336,10 @@ const seedRange: Record<string, { min: number; max: number }> = {
   },
 };
 
-const SeedTokenPreview: FC<SeedTokenProps> = ({
-  theme,
-  tokenName,
-  disabled,
-  children,
-}) => {
+const SeedTokenPreview: FC<React.PropsWithChildren<SeedTokenProps>> = (
+  props,
+) => {
+  const { theme, tokenName, disabled, children } = props;
   const [tokenValue, setTokenValue] = useState(
     getSeedValue(theme.config, tokenName),
   );
@@ -358,7 +355,7 @@ const SeedTokenPreview: FC<SeedTokenProps> = ({
       ['token', tokenName],
     );
   };
-  const debouncedOnChange = useDebouncyFn(onThemeChange, 200);
+  const debouncedOnChange = useDebouncy(onThemeChange, 200);
 
   const handleChange = (value: any) => {
     setTokenValue(value);
@@ -415,7 +412,7 @@ const SeedTokenPreview: FC<SeedTokenProps> = ({
             }
             value={tokenValue}
           >
-            {children}
+            {children as any}
           </ColorPicker>
         ) : (
           <Popover
@@ -424,7 +421,7 @@ const SeedTokenPreview: FC<SeedTokenProps> = ({
             trigger="click"
             content={nonColorInput}
           >
-            {children}
+            {children as any}
           </Popover>
         )}
       </>
@@ -577,7 +574,7 @@ const MapTokenCollapse: FC<MapTokenCollapseProps> = ({
       <Collapse
         className="token-panel-pro-grouped-map-collapse"
         defaultActiveKey={Object.keys(groupedTokens)}
-        expandIconPosition="end"
+        expandIconPlacement="end"
         expandIcon={({ isActive }) => (
           <CaretRightOutlined
             rotate={isActive ? 450 : 360}
@@ -605,7 +602,7 @@ const MapTokenCollapse: FC<MapTokenCollapseProps> = ({
       <Collapse
         className="token-panel-pro-grouped-map-collapse"
         defaultActiveKey={group.groups.map((item) => item.key)}
-        expandIconPosition="end"
+        expandIconPlacement="end"
         expandIcon={({ isActive }) => (
           <CaretRightOutlined
             rotate={isActive ? 450 : 360}
@@ -683,7 +680,7 @@ const TokenContent: FC<ColorTokenContentProps> = ({
   const { token } = antdTheme.useToken();
 
   return (
-    <div className={classNames(hashId, 'token-panel-pro-color')} id={id}>
+    <div className={clsx(hashId, 'token-panel-pro-color')} id={id}>
       <div className="token-panel-pro-color-seeds">
         <div className="token-panel-pro-color-themes">
           <span style={{ marginRight: 12 }}>

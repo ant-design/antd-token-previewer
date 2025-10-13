@@ -1,7 +1,7 @@
 import { Tooltip } from 'antd';
 import type { MutableTheme } from 'antd-token-previewer';
 import tokenMeta from 'antd/lib/version/token-meta.json';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import type { FC } from 'react';
 import React, { useMemo } from 'react';
 import type { TokenValue } from '../interface';
@@ -86,7 +86,7 @@ const TokenDetail: FC<TokenDetailProps> = ({
 
   return (
     <div
-      className={classNames(className, hashId, 'token-panel-token-detail')}
+      className={clsx(className, hashId, 'token-panel-token-detail')}
       style={style}
     >
       <div className="token-panel-pro-token-collapse-map-collapse-token-description">

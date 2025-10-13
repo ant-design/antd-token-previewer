@@ -22,7 +22,7 @@ import {
   theme,
   Typography,
 } from 'antd';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import type { CSSProperties, FC } from 'react';
 import React from 'react';
 import makeStyle from '../../../utils/makeStyle';
@@ -225,7 +225,7 @@ const Dashboard: FC = () => {
   const { token } = theme.useToken();
 
   return (
-    <div className={classNames(hashId, prefixCls)}>
+    <div className={clsx(hashId, prefixCls)}>
       <Space
         direction="vertical"
         style={{ width: '100%' }}
