@@ -16,7 +16,6 @@ import tokenMeta from 'antd/lib/version/token-meta.json';
 import { clsx } from 'clsx';
 import type { FC, ReactNode } from 'react';
 import React, { useEffect, useMemo, useState } from 'react';
-import { useDebouncyFn } from 'use-debouncy';
 import ColorPicker from '../ColorPicker';
 import { useAdvanced } from '../context';
 import { CompactTheme } from '../icons';
@@ -30,6 +29,7 @@ import { isLeftChecked, switchAlgorithm } from '../utils/themeAlgorithmUtils';
 import InputNumberPlus from './InputNumberPlus';
 import ResetTokenButton from './ResetTokenButton';
 import TokenPreview from './TokenPreview';
+import useDebouncy from '../../src/hooks/useDebouncy';
 
 const { Panel } = Collapse;
 
@@ -355,7 +355,7 @@ const SeedTokenPreview: FC<React.PropsWithChildren<SeedTokenProps>> = (
       ['token', tokenName],
     );
   };
-  const debouncedOnChange = useDebouncyFn(onThemeChange, 200);
+  const debouncedOnChange = useDebouncy(onThemeChange, 200);
 
   const handleChange = (value: any) => {
     setTokenValue(value);

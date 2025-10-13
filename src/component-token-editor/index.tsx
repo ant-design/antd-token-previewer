@@ -5,7 +5,6 @@ import tokenStatistic from 'antd/lib/version/token.json';
 import { clsx } from 'clsx';
 import type { FC } from 'react';
 import React, { useMemo, useRef, useState } from 'react';
-import { useDebouncyFn } from 'use-debouncy';
 import { antdComponents } from '../component-panel';
 import type { MutableTheme } from '../interface';
 import { useLocale } from '../locale';
@@ -17,6 +16,7 @@ import makeStyle from '../utils/makeStyle';
 import DemoCard from './DemoCard';
 import DemoWrapper from './DemoWrapper';
 import TokenItem from './TokenItem';
+import useDebouncy from '../../src/hooks/useDebouncy';
 
 const useStyle = makeStyle('ComponentTokenEditor', (token) => ({
   [token.componentCls]: {
@@ -196,7 +196,7 @@ const ComponentTokenEditor: FC<ComponentTokenEditorProps> = ({ theme }) => {
     ]),
   );
 
-  const debouncedAlgorithmChange = useDebouncyFn((checked: boolean) => {
+  const debouncedAlgorithmChange = useDebouncy((checked: boolean) => {
     theme.onThemeChange?.(
       deepUpdateObj(
         theme.config,

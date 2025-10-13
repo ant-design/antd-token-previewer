@@ -2,13 +2,13 @@ import { Button, Dropdown, Input, InputNumber } from 'antd';
 import { clsx } from 'clsx';
 import type { FC } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
-import { useDebouncyFn } from 'use-debouncy';
 import ColorPanel from './ColorPanel';
 import ColorPreview from './ColorPreview';
 import type { MutableTheme } from './interface';
 import { useLocale } from './locale';
 import isColor from './utils/isColor';
 import makeStyle from './utils/makeStyle';
+import useDebouncy from './hooks/useDebouncy';
 
 const useStyle = makeStyle('TokenInput', (token) => ({
   '.previewer-token-input': {
@@ -107,7 +107,7 @@ const TokenInput: FC<TokenInputProps> = ({
     }
   }, [value]);
 
-  const debouncedOnChange = useDebouncyFn((newValue: number | string) => {
+  const debouncedOnChange = useDebouncy((newValue: number | string) => {
     onChange?.(newValue);
   }, 500);
 
