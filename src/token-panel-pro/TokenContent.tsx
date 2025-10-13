@@ -29,7 +29,7 @@ import { isLeftChecked, switchAlgorithm } from '../utils/themeAlgorithmUtils';
 import InputNumberPlus from './InputNumberPlus';
 import ResetTokenButton from './ResetTokenButton';
 import TokenPreview from './TokenPreview';
-import useDebouncy from '../../src/hooks/useDebouncy';
+import useDebouncy from '../hooks/useDebouncy';
 
 const { Panel } = Collapse;
 
