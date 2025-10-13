@@ -1,5 +1,6 @@
 import type { ThemeConfig } from 'antd';
 import type { ReactElement } from 'react';
+import React from 'react';
 
 export type Theme = {
   name: string;
@@ -13,7 +14,7 @@ export type TokenName = keyof AliasToken;
 
 export interface ComponentDemo {
   tokens?: TokenName[];
-  demo: ReactElement;
+  demo: React.ReactNode;
   key: string;
 }
 

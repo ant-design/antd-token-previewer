@@ -3,11 +3,10 @@ import React from 'react';
 import type { ComponentDemo } from '../../../interface';
 
 const Demo = () => (
-  <Space direction={'vertical'}>
-    <Alert message="Error" type="error" showIcon />
-
+  <Space orientation={'vertical'}>
+    <Alert title="Error" type="error" showIcon />
     <Alert
-      message="Error"
+      title="Error"
       description="This is an error message about copywriting."
       type="error"
       showIcon

@@ -148,7 +148,7 @@ const ComponentTokenDrawer: FC<ComponentTokenDrawerProps> = ({
         </div>
       }
       onClose={onClose}
-      width={1200}
+      size={1200}
       className={clsx('previewer-component-token-drawer', hashId)}
     >
       <div style={{ display: 'flex', height: '100%' }}>
