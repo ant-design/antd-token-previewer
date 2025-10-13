@@ -94,8 +94,8 @@ function isObject(target: any) {
 }
 
 const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
-  (
-    {
+  (props, ref) => {
+    const {
       theme: customTheme,
       onThemeChange,
       className,
@@ -109,9 +109,8 @@ const ThemeEditor = forwardRef<ThemeEditorRef, ThemeEditorProps>(
       onAdvancedChange,
       hideAdvancedSwitcher,
       children,
-    },
-    ref,
-  ) => {
+    } = props;
+
     const prefixCls = 'antd-theme-editor';
     const hashId = useStyle(prefixCls);
     const [isModalOpen, setIsModalOpen] = useState(false);

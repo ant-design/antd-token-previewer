@@ -76,7 +76,7 @@ const ComponentCard: FC<ComponentCardProps> = ({
           )
         }
       >
-        {children}
+        {children as any}
       </Card>
       {drawer && theme && (
         <ComponentTokenDrawer
