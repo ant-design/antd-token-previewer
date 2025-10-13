@@ -17,6 +17,12 @@ jobs:
         with:
           node-version: '24'
 
+      - name: Install dependencies (relaxed)
+        run: |
+          npm config set audit false
+          npm config set fund false
+          npm install --legacy-peer-deps --ignore-scripts --no-audit --no-fund
+
       - name: cache package-lock.json
         uses: actions/cache@v4
         with:
