@@ -16,7 +16,7 @@ import makeStyle from '../utils/makeStyle';
 import DemoCard from './DemoCard';
 import DemoWrapper from './DemoWrapper';
 import TokenItem from './TokenItem';
-import useDebouncy from '../../src/hooks/useDebouncy';
+import useDebouncy from '../hooks/useDebouncy';
 
 const useStyle = makeStyle('ComponentTokenEditor', (token) => ({
   [token.componentCls]: {
