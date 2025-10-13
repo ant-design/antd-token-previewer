@@ -36,7 +36,7 @@
     "lint": "eslint src/ --ext .ts,.tsx,.jsx,.js,.md",
     "test": "umi-test",
     "coverage": "umi-test --coverage",
-    "prepare": "husky"
+    "prepare": "husky || true"
   },
   "dependencies": {
     "@ant-design/colors": "^7.2.1",
