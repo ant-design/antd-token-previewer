@@ -1,6 +1,5 @@
 import type { ThemeConfig } from 'antd';
-import type { ReactElement } from 'react';
-import React from 'react';
+import type React from 'react';
 
 export type Theme = {
   name: string;

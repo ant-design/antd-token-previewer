@@ -14,7 +14,7 @@ import type { ThemeConfig } from 'antd/es/config-provider/context';
 import seed from 'antd/es/theme/themes/seed';
 import tokenMeta from 'antd/lib/version/token-meta.json';
 import { clsx } from 'clsx';
-import type { FC, ReactNode } from 'react';
+import type { FC } from 'react';
 import React, { useEffect, useMemo, useState } from 'react';
 import ColorPicker from '../ColorPicker';
 import { useAdvanced } from '../context';
