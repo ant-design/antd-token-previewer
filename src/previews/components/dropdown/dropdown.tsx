@@ -11,7 +11,16 @@ const Demo = () => (
     <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
       Hover me <DownOutlined />
     </a>
-    <Dropdown._InternalPanelDoNotUseOrYouWillBeFired overlay={menu} />
+    <Dropdown._InternalPanelDoNotUseOrYouWillBeFired
+      menu={{
+        items: [
+          {
+            key: 'menu-key',
+            label: menu,
+          },
+        ],
+      }}
+    />
   </div>
 );
 

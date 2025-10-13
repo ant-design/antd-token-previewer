@@ -1,8 +1,8 @@
 import { TinyColor } from '@ctrl/tinycolor';
 import type { InputProps } from 'antd';
 import { ConfigProvider, Input, InputNumber, Select, theme } from 'antd';
-import classNames from 'classnames';
-import useMergedState from 'rc-util/es/hooks/useMergedState';
+import { clsx } from 'clsx';
+import useMergedState from '@rc-component/util/lib/hooks/useMergedState';
 import type { CSSProperties, FC } from 'react';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { HexColorPicker, RgbaColorPicker } from 'react-colorful';
@@ -269,7 +269,7 @@ const ColorPanel: FC<ColorPanelProps> = ({ color, onChange, alpha, style }) => {
   };
 
   return (
-    <div className={classNames(hashId, 'color-panel')} style={style}>
+    <div className={clsx(hashId, 'color-panel')} style={style}>
       {(colorMode === 'HEX' || colorMode === 'RGB') && (
         <HexColorPicker
           style={{ height: 160 }}
@@ -302,8 +302,8 @@ const ColorPanel: FC<ColorPanelProps> = ({ color, onChange, alpha, style }) => {
               .filter((item) => alpha || item === 'HEX' || item === 'RGB')
               .map((item) => ({ value: item, key: item }))}
             size="small"
-            bordered={false}
-            dropdownMatchSelectWidth={false}
+            variant="borderless"
+            popupMatchSelectWidth={false}
           />
         </div>
         {colorMode === 'HEX' && (

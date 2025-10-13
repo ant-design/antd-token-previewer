@@ -3,10 +3,10 @@ import React from 'react';
 import type { ComponentDemo } from '../../../interface';
 
 const Demo = () => (
-  <Space direction={'vertical'}>
-    <Alert message="Warning" type="warning" showIcon closable />
+  <Space orientation={'vertical'}>
+    <Alert title="Warning" type="warning" showIcon closable />
     <Alert
-      message="Warning"
+      title="Warning"
       description="This is a warning notice about copywriting."
       type="warning"
       showIcon

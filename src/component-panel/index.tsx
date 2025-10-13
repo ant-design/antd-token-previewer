@@ -1,6 +1,6 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { Breadcrumb, Segmented, Switch } from 'antd';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import type { CSSProperties, FC } from 'react';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import type { FilterMode } from '../FilterPanel';
@@ -282,9 +282,9 @@ const Index: FC<ComponentPanelProps> = ({
   );
 
   return (
-    <div className={classNames('component-panel', hashId, className)} {...rest}>
+    <div className={clsx('component-panel', hashId, className)} {...rest}>
       <div
-        className={classNames('component-panel-side', {
+        className={clsx('component-panel-side', {
           'component-panel-side-hidden': !showSide,
         })}
       >

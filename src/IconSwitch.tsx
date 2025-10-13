@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import React from 'react';
 import makeStyle from './utils/makeStyle';
 
@@ -87,20 +87,20 @@ export default function IconSwitch({
 
   return (
     <div
-      className={classNames('theme-editor-icon-switch', className, hashId)}
+      className={clsx('theme-editor-icon-switch', className, hashId)}
       style={style}
       {...props}
     >
       <div
-        className={classNames('holder', leftChecked && 'leftChecked')}
+        className={clsx('holder', leftChecked && 'leftChecked')}
         onClick={() => {
           onChange?.(!leftChecked);
         }}
       >
-        <span className={classNames('icon', leftChecked && 'active')}>
+        <span className={clsx('icon', leftChecked && 'active')}>
           {leftIcon}
         </span>
-        <span className={classNames('icon', !leftChecked && 'active')}>
+        <span className={clsx('icon', !leftChecked && 'active')}>
           {rightIcon}
         </span>
       </div>

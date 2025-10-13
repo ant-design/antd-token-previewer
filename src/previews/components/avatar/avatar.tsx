@@ -3,7 +3,7 @@ import { Avatar, Space } from 'antd';
 import React from 'react';
 
 export default () => (
-  <Space direction="vertical">
+  <Space orientation="vertical">
     <Space>
       <Avatar size={64} icon={<UserOutlined />} />
       <Avatar size="large" icon={<UserOutlined />} />

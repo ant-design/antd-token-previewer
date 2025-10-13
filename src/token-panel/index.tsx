@@ -1,7 +1,7 @@
 import { CheckOutlined } from '@ant-design/icons';
 import { Dropdown, Input, Menu, Switch, theme as antdTheme } from 'antd';
-import classNames from 'classnames';
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import { clsx } from 'clsx';
+import useMergedState from '@rc-component/util/lib/hooks/useMergedState';
 import React, {
   forwardRef,
   useEffect,
@@ -203,10 +203,10 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
     };
 
     return (
-      <div className={classNames('preview-panel-wrapper', hashId)}>
-        <div className={classNames('preview-panel')}>
+      <div className={clsx('preview-panel-wrapper', hashId)}>
+        <div className={clsx('preview-panel')}>
           <div style={{ padding: 16 }}>
-            <h3 className={classNames('preview-panel-space', hashId)}>
+            <h3 className={clsx('preview-panel-space', hashId)}>
               <span>Alias Token 预览</span>
               <span className="preview-hide-token">
                 <span>显示所有</span>
@@ -222,73 +222,82 @@ export default forwardRef<TokenPanelRef, TokenPreviewProps>(
               onChange={(e) => {
                 setSearch(e.target.value);
               }}
-              bordered={false}
+              variant="borderless"
               addonBefore={
-                <>
-                  <Dropdown
-                    overlay={
-                      <Menu
-                        items={[
-                          {
-                            label: '筛选项',
-                            type: 'group',
-                            key: 'title-key',
-                            style: { fontSize: 12 },
-                          },
-                          ...TOKEN_SORTS.map((type) => ({
-                            icon: (
-                              <span>
-                                <CheckOutlined
-                                  style={{
-                                    opacity: mergedFilterTypes.includes(type)
-                                      ? 1
-                                      : 0,
-                                    marginInlineEnd: 8,
-                                    fontSize: 12,
-                                  }}
-                                />
-                                {IconMap[type]}
-                              </span>
-                            ),
-                            label: TextMap[type],
-                            key: type,
-                            onClick: () => {
-                              const newTypes = mergedFilterTypes.includes(type)
-                                ? mergedFilterTypes.filter(
-                                    (item) => type !== item,
+                <Dropdown
+                  menu={{
+                    items: [
+                      {
+                        key: 'menu',
+                        label: (
+                          <Menu
+                            items={[
+                              {
+                                label: '筛选项',
+                                type: 'group',
+                                key: 'title-key',
+                                style: { fontSize: 12 },
+                              },
+                              ...TOKEN_SORTS.map((type) => ({
+                                icon: (
+                                  <span>
+                                    <CheckOutlined
+                                      style={{
+                                        opacity: mergedFilterTypes.includes(
+                                          type,
+                                        )
+                                          ? 1
+                                          : 0,
+                                        marginInlineEnd: 8,
+                                        fontSize: 12,
+                                      }}
+                                    />
+                                    {IconMap[type]}
+                                  </span>
+                                ),
+                                label: TextMap[type],
+                                key: type,
+                                onClick: () => {
+                                  const newTypes = mergedFilterTypes.includes(
+                                    type,
                                   )
-                                : [...mergedFilterTypes, type];
-                              setMergedFilterTypes(newTypes);
-                              onFilterTypesChange?.(newTypes);
-                            },
-                          })),
-                        ]}
-                      />
-                    }
-                    trigger={['click']}
-                  >
-                    <SearchDropdown
-                      style={{
-                        width: 32,
-                        cursor: 'pointer',
-                        fontSize: 18,
-                        paddingTop: 2,
-                        transition: 'color 0.3s',
-                      }}
-                      className={classNames({
-                        'previewer-token-type-dropdown-icon-active':
-                          mergedFilterTypes.length > 0,
-                      })}
-                    />
-                  </Dropdown>
-                </>
+                                    ? mergedFilterTypes.filter(
+                                        (item) => type !== item,
+                                      )
+                                    : [...mergedFilterTypes, type];
+                                  setMergedFilterTypes(newTypes);
+                                  onFilterTypesChange?.(newTypes);
+                                },
+                              })),
+                            ]}
+                          />
+                        ),
+                      },
+                    ],
+                  }}
+                  trigger={['click']}
+                >
+                  <SearchDropdown
+                    style={{
+                      width: 32,
+                      cursor: 'pointer',
+                      fontSize: 18,
+                      paddingTop: 2,
+                      transition: 'color 0.3s',
+                    }}
+                    className={clsx({
+                      'previewer-token-type-dropdown-icon-active':
+                        mergedFilterTypes.length > 0,
+                    })}
+                  />
+                </Dropdown>
               }
               className="preview-panel-search"
               placeholder="搜索 Token / 色值 / 文本 / 圆角等"
             />
           </div>
           <div
-            className={classNames('preview-panel-token-wrapper', {
+            className={clsx('preview-panel-token-wrapper', {
               'preview-panel-token-wrapper-ping-top': showTokenListShadowTop,
             })}
           >

@@ -22,7 +22,7 @@ export const TOKEN_SORTS = defineTokenType([
   'others',
 ]);
 
-export type TokenType = typeof TOKEN_SORTS[number];
+export type TokenType = (typeof TOKEN_SORTS)[number];
 
 export function getTypeOfToken(tokenName: string): TokenType {
   if (tokenName.startsWith('color')) {

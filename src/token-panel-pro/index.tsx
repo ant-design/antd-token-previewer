@@ -1,6 +1,6 @@
 import { Anchor } from 'antd';
 import type { Theme } from 'antd-token-previewer';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import type { FC } from 'react';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import type { SelectedToken } from '../interface';
@@ -81,10 +81,7 @@ const TokenPanelPro: FC<TokenPanelProProps> = ({
   const tokenListRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div
-      className={classNames(hashId, className, 'token-panel-pro')}
-      style={style}
-    >
+    <div className={clsx(hashId, className, 'token-panel-pro')} style={style}>
       <div className="token-panel-pro-content">
         <Anchor
           affix={false}

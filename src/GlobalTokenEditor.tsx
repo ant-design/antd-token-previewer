@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import type { FC } from 'react';
 import React, { useState } from 'react';
 import type { SelectedToken, Theme } from './interface';
@@ -69,11 +69,9 @@ const GlobalTokenEditor: FC<GlobalTokenEditorProps> = (props) => {
   };
 
   return (
-    <div className={classNames(hashId, prefixCls)}>
+    <div className={clsx(hashId, prefixCls)}>
       <div
-        style={{
-          flex: `0 0 480px`,
-        }}
+        style={{ flex: `0 0 480px` }}
         className={`${prefixCls}-token-panel-wrapper`}
       >
         <TokenPanelPro

@@ -3,10 +3,10 @@ import React from 'react';
 import type { ComponentDemo } from '../../../interface';
 
 const Demo = () => (
-  <Space direction={'vertical'}>
-    <Alert message="Informational Notes" type="info" showIcon />
+  <Space orientation={'vertical'}>
+    <Alert title="Informational Notes" type="info" showIcon />
     <Alert
-      message="Informational Notes"
+      title="Informational Notes"
       description="Additional description and information about copywriting."
       type="info"
       showIcon
