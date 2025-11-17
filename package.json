@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@ant-design/colors": "^7.2.1",
-    "@ant-design/cssinjs": "2.0.0-alpha.8",
+    "@ant-design/cssinjs": "^2.0.0",
     "@ant-design/icons": "^6.1.0",
     "@arvinxu/layout-kit": "^1.4.0",
     "@babel/runtime": "^7.28.4",
