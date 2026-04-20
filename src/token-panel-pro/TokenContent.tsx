@@ -400,7 +400,9 @@ const SeedTokenPreview: FC<React.PropsWithChildren<SeedTokenProps>> = (
           <InputNumber<number>
             style={{ minWidth: 200 }}
             value={tokenValue}
-            onChange={(newValue) => handleChange(newValue ?? 0)}
+            step={0.01}
+            min={1}
+            onChange={(newValue) => handleChange(newValue ?? 1)}
           />
         </div>
       )}
