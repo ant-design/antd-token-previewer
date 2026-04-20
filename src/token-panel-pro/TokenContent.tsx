@@ -8,6 +8,7 @@ import {
   Switch,
   theme as antdTheme,
   Tooltip,
+  InputNumber,
 } from 'antd';
 import type { MutableTheme } from 'antd-token-previewer';
 import type { ThemeConfig } from 'antd/es/config-provider/context';
@@ -385,14 +386,23 @@ const SeedTokenPreview: FC<React.PropsWithChildren<SeedTokenProps>> = (
           max={seedRange[tokenGroup].max}
         />
       )}
-      {['boxShadow', 'lineHeight'].some((prefix) =>
-        tokenName.startsWith(prefix),
-      ) && (
+      {tokenName.startsWith('boxShadow') && (
         <div>
           <Input.TextArea
             value={tokenValue}
             onChange={({ target: { value } }) => handleChange(value)}
             style={{ width: 200 }}
+          />
+        </div>
+      )}
+      {tokenName.startsWith('lineHeight') && (
+        <div>
+          <InputNumber<number>
+            style={{ minWidth: 200 }}
+            value={tokenValue}
+            step={0.01}
+            min={1}
+            onChange={(newValue) => handleChange(newValue ?? 1)}
           />
         </div>
       )}
