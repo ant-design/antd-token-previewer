@@ -305,8 +305,10 @@ export type SeedTokenProps = {
 };
 
 const getSeedValue = (config: ThemeConfig, token: string) => {
-  // @ts-ignore
-  return config.token?.[token] || seed[token] || getDesignToken(config)[token];
+  return (
+    // @ts-ignore
+    config.token?.[token] ?? (seed[token] || getDesignToken(config)[token])
+  );
 };
 
 const seedRange: Record<string, { min: number; max: number }> = {
@@ -478,7 +480,7 @@ const MapTokenCollapseContent: FC<MapTokenCollapseContentProps> = ({
   const locale = useLocale();
 
   const getMapTokenColor = (token: string) =>
-    !!(theme.config.token as any)?.[token] ? HIGHLIGHT_COLOR : '';
+    (theme.config.token as any)?.[token] !== undefined ? HIGHLIGHT_COLOR : '';
 
   return (
     <>
@@ -756,6 +758,8 @@ const TokenContent: FC<ColorTokenContentProps> = ({
                       {group.seedToken?.map((seedToken) => {
                         const multipleSeeds =
                           group.seedToken && group.seedToken.length > 1;
+                        const isTokenModified =
+                          (theme.config.token as any)?.[seedToken] !== undefined;
                         return (
                           (seedToken !== 'colorInfo' || !infoFollowPrimary) && (
                             <div
@@ -782,9 +786,7 @@ const TokenContent: FC<ColorTokenContentProps> = ({
                                             className="token-panel-pro-token-list-seed-block-name-cn"
                                             style={{
                                               marginRight: 4,
-                                              color: !!(
-                                                theme.config.token as any
-                                              )?.[seedToken]
+                                              color: isTokenModified
                                                 ? HIGHLIGHT_COLOR
                                                 : '',
                                             }}
@@ -807,9 +809,7 @@ const TokenContent: FC<ColorTokenContentProps> = ({
                                               : 'token-panel-pro-token-list-seed-block-name-cn'
                                           }
                                           style={{
-                                            color: !!(
-                                              theme.config.token as any
-                                            )?.[seedToken]
+                                            color: isTokenModified
                                               ? HIGHLIGHT_COLOR
                                               : '',
                                           }}
@@ -862,7 +862,9 @@ const TokenContent: FC<ColorTokenContentProps> = ({
                                 <span
                                   style={{
                                     color: group.mapToken?.some(
-                                      (t) => !!(theme.config.token as any)?.[t],
+                                      (t) =>
+                                        (theme.config.token as any)?.[t] !==
+                                        undefined,
                                     )
                                       ? HIGHLIGHT_COLOR
                                       : '',

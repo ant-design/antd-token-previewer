@@ -33,15 +33,31 @@ export const parsePlainConfig = (config: ThemeConfig): PlainThemeConfig => {
   };
 };
 
+// JSON import can carry explicit null values (e.g. {"token": {"borderRadius": null}}).
+// null is not a valid theme value: it would break the "is modified" display
+// and leak into preview rendering via getDesignToken.
+const removeNullValues = (value: any): any => {
+  if (Array.isArray(value)) return value;
+  if (value !== null && typeof value === 'object') {
+    return Object.fromEntries(
+      Object.entries(value)
+        .filter(([, item]) => item !== null)
+        .map(([key, item]) => [key, removeNullValues(item)]),
+    );
+  }
+  return value;
+};
+
 export const parseThemeConfig = (config: PlainThemeConfig): ThemeConfig => {
   const { algorithm, ...rest } = config;
-  if (!algorithm) return rest;
+  const cleanRest = removeNullValues(rest) as typeof rest;
+  if (!algorithm) return cleanRest;
 
   const parsedAlgorithms = Array.isArray(algorithm)
     ? algorithm.map((item) => algorithmMap[item]).filter(Boolean)
     : algorithmMap[algorithm];
   return {
-    ...rest,
+    ...cleanRest,
     algorithm: parsedAlgorithms,
   };
 };

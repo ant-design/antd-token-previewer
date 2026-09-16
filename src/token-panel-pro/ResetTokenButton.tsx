@@ -15,7 +15,7 @@ const ResetTokenButton: FC<ResetTokenButtonProps> = ({
   style,
 }) => {
   const locale = useLocale();
-  const showReset = (theme.config.token as any)?.[tokenName];
+  const showReset = (theme.config.token as any)?.[tokenName] !== undefined;
   return (
     <div style={{ display: 'inline-block', ...style }}>
       <Typography.Link
