@@ -30,7 +30,6 @@ import makeStyle from '../../../utils/makeStyle';
 const useStyle = makeStyle('AppDemoDashboard', (token) => ({
   [token.componentCls]: {
     [`&-banner${token.rootCls}-card`]: {
-      backgroundColor: token.colorPrimary,
       color: token.colorTextLightSolid,
       '&::before': {
         content: '""',
@@ -231,7 +230,10 @@ const Dashboard: FC = () => {
         style={{ width: '100%' }}
         size={token.marginLG}
       >
-        <Card className={`${prefixCls}-banner`}>
+        <Card
+          className={`${prefixCls}-banner`}
+          style={{ backgroundColor: token.colorPrimary }}
+        >
           <div style={{ display: 'flex', alignItems: 'flex-start' }}>
             <div className={`${prefixCls}-banner-title`}>
               Hi，欢迎使用应用 Paas 平台！
